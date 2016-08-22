@@ -1,0 +1,66 @@
+/*
+ * Charlatan is a premium CS:GO cheat ran on the JVM.
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+group 'com.charlatano'
+version '0.1.0'
+
+buildscript {
+    ext.kotlin_version = '1.0.3'
+    ext.jna_version = '4.3.0-SNAPSHOT'
+    ext.quasar_version = '0.7.6'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+configurations {
+    quasar
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
+
+    compile group: 'net.java.dev.jna', name: 'jna', version: jna_version
+    compile group: 'net.java.dev.jna', name: 'jna-platform', version: jna_version
+
+    compile group: 'org.jire.arrowhead', name: 'arrowhead', version: '1.0.6'
+
+    compile group: 'co.paralleluniverse', name: 'quasar-core', version: quasar_version
+    compile group: 'co.paralleluniverse', name: 'quasar-actors', version: quasar_version
+    compile group: 'co.paralleluniverse', name: 'quasar-kotlin', version: quasar_version
+
+    quasar group: 'co.paralleluniverse', name: 'quasar-core', version: quasar_version
+}
+
+tasks.withType(Test) {
+    jvmArgs "-javaagent:${(++configurations.quasar.iterator())}"
+}
+
+defaultTasks 'test'
