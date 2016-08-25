@@ -19,10 +19,10 @@
 package com.charlatano.script.scripts
 
 import co.paralleluniverse.strands.Strand.sleep
-import org.jire.arrowhead.keyPressed
 import com.charlatano.clientDLL
 import com.charlatano.hook.onGround
 import com.charlatano.offsets.m_dwForceJump
+import org.jire.arrowhead.keyPressed
 import java.awt.event.KeyEvent
 
 fun bunnyHop() = onGround {

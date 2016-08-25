@@ -276,11 +276,10 @@ enum class EntityType(val id: Long, val weapon: Boolean = false, val grenade: Bo
 		fun byID(id: Long) = cachedValues.firstOrNull { it.id == id }
 
 		fun byEntityAddress(address: Long): EntityType? {
-			val vt = csgoEXE.uint(address + 0x8)
-			val fn = csgoEXE.uint(vt + 2 * 0x4)
-			val cls = csgoEXE.uint(fn + 0x1)
-			// val clsn: Int = csgo[cls + 8]
-			val clsid = csgoEXE.uint(cls + 20)
+			val vt = csgoEXE.uint(address + 0x8) ?: return null
+			val fn = csgoEXE.uint(vt + 2 * 0x4) ?: return null
+			val cls = csgoEXE.uint(fn + 0x1) ?: return null
+			val clsid = csgoEXE.uint(cls + 20) ?: return null
 			return byID(clsid)
 		}
 

@@ -22,22 +22,41 @@ import com.charlatano.GLOW_OBJECT_SIZE
 import com.charlatano.clientDLL
 import com.charlatano.csgoEXE
 import com.charlatano.every.every
+import com.charlatano.model.EntityType
+import com.charlatano.netvars.m_iTeamNum
 import com.charlatano.offsets.m_dwGlowObject
+import com.charlatano.offsets.m_dwLocalPlayer
 import com.charlatano.util.uint
 
-fun esp() = every(32) {
-	val glowObject = clientDLL.uint(m_dwGlowObject)
-	val glowObjectCount = clientDLL.uint(m_dwGlowObject + 4)
+fun esp() = every(2) {
+	val myAddress = clientDLL.uint(m_dwLocalPlayer)!!
+	val myTeam = csgoEXE.uint(myAddress + m_iTeamNum)!!
+
+	val glowObject = clientDLL.uint(m_dwGlowObject)!!
+	val glowObjectCount = clientDLL.uint(m_dwGlowObject + 4)!!
 
 	for (glowIndex in 0..glowObjectCount) {
 		val glowAddress = glowObject + (glowIndex * GLOW_OBJECT_SIZE)
 
-		//val entityAddress = csgoEXE.uint(glowAddress)
+		val entityAddress = csgoEXE.uint(glowAddress) ?: continue
+		val type = EntityType.byEntityAddress(entityAddress) ?: continue
+		if (EntityType.CCSPlayer != type) continue
 
-		csgoEXE[glowAddress + 0x4] = 0F
-		csgoEXE[glowAddress + 0x8] = 1F
-		csgoEXE[glowAddress + 0xC] = 0F
-		csgoEXE[glowAddress + 0x10] = 0.7F
+		var red = 255F
+		var green = 0F
+		var blue = 0F
+		var alpha = 0.6F
+
+		val entityTeam = csgoEXE.uint(entityAddress + m_iTeamNum) ?: continue
+		if (myTeam == entityTeam) {
+			red = 0F
+			blue = 255F
+		}
+
+		csgoEXE[glowAddress + 0x4] = red
+		csgoEXE[glowAddress + 0x8] = green
+		csgoEXE[glowAddress + 0xC] = blue
+		csgoEXE[glowAddress + 0x10] = alpha
 		csgoEXE[glowAddress + 0x24] = true
 	}
 }

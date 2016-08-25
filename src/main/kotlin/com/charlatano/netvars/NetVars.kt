@@ -19,12 +19,16 @@
 package com.charlatano.netvars
 
 import com.charlatano.offsets.m_dwFirstClass
-import java.util.*
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap
 
 object NetVars {
 
-	val map: Map<Int, ClassOffset> by lazy {
-		val map = HashMap<Int, ClassOffset>(20000) // Cover us for a while with 20K
+	fun load() {
+		map
+	}
+
+	internal val map: Map<Int, ClassOffset> by lazy {
+		val map = Int2ObjectArrayMap<ClassOffset>(20000) // Cover us for a while with 20K
 
 		var clientClass = Class(m_dwFirstClass)
 		while (clientClass.readable()) {

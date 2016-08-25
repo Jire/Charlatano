@@ -16,10 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.offsets
+package com.charlatano.util
 
-import com.charlatano.engineDLL
-import com.charlatano.util.get
+import co.paralleluniverse.strands.Strand
+import java.util.concurrent.TimeUnit
 
-val m_dwClientState by engineDLL(18)(161, 0[4], 243, 15, 17, 128, 0[4], 217, 70, 4, 217, 5, 0[4])
-val m_dwInGame by engineDLL(patternOffset = 7, subtract = false)(131, 185, 0[4], 6, 15, 148, 192, 195)
+inline fun <R> retry(duration: Long = 1, durationUnit: TimeUnit = TimeUnit.SECONDS,
+                     noinline exceptionHandler: ((Throwable) -> Unit)? = null, body: () -> R) {
+	while (!Strand.interrupted()) {
+		try {
+			body()
+			break
+		} catch (t: Throwable) {
+			exceptionHandler?.invoke(t)
+			Strand.sleep(duration, durationUnit)
+		}
+	}
+}

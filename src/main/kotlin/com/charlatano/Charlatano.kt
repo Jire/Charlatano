@@ -20,30 +20,28 @@
 
 package com.charlatano
 
-import co.paralleluniverse.strands.Strand.sleep
+import co.paralleluniverse.strands.Strand
 import com.charlatano.netvars.NetVars
 import com.charlatano.script.scripts.bunnyHop
 import com.charlatano.script.scripts.esp
+import com.charlatano.util.retry
 import org.jire.arrowhead.processByName
 
 fun main(args: Array<String>) {
-	while (!Thread.interrupted()) {
-		val process = processByName("csgo.exe")
-		if (process != null) {
-			csgoEXE = process
-			break
-		}
-		sleep(3000) // wait 3 seconds before reattempt
+	retry { csgoEXE = processByName("csgo.exe")!! }
+	retry {
+		csgoEXE.loadModules()
+
+		clientDLL = csgoEXE.modules["client.dll"]!!
+		engineDLL = csgoEXE.modules["engine.dll"]!!
 	}
 
-	// initialize the modules
-	clientDLL = csgoEXE.modules["client.dll"]!!
-	engineDLL = csgoEXE.modules["engine.dll"]!!
+	NetVars.load()
 
-	NetVars.map
+	// enable plugins
 
 	bunnyHop()
 	esp()
 
-	sleep(Long.MAX_VALUE)
+	Strand.sleep(Long.MAX_VALUE) // prevent process exit
 }

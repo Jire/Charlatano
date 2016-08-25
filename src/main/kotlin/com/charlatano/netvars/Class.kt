@@ -18,23 +18,19 @@
 
 package com.charlatano.netvars
 
-import org.jire.arrowhead.Addressed
 import com.charlatano.csgoEXE
+import com.charlatano.util.readable
 import com.charlatano.util.uint
+import org.jire.arrowhead.Addressed
 
 internal class Class(override val address: Long) : Addressed {
 
-	val id by lazy { csgoEXE.uint(address + 20) }
+	val id by lazy { csgoEXE.uint(address + 20)!! }
 
-	val next by lazy { csgoEXE.uint(address + 16) }
+	val next by lazy { csgoEXE.uint(address + 16)!! }
 
-	val table by lazy { csgoEXE.uint(address + 12) }
+	val table by lazy { csgoEXE.uint(address + 12)!! }
 
-	fun readable(): Boolean = try {
-		csgoEXE.read(address, 40, false)
-		true
-	} catch (t: Throwable) {
-		false
-	}
+	fun readable() = csgoEXE.read(address, 40).readable()
 
 }

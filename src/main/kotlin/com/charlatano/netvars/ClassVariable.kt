@@ -18,31 +18,31 @@
 
 package com.charlatano.netvars
 
-import org.jire.arrowhead.Addressed
 import com.charlatano.csgoEXE
 import com.charlatano.util.uint
+import org.jire.arrowhead.Addressed
 
 internal class ClassVariable(override val address: Long, val addressOffset: Long) : Addressed {
 
-	val resolvedAddress by lazy { csgoEXE.uint(address) }
+	val resolvedAddress by lazy { csgoEXE.uint(address)!! }
 
 	val name by lazy {
 		val bytes = ByteArray(32)
 
-		val memory = csgoEXE.read(resolvedAddress, bytes.size)
+		val memory = csgoEXE.read(resolvedAddress, bytes.size)!!
 		memory.read(0, bytes, 0, bytes.size)
 
 		bytes.toNetVarString()
 	}
 
-	val table by lazy { csgoEXE.uint(address + 0x28) }
+	val table by lazy { csgoEXE.uint(address + 0x28)!! }
 
-	val offset by lazy { addressOffset + csgoEXE.uint(address + 0x2C) }
+	val offset by lazy { addressOffset + csgoEXE.uint(address + 0x2C)!! }
 
-	val type by lazy { csgoEXE.uint(address + 0x4) }
+	val type by lazy { csgoEXE.uint(address + 0x4)!! }
 
-	val elements by lazy { csgoEXE.uint(address + 0x34) }
+	val elements by lazy { csgoEXE.uint(address + 0x34)!! }
 
-	val stringBufferCount by lazy { csgoEXE.uint(address + 0xC) }
+	val stringBufferCount by lazy { csgoEXE.uint(address + 0xC)!! }
 
 }

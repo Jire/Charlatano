@@ -26,7 +26,7 @@ import com.charlatano.offsets.m_dwLocalPlayer
 import com.charlatano.util.uint
 
 val onGround = hook(4) {
-	val lp = clientDLL.uint(m_dwLocalPlayer)
+	val lp = clientDLL.uint(m_dwLocalPlayer)!!
 	val flags: Int = csgoEXE[lp + m_fFlags]
 	flags and 1 == 1
 }
