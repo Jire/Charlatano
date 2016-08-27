@@ -20,6 +20,7 @@ package com.charlatano.netvars
 
 import com.charlatano.offsets.m_dwFirstClass
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap
+import kotlin.LazyThreadSafetyMode.NONE
 
 object NetVars {
 
@@ -27,7 +28,7 @@ object NetVars {
 		map
 	}
 
-	internal val map: Map<Int, ClassOffset> by lazy {
+	internal val map: Map<Int, ClassOffset> by lazy(NONE) {
 		val map = Int2ObjectArrayMap<ClassOffset>(20000) // Cover us for a while with 20K
 
 		var clientClass = Class(m_dwFirstClass)

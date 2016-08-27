@@ -18,7 +18,6 @@
 
 package com.charlatano.hook
 
-import org.jire.arrowhead.get
 import com.charlatano.clientDLL
 import com.charlatano.csgoEXE
 import com.charlatano.netvars.m_fFlags
@@ -26,7 +25,7 @@ import com.charlatano.offsets.m_dwLocalPlayer
 import com.charlatano.util.uint
 
 val onGround = hook(4) {
-	val lp = clientDLL.uint(m_dwLocalPlayer)!!
-	val flags: Int = csgoEXE[lp + m_fFlags]
-	flags and 1 == 1
+	val lp = clientDLL.uint(m_dwLocalPlayer)
+	val flags = csgoEXE.uint(lp + m_fFlags)
+	flags and 1 == 1L
 }

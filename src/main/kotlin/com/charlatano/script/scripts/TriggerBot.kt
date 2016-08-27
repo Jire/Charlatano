@@ -16,34 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Charlatano")
+package com.charlatano.script.scripts
 
-package com.charlatano
+import com.charlatano.csgoEXE
+import com.charlatano.every.every
+import com.charlatano.offsets.m_dwForceJump
 
-import co.paralleluniverse.strands.Strand
-import com.charlatano.netvars.NetVars
-import com.charlatano.script.scripts.bunnyHop
-import com.charlatano.script.scripts.esp
-import com.charlatano.util.retry
-import org.jire.arrowhead.processByName
-
-fun main(args: Array<String>) {
-	retry { csgoEXE = processByName("csgo.exe")!! }
-	retry {
-		csgoEXE.loadModules()
-
-		clientDLL = csgoEXE.modules["client.dll"]!!
-		engineDLL = csgoEXE.modules["engine.dll"]!!
-	}
-
-	NetVars.load()
-
-	// enable plugins
-
-	bunnyHop()
-	esp()
-
-	Strand.sleep(3000)
-	System.gc() // suggest cleanup after running
-	Strand.sleep(Long.MAX_VALUE) // prevent process exit
+fun triggerBot() = every(1) {
+	csgoEXE[m_dwForceJump] = 5.toByte()
 }

@@ -17,7 +17,7 @@
  */
 
 group 'com.charlatano'
-version '0.1.0'
+version '0.2.0'
 
 buildscript {
     ext.kotlin_version = '1.0.3'
@@ -35,13 +35,10 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'kotlin'
 
-configurations {
-    quasar
-}
-
 repositories {
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    jcenter()
 }
 
 dependencies {
@@ -50,17 +47,9 @@ dependencies {
     compile group: 'net.java.dev.jna', name: 'jna', version: jna_version
     compile group: 'net.java.dev.jna', name: 'jna-platform', version: jna_version
 
-    compile group: 'org.jire.arrowhead', name: 'arrowhead', version: '1.0.6'
+    compile group: 'org.jire.arrowhead', name: 'arrowhead', version: '1.2.1'
 
     compile group: 'co.paralleluniverse', name: 'quasar-core', version: quasar_version
     compile group: 'co.paralleluniverse', name: 'quasar-actors', version: quasar_version
     compile group: 'co.paralleluniverse', name: 'quasar-kotlin', version: quasar_version
-
-    quasar group: 'co.paralleluniverse', name: 'quasar-core', version: quasar_version
 }
-
-tasks.withType(Test) {
-    jvmArgs "-javaagent:${(++configurations.quasar.iterator())}"
-}
-
-defaultTasks 'test'

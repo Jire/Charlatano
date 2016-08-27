@@ -20,6 +20,7 @@ package com.charlatano.model
 
 import com.charlatano.csgoEXE
 import com.charlatano.util.uint
+import org.jire.arrowhead.unsign
 
 enum class EntityType(val id: Long, val weapon: Boolean = false, val grenade: Boolean = false) {
 
@@ -276,10 +277,10 @@ enum class EntityType(val id: Long, val weapon: Boolean = false, val grenade: Bo
 		fun byID(id: Long) = cachedValues.firstOrNull { it.id == id }
 
 		fun byEntityAddress(address: Long): EntityType? {
-			val vt = csgoEXE.uint(address + 0x8) ?: return null
-			val fn = csgoEXE.uint(vt + 2 * 0x4) ?: return null
-			val cls = csgoEXE.uint(fn + 0x1) ?: return null
-			val clsid = csgoEXE.uint(cls + 20) ?: return null
+			val vt = (csgoEXE.read(address + 0x8, 4) ?: return null).getInt(0).unsign()
+			val fn = (csgoEXE.read(vt + 2 * 0x4, 4) ?: return null).getInt(0).unsign()
+			val cls = (csgoEXE.read(fn + 0x1, 4) ?: return null).getInt(0).unsign()
+			val clsid = (csgoEXE.read(cls + 20, 4) ?: return null).getInt(0).unsign()
 			return byID(clsid)
 		}
 

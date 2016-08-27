@@ -21,12 +21,13 @@ package com.charlatano.netvars
 import com.charlatano.csgoEXE
 import com.charlatano.util.uint
 import org.jire.arrowhead.Addressed
+import kotlin.LazyThreadSafetyMode.NONE
 
 internal class ClassVariable(override val address: Long, val addressOffset: Long) : Addressed {
 
-	val resolvedAddress by lazy { csgoEXE.uint(address)!! }
+	val resolvedAddress by lazy(NONE) { csgoEXE.uint(address) }
 
-	val name by lazy {
+	val name by lazy(NONE) {
 		val bytes = ByteArray(32)
 
 		val memory = csgoEXE.read(resolvedAddress, bytes.size)!!
@@ -35,14 +36,14 @@ internal class ClassVariable(override val address: Long, val addressOffset: Long
 		bytes.toNetVarString()
 	}
 
-	val table by lazy { csgoEXE.uint(address + 0x28)!! }
+	val table by lazy(NONE) { csgoEXE.uint(address + 0x28) }
 
-	val offset by lazy { addressOffset + csgoEXE.uint(address + 0x2C)!! }
+	val offset by lazy(NONE) { addressOffset + csgoEXE.uint(address + 0x2C) }
 
-	val type by lazy { csgoEXE.uint(address + 0x4)!! }
+	val type by lazy(NONE) { csgoEXE.uint(address + 0x4) }
 
-	val elements by lazy { csgoEXE.uint(address + 0x34)!! }
+	val elements by lazy(NONE) { csgoEXE.uint(address + 0x34) }
 
-	val stringBufferCount by lazy { csgoEXE.uint(address + 0xC)!! }
+	val stringBufferCount by lazy(NONE) { csgoEXE.uint(address + 0xC) }
 
 }

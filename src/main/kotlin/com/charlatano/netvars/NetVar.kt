@@ -20,11 +20,14 @@ package com.charlatano.netvars
 
 import kotlin.reflect.KProperty
 
-class NetVar(val className: String, var varName: String?, val offset: Int, val index: Int = -1) {
+class NetVar(val className: String, var varName: String?, val offset: Int, val index: Int) {
+
+	private var value = -1L
 
 	operator fun getValue(thisRef: Any?, property: KProperty<*>): Long {
 		if (varName == null) varName = property.name + if (index < 0) "" else "[$index]"
-		return NetVars.map[hashClassAndVar(className, varName!!)]!!.offset + offset
+		if (value == -1L) value = NetVars.map[hashClassAndVar(className, varName!!)]!!.offset + offset
+		return value
 	}
 
 }
