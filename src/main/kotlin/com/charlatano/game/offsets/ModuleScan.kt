@@ -16,24 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Charlatano")
+package com.charlatano.game.offsets
 
-package com.charlatano
+import com.charlatano.utils.RepeatedInt
+import it.unimi.dsi.fastutil.bytes.ByteArrayList
+import org.jire.arrowhead.Module
 
-import co.paralleluniverse.strands.Strand
-import com.charlatano.game.CSGO
-import com.charlatano.scripts.bunnyHop
-import com.charlatano.scripts.esp
+internal class ModuleScan(private val module: Module, private val patternOffset: Long,
+                          private val addressOffset: Long, private val read: Boolean,
+                          private val subtract: Boolean) {
 
-fun main(args: Array<String>) {
-	CSGO.initalize()
+	operator fun invoke(vararg mask: Any): Offset {
+		val bytes = ByteArrayList()
 
-	// -- START OF SCRIPTS -- //
-	bunnyHop()
-	esp()
-	// -- END OF SCRIPTS -- //
+		for (flag in mask) when (flag) {
+			is Number -> { bytes.add(flag.toByte()) }
+			is RepeatedInt -> {
+				repeat(flag.repeats) { bytes.add(flag.value.toByte()) }
+			}
+		}
 
-	Strand.sleep(3000) // wait a bit to catch everything
-	System.gc() // then cleanup
-	Strand.sleep(Long.MAX_VALUE) // prevent exit
+		return Offset(module, patternOffset, addressOffset, read, subtract, bytes.toByteArray())
+	}
+
 }

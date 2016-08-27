@@ -16,24 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Charlatano")
+package com.charlatano.scripts
 
-package com.charlatano
+import co.paralleluniverse.strands.Strand.sleep
+import com.charlatano.game.CSGO.clientDLL
+import com.charlatano.game.hooks.onGround
+import com.charlatano.game.offsets.ClientOffsets.dwForceJump
+import org.jire.arrowhead.keyPressed
+import java.awt.event.KeyEvent
 
-import co.paralleluniverse.strands.Strand
-import com.charlatano.game.CSGO
-import com.charlatano.scripts.bunnyHop
-import com.charlatano.scripts.esp
-
-fun main(args: Array<String>) {
-	CSGO.initalize()
-
-	// -- START OF SCRIPTS -- //
-	bunnyHop()
-	esp()
-	// -- END OF SCRIPTS -- //
-
-	Strand.sleep(3000) // wait a bit to catch everything
-	System.gc() // then cleanup
-	Strand.sleep(Long.MAX_VALUE) // prevent exit
+fun bunnyHop() = onGround {
+	if (keyPressed(KeyEvent.VK_SPACE)) {
+		clientDLL[dwForceJump] = 5.toByte()
+		sleep(20)
+		clientDLL[dwForceJump] = 4.toByte()
+	}
 }

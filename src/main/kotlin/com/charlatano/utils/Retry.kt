@@ -16,24 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Charlatano")
-
-package com.charlatano
+package com.charlatano.utils
 
 import co.paralleluniverse.strands.Strand
-import com.charlatano.game.CSGO
-import com.charlatano.scripts.bunnyHop
-import com.charlatano.scripts.esp
+import java.util.concurrent.TimeUnit
 
-fun main(args: Array<String>) {
-	CSGO.initalize()
-
-	// -- START OF SCRIPTS -- //
-	bunnyHop()
-	esp()
-	// -- END OF SCRIPTS -- //
-
-	Strand.sleep(3000) // wait a bit to catch everything
-	System.gc() // then cleanup
-	Strand.sleep(Long.MAX_VALUE) // prevent exit
+inline fun <R> retry(duration: Long = 1, durationUnit: TimeUnit = TimeUnit.SECONDS,
+                     noinline exceptionHandler: ((Throwable) -> Unit)? = null, body: () -> R) {
+	while (!Strand.interrupted()) {
+		try {
+			body()
+			break
+		} catch (t: Throwable) {
+			exceptionHandler?.invoke(t)
+			Strand.sleep(duration, durationUnit)
+		}
+	}
 }

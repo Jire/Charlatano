@@ -16,24 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Charlatano")
+package com.charlatano.game.netvars
 
-package com.charlatano
+import com.charlatano.game.netvars.NetVars.hashClassAndVar
+import com.charlatano.game.netvars.NetVars.map
+import kotlin.reflect.KProperty
 
-import co.paralleluniverse.strands.Strand
-import com.charlatano.game.CSGO
-import com.charlatano.scripts.bunnyHop
-import com.charlatano.scripts.esp
+class NetVar(val className: String, var varName: String?, val offset: Int, val index: Int) {
 
-fun main(args: Array<String>) {
-	CSGO.initalize()
+	private var value = -1L
 
-	// -- START OF SCRIPTS -- //
-	bunnyHop()
-	esp()
-	// -- END OF SCRIPTS -- //
+	operator fun getValue(thisRef: Any?, property: KProperty<*>): Long {
+		if (varName == null) varName = property.name + if (index < 0) "" else "[$index]"
+		if (value == -1L) value = map[hashClassAndVar(className, varName!!)]!!.offset + offset
+		return value
+	}
 
-	Strand.sleep(3000) // wait a bit to catch everything
-	System.gc() // then cleanup
-	Strand.sleep(Long.MAX_VALUE) // prevent exit
 }
+
+fun netVar(className: String, varName: String? = null, offset: Int = 0, index: Int = -1)
+		= NetVar(className, if (varName != null && index >= 0) "$varName[$index]" else varName, offset, index)

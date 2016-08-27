@@ -16,24 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Charlatano")
+package com.charlatano.game.netvars
 
-package com.charlatano
+import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.utils.readable
+import com.charlatano.utils.uint
+import org.jire.arrowhead.Addressed
+import kotlin.LazyThreadSafetyMode.NONE
 
-import co.paralleluniverse.strands.Strand
-import com.charlatano.game.CSGO
-import com.charlatano.scripts.bunnyHop
-import com.charlatano.scripts.esp
+internal class ClassTable(override val address: Long, val offset: Long = 16) : Addressed {
 
-fun main(args: Array<String>) {
-	CSGO.initalize()
+	val name by lazy(NONE) {
+		val bytes = ByteArray(64)
 
-	// -- START OF SCRIPTS -- //
-	bunnyHop()
-	esp()
-	// -- END OF SCRIPTS -- //
+		val memoryAddress = csgoEXE.uint(address + 12)
+		val memory = csgoEXE.read(memoryAddress, bytes.size)!!
+		memory.read(0, bytes, 0, bytes.size)
 
-	Strand.sleep(3000) // wait a bit to catch everything
-	System.gc() // then cleanup
-	Strand.sleep(Long.MAX_VALUE) // prevent exit
+		bytes.toNetVarString()
+	}
+
+	val propCount by lazy(NONE) { csgoEXE.int(address + 4) }
+
+	fun propForID(id: Int) = csgoEXE.uint(address) + id * 60
+
+	fun readable() = csgoEXE.read(address, offset.toInt()).readable()
+
 }

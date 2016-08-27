@@ -16,24 +16,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Charlatano")
+package com.charlatano.game
 
-package com.charlatano
+import com.charlatano.game.netvars.NetVars
+import com.charlatano.utils.retry
+import org.jire.arrowhead.Module
+import org.jire.arrowhead.Process
+import org.jire.arrowhead.processByName
 
-import co.paralleluniverse.strands.Strand
-import com.charlatano.game.CSGO
-import com.charlatano.scripts.bunnyHop
-import com.charlatano.scripts.esp
+object CSGO {
 
-fun main(args: Array<String>) {
-	CSGO.initalize()
+	lateinit var csgoEXE: Process
+		private set
 
-	// -- START OF SCRIPTS -- //
-	bunnyHop()
-	esp()
-	// -- END OF SCRIPTS -- //
+	lateinit var clientDLL: Module
+		private set
+	lateinit var engineDLL: Module
+		private set
 
-	Strand.sleep(3000) // wait a bit to catch everything
-	System.gc() // then cleanup
-	Strand.sleep(Long.MAX_VALUE) // prevent exit
+	fun initalize() {
+		retry { csgoEXE = processByName("csgo.exe")!! }
+		retry {
+			csgoEXE.loadModules()
+
+			clientDLL = csgoEXE.modules["client.dll"]!!
+			engineDLL = csgoEXE.modules["engine.dll"]!!
+		}
+
+		// TODO: Offsets.load()
+		NetVars.load()
+	}
+
+	const val ENTITY_SIZE = 16
+	const val GLOW_OBJECT_SIZE = 56
+
 }

@@ -16,24 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Charlatano")
+package com.charlatano.game.offsets
 
-package com.charlatano
+import com.charlatano.game.CSGO.engineDLL
+import com.charlatano.utils.get
 
-import co.paralleluniverse.strands.Strand
-import com.charlatano.game.CSGO
-import com.charlatano.scripts.bunnyHop
-import com.charlatano.scripts.esp
+object EngineOffsets {
 
-fun main(args: Array<String>) {
-	CSGO.initalize()
+	val dwClientState by engineDLL(18)(161, 0[4], 243, 15, 17, 128, 0[4], 217, 70, 4, 217, 5, 0[4])
+	val dwInGame by engineDLL(patternOffset = 7, subtract = false)(131, 185, 0[4], 6, 15, 148, 192, 195)
 
-	// -- START OF SCRIPTS -- //
-	bunnyHop()
-	esp()
-	// -- END OF SCRIPTS -- //
-
-	Strand.sleep(3000) // wait a bit to catch everything
-	System.gc() // then cleanup
-	Strand.sleep(Long.MAX_VALUE) // prevent exit
 }
