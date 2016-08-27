@@ -21,14 +21,14 @@ package com.charlatano.script.scripts
 import co.paralleluniverse.strands.Strand.sleep
 import com.charlatano.clientDLL
 import com.charlatano.hook.onGround
-import com.charlatano.offsets.m_dwForceJump
+import com.charlatano.offsets.ClientOffsets.forceJump
 import org.jire.arrowhead.keyPressed
 import java.awt.event.KeyEvent
 
 fun bunnyHop() = onGround {
 	if (keyPressed(KeyEvent.VK_SPACE)) {
-		clientDLL[m_dwForceJump] = 5.toByte()
+		clientDLL[forceJump] = 5.toByte()
 		sleep(20)
-		clientDLL[m_dwForceJump] = 4.toByte()
+		clientDLL[forceJump] = 4.toByte()
 	}
 }

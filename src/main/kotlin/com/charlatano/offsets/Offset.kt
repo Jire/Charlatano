@@ -18,19 +18,12 @@
 
 package com.charlatano.offsets
 
-import com.charlatano.util.RepeatedInt
 import com.charlatano.util.uint
 import com.sun.jna.Memory
-import com.sun.jna.Native
-import com.sun.jna.Pointer
-import it.unimi.dsi.fastutil.bytes.ByteArrayList
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap
 import org.jire.arrowhead.Addressed
 import org.jire.arrowhead.Module
-import java.nio.ByteBuffer
-import java.nio.ByteOrder.LITTLE_ENDIAN
 import kotlin.reflect.KProperty
-import kotlin.text.Charsets.UTF_8
 
 class Offset(val module: Module, val patternOffset: Long, val addressOffset: Long,
              val read: Boolean, val subtract: Boolean, val mask: ByteArray) : Addressed {
@@ -79,37 +72,3 @@ class Offset(val module: Module, val patternOffset: Long, val addressOffset: Lon
 	}
 
 }
-
-class ModuleScan(private val module: Module, private val patternOffset: Long,
-                 private val addressOffset: Long, private val read: Boolean,
-                 private val subtract: Boolean) {
-
-	operator fun invoke(vararg mask: Any): Offset {
-		val bytes = ByteArrayList()
-
-		for (flag in mask) when (flag) {
-			is Number -> {
-				bytes.add(flag.toByte())
-			}
-			is RepeatedInt -> {
-				repeat(flag.repeats) { bytes.add(flag.value.toByte()) }
-			}
-		}
-
-		return Offset(module, patternOffset, addressOffset, read, subtract, bytes.toByteArray())
-	}
-
-}
-
-operator fun Module.invoke(patternOffset: Long = 0, addressOffset: Long = 0,
-                           read: Boolean = true, subtract: Boolean = true)
-		= ModuleScan(this, patternOffset, addressOffset, read, subtract)
-
-operator fun Module.invoke(patternOffset: Long = 0, addressOffset: Long = 0,
-                           read: Boolean = true, subtract: Boolean = true, className: String)
-		= Offset(this, patternOffset, addressOffset, read, subtract, className.toByteArray(UTF_8))
-
-operator fun Module.invoke(patternOffset: Long = 0, addressOffset: Long = 0,
-                           read: Boolean = true, subtract: Boolean = true, offset: Long)
-		= Offset(this, patternOffset, addressOffset, read, subtract,
-		ByteBuffer.allocate(4).order(LITTLE_ENDIAN).putInt(offset.toInt()).array())

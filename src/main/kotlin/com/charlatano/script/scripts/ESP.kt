@@ -24,16 +24,17 @@ import com.charlatano.csgoEXE
 import com.charlatano.every.every
 import com.charlatano.model.EntityType
 import com.charlatano.netvars.m_iTeamNum
-import com.charlatano.offsets.m_dwGlowObject
-import com.charlatano.offsets.m_dwLocalPlayer
+import com.charlatano.offsets.ClientOffsets
+import com.charlatano.offsets.ClientOffsets.glowObject
+import com.charlatano.offsets.ClientOffsets.localPlayer
 import com.charlatano.util.uint
 
 fun esp() = every(2) {
-	val myAddress = clientDLL.uint(m_dwLocalPlayer)
+	val myAddress = clientDLL.uint(localPlayer)
 	val myTeam = csgoEXE.uint(myAddress + m_iTeamNum)
 
-	val glowObject = clientDLL.uint(m_dwGlowObject)
-	val glowObjectCount = clientDLL.uint(m_dwGlowObject + 4)
+	val glowObject = clientDLL.uint(glowObject)
+	val glowObjectCount = clientDLL.uint(ClientOffsets.glowObject + 4)
 
 	for (glowIndex in 0..glowObjectCount) {
 		val glowAddress = glowObject + (glowIndex * GLOW_OBJECT_SIZE)

@@ -20,8 +20,8 @@ package com.charlatano.script.scripts
 
 import com.charlatano.csgoEXE
 import com.charlatano.every.every
-import com.charlatano.offsets.m_dwForceJump
+import com.charlatano.offsets.ClientOffsets.forceJump
 
 fun triggerBot() = every(1) {
-	csgoEXE[m_dwForceJump] = 5.toByte()
+	csgoEXE[forceJump] = 5.toByte()
 }

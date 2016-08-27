@@ -21,5 +21,9 @@ package com.charlatano.offsets
 import com.charlatano.engineDLL
 import com.charlatano.util.get
 
-val m_dwClientState by engineDLL(18)(161, 0[4], 243, 15, 17, 128, 0[4], 217, 70, 4, 217, 5, 0[4])
-val m_dwInGame by engineDLL(patternOffset = 7, subtract = false)(131, 185, 0[4], 6, 15, 148, 192, 195)
+object EngineOffsets {
+
+	val clientState by engineDLL(18)(161, 0[4], 243, 15, 17, 128, 0[4], 217, 70, 4, 217, 5, 0[4])
+	val inGame by engineDLL(patternOffset = 7, subtract = false)(131, 185, 0[4], 6, 15, 148, 192, 195)
+
+}
