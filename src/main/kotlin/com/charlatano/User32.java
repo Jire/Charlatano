@@ -16,33 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Charlatano")
+package com.charlatano;
 
-package com.charlatano
+import com.sun.jna.Native;
+import com.sun.jna.Pointer;
 
-import co.paralleluniverse.strands.Strand
-import com.charlatano.game.CSGO
-import com.charlatano.game.hooks.GlowIteration
-import com.charlatano.scripts.bunnyHop
-import com.charlatano.scripts.esp
-import com.charlatano.scripts.forceAim
-import com.charlatano.scripts.noFlash
+public final class User32 {
 
-fun main(args: Array<String>) {
-	CSGO.initalize()
+	public static final int MOUSEEVENTF_MOVE = 0x0001;
+	public static final int MOUSEEVENTF_ABSOLUTE = 0x8000;
 
-	// -- START OF SCRIPTS -- //
-	bunnyHop()
-	esp()
-	noFlash()
-	forceAim()
-	// -- END OF SCRIPTS -- //
+	static {
+		Native.register("user32");
+	}
 
-	// -- START OF HOOKS -- //
-	GlowIteration.load()
-	// -- END OF HOOKS -- //
+	public static native void mouse_event(int dwFlags, int dx, int dy, Pointer dwData, Pointer dwExtraInfo);
 
-	Strand.sleep(3000) // wait a bit to catch everything
-	System.gc() // then cleanup
-	Strand.sleep(Long.MAX_VALUE) // prevent exit
 }

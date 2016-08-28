@@ -21,9 +21,14 @@ package com.charlatano.game.netvars
 object NetVarOffsets {
 
 	val iTeamNum by netVar("DT_BaseEntity")
+	val bSpotted by netVar("DT_BaseEntity")
 
 	val fFlags by netVar("DT_BasePlayer")
-	
+	val lifeState by netVar("DT_BasePlayer")
+
 	val flFlashMaxAlpha by netVar("DT_CSPlayer")
+	val iCrossHairID by netVar("DT_CSPlayer", "m_bHasDefuser", 0x5C)
+
+	val dwBoneMatrix by netVar("DT_BaseAnimating", "m_nForceBone", 0x1C)
 
 }

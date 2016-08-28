@@ -19,7 +19,7 @@
 package com.charlatano.game
 
 import com.charlatano.game.netvars.NetVars
-import com.charlatano.game.offsets.ClientOffsets
+import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.game.offsets.EngineOffsets.dwInGame
 import com.charlatano.utils.retry
@@ -53,8 +53,8 @@ object CSGO {
 		retry(5) {
 			val enginePointer = engineDLL.uint(dwClientState)
 			val inGame = csgoEXE.int(enginePointer + dwInGame) == 6
-			val myAddress = clientDLL.uint(ClientOffsets.dwLocalPlayer)
-			if (!inGame || myAddress < 0x200) throw RuntimeException() //TODO find nicer solution
+			val myAddress = clientDLL.uint(dwLocalPlayer)
+			if (!inGame || myAddress < 0x200) throw RuntimeException() // TODO find nicer solution
 		}
 	}
 	

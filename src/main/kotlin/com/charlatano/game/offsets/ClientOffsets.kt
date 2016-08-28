@@ -23,6 +23,8 @@ import com.charlatano.utils.get
 
 object ClientOffsets {
 
+	const val bDormant = 0xE9
+
 	val dwWorldDecal by clientDLL(read = false, subtract = false, className = "DT_TEWorldDecal")
 	val dwFirstClass by clientDLL(patternOffset = 0x2B, subtract = false, offset = dwWorldDecal)
 
@@ -31,5 +33,6 @@ object ClientOffsets {
 	val dwLocalPlayer by clientDLL(1, 16)(0xA3, 0[4], 0xC7, 0x05, 0[8], 0xE8, 0[4], 0x59, 0xC3, 0x6A)
 	val dwGlowObject by clientDLL(1, 4)(0xA1, 0[4], 0xA8, 0x01, 0x75, 0x4E, 0x0F, 0x57, 0xC0)
 	val dwEntityList by clientDLL(1)(187, 0[4], 131, 255, 1, 15, 140, 0[4], 59, 248)
+	val dwViewMatrix by clientDLL(850, 176)(129, 198, 0[4], 136, 69, 154, 15, 182, 192)
 
 }
