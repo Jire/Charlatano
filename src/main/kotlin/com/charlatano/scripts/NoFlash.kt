@@ -16,31 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Charlatano")
+package com.charlatano.scripts
 
-package com.charlatano
+import com.charlatano.game.CSGO.clientDLL
+import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.game.hooks.onFlash
+import com.charlatano.game.netvars.NetVarOffsets.m_flFlashMaxAlpha
+import com.charlatano.game.offsets.ClientOffsets
+import com.charlatano.utils.uint
 
-import co.paralleluniverse.strands.Strand
-import com.charlatano.game.CSGO
-import com.charlatano.game.hooks.GlowIteration
-import com.charlatano.scripts.bunnyHop
-import com.charlatano.scripts.esp
-import com.charlatano.scripts.noFlash
-
-fun main(args: Array<String>) {
-	CSGO.initalize()
-
-	// -- START OF SCRIPTS -- //
-	bunnyHop()
-	esp()
-	noFlash()
-	// -- END OF SCRIPTS -- //
-
-	// -- START OF HOOKS -- //
-	GlowIteration.load()
-	// -- END OF HOOKS -- //
-
-	Strand.sleep(3000) // wait a bit to catch everything
-	System.gc() // then cleanup
-	Strand.sleep(Long.MAX_VALUE) // prevent exit
+fun noFlash() = onFlash {
+	val myAddress = clientDLL.uint(ClientOffsets.dwLocalPlayer)
+	csgoEXE[myAddress + m_flFlashMaxAlpha] = 0f
 }
