@@ -67,7 +67,7 @@ fun forceAim() = every(16) {
 			return@keyPressed
 		}
 		
-		val bonePosition = Vector(targetAddress.bone(0xC), targetAddress.bone(0x1C), targetAddress.bone(0x1C))
+		val bonePosition = Vector(targetAddress.bone(0xC), targetAddress.bone(0x1C), targetAddress.bone(0x2C))
 		moveTo(bonePosition)
 	}
 	if (!pressed) targetAddressA.set(0L)
