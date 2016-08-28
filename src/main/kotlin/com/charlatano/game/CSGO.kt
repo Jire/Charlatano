@@ -52,7 +52,7 @@ object CSGO {
 		retry(5) {
 			val enginePointer = engineDLL.uint(dwClientState)
 			val inGame = csgoEXE.int(enginePointer + dwInGame) == 6
-			if (!inGame) RuntimeException() //TODO find nicer solution
+			if (!inGame) throw RuntimeException() //TODO find nicer solution
 		}
 	}
 	
