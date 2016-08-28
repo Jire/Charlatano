@@ -30,6 +30,7 @@ import com.charlatano.game.offsets.ClientOffsets.bDormant
 import com.charlatano.game.offsets.ClientOffsets.dwEntityList
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.moveTo
+import com.charlatano.utils.Vector
 import com.charlatano.utils.every
 import com.charlatano.utils.uint
 import org.jire.arrowhead.keyPressed
@@ -44,11 +45,11 @@ fun forceAim() = every(16) {
 	val pressed = keyPressed(5) {
 		val myAddress = clientDLL.uint(dwLocalPlayer)
 		if (myAddress <= 0) return@keyPressed
-
+		
 		if (csgoEXE.uint(myAddress + lifeState) > 0) return@keyPressed
-
+		
 		val myTeam = csgoEXE.uint(myAddress + iTeamNum)
-
+		
 		var targetAddress = targetAddressA.get()
 		if (targetAddress == 0L) {
 			val crosshairID = csgoEXE.uint(myAddress + iCrossHairID) - 1
@@ -57,7 +58,7 @@ fun forceAim() = every(16) {
 			if (targetAddress == 0L) return@keyPressed
 			targetAddressA.set(targetAddress)
 		}
-
+		
 		if (csgoEXE.uint(targetAddress + lifeState) > 0
 				|| csgoEXE.boolean(targetAddress + bDormant)
 				|| !csgoEXE.boolean(targetAddress + bSpotted)
@@ -65,12 +66,9 @@ fun forceAim() = every(16) {
 			targetAddressA.set(0L)
 			return@keyPressed
 		}
-
-		val x = targetAddress.bone(0xC)
-		val y = targetAddress.bone(0x1C)
-		val z = targetAddress.bone(0x2C)
-
-		moveTo(x, y, z)
+		
+		val bonePosition = Vector(targetAddress.bone(0xC), targetAddress.bone(0x1C), targetAddress.bone(0x1C))
+		moveTo(bonePosition)
 	}
 	if (!pressed) targetAddressA.set(0L)
 }

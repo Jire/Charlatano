@@ -18,7 +18,7 @@
 
 package com.charlatano.utils
 
-data class Vector<T : Number>(var x: T, var y: T, var z: T) {
+data class Vector<T : Number>(var x: T = 0 as T, var y: T = 0 as T, var z: T = 0 as T) {
 	
 	fun reset() = apply {
 		x = 0 as T
