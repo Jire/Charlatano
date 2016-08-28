@@ -21,11 +21,11 @@ package com.charlatano.scripts
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.hooks.onFlash
-import com.charlatano.game.netvars.NetVarOffsets.m_flFlashMaxAlpha
+import com.charlatano.game.netvars.NetVarOffsets.flFlashMaxAlpha
 import com.charlatano.game.offsets.ClientOffsets
 import com.charlatano.utils.uint
 
 fun noFlash() = onFlash {
 	val myAddress = clientDLL.uint(ClientOffsets.dwLocalPlayer)
-	csgoEXE[myAddress + m_flFlashMaxAlpha] = 0f
+	csgoEXE[myAddress + flFlashMaxAlpha] = 0f
 }
