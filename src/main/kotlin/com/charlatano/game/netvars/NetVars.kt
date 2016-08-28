@@ -23,17 +23,6 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap
 
 object NetVars {
 
-	fun load() {
-		map.clear() // for reloads
-
-		var clientClass = Class(dwFirstClass)
-		while (clientClass.readable()) {
-			val table = ClassTable(clientClass.table)
-			if (table.readable()) scanTable(map, table, 0, table.name)
-			clientClass = Class(clientClass.next)
-		}
-	}
-
 	internal val map = Int2ObjectArrayMap<ClassOffset>(20000) // Cover us for a while with 20K
 
 	private fun scanTable(netVars: MutableMap<Int, ClassOffset>, table: ClassTable, offset: Long, name: String) {
@@ -48,6 +37,17 @@ object NetVars {
 
 			val child = prop.table
 			if (0L != child) scanTable(netVars, ClassTable(child), prop.offset, name)
+		}
+	}
+
+	fun load() {
+		map.clear() // for reloads
+
+		var clientClass = Class(dwFirstClass)
+		while (clientClass.readable()) {
+			val table = ClassTable(clientClass.table)
+			if (table.readable()) scanTable(map, table, 0, table.name)
+			clientClass = Class(clientClass.next)
 		}
 	}
 

@@ -27,7 +27,7 @@ class NetVar(val className: String, var varName: String?, val offset: Int, val i
 	private var value = -1L
 
 	operator fun getValue(thisRef: Any?, property: KProperty<*>): Long {
-		if (varName == null) varName = property.name + if (index < 0) "" else "[$index]"
+		if (varName == null) varName = "m_${property.name}" + if (index < 0) "" else "[$index]"
 		if (value == -1L) value = map[hashClassAndVar(className, varName!!)]!!.offset + offset
 		return value
 	}

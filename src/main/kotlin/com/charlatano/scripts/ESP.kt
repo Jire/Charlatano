@@ -18,30 +18,15 @@
 
 package com.charlatano.scripts
 
-import com.charlatano.game.CSGO.GLOW_OBJECT_SIZE
-import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.EntityType
+import com.charlatano.game.EntityType.CCSPlayer
+import com.charlatano.game.EntityType.Companion.byEntityAddress
+import com.charlatano.game.hooks.GlowIteration
 import com.charlatano.game.netvars.NetVarOffsets.iTeamNum
-import com.charlatano.game.offsets.ClientOffsets
-import com.charlatano.game.offsets.ClientOffsets.dwGlowObject
-import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
-import com.charlatano.utils.every
 import com.charlatano.utils.uint
 
-fun esp() = every(2) {
-	val myAddress = clientDLL.uint(dwLocalPlayer)
-	val myTeam = csgoEXE.uint(myAddress + iTeamNum)
-
-	val glowObject = clientDLL.uint(dwGlowObject)
-	val glowObjectCount = clientDLL.uint(ClientOffsets.dwGlowObject + 4)
-
-	for (glowIndex in 0..glowObjectCount) {
-		val glowAddress = glowObject + (glowIndex * GLOW_OBJECT_SIZE)
-		val entityAddress = csgoEXE.uint(glowAddress)
-
-		if (EntityType.CCSPlayer != EntityType.byEntityAddress(entityAddress)) continue
-
+fun esp() = GlowIteration {
+	if (CCSPlayer == byEntityAddress(entityAddress)) {
 		var red = 255F
 		var green = 0F
 		var blue = 0F

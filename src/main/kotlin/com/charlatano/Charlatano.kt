@@ -22,6 +22,7 @@ package com.charlatano
 
 import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
+import com.charlatano.game.hooks.GlowIteration
 import com.charlatano.scripts.bunnyHop
 import com.charlatano.scripts.esp
 
@@ -32,6 +33,10 @@ fun main(args: Array<String>) {
 	bunnyHop()
 	esp()
 	// -- END OF SCRIPTS -- //
+
+	// -- START OF HOOKS -- //
+	GlowIteration.load()
+	// -- END OF HOOKS -- //
 
 	Strand.sleep(3000) // wait a bit to catch everything
 	System.gc() // then cleanup
