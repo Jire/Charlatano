@@ -20,8 +20,8 @@ package com.charlatano.game.netvars
 
 object NetVarOffsets {
 
-	val iTeamNum by netVar("DT_BaseEntity")
+	val m_iTeamNum by netVar("DT_BaseEntity")
 
-	val fFlags by netVar("DT_BasePlayer")
+	val m_fFlags by netVar("DT_BasePlayer")
 
 }

@@ -20,13 +20,13 @@ package com.charlatano.game.hooks
 
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.netvars.NetVarOffsets.fFlags
+import com.charlatano.game.netvars.NetVarOffsets.m_fFlags
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.utils.hook
 import com.charlatano.utils.uint
 
 val onGround = hook(4) {
 	val lp = clientDLL.uint(dwLocalPlayer)
-	val flags = csgoEXE.uint(lp + fFlags)
+	val flags = csgoEXE.uint(lp + m_fFlags)
 	flags and 1 == 1L
 }
