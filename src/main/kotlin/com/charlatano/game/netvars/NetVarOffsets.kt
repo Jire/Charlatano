@@ -23,5 +23,7 @@ object NetVarOffsets {
 	val m_iTeamNum by netVar("DT_BaseEntity")
 
 	val m_fFlags by netVar("DT_BasePlayer")
+	
+	val m_flFlashMaxAlpha by netVar("DT_CSPlayer")
 
 }
