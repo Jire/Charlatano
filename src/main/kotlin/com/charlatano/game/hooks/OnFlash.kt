@@ -25,7 +25,7 @@ import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.utils.hook
 import com.charlatano.utils.uint
 
-val onFlash = hook(4) {
+val onFlash = hook(32) {
 	val myAddress = clientDLL.uint(dwLocalPlayer)
 	val flashAlpha = csgoEXE.float(myAddress + m_flFlashMaxAlpha)
 	flashAlpha > 0f
