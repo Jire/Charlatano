@@ -16,32 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Charlatano")
+package com.charlatano.scripts
 
-package com.charlatano
-
-import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
+import com.charlatano.game.EntityType
 import com.charlatano.game.hooks.GlowIteration
-import com.charlatano.scripts.*
+import com.charlatano.game.netvars.NetVarOffsets
 
-fun main(args: Array<String>) {
-	CSGO.initalize()
 
-	// -- START OF SCRIPTS -- //
-	bunnyHop()
-	esp()
-	//rcs()
-	noFlash()
-	bombTimer()
-	forceAim()
-	// -- END OF SCRIPTS -- //
-
-	// -- START OF HOOKS -- //
-	GlowIteration.load()
-	// -- END OF HOOKS -- //
-
-	Strand.sleep(3000) // wait a bit to catch everything
-	System.gc() // then cleanup
-	Strand.sleep(Long.MAX_VALUE) // prevent exit
+fun bombTimer() = GlowIteration {
+	if (EntityType.CPlantedC4 == EntityType.byEntityAddress(entityAddress)) {
+		val flags = CSGO.csgoEXE.float(entityAddress + NetVarOffsets.flC4Blow)
+		val timeLeft = (CSGO.engineDLL.float(6008768 + 16) - flags) * -1
+		if (timeLeft > 0) {
+			val hasKit = false
+			val canDefuse = if (hasKit) timeLeft >= 5 else timeLeft >= 10
+			println("$timeLeft seconds, can defuse? $canDefuse")
+		}
+		return@GlowIteration
+	}
 }
