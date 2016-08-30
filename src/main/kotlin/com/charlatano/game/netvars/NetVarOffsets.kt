@@ -26,6 +26,7 @@ object NetVarOffsets {
 	val fFlags by netVar("DT_BasePlayer")
 	val lifeState by netVar("DT_BasePlayer")
 	val vecPunch by netVar("DT_BasePlayer", "m_aimPunchAngle")
+	val szLastPlaceName  by netVar("DT_BasePlayer")
 
 	val flFlashMaxAlpha by netVar("DT_CSPlayer")
 	val iCrossHairID by netVar("DT_CSPlayer", "m_bHasDefuser", 0x5C)
