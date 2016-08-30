@@ -34,12 +34,10 @@ fun esp() = GlowIteration {
 	val type = byEntityAddress(entityAddress)
 	if (type == CPlantedC4 || type == CC4) {
 		val carrierIndex = (csgoEXE.int(entityAddress + 0x148) and 0xFFF) - 1
-		bombCarrier = if (carrierIndex == 4094) -1 else clientDLL.uint(dwEntityList + (carrierIndex * CSGO.ENTITY_SIZE))
-		if (type == CPlantedC4) {
-			bombCarrier = -1L
-		}
+		bombCarrier = if (carrierIndex == 4094) -1 else clientDLL.uint(dwEntityList + (carrierIndex * CSGO.ENTITY_SIZE))//TODO find a way to get glowIndex from entityIndex?
+		if (type == CPlantedC4) bombCarrier = -1L
 		glow(glowAddress)
-	} else if (type == CCSPlayer ) {
+	} else if (type == CCSPlayer) {
 		val entityTeam = csgoEXE.uint(entityAddress + iTeamNum)
 		if (entityAddress == bombCarrier) {
 			glow(glowAddress, red = 0f, green = 255f)
