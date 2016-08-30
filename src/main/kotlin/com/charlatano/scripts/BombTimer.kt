@@ -36,11 +36,11 @@ fun bombTimer() = GlowIteration {
 			val carrierIndex = (csgoEXE.int(entityAddress + 0x148) and 0xFFF) - 1
 			val plantedBy = if (carrierIndex == 4094) -1 else clientDLL.uint(dwEntityList + (carrierIndex * ENTITY_SIZE))
 			if (plantedBy != -1L) {
-				location = csgoEXE.read(plantedBy + szLastPlaceName, 9, true)!!.getString(0)
+				location = csgoEXE.read(plantedBy + szLastPlaceName, 32, true)!!.getString(0)
 			}
 		}
 		val flags = csgoEXE.float(entityAddress + flC4Blow)
-		val timeLeft = (engineDLL.float(dwGlobalVars + 16) - flags) * -1
+		val timeLeft = -(engineDLL.float(dwGlobalVars + 16) - flags)
 		if (timeLeft > 0) {
 			val hasKit = false
 			val canDefuse = if (hasKit) timeLeft >= 5 else timeLeft >= 10
