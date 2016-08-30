@@ -50,9 +50,10 @@ object GlowIteration {
 		glowObject = CSGO.clientDLL.uint(ClientOffsets.dwGlowObject)
 		glowObjectCount = CSGO.clientDLL.uint(ClientOffsets.dwGlowObject + 4)
 
-		for (glowIndex in 0..glowObjectCount) {
-			glowAddress = glowObject + (glowIndex * CSGO.GLOW_OBJECT_SIZE)
+		for (i in 0..glowObjectCount) {
+			glowAddress = glowObject + (i * CSGO.GLOW_OBJECT_SIZE)
 			entityAddress = csgoEXE.uint(glowAddress)
+			glowIndex = i
 
 			for (body in bodies) body()
 		}

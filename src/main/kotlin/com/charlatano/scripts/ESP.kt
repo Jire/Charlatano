@@ -18,30 +18,43 @@
 
 package com.charlatano.scripts
 
+import com.charlatano.game.CSGO
+import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.EntityType.CCSPlayer
+import com.charlatano.game.EntityType.*
 import com.charlatano.game.EntityType.Companion.byEntityAddress
 import com.charlatano.game.hooks.GlowIteration
 import com.charlatano.game.netvars.NetVarOffsets.iTeamNum
+import com.charlatano.game.offsets.ClientOffsets.dwEntityList
 import com.charlatano.utils.uint
 
+var bombCarrier = -1L
+
 fun esp() = GlowIteration {
-	if (CCSPlayer == byEntityAddress(entityAddress)) {
-		var red = 255F
-		var green = 0F
-		var blue = 0F
-		var alpha = 0.6F
-
-		val entityTeam = csgoEXE.uint(entityAddress + iTeamNum)
-		if (myTeam == entityTeam) {
-			red = 0F
-			blue = 255F
+	val type = byEntityAddress(entityAddress)
+	if (type == CPlantedC4 || type == CC4) {
+		val carrierIndex = (csgoEXE.int(entityAddress + 0x148) and 0xFFF) - 1
+		bombCarrier = if (carrierIndex == 4094) -1 else clientDLL.uint(dwEntityList + (carrierIndex * CSGO.ENTITY_SIZE))
+		if (type == CPlantedC4) {
+			bombCarrier = -1L
 		}
-
-		csgoEXE[glowAddress + 0x4] = red
-		csgoEXE[glowAddress + 0x8] = green
-		csgoEXE[glowAddress + 0xC] = blue
-		csgoEXE[glowAddress + 0x10] = alpha
-		csgoEXE[glowAddress + 0x24] = true
+		glow(glowAddress)
+	} else if (type == CCSPlayer ) {
+		val entityTeam = csgoEXE.uint(entityAddress + iTeamNum)
+		if (entityAddress == bombCarrier) {
+			glow(glowAddress, red = 0f, green = 255f)
+		} else if (myTeam == entityTeam) {
+			glow(glowAddress, red = 0f, blue = 255f)
+		} else {
+			glow(glowAddress)
+		}
 	}
+}
+
+fun glow(glowAddress: Long, red: Float = 255f, green: Float = 0f, blue: Float = 0f, alpha: Float = 0.6f) {
+	csgoEXE[glowAddress + 0x4] = red
+	csgoEXE[glowAddress + 0x8] = green
+	csgoEXE[glowAddress + 0xC] = blue
+	csgoEXE[glowAddress + 0x10] = alpha
+	csgoEXE[glowAddress + 0x24] = true
 }
