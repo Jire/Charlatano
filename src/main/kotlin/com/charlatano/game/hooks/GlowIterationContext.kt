@@ -25,7 +25,7 @@ import com.charlatano.utils.uint
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 
 class GlowIterationContext {
-
+	
 	var myAddress = 0L
 	var myTeam = 0L
 	var glowObject = 0L
@@ -33,34 +33,34 @@ class GlowIterationContext {
 	var glowIndex = 0L
 	var glowAddress = 0L
 	var entityAddress = 0L
-
+	
 }
 
 object GlowIteration {
-
+	
 	private val glowIteration = ThreadLocal.withInitial { GlowIterationContext() }
 	private val bodies = ObjectArrayList<GlowIterationContext.() -> Unit>()
-
+	
 	private fun GlowIterationContext.load() = every(2) {
 		myAddress = CSGO.clientDLL.uint(ClientOffsets.dwLocalPlayer)
 		myTeam = csgoEXE.uint(myAddress + NetVarOffsets.iTeamNum)
-
+		
 		glowObject = CSGO.clientDLL.uint(ClientOffsets.dwGlowObject)
 		glowObjectCount = CSGO.clientDLL.uint(ClientOffsets.dwGlowObject + 4)
-
+		
 		for (i in 0..glowObjectCount) {
 			glowIndex = i
 			glowAddress = glowObject + (i * CSGO.GLOW_OBJECT_SIZE)
 			entityAddress = csgoEXE.uint(glowAddress)
-
-			for (body in bodies) body()
+			
+			for (x in 0..bodies.size - 1) bodies[x]()
 		}
 	}
-
+	
 	fun load() = glowIteration.get().load()
-
+	
 	operator fun invoke(body: GlowIterationContext.() -> Unit) {
 		bodies.add(body)
 	}
-
+	
 }
