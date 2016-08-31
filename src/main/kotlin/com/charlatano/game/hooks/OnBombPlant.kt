@@ -16,22 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.scripts
+package com.charlatano.game.hooks
 
 import com.charlatano.game.CSGO
+import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.hooks.bombPlanted
-import com.charlatano.game.hooks.location
 import com.charlatano.game.netvars.NetVarOffsets
-import com.charlatano.game.offsets.EngineOffsets
+import com.charlatano.game.offsets.ClientOffsets
+import com.charlatano.scripts.bombAddress
+import com.charlatano.utils.hook
+import com.charlatano.utils.uint
 
+/**
+ * Created by Jonathan on 8/31/2016.
+ */
 
-fun bombTimer() = bombPlanted {
-	val timeLeft = -(CSGO.engineDLL.float(EngineOffsets.dwGlobalVars + 16) - csgoEXE.float(bombAddress + NetVarOffsets.flC4Blow))
-	if (timeLeft < 0)
-		return@bombPlanted
+var location = ""
+
+val bombPlanted = hook(512) {
+	val bombPlanted = bombAddress != -1L && !csgoEXE.boolean(bombAddress + NetVarOffsets.bBombDefused)
+	if (bombPlanted && location.isEmpty()) {
+		val carrierIndex = (csgoEXE.int(bombAddress + 0x148) and 0xFFF) - 1
+		val plantedBy = clientDLL.uint(ClientOffsets.dwEntityList + (carrierIndex * CSGO.ENTITY_SIZE))
+		location = csgoEXE.read(plantedBy + NetVarOffsets.szLastPlaceName, 32, true)!!.getString(0)
+	} else if (!bombPlanted && !location.isEmpty()) location = ""
 	
-	val hasKit = false
-	val canDefuse = if (hasKit) timeLeft >= 5 else timeLeft >= 10
-	println("Location: $location, $timeLeft seconds, can defuse? $canDefuse")
+	bombPlanted
 }

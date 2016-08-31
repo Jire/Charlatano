@@ -29,13 +29,14 @@ import com.charlatano.game.offsets.ClientOffsets.dwEntityList
 import com.charlatano.utils.uint
 
 var bombCarrier = -1L
+var bombAddress = -1L
 
 fun esp() = GlowIteration {
 	val type = byEntityAddress(entityAddress)
 	if (type == CPlantedC4 || type == CC4) {
 		val carrierIndex = (csgoEXE.int(entityAddress + 0x148) and 0xFFF) - 1
-		bombCarrier = if (carrierIndex == 4094) -1 else clientDLL.uint(dwEntityList + (carrierIndex * ENTITY_SIZE))//TODO find a way to get glowIndex from entityIndex?
-		if (type == CPlantedC4) bombCarrier = -1L
+		bombCarrier = if (carrierIndex == 4094 || type == CPlantedC4) -1 else clientDLL.uint(dwEntityList + (carrierIndex * ENTITY_SIZE))//TODO find a way to get glowIndex from entityIndex?
+		bombAddress = if (type == CPlantedC4) entityAddress else -1L
 		glow(glowAddress)
 	} else if (type == CCSPlayer) {
 		val entityTeam = csgoEXE.uint(entityAddress + iTeamNum)
