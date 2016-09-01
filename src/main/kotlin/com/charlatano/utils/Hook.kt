@@ -18,14 +18,13 @@
 
 package com.charlatano.utils
 
-import com.charlatano.utils.every
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
 class Hook(val clauseDefault: Boolean, val durationDefault: Long,
            val durationUnitDefault: TimeUnit,
            val predicate: () -> Boolean) {
-
+	
 	operator inline fun invoke(clause: Boolean = clauseDefault,
 	                           duration: Long = durationDefault,
 	                           durationUnit: TimeUnit = durationUnitDefault,
@@ -34,7 +33,7 @@ class Hook(val clauseDefault: Boolean, val durationDefault: Long,
 			if (predicate()) body()
 		} else if (predicate()) body()
 	}
-
+	
 }
 
 fun hook(durationDefault: Long = 8, durationUnitDefault: TimeUnit = MILLISECONDS,

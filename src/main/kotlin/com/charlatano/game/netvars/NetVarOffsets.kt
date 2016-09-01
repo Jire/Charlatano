@@ -32,7 +32,9 @@ object NetVarOffsets {
 	val iCrossHairID by netVar("DT_CSPlayer", "m_bHasDefuser", 0x5C)
 	val iShotsFired by netVar("DT_CSPlayer")
 	
-	val flC4Blow by netVar("DT_PlantedC4", "m_flC4Blow")
+	val flC4Blow by netVar("DT_PlantedC4")
+	val bBombDefused by netVar("DT_PlantedC4")
+	val hOwnerEntity by netVar("DT_PlantedC4")
 
 	val dwBoneMatrix by netVar("DT_BaseAnimating", "m_nForceBone", 0x1C)
 
