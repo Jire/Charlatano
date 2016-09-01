@@ -16,35 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Charlatano")
+package com.charlatano.overlay;
 
-package com.charlatano
+import com.sun.jna.Native;
+import com.sun.jna.platform.win32.User32;
+import com.sun.jna.platform.win32.WinDef;
+import com.sun.jna.platform.win32.WinUser;
 
-import co.paralleluniverse.strands.Strand
-import com.charlatano.game.CSGO
-import com.charlatano.game.hooks.GlowIteration
-import com.charlatano.overlay.Overlay
-import com.charlatano.scripts.*
+import java.awt.*;
 
-fun main(args: Array<String>) {
-	CSGO.initalize()
+public class WindowTools {
 
-	// -- START OF SCRIPTS -- //
-	bunnyHop()
-	esp()
-	//rcs()
-	noFlash()
-	bombTimer()
-	forceAim()
-	// -- END OF SCRIPTS -- //
+	public static void setTransparent(Component w) {
+		WinDef.HWND hwnd = getHWnd(w);
+		int wl = User32.INSTANCE.GetWindowLong(hwnd, WinUser.GWL_EXSTYLE);
+		wl = wl | WinUser.WS_EX_LAYERED | WinUser.WS_EX_TRANSPARENT;
+		User32.INSTANCE.SetWindowLong(hwnd, WinUser.GWL_EXSTYLE, wl);
+	}
 
-	// -- START OF HOOKS -- //
-	GlowIteration.load()
-	// -- END OF HOOKS -- //
+	/**
+	 * Get the window handle from the OS
+	 */
+	public static WinDef.HWND getHWnd(Component w) {
+		WinDef.HWND hwnd = new WinDef.HWND();
+		hwnd.setPointer(Native.getComponentPointer(w));
+		return hwnd;
+	}
 
-	Overlay.isVisible = true
-
-	Strand.sleep(3000) // wait a bit to catch everything
-	System.gc() // then cleanup
-	Strand.sleep(Long.MAX_VALUE) // prevent exit
 }
