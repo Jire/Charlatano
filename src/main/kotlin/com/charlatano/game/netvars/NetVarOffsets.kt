@@ -27,11 +27,12 @@ object NetVarOffsets {
 	val lifeState by netVar("DT_BasePlayer")
 	val vecPunch by netVar("DT_BasePlayer", "m_aimPunchAngle")
 	val szLastPlaceName  by netVar("DT_BasePlayer")
+	val iHealth by netVar("DT_BasePlayer")
 
 	val flFlashMaxAlpha by netVar("DT_CSPlayer")
 	val iCrossHairID by netVar("DT_CSPlayer", "m_bHasDefuser", 0x5C)
 	val iShotsFired by netVar("DT_CSPlayer")
-	
+
 	val flC4Blow by netVar("DT_PlantedC4")
 	val bBombDefused by netVar("DT_PlantedC4")
 	val hOwnerEntity by netVar("DT_PlantedC4")

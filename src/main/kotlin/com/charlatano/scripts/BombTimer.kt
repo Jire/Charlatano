@@ -18,20 +18,25 @@
 
 package com.charlatano.scripts
 
-import com.charlatano.game.CSGO
 import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.game.CSGO.engineDLL
 import com.charlatano.game.hooks.bombPlanted
 import com.charlatano.game.hooks.location
-import com.charlatano.game.netvars.NetVarOffsets
-import com.charlatano.game.offsets.EngineOffsets
-
+import com.charlatano.game.netvars.NetVarOffsets.flC4Blow
+import com.charlatano.game.offsets.EngineOffsets.dwGlobalVars
+import com.charlatano.overlay.Overlay
+import java.awt.Color
 
 fun bombTimer() = bombPlanted {
-	val timeLeft = -(CSGO.engineDLL.float(EngineOffsets.dwGlobalVars + 16) - csgoEXE.float(bombAddress + NetVarOffsets.flC4Blow))
+	val timeLeft = -(engineDLL.float(dwGlobalVars + 16) - csgoEXE.float(bombAddress + flC4Blow))
 	if (timeLeft < 0)
 		return@bombPlanted
-	
+
 	val hasKit = false
-	val canDefuse = if (hasKit) timeLeft >= 5 else timeLeft >= 10
-	println("Location: $location, $timeLeft seconds, can defuse? $canDefuse")
+	val canDefuse = timeLeft >= if (hasKit) 5 else 10
+
+	Overlay {
+		color = Color.ORANGE
+		drawString("Location: $location, $timeLeft seconds, can defuse? $canDefuse", 200, 200)
+	}
 }

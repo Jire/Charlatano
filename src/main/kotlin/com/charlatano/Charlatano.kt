@@ -27,6 +27,8 @@ import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.*
 
 fun main(args: Array<String>) {
+	System.setProperty("sun.java2d.opengl", "True")
+
 	CSGO.initalize()
 
 	// -- START OF SCRIPTS -- //
