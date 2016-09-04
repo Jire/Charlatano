@@ -16,27 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.game.netvars
+package com.charlatano.overlay;
 
-object NetVarOffsets {
+import com.sun.jna.Native;
+import com.sun.jna.platform.win32.User32;
+import com.sun.jna.platform.win32.WinDef;
+import com.sun.jna.platform.win32.WinUser;
 
-	val iTeamNum by netVar("DT_BaseEntity")
-	val bSpotted by netVar("DT_BaseEntity")
+import java.awt.*;
 
-	val fFlags by netVar("DT_BasePlayer")
-	val lifeState by netVar("DT_BasePlayer")
-	val vecPunch by netVar("DT_BasePlayer", "m_aimPunchAngle")
-	val szLastPlaceName  by netVar("DT_BasePlayer")
-	val iHealth by netVar("DT_BasePlayer")
+public class WindowTools {
 
-	val flFlashMaxAlpha by netVar("DT_CSPlayer")
-	val iCrossHairID by netVar("DT_CSPlayer", "m_bHasDefuser", 0x5C)
-	val iShotsFired by netVar("DT_CSPlayer")
+	public static void setTransparent(Component w) {
+		WinDef.HWND hwnd = getHWnd(w);
+		int wl = User32.INSTANCE.GetWindowLong(hwnd, WinUser.GWL_EXSTYLE);
+		wl = wl | WinUser.WS_EX_LAYERED | WinUser.WS_EX_TRANSPARENT;
+		User32.INSTANCE.SetWindowLong(hwnd, WinUser.GWL_EXSTYLE, wl);
+	}
 
-	val flC4Blow by netVar("DT_PlantedC4")
-	val bBombDefused by netVar("DT_PlantedC4")
-	val hOwnerEntity by netVar("DT_PlantedC4")
-
-	val dwBoneMatrix by netVar("DT_BaseAnimating", "m_nForceBone", 0x1C)
+	/**
+	 * Get the window handle from the OS
+	 */
+	public static WinDef.HWND getHWnd(Component w) {
+		WinDef.HWND hwnd = new WinDef.HWND();
+		hwnd.setPointer(Native.getComponentPointer(w));
+		return hwnd;
+	}
 
 }

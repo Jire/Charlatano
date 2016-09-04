@@ -33,7 +33,7 @@ import com.charlatano.utils.uint
 
 var location = ""
 
-val bombPlanted = hook(512) {
+val bombPlanted = hook(8) {
 	val bombPlanted = bombAddress != -1L && !csgoEXE.boolean(bombAddress + NetVarOffsets.bBombDefused)
 	if (bombPlanted && location.isEmpty()) {
 		val carrierIndex = (csgoEXE.int(bombAddress + 0x148) and 0xFFF) - 1

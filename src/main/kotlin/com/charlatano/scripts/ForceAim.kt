@@ -37,7 +37,7 @@ import org.jire.arrowhead.keyPressed
 import java.util.concurrent.atomic.AtomicLong
 
 private fun Long.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
-private fun Long.bone(offset: Int, boneID: Int = 6) = csgoEXE.float(boneMatrix() + ((0x30 * boneID) + offset))
+internal fun Long.bone(offset: Int, boneID: Int = 6) = csgoEXE.float(boneMatrix() + ((0x30 * boneID) + offset))
 
 private val targetAddressA = AtomicLong()
 

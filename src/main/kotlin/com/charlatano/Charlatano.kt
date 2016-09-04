@@ -23,24 +23,29 @@ package com.charlatano
 import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
 import com.charlatano.game.hooks.GlowIteration
+import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.*
 
 fun main(args: Array<String>) {
+	System.setProperty("sun.java2d.opengl", "True")
+
 	CSGO.initalize()
-	
+
 	// -- START OF SCRIPTS -- //
 	bunnyHop()
 	esp()
-	rcs()
+	//rcs()
 	noFlash()
 	bombTimer()
 	forceAim()
 	// -- END OF SCRIPTS -- //
-	
+
 	// -- START OF HOOKS -- //
 	GlowIteration.load()
 	// -- END OF HOOKS -- //
-	
+
+	Overlay.isVisible = true
+
 	Strand.sleep(3000) // wait a bit to catch everything
 	System.gc() // then cleanup
 	Strand.sleep(Long.MAX_VALUE) // prevent exit
