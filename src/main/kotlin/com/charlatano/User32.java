@@ -22,14 +22,14 @@ import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
 public final class User32 {
-
+	
 	public static final int MOUSEEVENTF_MOVE = 0x0001;
 	public static final int MOUSEEVENTF_ABSOLUTE = 0x8000;
-
+	
 	static {
 		Native.register("user32");
 	}
-
+	
 	public static native void mouse_event(int dwFlags, int dx, int dy, Pointer dwData, Pointer dwExtraInfo);
-
+	
 }

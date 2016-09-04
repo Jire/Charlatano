@@ -22,17 +22,17 @@ import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.utils.get
 
 object ClientOffsets {
-
+	
 	const val bDormant = 0xE9
-
+	
 	val dwWorldDecal by clientDLL(read = false, subtract = false, className = "DT_TEWorldDecal")
 	val dwFirstClass by clientDLL(patternOffset = 0x2B, subtract = false, offset = dwWorldDecal)
-
+	
 	val dwForceJump by clientDLL(2)(0x89, 0x15, 0[4], 0x8B, 0x15, 0[4], 0xF6,
 			0xC2, 0x03, 0x74, 0x03, 0x83, 0xCE, 0x08)
 	val dwLocalPlayer by clientDLL(1, 16)(0xA3, 0[4], 0xC7, 0x05, 0[8], 0xE8, 0[4], 0x59, 0xC3, 0x6A)
 	val dwGlowObject by clientDLL(1, 4)(0xA1, 0[4], 0xA8, 0x01, 0x75, 0x4E, 0x0F, 0x57, 0xC0)
 	val dwEntityList by clientDLL(1)(187, 0[4], 131, 255, 1, 15, 140, 0[4], 59, 248)
 	val dwViewMatrix by clientDLL(850, 176)(129, 198, 0[4], 136, 69, 154, 15, 182, 192)
-
+	
 }
