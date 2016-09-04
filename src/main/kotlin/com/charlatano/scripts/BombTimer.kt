@@ -31,10 +31,10 @@ fun bombTimer() = bombPlanted {
 	val timeLeft = -(engineDLL.float(dwGlobalVars + 16) - csgoEXE.float(bombAddress + flC4Blow))
 	if (timeLeft < 0)
 		return@bombPlanted
-
+	
 	val hasKit = false
 	val canDefuse = timeLeft >= if (hasKit) 5 else 10
-
+	
 	Overlay {
 		color = Color.ORANGE
 		drawString("Location: $location, $timeLeft seconds, can defuse? $canDefuse", 200, 200)

@@ -53,11 +53,11 @@ fun esp() = GlowIteration {
 	} else if (type == CCSPlayer) {
 		if (csgoEXE.boolean(entityAddress + bDormant) || csgoEXE.uint(entityAddress + NetVarOffsets.lifeState) > 0)
 			return@GlowIteration
-
+		
 		var red = 255
 		var green = 0
 		var blue = 0
-
+		
 		val entityTeam = csgoEXE.uint(entityAddress + iTeamNum)
 		if (entityAddress == bombCarrier) {
 			red = 0
@@ -67,22 +67,22 @@ fun esp() = GlowIteration {
 			blue = 255
 		}
 		glowAddress.glow(red, green, blue)
-
+		
 		val vHead = Vector(entityAddress.bone(0xC), entityAddress.bone(0x1C), entityAddress.bone(0x2C) + 9)
 		val vFeet = Vector(vHead.x, vHead.y, vHead.z - 75)
-
+		
 		val vTop = Vector(0F, 0F, 0F)
 		worldToScreen(vHead, vTop)
-
+		
 		val vBot = Vector(0F, 0F, 0F)
 		worldToScreen(vFeet, vBot)
-
+		
 		val h = vBot.y - vTop.y
 		val w = h / 5F
-
+		
 		val carryingBomb = entityAddress == bombCarrier
 		val health = csgoEXE.uint(entityAddress + iHealth)
-
+		
 		Overlay {
 			color = Color(red, green, blue)
 			val sx = (vTop.x - w).toInt()

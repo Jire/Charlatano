@@ -26,14 +26,14 @@ import com.sun.jna.platform.win32.WinUser;
 import java.awt.*;
 
 public class WindowTools {
-
+	
 	public static void setTransparent(Component w) {
 		WinDef.HWND hwnd = getHWnd(w);
 		int wl = User32.INSTANCE.GetWindowLong(hwnd, WinUser.GWL_EXSTYLE);
 		wl = wl | WinUser.WS_EX_LAYERED | WinUser.WS_EX_TRANSPARENT;
 		User32.INSTANCE.SetWindowLong(hwnd, WinUser.GWL_EXSTYLE, wl);
 	}
-
+	
 	/**
 	 * Get the window handle from the OS
 	 */
@@ -42,5 +42,5 @@ public class WindowTools {
 		hwnd.setPointer(Native.getComponentPointer(w));
 		return hwnd;
 	}
-
+	
 }

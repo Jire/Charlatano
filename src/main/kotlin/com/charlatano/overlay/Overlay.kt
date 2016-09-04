@@ -29,33 +29,33 @@ import javax.swing.JPanel
 import javax.swing.JWindow
 
 object Overlay : JWindow() {
-
+	
 	private val hooks = synchronizedList(ObjectArrayList<Graphics.() -> Unit>(1024))
-
+	
 	private val frame = object : JPanel() {
 		override fun paintComponent(g: Graphics) {
 			for (i in 0..hooks.size - 1) hooks[i](g)
 			hooks.clear()
 		}
 	}
-
+	
 	init {
 		isAlwaysOnTop = true
 		size = Dimension(SCREEN_SIZE.width, SCREEN_SIZE.height)
 		background = Color(0, 0, 0, 0)
-
+		
 		frame.size = Dimension(SCREEN_SIZE.width, SCREEN_SIZE.height)
 		add(frame)
-
+		
 		isVisible = true
-
+		
 		WindowTools.setTransparent(this)
-
+		
 		every(4) { repaint() }
 	}
-
+	
 	operator fun invoke(body: Graphics.() -> Unit) {
 		hooks.add(body)
 	}
-
+	
 }
