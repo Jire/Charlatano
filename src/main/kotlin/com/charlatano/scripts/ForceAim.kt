@@ -18,6 +18,9 @@
 
 package com.charlatano.scripts
 
+import com.charlatano.FORCE_AIM_KEY
+import com.charlatano.FORCE_AIM_SMOOTHING
+import com.charlatano.FORCE_AIM_TARGET_BONE
 import com.charlatano.game.CSGO.ENTITY_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
@@ -37,12 +40,12 @@ import org.jire.arrowhead.keyPressed
 import java.util.concurrent.atomic.AtomicLong
 
 private fun Long.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
-internal fun Long.bone(offset: Int, boneID: Int = 6) = csgoEXE.float(boneMatrix() + ((0x30 * boneID) + offset))
+internal fun Long.bone(offset: Int, boneID: Int = FORCE_AIM_TARGET_BONE) = csgoEXE.float(boneMatrix() + ((0x30 * boneID) + offset))
 
 private val targetAddressA = AtomicLong()
 
-fun forceAim() = every(16) {
-	val pressed = keyPressed(5) {
+fun forceAim() = every(FORCE_AIM_SMOOTHING) {
+	val pressed = keyPressed(FORCE_AIM_KEY) {
 		val myAddress = clientDLL.uint(dwLocalPlayer)
 		if (myAddress <= 0) return@keyPressed
 		

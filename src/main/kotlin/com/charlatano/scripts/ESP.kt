@@ -18,6 +18,7 @@
 
 package com.charlatano.scripts
 
+import com.charlatano.*
 import com.charlatano.game.CSGO.ENTITY_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
@@ -34,7 +35,6 @@ import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.overlay.Overlay
 import com.charlatano.utils.Vector
 import com.charlatano.utils.uint
-import com.charlatano.worldToScreen
 import java.awt.Color
 import java.awt.Font
 
@@ -54,19 +54,10 @@ fun esp() = GlowIteration {
 		if (csgoEXE.boolean(entityAddress + bDormant) || csgoEXE.uint(entityAddress + NetVarOffsets.lifeState) > 0)
 			return@GlowIteration
 		
-		var red = 255
-		var green = 0
-		var blue = 0
-		
 		val entityTeam = csgoEXE.uint(entityAddress + iTeamNum)
-		if (entityAddress == bombCarrier) {
-			red = 0
-			green = 255
-		} else if (myTeam == entityTeam) {
-			red = 0
-			blue = 255
-		}
-		glowAddress.glow(red, green, blue)
+		if (entityAddress == bombCarrier) glowAddress.glow(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE, BOMB_COLOR_ALPHA)
+		else if (myTeam == entityTeam) glowAddress.glow(TEAM_COLOR_RED, TEAM_COLOR_GREEN, TEAM_COLOR_BLUE, TEAM_COLOR_ALPHA)
+		else glowAddress.glow()
 		
 		val vHead = Vector(entityAddress.bone(0xC), entityAddress.bone(0x1C), entityAddress.bone(0x2C) + 9)
 		val vFeet = Vector(vHead.x, vHead.y, vHead.z - 75)
@@ -84,7 +75,7 @@ fun esp() = GlowIteration {
 		val health = csgoEXE.uint(entityAddress + iHealth)
 		
 		Overlay {
-			color = Color(red, green, blue)
+			color = Color(ENEMY_COLOR_RED, ENEMY_COLOR_GREEN, ENEMY_COLOR_GREEN)
 			val sx = (vTop.x - w).toInt()
 			val sy = vTop.y.toInt()
 			draw3DRect(sx, sy, (w * 2).toInt(), h.toInt(), true)
@@ -100,7 +91,7 @@ fun esp() = GlowIteration {
 	}
 }
 
-fun Long.glow(red: Int = 255, green: Int = 0, blue: Int = 0, alpha: Float = 0.6F) {
+fun Long.glow(red: Int = ENEMY_COLOR_RED, green: Int = ENEMY_COLOR_GREEN, blue: Int = ENEMY_COLOR_BLUE, alpha: Float = ENEMY_COLOR_ALPHA) {
 	csgoEXE[this + 0x4] = red / 255F
 	csgoEXE[this + 0x8] = green / 255F
 	csgoEXE[this + 0xC] = blue / 255F

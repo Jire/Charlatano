@@ -19,14 +19,14 @@
 package com.charlatano.scripts
 
 import co.paralleluniverse.strands.Strand.sleep
+import com.charlatano.BUNNY_HOP_KEY
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.hooks.onGround
 import com.charlatano.game.offsets.ClientOffsets.dwForceJump
 import org.jire.arrowhead.keyPressed
-import java.awt.event.KeyEvent
 
 fun bunnyHop() = onGround {
-	if (keyPressed(KeyEvent.VK_SPACE)) {
+	if (keyPressed(BUNNY_HOP_KEY)) {
 		clientDLL[dwForceJump] = 5.toByte()
 		sleep(20)
 		clientDLL[dwForceJump] = 4.toByte()
