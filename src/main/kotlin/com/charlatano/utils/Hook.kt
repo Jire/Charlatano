@@ -21,12 +21,12 @@ package com.charlatano.utils
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
-class Hook(val clauseDefault: Boolean, val durationDefault: Long,
+class Hook(val clauseDefault: Boolean, val durationDefault: Int,
            val durationUnitDefault: TimeUnit,
            val predicate: () -> Boolean) {
 	
 	operator inline fun invoke(clause: Boolean = clauseDefault,
-	                           duration: Long = durationDefault,
+	                           duration: Int = durationDefault,
 	                           durationUnit: TimeUnit = durationUnitDefault,
 	                           crossinline body: () -> Unit) {
 		if (!clause) every(duration, durationUnit) {
@@ -36,6 +36,6 @@ class Hook(val clauseDefault: Boolean, val durationDefault: Long,
 	
 }
 
-fun hook(durationDefault: Long = 8, durationUnitDefault: TimeUnit = MILLISECONDS,
+fun hook(durationDefault: Int = 8, durationUnitDefault: TimeUnit = MILLISECONDS,
          clauseDefault: Boolean = false, predicate: () -> Boolean)
 		= Hook(clauseDefault, durationDefault, durationUnitDefault, predicate)

@@ -22,9 +22,9 @@ import co.paralleluniverse.kotlin.fiber
 import co.paralleluniverse.strands.Strand
 import java.util.concurrent.TimeUnit
 
-inline fun every(duration: Long, durationUnit: TimeUnit = TimeUnit.MILLISECONDS, crossinline body: () -> Unit) = fiber {
+inline fun every(duration: Int, durationUnit: TimeUnit = TimeUnit.MILLISECONDS, crossinline body: () -> Unit) = fiber {
 	while (!Strand.interrupted()) {
 		body()
-		Strand.sleep(duration, durationUnit)
+		Strand.sleep(duration.toLong(), durationUnit)
 	}
 }
