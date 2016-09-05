@@ -35,29 +35,25 @@ var prevFired = 0
 val width = SCREEN_SIZE.width
 val height = SCREEN_SIZE.height
 
-fun rcs() = every(1) {
+val dxN = width / 90
+val dyN = height / 90
+
+fun rcs() = every(16) {
 	val myAddress = clientDLL.uint(dwLocalPlayer)
 	if (myAddress <= 0) return@every
 	
 	val shotsFired = csgoEXE.int(myAddress + iShotsFired)
 	if (shotsFired > 1 && shotsFired > prevFired) {
-		var punchVector = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
+		val lastPunch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
 		
-		val oldx = punchVector.x
-		val oldy = punchVector.y
+		Strand.sleep(32)
 		
-		Strand.sleep(20)
+		val currentPunch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
 		
-		punchVector = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
+		val toScreen = toScreen(currentPunch, lastPunch)
 		
-		val newx = punchVector.x
-		val newy = punchVector.y
+		User32.mouse_event(User32.MOUSEEVENTF_MOVE, toScreen.x.toInt(), toScreen.y.toInt(), null, null)
 		
-		val mouseX = AngletoScreenX(newx.toDouble(), oldx.toDouble()).toInt()
-		val mouseY = AngletoScreenY(newy.toDouble(), oldy.toDouble()).toInt()
-		
-		println("$mouseX, $mouseY")
-		User32.mouse_event(User32.MOUSEEVENTF_MOVE, mouseX, mouseY, null, null)
 		prevFired = shotsFired
 	} else {
 		prevFired = 0
@@ -65,23 +61,10 @@ fun rcs() = every(1) {
 	}
 }
 
-//https://www.unknowncheats.me/forum/counterstrike-global-offensive/186394-convert-angle-position.html#post1528951
-fun AngletoScreenX(angle: Double, previous: Double): Double {
-	val A = 74 * (Math.PI / 180)
-	val theta = (angle - previous) * (Math.PI / 180)
-	val X = (height * Math.tan(theta)) / (2 * Math.tan(A))
-	return X
+fun toScreen(current: Vector<Float>, previous: Vector<Float>): Vector<Float> {
+	val previous = angleToScreen(previous)
+	val current = angleToScreen(current)
+	return Vector(-(current.x - previous.x) * 4, -(current.y - previous.y) * 6)
 }
 
-fun AngletoScreenY(angle: Double, previous: Double): Double {
-	var B = 100
-	if (width / height == 4 / 3) {
-		B = 90
-	} else if (width / height == 16 / 9) {
-		B = 106
-	}
-	val A = (B / 2) * (Math.PI / 180)
-	val theta = (angle - previous) * (Math.PI / 180)
-	val Y = (height * Math.tan(theta)) / (2 * Math.tan(A))
-	return Y
-}
+fun angleToScreen(vector: Vector<Float>) = Vector(((width / 2.0) - (dxN * (vector.y / 2.0f))).toFloat(), ((height / 2.0) - (dyN * (-vector.x / 2.0f))).toFloat())
