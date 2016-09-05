@@ -55,9 +55,16 @@ fun esp() = GlowIteration {
 			return@GlowIteration
 		
 		val entityTeam = csgoEXE.uint(entityAddress + iTeamNum)
-		if (entityAddress == bombCarrier) glowAddress.glow(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE, BOMB_COLOR_ALPHA)
-		else if (myTeam == entityTeam) glowAddress.glow(TEAM_COLOR_RED, TEAM_COLOR_GREEN, TEAM_COLOR_BLUE, TEAM_COLOR_ALPHA)
-		else glowAddress.glow()
+		if (entityAddress == bombCarrier) {
+			glowAddress.glow(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE, BOMB_COLOR_ALPHA)
+			entityAddress.chams(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE)
+		} else if (myTeam == entityTeam) {
+			glowAddress.glow(TEAM_COLOR_RED, TEAM_COLOR_GREEN, TEAM_COLOR_BLUE, TEAM_COLOR_ALPHA)
+			entityAddress.chams(TEAM_COLOR_RED, TEAM_COLOR_GREEN, TEAM_COLOR_BLUE)
+		} else {
+			glowAddress.glow()
+			entityAddress.chams()
+		}
 		
 		val vHead = Vector(entityAddress.bone(0xC), entityAddress.bone(0x1C), entityAddress.bone(0x2C) + 9)
 		val vFeet = Vector(vHead.x, vHead.y, vHead.z - 75)
@@ -97,9 +104,11 @@ fun Long.glow(red: Int = ENEMY_COLOR_RED, green: Int = ENEMY_COLOR_GREEN, blue: 
 	csgoEXE[this + 0xC] = blue / 255F
 	csgoEXE[this + 0x10] = alpha
 	csgoEXE[this + 0x24] = true
-	
+}
+
+fun Long.chams(red: Int = ENEMY_COLOR_RED, green: Int = ENEMY_COLOR_GREEN, blue: Int = ENEMY_COLOR_BLUE) {
 	csgoEXE[this + 0x70] = red.toByte()
 	csgoEXE[this + 0x71] = green.toByte()
 	csgoEXE[this + 0x72] = blue.toByte()
-	csgoEXE[this + 0x73] = alpha.toByte()
+	csgoEXE[this + 0x73] = 255.toByte()
 }

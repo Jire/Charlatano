@@ -38,13 +38,13 @@ const val BUNNY_HOP_KEY = KeyEvent.VK_SPACE //KeyEvent.VK_SPACE = Space button
 /**
  * Glow ESP Settings
  */
-const val TEAM_COLOR_RED = 255 //RGB colors
-const val TEAM_COLOR_BLUE = 0 //RGB colors
+const val TEAM_COLOR_RED = 0 //RGB colors
+const val TEAM_COLOR_BLUE = 255 //RGB colors
 const val TEAM_COLOR_GREEN = 0 //RGB colors
 const val TEAM_COLOR_ALPHA = 0.6f //RGB colors
 
-const val ENEMY_COLOR_RED = 0 //RGB colors
-const val ENEMY_COLOR_BLUE = 255 //RGB colors
+const val ENEMY_COLOR_RED = 255 //RGB colors
+const val ENEMY_COLOR_BLUE = 0 //RGB colors
 const val ENEMY_COLOR_GREEN = 0 //RGB colors
 const val ENEMY_COLOR_ALPHA = 0.6f //RGB colors
 
