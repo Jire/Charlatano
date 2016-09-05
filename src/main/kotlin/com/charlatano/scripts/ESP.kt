@@ -97,4 +97,9 @@ fun Long.glow(red: Int = ENEMY_COLOR_RED, green: Int = ENEMY_COLOR_GREEN, blue: 
 	csgoEXE[this + 0xC] = blue / 255F
 	csgoEXE[this + 0x10] = alpha
 	csgoEXE[this + 0x24] = true
+	
+	csgoEXE[this + 0x70] = red.toByte()
+	csgoEXE[this + 0x71] = green.toByte()
+	csgoEXE[this + 0x72] = blue.toByte()
+	csgoEXE[this + 0x73] = alpha.toByte()
 }
