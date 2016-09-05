@@ -27,10 +27,6 @@ import com.charlatano.scripts.bombAddress
 import com.charlatano.utils.hook
 import com.charlatano.utils.uint
 
-/**
- * Created by Jonathan on 8/31/2016.
- */
-
 var location = ""
 
 val bombPlanted = hook(8) {
