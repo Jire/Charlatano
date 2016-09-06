@@ -16,20 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano;
+package com.charlatano
 
-import com.sun.jna.Native;
-import com.sun.jna.Pointer;
+import com.sun.jna.Native
+import com.sun.jna.Pointer
 
-public final class User32 {
+object User32 {
 	
-	public static final int MOUSEEVENTF_MOVE = 0x0001;
-	public static final int MOUSEEVENTF_ABSOLUTE = 0x8000;
+	val MOUSEEVENTF_MOVE = 0x0001
+	val MOUSEEVENTF_ABSOLUTE = 0x8000
 	
-	static {
-		Native.register("user32");
+	init {
+		Native.register("user32")
 	}
 	
-	public static native void mouse_event(int dwFlags, int dx, int dy, Pointer dwData, Pointer dwExtraInfo);
+	external fun mouse_event(dwFlags: Int, dx: Int, dy: Int, dwData: Pointer?, dwExtraInfo: Pointer?)
 	
 }

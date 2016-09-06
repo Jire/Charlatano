@@ -16,20 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.scripts
+package com.charlatano.game.entity
 
-import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.entity.Player
-import com.charlatano.game.entity.dead
-import com.charlatano.game.hooks.onFlash
-import com.charlatano.game.netvars.NetVarOffsets.flFlashMaxAlpha
+import com.charlatano.game.EntityType
+import com.charlatano.game.netvars.NetVarOffsets
+import com.charlatano.game.netvars.NetVarOffsets.lifeState
 import com.charlatano.game.offsets.ClientOffsets
-import com.charlatano.utils.uint
+import org.jire.arrowhead.get
 
-fun noFlash() = onFlash {
-	val me: Player = clientDLL.uint(ClientOffsets.dwLocalPlayer)
-	if (me <= 0x200 || me.dead()) return@onFlash
-	
-	csgoEXE[me + flFlashMaxAlpha] = 0f
-}
+typealias Entity = Long
+
+fun Entity.dead(): Boolean = csgoEXE.byte(this + lifeState) != 0.toByte()
+
+fun Entity.spotted(): Boolean = csgoEXE.int(this + NetVarOffsets.bSpotted) != 0
+
+fun Entity.dormant(): Boolean = csgoEXE[this + ClientOffsets.bDormant]
+
+fun Entity.team(): Int = csgoEXE[this + NetVarOffsets.iTeamNum]
+
+fun Entity.type(): EntityType = EntityType.byEntityAddress(this)

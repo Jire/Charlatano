@@ -23,7 +23,6 @@ package com.charlatano
 import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
 import com.charlatano.game.hooks.GlowIteration
-import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.*
 
 fun main(args: Array<String>) {
@@ -44,7 +43,7 @@ fun main(args: Array<String>) {
 	GlowIteration.load()
 	// -- END OF HOOKS -- //
 	
-	Overlay.isVisible = true
+	//Overlay.isVisible = true
 	
 	Strand.sleep(3000) // wait a bit to catch everything
 	System.gc() // then cleanup

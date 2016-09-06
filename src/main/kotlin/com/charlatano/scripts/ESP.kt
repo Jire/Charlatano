@@ -23,50 +23,45 @@ import com.charlatano.game.CSGO.ENTITY_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.EntityType.*
-import com.charlatano.game.EntityType.Companion.byEntityAddress
+import com.charlatano.game.entity.Player
+import com.charlatano.game.entity.team
+import com.charlatano.game.entity.type
 import com.charlatano.game.hooks.GlowIteration
 import com.charlatano.game.netvars.NetVarOffsets
 import com.charlatano.game.netvars.NetVarOffsets.hOwnerEntity
-import com.charlatano.game.netvars.NetVarOffsets.iHealth
-import com.charlatano.game.netvars.NetVarOffsets.iTeamNum
 import com.charlatano.game.offsets.ClientOffsets.bDormant
 import com.charlatano.game.offsets.ClientOffsets.dwEntityList
-import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
-import com.charlatano.overlay.Overlay
-import com.charlatano.utils.Vector
 import com.charlatano.utils.uint
-import java.awt.Color
-import java.awt.Font
+
 
 var bombCarrier = -1L
 var bombAddress = -1L
 
 fun esp() = GlowIteration {
-	if (entityAddress == clientDLL.uint(dwLocalPlayer)) return@GlowIteration
-	val type = byEntityAddress(entityAddress)
-	if (type == CPlantedC4 || type == CC4) {
-		val carrierIndex = (csgoEXE.int(entityAddress + hOwnerEntity) and 0xFFF) - 1
-		bombCarrier = if (carrierIndex == 4094 || type == CPlantedC4) -1
+	if (entity == me) return@GlowIteration
+	
+	if (entity.type() == CPlantedC4 || entity.type() == CC4) {
+		val carrierIndex = (csgoEXE.int(entity + hOwnerEntity) and 0xFFF) - 1
+		bombCarrier = if (carrierIndex == 4094 || entity.type() == CPlantedC4) -1
 		else clientDLL.uint(dwEntityList + (carrierIndex * ENTITY_SIZE)) // TODO find a way to get glowIndex from entityIndex?
-		bombAddress = if (type == CPlantedC4) entityAddress else -1L
+		bombAddress = if (entity.type() == CPlantedC4) entity else -1L
 		glowAddress.glow()
-	} else if (type == CCSPlayer) {
-		if (csgoEXE.boolean(entityAddress + bDormant) || csgoEXE.uint(entityAddress + NetVarOffsets.lifeState) > 0)
+	} else if (entity.type() == CCSPlayer) {
+		if (csgoEXE.boolean(entity + bDormant) || csgoEXE.uint(entity + NetVarOffsets.lifeState) > 0)
 			return@GlowIteration
 		
-		val entityTeam = csgoEXE.uint(entityAddress + iTeamNum)
-		if (entityAddress == bombCarrier) {
+		if (entity == bombCarrier) {
 			glowAddress.glow(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE, BOMB_COLOR_ALPHA)
-			entityAddress.chams(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE)
-		} else if (myTeam == entityTeam) {
+			entity.chams(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE)
+		} else if (me.team() == entity.team()) {
 			glowAddress.glow(TEAM_COLOR_RED, TEAM_COLOR_GREEN, TEAM_COLOR_BLUE, TEAM_COLOR_ALPHA)
-			entityAddress.chams(TEAM_COLOR_RED, TEAM_COLOR_GREEN, TEAM_COLOR_BLUE)
+			entity.chams(TEAM_COLOR_RED, TEAM_COLOR_GREEN, TEAM_COLOR_BLUE)
 		} else {
 			glowAddress.glow()
-			entityAddress.chams()
+			entity.chams()
 		}
 		
-		val vHead = Vector(entityAddress.bone(0xC), entityAddress.bone(0x1C), entityAddress.bone(0x2C) + 9)
+		/*val vHead = Vector(entityAddress.bone(0xC), entityAddress.bone(0x1C), entityAddress.bone(0x2C) + 9)
 		val vFeet = Vector(vHead.x, vHead.y, vHead.z - 75)
 		
 		val vTop = Vector(0F, 0F, 0F)
@@ -94,11 +89,11 @@ fun esp() = GlowIteration {
 				color = Color.RED
 				drawString("Carrying bomb", sx, sy)
 			}
-		}
+		}*/
 	}
 }
 
-fun Long.glow(red: Int = ENEMY_COLOR_RED, green: Int = ENEMY_COLOR_GREEN, blue: Int = ENEMY_COLOR_BLUE, alpha: Float = ENEMY_COLOR_ALPHA) {
+fun Player.glow(red: Int = ENEMY_COLOR_RED, green: Int = ENEMY_COLOR_GREEN, blue: Int = ENEMY_COLOR_BLUE, alpha: Float = ENEMY_COLOR_ALPHA) {
 	csgoEXE[this + 0x4] = red / 255F
 	csgoEXE[this + 0x8] = green / 255F
 	csgoEXE[this + 0xC] = blue / 255F
@@ -106,7 +101,7 @@ fun Long.glow(red: Int = ENEMY_COLOR_RED, green: Int = ENEMY_COLOR_GREEN, blue: 
 	csgoEXE[this + 0x24] = true
 }
 
-fun Long.chams(red: Int = ENEMY_COLOR_RED, green: Int = ENEMY_COLOR_GREEN, blue: Int = ENEMY_COLOR_BLUE) {
+fun Player.chams(red: Int = ENEMY_COLOR_RED, green: Int = ENEMY_COLOR_GREEN, blue: Int = ENEMY_COLOR_BLUE) {
 	csgoEXE[this + 0x70] = red.toByte()
 	csgoEXE[this + 0x71] = green.toByte()
 	csgoEXE[this + 0x72] = blue.toByte()
