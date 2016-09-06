@@ -20,19 +20,24 @@ package com.charlatano.game.entity
 
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.EntityType
-import com.charlatano.game.netvars.NetVarOffsets
+import com.charlatano.game.EntityType.Companion.byEntityAddress
+import com.charlatano.game.netvars.NetVarOffsets.bSpotted
+import com.charlatano.game.netvars.NetVarOffsets.iHealth
+import com.charlatano.game.netvars.NetVarOffsets.iTeamNum
 import com.charlatano.game.netvars.NetVarOffsets.lifeState
-import com.charlatano.game.offsets.ClientOffsets
+import com.charlatano.game.offsets.ClientOffsets.bDormant
 import org.jire.arrowhead.get
 
 typealias Entity = Long
 
 fun Entity.dead(): Boolean = csgoEXE.byte(this + lifeState) != 0.toByte()
 
-fun Entity.spotted(): Boolean = csgoEXE.int(this + NetVarOffsets.bSpotted) != 0
+fun Entity.spotted(): Boolean = csgoEXE.int(this + bSpotted) != 0
 
-fun Entity.dormant(): Boolean = csgoEXE[this + ClientOffsets.bDormant]
+fun Entity.dormant(): Boolean = csgoEXE[this + bDormant]
 
-fun Entity.team(): Int = csgoEXE[this + NetVarOffsets.iTeamNum]
+fun Entity.team(): Int = csgoEXE[this + iTeamNum]
 
-fun Entity.type(): EntityType = EntityType.byEntityAddress(this)
+fun Entity.health(): Int = csgoEXE[this + iHealth]
+
+fun Entity.type(): EntityType = byEntityAddress(this)
