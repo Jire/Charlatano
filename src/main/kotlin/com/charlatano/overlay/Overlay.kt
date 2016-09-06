@@ -18,7 +18,11 @@
 
 package com.charlatano.overlay
 
+import com.charlatano.SCREEN_SIZE
+import com.charlatano.utils.every
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
+import java.awt.Color
+import java.awt.Dimension
 import java.awt.Graphics
 import java.util.Collections.synchronizedList
 import javax.swing.JPanel
@@ -36,7 +40,7 @@ object Overlay : JWindow() {
 	}
 	
 	init {
-/*		isAlwaysOnTop = true
+		isAlwaysOnTop = true
 		size = Dimension(SCREEN_SIZE.width, SCREEN_SIZE.height)
 		background = Color(0, 0, 0, 0)
 		
@@ -47,7 +51,7 @@ object Overlay : JWindow() {
 		
 		WindowTools.setTransparent(this)
 		
-		every(4) { repaint() }*/
+		every(4) { repaint() }
 	}
 	
 	operator fun invoke(body: Graphics.() -> Unit) {

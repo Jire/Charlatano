@@ -19,38 +19,32 @@
 package com.charlatano.scripts
 
 import com.charlatano.*
-import com.charlatano.game.CSGO.ENTITY_SIZE
-import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.EntityType.*
-import com.charlatano.game.entity.Player
-import com.charlatano.game.entity.team
-import com.charlatano.game.entity.type
+import com.charlatano.game.entity.*
 import com.charlatano.game.hooks.GlowIteration
 import com.charlatano.game.netvars.NetVarOffsets
-import com.charlatano.game.netvars.NetVarOffsets.hOwnerEntity
 import com.charlatano.game.offsets.ClientOffsets.bDormant
-import com.charlatano.game.offsets.ClientOffsets.dwEntityList
+import com.charlatano.overlay.Overlay
+import com.charlatano.utils.Vector
 import com.charlatano.utils.uint
+import java.awt.Color
+import java.awt.Font
 
 
-var bombCarrier = -1L
-var bombAddress = -1L
+var bomb: Bomb = -1L
 
 fun esp() = GlowIteration {
 	if (entity == me) return@GlowIteration
 	
 	if (entity.type() == CPlantedC4 || entity.type() == CC4) {
-		val carrierIndex = (csgoEXE.int(entity + hOwnerEntity) and 0xFFF) - 1
-		bombCarrier = if (carrierIndex == 4094 || entity.type() == CPlantedC4) -1
-		else clientDLL.uint(dwEntityList + (carrierIndex * ENTITY_SIZE)) // TODO find a way to get glowIndex from entityIndex?
-		bombAddress = if (entity.type() == CPlantedC4) entity else -1L
+		bomb = if (entity.type() == CPlantedC4) entity else -1L
 		glowAddress.glow()
 	} else if (entity.type() == CCSPlayer) {
 		if (csgoEXE.boolean(entity + bDormant) || csgoEXE.uint(entity + NetVarOffsets.lifeState) > 0)
 			return@GlowIteration
 		
-		if (entity == bombCarrier) {
+		if (bomb > -1 && entity == bomb.planter()) {
 			glowAddress.glow(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE, BOMB_COLOR_ALPHA)
 			entity.chams(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE)
 		} else if (me.team() == entity.team()) {
@@ -61,7 +55,7 @@ fun esp() = GlowIteration {
 			entity.chams()
 		}
 		
-		/*val vHead = Vector(entityAddress.bone(0xC), entityAddress.bone(0x1C), entityAddress.bone(0x2C) + 9)
+		val vHead = Vector(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C) + 9)
 		val vFeet = Vector(vHead.x, vHead.y, vHead.z - 75)
 		
 		val vTop = Vector(0F, 0F, 0F)
@@ -73,8 +67,7 @@ fun esp() = GlowIteration {
 		val h = vBot.y - vTop.y
 		val w = h / 5F
 		
-		val carryingBomb = entityAddress == bombCarrier
-		val health = csgoEXE.uint(entityAddress + iHealth)
+		val carryingBomb = bomb > -1 && entity == bomb.carrier()
 		
 		Overlay {
 			color = Color(ENEMY_COLOR_RED, ENEMY_COLOR_GREEN, ENEMY_COLOR_GREEN)
@@ -83,13 +76,13 @@ fun esp() = GlowIteration {
 			draw3DRect(sx, sy, (w * 2).toInt(), h.toInt(), true)
 			color = Color.CYAN
 			font = Font("Arial", Font.ITALIC, 24)
-			drawString("Health: $health", sx, sy + 50)
+			drawString("Health: ${entity.health()}", sx, sy + 50)
 			if (carryingBomb) {
 				font = Font("Arial", Font.PLAIN, 20)
 				color = Color.RED
 				drawString("Carrying bomb", sx, sy)
 			}
-		}*/
+		}
 	}
 }
 
