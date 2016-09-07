@@ -18,13 +18,12 @@
 
 package com.charlatano.utils
 
-import co.paralleluniverse.kotlin.fiber
-import co.paralleluniverse.strands.Strand
-import java.util.concurrent.TimeUnit
+import java.util.Random
 
-inline fun every(duration: Int, durationUnit: TimeUnit = TimeUnit.MILLISECONDS, crossinline body: () -> Unit) = fiber {
-	while (!Strand.interrupted()) {
-		body()
-		Strand.sleep(duration.toLong(), durationUnit)
-	}
+object Random {
+	
+	private val rand = Random()
+	
+	@JvmStatic fun randomFloat(min: Float, max: Float) = rand.nextFloat() * (max - min) + min
+	
 }

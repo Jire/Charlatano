@@ -18,23 +18,24 @@
 
 package com.charlatano.game.hooks
 
-import com.charlatano.game.CSGO
+import com.charlatano.game.CSGO.GLOW_OBJECT_SIZE
+import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.netvars.NetVarOffsets
-import com.charlatano.game.offsets.ClientOffsets
+import com.charlatano.game.entity.Player
+import com.charlatano.game.offsets.ClientOffsets.dwGlowObject
+import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.utils.every
 import com.charlatano.utils.uint
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 
 class GlowIterationContext {
 	
-	var myAddress = 0L
-	var myTeam = 0L
+	var me: Player = 0L
 	var glowObject = 0L
 	var glowObjectCount = 0L
 	var glowIndex = 0L
 	var glowAddress = 0L
-	var entityAddress = 0L
+	var entity: Player = 0L
 	
 }
 
@@ -44,16 +45,15 @@ object GlowIteration {
 	private val bodies = ObjectArrayList<GlowIterationContext.() -> Unit>()
 	
 	private fun GlowIterationContext.load() = every(2) {
-		myAddress = CSGO.clientDLL.uint(ClientOffsets.dwLocalPlayer)
-		myTeam = csgoEXE.uint(myAddress + NetVarOffsets.iTeamNum)
+		me = clientDLL.uint(dwLocalPlayer)
 		
-		glowObject = CSGO.clientDLL.uint(ClientOffsets.dwGlowObject)
-		glowObjectCount = CSGO.clientDLL.uint(ClientOffsets.dwGlowObject + 4)
+		glowObject = clientDLL.uint(dwGlowObject)
+		glowObjectCount = clientDLL.uint(dwGlowObject + 4)
 		
 		for (i in 0..glowObjectCount) {
 			glowIndex = i
-			glowAddress = glowObject + (i * CSGO.GLOW_OBJECT_SIZE)
-			entityAddress = csgoEXE.uint(glowAddress)
+			glowAddress = glowObject + (i * GLOW_OBJECT_SIZE)
+			entity = csgoEXE.uint(glowAddress)
 			
 			for (x in 0..bodies.size - 1) bodies[x]()
 		}

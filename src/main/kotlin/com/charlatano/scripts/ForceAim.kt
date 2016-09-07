@@ -18,62 +18,68 @@
 
 package com.charlatano.scripts
 
-import com.charlatano.game.CSGO.ENTITY_SIZE
+import com.charlatano.*
+import com.charlatano.game.CSGO
 import com.charlatano.game.CSGO.clientDLL
-import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.netvars.NetVarOffsets
-import com.charlatano.game.netvars.NetVarOffsets.bSpotted
-import com.charlatano.game.netvars.NetVarOffsets.dwBoneMatrix
-import com.charlatano.game.netvars.NetVarOffsets.iCrossHairID
-import com.charlatano.game.netvars.NetVarOffsets.iTeamNum
-import com.charlatano.game.netvars.NetVarOffsets.lifeState
-import com.charlatano.game.netvars.NetVarOffsets.vecPunch
-import com.charlatano.game.offsets.ClientOffsets.bDormant
-import com.charlatano.game.offsets.ClientOffsets.dwEntityList
+import com.charlatano.game.ClientState
+import com.charlatano.game.angle
+import com.charlatano.game.entity.*
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
-import com.charlatano.moveTo
-import com.charlatano.utils.Vector
-import com.charlatano.utils.every
-import com.charlatano.utils.uint
+import com.charlatano.game.offsets.EngineOffsets
+import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
-import java.util.concurrent.atomic.AtomicLong
 
-private fun Long.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
-internal fun Long.bone(offset: Int, boneID: Int = 6) = csgoEXE.float(boneMatrix() + ((0x30 * boneID) + offset))
+private var target: Player = -1L
 
-private val targetAddressA = AtomicLong()
+private const val SMOOTHING_MIN = 30F
+private const val SMOOTHING_MAX = 35F
 
-fun forceAim() = every(16) {
-	val pressed = keyPressed(1) {
-		val myAddress = clientDLL.uint(dwLocalPlayer)
-		if (myAddress <= 0) return@keyPressed
+fun forceAim() = every(FORCE_AIM_SMOOTHING) {
+	val pressed = keyPressed(FORCE_AIM_KEY) {
+		val me: Player = clientDLL.uint(dwLocalPlayer)
+		if (me <= 0x200 || me.dead()) return@keyPressed
 		
-		if (csgoEXE.uint(myAddress + lifeState) > 0) return@keyPressed
-		
-		val myTeam = csgoEXE.uint(myAddress + iTeamNum)
-		
-		var targetAddress = targetAddressA.get()
-		if (targetAddress == 0L) {
-			val crosshairID = csgoEXE.uint(myAddress + iCrossHairID) - 1
-			if (crosshairID <= 0) return@keyPressed
-			targetAddress = clientDLL.uint(dwEntityList + (crosshairID * ENTITY_SIZE))
-			if (targetAddress == 0L) return@keyPressed
-			targetAddressA.set(targetAddress)
-		}
-		
-		if (csgoEXE.uint(targetAddress + lifeState) > 0
-				|| csgoEXE.boolean(targetAddress + bDormant)
-				|| !csgoEXE.boolean(targetAddress + bSpotted)
-				|| csgoEXE.uint(targetAddress + iTeamNum) == myTeam) {
-			targetAddressA.set(0L)
+		var currentTarget = target
+		if (currentTarget == -1L) {
+			currentTarget = me.target()
+			if (currentTarget == -1L) return@keyPressed
+			target = currentTarget
 			return@keyPressed
 		}
 		
-		val bonePosition = Vector(targetAddress.bone(0xC), targetAddress.bone(0x1C), targetAddress.bone(0x2C))
-		val lastPunch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
-		bonePosition.x -= lastPunch.x
-		bonePosition.y -= lastPunch.y
-		moveTo(bonePosition)
+		if (target.dead()
+				|| target.dormant()
+				|| !target.spotted()
+				|| target.team() == me.team()) {
+			target = -1L
+			return@keyPressed
+		}
+		
+		
+		val bonePosition = Vector(target.bone(0xC), target.bone(0x1C), target.bone(0x2C))
+		println("Before velocity $bonePosition")
+		compensateVelocity(me, target, bonePosition, SMOOTHING_MAX)
+		println("After velocity $bonePosition")
+		
+		val dest: Angle = calculateAngle(me, bonePosition)
+		println("Calc angle $dest")
+		
+		val clientState: ClientState = CSGO.engineDLL.uint(EngineOffsets.dwClientState)
+		var currentAngle = clientState.angle()//This randomly gets weird
+		
+		currentAngle.normalize()
+		
+		dest.finalize(currentAngle, SMOOTHING_MAX)
+		println("Finalized angle $dest")
+		
+		currentAngle = clientState.angle()
+		val delta = Vector(currentAngle.y - dest.y, currentAngle.x - dest.x, 0F)
+		println("Delta angle $delta")
+		
+		val dx = Math.round(delta.x / (InGameSensitivity * InGamePitch))
+		val dy = Math.round(-delta.y / (InGameSensitivity * InGameYaw))
+		User32.mouse_event(User32.MOUSEEVENTF_MOVE, dx, dy, null, null)
+		//moveTo(bonePosition)
 	}
-	if (!pressed) targetAddressA.set(0L)
+	if (!pressed) target = -1L
 }

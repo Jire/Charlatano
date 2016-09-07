@@ -23,6 +23,7 @@ import org.jire.arrowhead.unsign
 
 enum class EntityType(val id: Long, val weapon: Boolean = false, val grenade: Boolean = false) {
 	
+	NULL(-1),
 	NextBotCombatCharacter(0),
 	CWeaponCubemap(0),
 	CPropVehicleChoreoGeneric(0),
@@ -282,12 +283,12 @@ enum class EntityType(val id: Long, val weapon: Boolean = false, val grenade: Bo
 		
 		fun byID(id: Long) = cachedValues.firstOrNull { it.id == id }
 		
-		fun byEntityAddress(address: Long): EntityType? {
-			val vt = (csgoEXE.read(address + 0x8, 4) ?: return null).getInt(0).unsign()
-			val fn = (csgoEXE.read(vt + 2 * 0x4, 4) ?: return null).getInt(0).unsign()
-			val cls = (csgoEXE.read(fn + 0x1, 4) ?: return null).getInt(0).unsign()
-			val clsid = (csgoEXE.read(cls + 20, 4) ?: return null).getInt(0).unsign()
-			return byID(clsid)
+		fun byEntityAddress(address: Long): EntityType {
+			val vt = (csgoEXE.read(address + 0x8, 4) ?: return NULL).getInt(0).unsign()
+			val fn = (csgoEXE.read(vt + 2 * 0x4, 4) ?: return NULL).getInt(0).unsign()
+			val cls = (csgoEXE.read(fn + 0x1, 4) ?: return NULL).getInt(0).unsign()
+			val clsid = (csgoEXE.read(cls + 20, 4) ?: return NULL).getInt(0).unsign()
+			return byID(clsid) ?: NULL
 		}
 		
 	}

@@ -18,13 +18,18 @@
 
 package com.charlatano.utils
 
-import co.paralleluniverse.kotlin.fiber
-import co.paralleluniverse.strands.Strand
-import java.util.concurrent.TimeUnit
+import com.sun.jna.Native
+import com.sun.jna.Pointer
 
-inline fun every(duration: Int, durationUnit: TimeUnit = TimeUnit.MILLISECONDS, crossinline body: () -> Unit) = fiber {
-	while (!Strand.interrupted()) {
-		body()
-		Strand.sleep(duration.toLong(), durationUnit)
+object User32 {
+	
+	val MOUSEEVENTF_MOVE = 0x0001
+	val MOUSEEVENTF_ABSOLUTE = 0x8000
+	
+	init {
+		Native.register("user32")
 	}
+	
+	external fun mouse_event(dwFlags: Int, dx: Int, dy: Int, dwData: Pointer?, dwExtraInfo: Pointer?)
+	
 }

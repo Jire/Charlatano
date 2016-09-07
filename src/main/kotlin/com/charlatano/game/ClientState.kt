@@ -16,20 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano;
+package com.charlatano.game
 
-import com.sun.jna.Native;
-import com.sun.jna.Pointer;
+import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.game.offsets.EngineOffsets.dwViewAngles
+import com.charlatano.utils.Angle
+import com.charlatano.utils.Vector
+import org.jire.arrowhead.get
 
-public final class User32 {
-	
-	public static final int MOUSEEVENTF_MOVE = 0x0001;
-	public static final int MOUSEEVENTF_ABSOLUTE = 0x8000;
-	
-	static {
-		Native.register("user32");
-	}
-	
-	public static native void mouse_event(int dwFlags, int dx, int dy, Pointer dwData, Pointer dwExtraInfo);
-	
-}
+typealias ClientState = Long
+
+internal fun ClientState.angle(): Angle = Vector<Float>(csgoEXE[this + dwViewAngles], csgoEXE[this + dwViewAngles + 4], csgoEXE[this + dwViewAngles + 8])
