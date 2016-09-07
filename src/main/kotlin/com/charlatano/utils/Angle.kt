@@ -16,17 +16,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.game.offsets
+package com.charlatano.utils
 
-import com.charlatano.game.CSGO.engineDLL
-import com.charlatano.utils.get
+import java.lang.Math.abs
 
-object EngineOffsets {
+
+typealias Angle = Vector<Float>
+
+internal fun Angle.normalize() {
+	if (x > 89 && x <= 180) x = 89F
+	if (x > 180) x -= 360
+	if (x < -89) x = -89F
 	
-	val dwClientState by engineDLL(1)(161, 0[4], 243, 15, 17, 128, 0[4], 217, 70, 4, 217, 5, 0[4])
-	val dwInGame by engineDLL(2, subtract = false)(131, 185, 0[4], 6, 15, 148, 192, 195)
-	val dwGlobalVars by engineDLL(12)(0x8B, 0x0D, 0x0[4], 0x83, 0xC4, 0x04,
-			0x8B, 0x01, 0x68, 0x0[4], 0xFF, 0x35)
-	val dwViewAngles by engineDLL(4, subtract = false)(0xF3, 0x0F, 0x11, 0x80, 0x00[4], 0xD9, 0x46, 0x04, 0xD9, 0x05, 0x00[4])
+	if (y > 180) y -= 360
+	if (y < -180) y += 360
 	
+	if (z != 0F) z = 0F
+}
+
+internal fun Angle.distanceTo(target: Angle) = abs(x - target.x) + abs(y - target.y) + abs(z - target.z)
+
+internal fun Angle.finalize(orig: Angle, smoothing: Float) {
+	println("Finalize $this $orig")
+	x -= orig.x
+	y -= orig.y
+	z = 0F
+	normalize()
+	
+	x = orig.x + x / 100 * smoothing
+	y = orig.y + y / 100 * smoothing
+	normalize()
 }

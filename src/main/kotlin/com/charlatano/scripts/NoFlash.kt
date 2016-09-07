@@ -18,18 +18,10 @@
 
 package com.charlatano.scripts
 
-import com.charlatano.game.CSGO.clientDLL
-import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.entity.Player
-import com.charlatano.game.entity.dead
-import com.charlatano.game.hooks.onFlash
-import com.charlatano.game.netvars.NetVarOffsets.flFlashMaxAlpha
-import com.charlatano.game.offsets.ClientOffsets
-import com.charlatano.utils.uint
-
-fun noFlash() = onFlash {
+fun noFlash() {
+/*		= onFlash {
 	val me: Player = clientDLL.uint(ClientOffsets.dwLocalPlayer)
 	if (me <= 0x200 || me.dead()) return@onFlash
 	
-	csgoEXE[me + flFlashMaxAlpha] = 0f
+	csgoEXE[me + flFlashMaxAlpha] = 0f*/
 }

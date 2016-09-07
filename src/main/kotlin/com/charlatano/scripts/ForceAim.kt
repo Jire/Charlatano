@@ -18,18 +18,21 @@
 
 package com.charlatano.scripts
 
-import com.charlatano.FORCE_AIM_KEY
-import com.charlatano.FORCE_AIM_SMOOTHING
+import com.charlatano.*
+import com.charlatano.game.CSGO
 import com.charlatano.game.CSGO.clientDLL
+import com.charlatano.game.ClientState
+import com.charlatano.game.angle
 import com.charlatano.game.entity.*
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
-import com.charlatano.moveTo
-import com.charlatano.utils.Vector
-import com.charlatano.utils.every
-import com.charlatano.utils.uint
+import com.charlatano.game.offsets.EngineOffsets
+import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
 
 private var target: Player = -1L
+
+private const val SMOOTHING_MIN = 30F
+private const val SMOOTHING_MAX = 35F
 
 fun forceAim() = every(FORCE_AIM_SMOOTHING) {
 	val pressed = keyPressed(FORCE_AIM_KEY) {
@@ -52,8 +55,31 @@ fun forceAim() = every(FORCE_AIM_SMOOTHING) {
 			return@keyPressed
 		}
 		
+		
 		val bonePosition = Vector(target.bone(0xC), target.bone(0x1C), target.bone(0x2C))
-		moveTo(bonePosition)
+		println("Before velocity $bonePosition")
+		compensateVelocity(me, target, bonePosition, SMOOTHING_MAX)
+		println("After velocity $bonePosition")
+		
+		val dest: Angle = calculateAngle(me, bonePosition)
+		println("Calc angle $dest")
+		
+		val clientState: ClientState = CSGO.engineDLL.uint(EngineOffsets.dwClientState)
+		var currentAngle = clientState.angle()//This randomly gets weird
+		
+		currentAngle.normalize()
+		
+		dest.finalize(currentAngle, SMOOTHING_MAX)
+		println("Finalized angle $dest")
+		
+		currentAngle = clientState.angle()
+		val delta = Vector(currentAngle.y - dest.y, currentAngle.x - dest.x, 0F)
+		println("Delta angle $delta")
+		
+		val dx = Math.round(delta.x / (InGameSensitivity * InGamePitch))
+		val dy = Math.round(-delta.y / (InGameSensitivity * InGameYaw))
+		User32.mouse_event(User32.MOUSEEVENTF_MOVE, dx, dy, null, null)
+		//moveTo(bonePosition)
 	}
 	if (!pressed) target = -1L
 }

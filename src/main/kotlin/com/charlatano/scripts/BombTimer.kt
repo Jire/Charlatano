@@ -18,15 +18,9 @@
 
 package com.charlatano.scripts
 
-import com.charlatano.game.entity.location
-import com.charlatano.game.entity.timeLeft
-import com.charlatano.game.hooks.bombPlanted
-import com.charlatano.overlay.Overlay
-import java.awt.Color
-
 var location = ""
 fun bombTimer() {
-	val planted = bombPlanted {
+	/*val planted = bombPlanted {
 		val hasKit = false
 		val canDefuse = bomb.timeLeft() >= if (hasKit) 5 else 10
 		
@@ -37,6 +31,6 @@ fun bombTimer() {
 			color = Color.ORANGE
 			drawString("Location: $location, ${bomb.timeLeft()} seconds, can defuse? $canDefuse", 200, 200)
 		}
-	}
+	}*/
 	//if (!planted) location = ""
 }

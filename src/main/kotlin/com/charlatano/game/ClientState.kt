@@ -16,28 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.game.entity
+package com.charlatano.game
 
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.EntityType
-import com.charlatano.game.EntityType.Companion.byEntityAddress
-import com.charlatano.game.netvars.NetVarOffsets.bSpotted
-import com.charlatano.game.netvars.NetVarOffsets.iTeamNum
-import com.charlatano.game.netvars.NetVarOffsets.vecOrigin
-import com.charlatano.game.netvars.NetVarOffsets.vecViewOffset
-import com.charlatano.game.offsets.ClientOffsets.bDormant
+import com.charlatano.game.offsets.EngineOffsets.dwViewAngles
 import com.charlatano.utils.Angle
 import com.charlatano.utils.Vector
 import org.jire.arrowhead.get
 
-typealias Entity = Long
+typealias ClientState = Long
 
-internal fun Entity.spotted(): Boolean = csgoEXE.int(this + bSpotted) != 0
-
-internal fun Entity.dormant(): Boolean = csgoEXE[this + bDormant]
-
-internal fun Entity.team(): Int = csgoEXE[this + iTeamNum]
-
-internal fun Entity.position(): Angle = Vector(csgoEXE[this + vecOrigin], csgoEXE[this + vecOrigin + 4], csgoEXE.float(this + vecOrigin + 8) + csgoEXE.float(this + vecViewOffset + 8))
-
-internal fun Entity.type(): EntityType = byEntityAddress(this)
+internal fun ClientState.angle(): Angle = Vector<Float>(csgoEXE[this + dwViewAngles], csgoEXE[this + dwViewAngles + 4], csgoEXE[this + dwViewAngles + 8])
