@@ -28,10 +28,10 @@ import org.jire.arrowhead.get
 
 typealias Entity = Long
 
-fun Entity.spotted(): Boolean = csgoEXE.int(this + bSpotted) != 0
+internal fun Entity.spotted(): Boolean = csgoEXE.int(this + bSpotted) != 0
 
-fun Entity.dormant(): Boolean = csgoEXE[this + bDormant]
+internal fun Entity.dormant(): Boolean = csgoEXE[this + bDormant]
 
-fun Entity.team(): Int = csgoEXE[this + iTeamNum]
+internal fun Entity.team(): Int = csgoEXE[this + iTeamNum]
 
-fun Entity.type(): EntityType = byEntityAddress(this)
+internal fun Entity.type(): EntityType = byEntityAddress(this)

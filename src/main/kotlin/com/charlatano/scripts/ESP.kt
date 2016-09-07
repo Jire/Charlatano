@@ -23,11 +23,8 @@ import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.EntityType.*
 import com.charlatano.game.entity.*
 import com.charlatano.game.hooks.GlowIteration
-import com.charlatano.game.netvars.NetVarOffsets
-import com.charlatano.game.offsets.ClientOffsets.bDormant
 import com.charlatano.overlay.Overlay
 import com.charlatano.utils.Vector
-import com.charlatano.utils.uint
 import java.awt.Color
 import java.awt.Font
 
@@ -40,8 +37,7 @@ fun esp() = GlowIteration {
 		bomb = if (entity.type() == CPlantedC4 || (entity.type() == CC4 && !bomb.planted())) entity else -1L
 		glowAddress.glow()
 	} else if (entity.type() == CCSPlayer) {
-		if (csgoEXE.boolean(entity + bDormant) || csgoEXE.uint(entity + NetVarOffsets.lifeState) > 0)
-			return@GlowIteration
+		if (entity.dead() || entity.dormant()) return@GlowIteration
 		
 		if (bomb > -1 && entity == bomb.planter()) {
 			glowAddress.glow(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE, BOMB_COLOR_ALPHA)
