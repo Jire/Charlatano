@@ -20,12 +20,12 @@ package com.charlatano.scripts
 
 import co.paralleluniverse.strands.Strand
 import com.charlatano.SCREEN_SIZE
-import com.charlatano.User32
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
+import com.charlatano.utils.User32
 import com.charlatano.utils.Vector
 import com.charlatano.utils.every
 import com.charlatano.utils.uint

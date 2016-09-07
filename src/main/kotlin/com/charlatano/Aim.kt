@@ -19,7 +19,8 @@
 package com.charlatano
 
 import com.charlatano.game.CSGO.clientDLL
-import com.charlatano.game.offsets.ClientOffsets
+import com.charlatano.game.offsets.ClientOffsets.dwViewMatrix
+import com.charlatano.utils.User32
 import com.charlatano.utils.Vector
 import java.awt.Toolkit
 
@@ -28,7 +29,7 @@ val SCREEN_SIZE = Toolkit.getDefaultToolkit().screenSize!!
 fun worldToScreen(from: Vector<Float>, vOut: Vector<Float>): Boolean {
 	try {
 		val m_vMatrix = Array(4) { FloatArray(4) }
-		val buffer = clientDLL.read(ClientOffsets.dwViewMatrix, 4 * 4 * 4)!!.getByteBuffer(0, 4 * 4 * 4)
+		val buffer = clientDLL.read(dwViewMatrix, 4 * 4 * 4)!!.getByteBuffer(0, 4 * 4 * 4)
 		for (row in 0..3) {
 			for (col in 0..3) {
 				val value = buffer.float

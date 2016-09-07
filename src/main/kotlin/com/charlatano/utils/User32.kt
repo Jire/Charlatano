@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano
+package com.charlatano.utils
 
 import com.sun.jna.Native
 import com.sun.jna.Pointer
