@@ -21,11 +21,13 @@ package com.charlatano.scripts
 import com.charlatano.game.CSGO.ENTITY_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.game.netvars.NetVarOffsets
 import com.charlatano.game.netvars.NetVarOffsets.bSpotted
 import com.charlatano.game.netvars.NetVarOffsets.dwBoneMatrix
 import com.charlatano.game.netvars.NetVarOffsets.iCrossHairID
 import com.charlatano.game.netvars.NetVarOffsets.iTeamNum
 import com.charlatano.game.netvars.NetVarOffsets.lifeState
+import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.offsets.ClientOffsets.bDormant
 import com.charlatano.game.offsets.ClientOffsets.dwEntityList
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
@@ -42,7 +44,7 @@ internal fun Long.bone(offset: Int, boneID: Int = 6) = csgoEXE.float(boneMatrix(
 private val targetAddressA = AtomicLong()
 
 fun forceAim() = every(16) {
-	val pressed = keyPressed(5) {
+	val pressed = keyPressed(1) {
 		val myAddress = clientDLL.uint(dwLocalPlayer)
 		if (myAddress <= 0) return@keyPressed
 		
@@ -68,6 +70,9 @@ fun forceAim() = every(16) {
 		}
 		
 		val bonePosition = Vector(targetAddress.bone(0xC), targetAddress.bone(0x1C), targetAddress.bone(0x2C))
+		val lastPunch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
+		bonePosition.x -= lastPunch.x
+		bonePosition.y -= lastPunch.y
 		moveTo(bonePosition)
 	}
 	if (!pressed) targetAddressA.set(0L)

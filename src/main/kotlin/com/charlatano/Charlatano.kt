@@ -34,7 +34,7 @@ fun main(args: Array<String>) {
 	// -- START OF SCRIPTS -- //
 	bunnyHop()
 	esp()
-	rcs()
+	//rcs()
 	noFlash()
 	bombTimer()
 	forceAim()

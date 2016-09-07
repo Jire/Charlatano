@@ -38,7 +38,7 @@ val height = SCREEN_SIZE.height
 val dxN = width / 90
 val dyN = height / 90
 
-fun rcs() = every(16) {
+fun rcs() = every(8) {
 	val myAddress = clientDLL.uint(dwLocalPlayer)
 	if (myAddress <= 0) return@every
 	
@@ -46,7 +46,7 @@ fun rcs() = every(16) {
 	if (shotsFired > 1 && shotsFired > prevFired) {
 		val lastPunch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
 		
-		Strand.sleep(32)
+		Strand.sleep(8)
 		
 		val currentPunch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
 		
