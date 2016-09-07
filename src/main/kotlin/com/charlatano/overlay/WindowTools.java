@@ -34,10 +34,7 @@ public class WindowTools {
 		User32.INSTANCE.SetWindowLong(hwnd, WinUser.GWL_EXSTYLE, wl);
 	}
 	
-	/**
-	 * Get the window handle from the OS
-	 */
-	public static WinDef.HWND getHWnd(Component w) {
+	private static WinDef.HWND getHWnd(Component w) {
 		WinDef.HWND hwnd = new WinDef.HWND();
 		hwnd.setPointer(Native.getComponentPointer(w));
 		return hwnd;
