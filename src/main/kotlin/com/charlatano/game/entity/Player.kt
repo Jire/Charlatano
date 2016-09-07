@@ -40,19 +40,22 @@ typealias Player = Long
 
 internal fun Player.flags(): Int = csgoEXE[this + fFlags]
 
-internal fun Player.onGround(): Boolean = flags() and 1 == 1
+internal fun Player.onGround() = flags() and 1 == 1
 
 internal fun Player.crosshair(): Int = csgoEXE.int(this + iCrossHairID) - 1
 
 internal fun Player.health(): Int = csgoEXE[this + iHealth]
 
-internal fun Player.dead(): Boolean = csgoEXE.byte(this + lifeState) != 0.toByte()
+internal fun Player.dead() = csgoEXE.byte(this + lifeState) != 0.toByte()
 
-internal fun Player.punch(): Angle = Vector<Float>(csgoEXE[this + vecPunch], csgoEXE[this + vecPunch + 4], 0f)
+internal fun Player.punch(): Angle
+		= Vector(csgoEXE[this + vecPunch], csgoEXE[this + vecPunch + 4], 0f)
 
-internal fun Player.viewOffset(): Angle = Vector<Float>(csgoEXE[this + vecViewOffset], csgoEXE[this + vecViewOffset + 4], csgoEXE[this + vecViewOffset + 8])
+internal fun Player.viewOffset(): Angle
+		= Vector(csgoEXE[this + vecViewOffset], csgoEXE[this + vecViewOffset + 4], csgoEXE[this + vecViewOffset + 8])
 
-internal fun Player.velocity(): Angle = Vector<Float>(csgoEXE[this + vecVelocity], csgoEXE[this + vecVelocity + 4], csgoEXE[this + vecVelocity + 8])
+internal fun Player.velocity(): Angle
+		= Vector(csgoEXE[this + vecVelocity], csgoEXE[this + vecVelocity + 4], csgoEXE[this + vecVelocity + 8])
 
 internal fun Player.target(): Player {
 	val crosshair = crosshair()

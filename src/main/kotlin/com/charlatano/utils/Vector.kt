@@ -18,13 +18,12 @@
 
 package com.charlatano.utils
 
+data class Vector(var x: Float = 0F, var y: Float = 0F, var z: Float = 0F) {
 
-data class Vector<T : Number>(var x: T = 0 as T, var y: T = 0 as T, var z: T = 0 as T) {
-	
 	fun reset() = apply {
-		x = 0 as T
-		y = 0 as T
-		z = 0 as T
+		x = 0F
+		y = 0F
+		z = 0F
 	}
-	
+
 }

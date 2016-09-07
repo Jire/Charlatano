@@ -61,10 +61,12 @@ fun rcs() = every(8) {
 	}
 }
 
-fun toScreen(current: Vector<Float>, previous: Vector<Float>): Vector<Float> {
+fun toScreen(current: Vector, previous: Vector): Vector {
 	val previous = angleToScreen(previous)
 	val current = angleToScreen(current)
 	return Vector(-(current.x - previous.x) * 4, -(current.y - previous.y) * 6)
 }
 
-fun angleToScreen(vector: Vector<Float>) = Vector(((width / 2.0) - (dxN * (vector.y / 2.0f))).toFloat(), ((height / 2.0) - (dyN * (-vector.x / 2.0f))).toFloat())
+fun angleToScreen(vector: Vector)
+		= Vector(((width / 2.0) - (dxN * (vector.y / 2.0f))).toFloat(),
+		((height / 2.0) - (dyN * (-vector.x / 2.0f))).toFloat())

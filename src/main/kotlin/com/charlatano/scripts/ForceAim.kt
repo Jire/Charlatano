@@ -21,11 +21,13 @@ package com.charlatano.scripts
 import com.charlatano.*
 import com.charlatano.game.CSGO
 import com.charlatano.game.CSGO.clientDLL
+import com.charlatano.game.CSGO.engineDLL
 import com.charlatano.game.ClientState
 import com.charlatano.game.angle
 import com.charlatano.game.entity.*
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets
+import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
 
@@ -61,11 +63,11 @@ fun forceAim() = every(FORCE_AIM_SMOOTHING) {
 		compensateVelocity(me, target, bonePosition, SMOOTHING_MAX)
 		println("After velocity $bonePosition")
 		
-		val dest: Angle = calculateAngle(me, bonePosition)
+		val dest = calculateAngle(me, bonePosition)
 		println("Calc angle $dest")
 		
-		val clientState: ClientState = CSGO.engineDLL.uint(EngineOffsets.dwClientState)
-		var currentAngle = clientState.angle()//This randomly gets weird
+		val clientState: ClientState = engineDLL.uint(dwClientState)
+		var currentAngle = clientState.angle() // This randomly gets weird
 		
 		currentAngle.normalize()
 		

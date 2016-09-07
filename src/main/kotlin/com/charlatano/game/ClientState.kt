@@ -26,4 +26,5 @@ import org.jire.arrowhead.get
 
 typealias ClientState = Long
 
-internal fun ClientState.angle(): Angle = Vector<Float>(csgoEXE[this + dwViewAngles], csgoEXE[this + dwViewAngles + 4], csgoEXE[this + dwViewAngles + 8])
+internal fun ClientState.angle(): Angle
+		= Vector(csgoEXE[this + dwViewAngles], csgoEXE[this + dwViewAngles + 4], csgoEXE[this + dwViewAngles + 8])

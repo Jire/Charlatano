@@ -20,29 +20,27 @@ package com.charlatano.utils
 
 import java.lang.Math.abs
 
-
-typealias Angle = Vector<Float>
+typealias Angle = Vector
 
 internal fun Angle.normalize() {
 	if (x > 89 && x <= 180) x = 89F
 	if (x > 180) x -= 360
 	if (x < -89) x = -89F
-	
+
 	if (y > 180) y -= 360
 	if (y < -180) y += 360
-	
+
 	if (z != 0F) z = 0F
 }
 
 internal fun Angle.distanceTo(target: Angle) = abs(x - target.x) + abs(y - target.y) + abs(z - target.z)
 
 internal fun Angle.finalize(orig: Angle, smoothing: Float) {
-	println("Finalize $this $orig")
 	x -= orig.x
 	y -= orig.y
 	z = 0F
 	normalize()
-	
+
 	x = orig.x + x / 100 * smoothing
 	y = orig.y + y / 100 * smoothing
 	normalize()

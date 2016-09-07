@@ -18,11 +18,17 @@
 
 package com.charlatano.scripts
 
-fun bunnyHop() {
-	/*	= onGround {
+import co.paralleluniverse.strands.Strand
+import com.charlatano.BUNNY_HOP_KEY
+import com.charlatano.game.CSGO.clientDLL
+import com.charlatano.game.hooks.onGround
+import com.charlatano.game.offsets.ClientOffsets.dwForceJump
+import org.jire.arrowhead.keyPressed
+
+fun bunnyHop() = onGround {
 	if (keyPressed(BUNNY_HOP_KEY)) {
 		clientDLL[dwForceJump] = 5.toByte()
-		sleep(20)
+		Strand.sleep(20)
 		clientDLL[dwForceJump] = 4.toByte()
-	}*/
+	}
 }
