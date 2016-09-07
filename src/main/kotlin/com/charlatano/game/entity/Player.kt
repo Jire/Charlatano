@@ -50,7 +50,7 @@ internal fun Player.target(): Player {
 	return clientDLL.uint(dwEntityList + (crosshair * ENTITY_SIZE))
 }
 
-private fun Player.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
+internal fun Player.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
 
 internal fun Player.bone(offset: Int, boneID: Int = FORCE_AIM_TARGET_BONE): Float =
 		csgoEXE[boneMatrix() + ((0x30 * boneID) + offset)]
