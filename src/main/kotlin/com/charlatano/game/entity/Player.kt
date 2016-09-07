@@ -19,12 +19,15 @@
 package com.charlatano.game.entity
 
 import com.charlatano.FORCE_AIM_TARGET_BONE
-import com.charlatano.game.CSGO
+import com.charlatano.game.CSGO.ENTITY_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.netvars.NetVarOffsets
+import com.charlatano.game.netvars.NetVarOffsets.dwBoneMatrix
 import com.charlatano.game.netvars.NetVarOffsets.fFlags
-import com.charlatano.game.offsets.ClientOffsets
+import com.charlatano.game.netvars.NetVarOffsets.iCrossHairID
+import com.charlatano.game.netvars.NetVarOffsets.iHealth
+import com.charlatano.game.netvars.NetVarOffsets.lifeState
+import com.charlatano.game.offsets.ClientOffsets.dwEntityList
 import com.charlatano.utils.uint
 import org.jire.arrowhead.get
 
@@ -34,18 +37,20 @@ internal fun Player.flags(): Int = csgoEXE[this + fFlags]
 
 internal fun Player.onGround(): Boolean = flags() and 1 == 1
 
-private fun Player.cross(): Int = csgoEXE[this + NetVarOffsets.iCrossHairID]/* - 1L*/ //Bug wont let me compile -1?
+internal fun Player.crosshair(): Int = csgoEXE.int(this + iCrossHairID) - 1
 
-internal fun Player.crosshair(): Int = cross() - 1
+internal fun Entity.health(): Int = csgoEXE[this + iHealth]
+
+internal fun Entity.dead(): Boolean = csgoEXE.byte(this + lifeState) != 0.toByte()
 
 internal fun Player.target(): Player {
 	val crosshair = crosshair()
 	if (crosshair <= 0)
 		return -1
-	return clientDLL.uint(ClientOffsets.dwEntityList + (crosshair * CSGO.ENTITY_SIZE))
+	return clientDLL.uint(dwEntityList + (crosshair * ENTITY_SIZE))
 }
 
-private fun Player.boneMatrix() = csgoEXE.uint(this + NetVarOffsets.dwBoneMatrix)
+private fun Player.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
 
 internal fun Player.bone(offset: Int, boneID: Int = FORCE_AIM_TARGET_BONE): Float =
 		csgoEXE[boneMatrix() + ((0x30 * boneID) + offset)]

@@ -44,8 +44,10 @@ fun forceAim() = every(FORCE_AIM_SMOOTHING) {
 			return@keyPressed
 		}
 		
-		if (target.dead() || target.dormant()
-				|| !target.spotted() || target.team() == me.team()) {
+		if (target.dead()
+				|| target.dormant()
+				|| !target.spotted()
+				|| target.team() == me.team()) {
 			target = -1L
 			return@keyPressed
 		}

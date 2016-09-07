@@ -31,14 +31,13 @@ import com.charlatano.utils.uint
 import java.awt.Color
 import java.awt.Font
 
-
 var bomb: Bomb = -1L
 
 fun esp() = GlowIteration {
 	if (entity == me) return@GlowIteration
 	
 	if (entity.type() == CPlantedC4 || entity.type() == CC4) {
-		bomb = if (entity.type() == CPlantedC4) entity else -1L
+		bomb = if (entity.type() == CPlantedC4 || (entity.type() == CC4 && !bomb.planted())) entity else -1L
 		glowAddress.glow()
 	} else if (entity.type() == CCSPlayer) {
 		if (csgoEXE.boolean(entity + bDormant) || csgoEXE.uint(entity + NetVarOffsets.lifeState) > 0)
@@ -68,6 +67,7 @@ fun esp() = GlowIteration {
 		val w = h / 5F
 		
 		val carryingBomb = bomb > -1 && entity == bomb.carrier()
+		val health = entity.health()
 		
 		Overlay {
 			color = Color(ENEMY_COLOR_RED, ENEMY_COLOR_GREEN, ENEMY_COLOR_GREEN)
@@ -76,7 +76,7 @@ fun esp() = GlowIteration {
 			draw3DRect(sx, sy, (w * 2).toInt(), h.toInt(), true)
 			color = Color.CYAN
 			font = Font("Arial", Font.ITALIC, 24)
-			drawString("Health: ${entity.health()}", sx, sy + 50)
+			drawString("Health: $health", sx, sy + 50)
 			if (carryingBomb) {
 				font = Font("Arial", Font.PLAIN, 20)
 				color = Color.RED

@@ -18,24 +18,11 @@
 
 package com.charlatano.game.hooks
 
-import com.charlatano.game.CSGO
-import com.charlatano.game.CSGO.clientDLL
-import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.netvars.NetVarOffsets
-import com.charlatano.game.offsets.ClientOffsets
-import com.charlatano.scripts.bombAddress
+import com.charlatano.game.entity.planted
+import com.charlatano.scripts.bomb
 import com.charlatano.utils.hook
-import com.charlatano.utils.uint
 
-var location = ""
 
 val bombPlanted = hook(8) {
-	val bombPlanted = bombAddress != -1L && !csgoEXE.boolean(bombAddress + NetVarOffsets.bBombDefused)
-	if (bombPlanted && location.isEmpty()) {
-		val carrierIndex = (csgoEXE.int(bombAddress + 0x148) and 0xFFF) - 1
-		val plantedBy = clientDLL.uint(ClientOffsets.dwEntityList + (carrierIndex * CSGO.ENTITY_SIZE))
-		location = csgoEXE.read(plantedBy + NetVarOffsets.szLastPlaceName, 32, true)!!.getString(0)
-	} else if (!bombPlanted && !location.isEmpty()) location = ""
-	
-	bombPlanted
+	bomb.planted()
 }
