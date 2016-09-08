@@ -39,7 +39,7 @@ object Overlay : JWindow() {
 		}
 	}
 	
-/*	init {
+	init {
 		isAlwaysOnTop = true
 		size = Dimension(SCREEN_SIZE.width, SCREEN_SIZE.height)
 		background = Color(0, 0, 0, 0)
@@ -52,7 +52,7 @@ object Overlay : JWindow() {
 		WindowTools.setTransparent(this)
 		
 		every(4) { repaint() }
-	}*/
+	}
 	
 	operator fun invoke(body: Graphics.() -> Unit) {
 		hooks.add(body)

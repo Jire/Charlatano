@@ -44,11 +44,14 @@ val SCREEN_SIZE = Toolkit.getDefaultToolkit().screenSize!!
 fun worldToScreen(from: Vector, vOut: Vector): Boolean {
 	try {
 		val m_vMatrix = Array(4) { FloatArray(4) }
-		val buffer = clientDLL.read(dwViewMatrix, 4 * 4 * 4)!!.getByteBuffer(0, 4 * 4 * 4)
+		
+		val buffer = clientDLL.read(dwViewMatrix, 4 * 4 * 4)!!
+		var offset = 0
 		for (row in 0..3) {
 			for (col in 0..3) {
-				val value = buffer.float
+				val value = buffer.getFloat(offset.toLong())
 				m_vMatrix[row][col] = value
+				offset += 4
 			}
 		}
 
@@ -109,10 +112,6 @@ fun calculateAngle(player: Player, dst: Vector): Angle {
 	val myPunch = player.punch()
 	val myPosition = player.position()
 
-	println(dst)
-	println(myPosition)
-	println(myPunch)
-	println(player.viewOffset())
 	val dX = myPosition.x - dst.x
 	val dY = myPosition.y - dst.y
 	val dZ = myPosition.z + player.viewOffset().x - dst.z
