@@ -45,13 +45,14 @@ object Overlay : JWindow() {
 		background = Color(0, 0, 0, 0)
 		
 		frame.size = Dimension(SCREEN_SIZE.width, SCREEN_SIZE.height)
+		frame.isDoubleBuffered = true
 		add(frame)
 		
 		isVisible = true
 		
 		WindowTools.setTransparent(this)
 		
-		every(4) { repaint() }
+		every(16) { repaint() }
 	}
 	
 	operator fun invoke(body: Graphics.() -> Unit) {
