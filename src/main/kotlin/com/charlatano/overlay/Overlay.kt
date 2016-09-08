@@ -23,6 +23,7 @@ import com.charlatano.utils.every
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import java.awt.Color
 import java.awt.Dimension
+import java.awt.Font
 import java.awt.Graphics
 import java.util.Collections.synchronizedList
 import javax.swing.JPanel
@@ -58,5 +59,9 @@ object Overlay : JWindow() {
 	operator fun invoke(body: Graphics.() -> Unit) {
 		hooks.add(body)
 	}
+	
+	val Overlay.LARGE_FONT by lazy { Font("Arial", Font.ITALIC, 24) }
+	
+	val Overlay.MEDIUM_FONT by lazy { Font("Arial", Font.ITALIC, 20) }
 	
 }

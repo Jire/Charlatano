@@ -24,9 +24,10 @@ import com.charlatano.game.EntityType.*
 import com.charlatano.game.entity.*
 import com.charlatano.game.hooks.GlowIteration
 import com.charlatano.overlay.Overlay
+import com.charlatano.overlay.Overlay.LARGE_FONT
+import com.charlatano.overlay.Overlay.MEDIUM_FONT
 import com.charlatano.utils.Vector
 import java.awt.Color
-import java.awt.Font
 
 var bomb: Bomb = -1L
 
@@ -66,15 +67,15 @@ fun esp() = GlowIteration {
 		val health = entity.health()
 		
 		Overlay {
-			color = Color(ENEMY_COLOR_RED, ENEMY_COLOR_GREEN, ENEMY_COLOR_GREEN)
+			color = Color.RED
 			val sx = (vTop.x - w).toInt()
 			val sy = vTop.y.toInt()
-			draw3DRect(sx, sy, (w * 2).toInt(), h.toInt(), true)
+			drawRect(sx, sy, (w * 2).toInt(), h.toInt())
 			color = Color.CYAN
-			font = Font("Arial", Font.ITALIC, 24)
+			font = Overlay.LARGE_FONT
 			drawString("Health: $health", sx, sy + 50)
 			if (carryingBomb) {
-				font = Font("Arial", Font.PLAIN, 20)
+				font = Overlay.MEDIUM_FONT
 				color = Color.RED
 				drawString("Carrying bomb", sx, sy)
 			}

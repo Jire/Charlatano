@@ -41,10 +41,10 @@ const val AIM_SPEED = 5F
 
 val SCREEN_SIZE = Toolkit.getDefaultToolkit().screenSize!!
 
+val m_vMatrix = Array(4) { FloatArray(4) }
+
 fun worldToScreen(from: Vector, vOut: Vector): Boolean {
 	try {
-		val m_vMatrix = Array(4) { FloatArray(4) }
-		
 		val buffer = clientDLL.read(dwViewMatrix, 4 * 4 * 4)!!
 		var offset = 0
 		for (row in 0..3) {
