@@ -28,13 +28,10 @@ class Hook(val clauseDefault: Boolean, val durationDefault: Int,
 	operator inline fun invoke(clause: Boolean = clauseDefault,
 	                           duration: Int = durationDefault,
 	                           durationUnit: TimeUnit = durationUnitDefault,
-	                           crossinline body: () -> Unit): Boolean {
-		val predicate = predicate()
+	                           crossinline body: () -> Unit) {
 		if (!clause) every(duration, durationUnit) {
-			if (predicate) body()
-		} else if (predicate) body()
-		
-		return predicate
+			if (predicate()) body()
+		} else if (predicate()) body()
 	}
 	
 }

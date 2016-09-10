@@ -23,6 +23,12 @@ import com.charlatano.scripts.bomb
 import com.charlatano.utils.hook
 
 
+var location = ""
+
+
 val bombPlanted = hook(8) {
-	bomb.planted()
+	val planted = bomb.planted()
+	if (!planted) location = ""
+	
+	planted
 }
