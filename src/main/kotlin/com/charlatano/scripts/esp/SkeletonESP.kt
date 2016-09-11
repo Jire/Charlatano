@@ -88,12 +88,12 @@ private val colors: Array<Color> = Array(101) {
 val StartDrawPos: Vector = Vector()
 val EndDrawPos: Vector = Vector()
 
-val StartBonePos = Vector()
-val EndBonePos = Vector()
-
 fun drawBone(target: Player, start: Int, end: Int) {
-    StartBonePos.set(target.bone(0xC, start), target.bone(0x1C, start), target.bone(0x2C, start))
-    EndBonePos.set(target.bone(0xC, end), target.bone(0x1C, end), target.bone(0x2C, end))
+    val StartBonePos = Vector(target.bone(0xC, start), target.bone(0x1C, start), target.bone(0x2C, start))
+    val EndBonePos = Vector(target.bone(0xC, end), target.bone(0x1C, end), target.bone(0x2C, end))
+
+    StartDrawPos.reset()
+    EndDrawPos.reset()
 
     if (!worldToScreen(StartBonePos, StartDrawPos))
         return
@@ -105,7 +105,6 @@ fun drawBone(target: Player, start: Int, end: Int) {
     val sY = StartDrawPos.y.toInt()
     val eX = EndDrawPos.x.toInt()
     val eY = EndDrawPos.y.toInt()
-
     Overlay {
         color = colors[health]
         drawLine(sX, sY, eX, eY)
