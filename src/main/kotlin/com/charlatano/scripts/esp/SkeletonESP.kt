@@ -18,64 +18,68 @@
 
 package com.charlatano.scripts.esp
 
+import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.game.CSGO.engineDLL
 import com.charlatano.game.EntityType
 import com.charlatano.game.entity.*
 import com.charlatano.game.hooks.GlowIteration
+import com.charlatano.game.offsets.EngineOffsets.studioModel
 import com.charlatano.overlay.Overlay
 import com.charlatano.utils.Vector
+import com.charlatano.utils.uint
 import com.charlatano.worldToScreen
 import java.awt.Color
+
+const val MAXSTUDIOBONES = 128
+
+private val bones = Array(MAXSTUDIOBONES) { FloatArray(3) }
+private val studiobones = Array(MAXSTUDIOBONES) { mstudiobone_t() }
 
 fun skeletonEsp() = GlowIteration {
     if (entity == me) return@GlowIteration
 
     if (entity.type() == EntityType.CCSPlayer) {
         if (entity.dead() || entity.dormant()) return@GlowIteration
-        if (entity.team() == 2) {
-            for (i in 0..6 - 1) drawBone(entity, i, i + 1)
 
-            //neck to left arm
-            for (i in 8..11 - 1) drawBone(entity, i, i + 1)
+        val pStudiomodel = findStudioModel(entity.model())
+        val numbones = csgoEXE.int(pStudiomodel + 0x9C)
+        val boneIndex = csgoEXE.int(pStudiomodel + 0xA0)
 
-            //neck to right arm
-            drawBone(entity, 8, 36)
-            for (i in 36..38 - 1) drawBone(entity, i, i + 1)
+        for (i in 0..numbones) {
+            bones[i][0] = entity.bone(0xC, i)
+            bones[i][1] = entity.bone(0x1C, i)
+            bones[i][2] = entity.bone(0x2C, i)
+        }
 
-            //crotch to left leg
-            drawBone(entity, 0, 63)
-            for (i in 63..66 - 1) drawBone(entity, i, i + 1)
+        var offset = 0
+        for (i in 0..numbones) {
+            studiobones[i].parent = csgoEXE.int(pStudiomodel + boneIndex + 0x4 + offset)
+            studiobones[i].flags = csgoEXE.int(pStudiomodel + boneIndex + 0xA0 + offset)
 
-            //crotch to right leg
-            drawBone(entity, 0, 69)
-            for (i in 69..72 - 1) drawBone(entity, i, i + 1)
-        } else {
-            for (i in 0..6 - 1) drawBone(entity, i, i + 1)
+            offset += 216
+        }
 
-            //neck to left arm
-            for (i in 8..11 - 1) drawBone(entity, i, i + 1)
-
-            //neck to right shoulder
-            drawBone(entity, 38, 67)
-
-            //right shoulder to elbow
-            drawBone(entity, 67, 40)
-
-            //right elbow to hand
-            drawBone(entity, 40, 41)
-
-            //crotch to left knee
-            drawBone(entity, 0, 75)
-
-            //left knee to foot
-            for (i in 75..77 - 1) drawBone(entity, i, i + 1)
-
-            //crotch to right knee
-            drawBone(entity, 0, 69)
-
-            //right knee to foot
-            for (i in 69..71 - 1) drawBone(entity, i, i + 1)
+        for (i in 0..numbones - 1) {
+            if ((studiobones[i].flags and 0x100) == 0 || studiobones[i].parent == -1) continue
+            drawBone(entity, studiobones[i].parent, i)
         }
     }
+}
+
+fun findStudioModel(pModel: Long): Long {
+    val ModelType = csgoEXE.uint(pModel + 0x0110)
+    if (ModelType != 3L) return 0 //Type is not Studiomodel
+
+    var ModelHandle = csgoEXE.uint(pModel + 0x0138) and 0xFFFF
+    if (ModelHandle == 0xFFFFL) return 0 //Handle is not valid
+
+    ModelHandle = ModelHandle shl 4
+
+    var studioModel = engineDLL.uint(studioModel)
+    studioModel = csgoEXE.uint(studioModel + 0x028)
+    studioModel = csgoEXE.uint(studioModel + ModelHandle + 0x0C)
+
+    return csgoEXE.uint(studioModel + 0x0074)
 }
 
 private val colors: Array<Color> = Array(101) {
@@ -85,15 +89,21 @@ private val colors: Array<Color> = Array(101) {
     Color(red, green, 0f)
 }
 
-val StartDrawPos: Vector = Vector()
-val EndDrawPos: Vector = Vector()
+private val StartBonePos = ThreadLocal.withInitial { Vector() }
+private val EndBonePos = ThreadLocal.withInitial { Vector() }
+
+private val StartDrawPos = ThreadLocal.withInitial { Vector() }
+private val EndDrawPos = ThreadLocal.withInitial { Vector() }
 
 fun drawBone(target: Player, start: Int, end: Int) {
-    val StartBonePos = Vector(target.bone(0xC, start), target.bone(0x1C, start), target.bone(0x2C, start))
-    val EndBonePos = Vector(target.bone(0xC, end), target.bone(0x1C, end), target.bone(0x2C, end))
+    val StartBonePos = StartBonePos.get()
+    val EndBonePos = EndBonePos.get()
 
-    StartDrawPos.reset()
-    EndDrawPos.reset()
+    StartBonePos.set(target.bone(0xC, start), target.bone(0x1C, start), target.bone(0x2C, start))
+    EndBonePos.set(target.bone(0xC, end), target.bone(0x1C, end), target.bone(0x2C, end))
+
+    val StartDrawPos = StartDrawPos.get()
+    val EndDrawPos = EndDrawPos.get()
 
     if (!worldToScreen(StartBonePos, StartDrawPos))
         return
@@ -105,8 +115,17 @@ fun drawBone(target: Player, start: Int, end: Int) {
     val sY = StartDrawPos.y.toInt()
     val eX = EndDrawPos.x.toInt()
     val eY = EndDrawPos.y.toInt()
+
     Overlay {
         color = colors[health]
         drawLine(sX, sY, eX, eY)
     }
+}
+
+
+class mstudiobone_t() {
+
+    var parent: Int = -1
+    var flags: Int = -1
+
 }
