@@ -24,7 +24,7 @@ import java.awt.event.KeyEvent
 /**
  * Force Aim Settings
  */
-const val FORCE_AIM_SMOOTHING = 15 //Lower = stronger lock
+const val FORCE_AIM_SMOOTHING = 16 //Lower = stronger lock
 const val FORCE_AIM_KEY = 5 //5 = Mouse forward button
 const val FORCE_AIM_TARGET_BONE = 6 //6 = Head
 

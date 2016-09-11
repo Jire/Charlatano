@@ -41,7 +41,7 @@ internal fun Angle.finalize(orig: Angle, smoothing: Float) {
 	z = 0F
 	normalize()
 
-	x = orig.x + x / 100 * smoothing
-	y = orig.y + y / 100 * smoothing
+	x = orig.x + x / 100F * smoothing
+	y = orig.y + y / 100F * smoothing
 	normalize()
 }

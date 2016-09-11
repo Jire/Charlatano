@@ -65,7 +65,7 @@ fun esp() = GlowIteration {
 		
 		val carryingBomb = bomb > -1 && entity == bomb.carrier()
 		val health = entity.health()
-		
+		/*
 		Overlay {
 			color = Color.RED
 			val sx = (vTop.x - w).toInt()
@@ -79,7 +79,7 @@ fun esp() = GlowIteration {
 				color = Color.RED
 				drawString("Carrying bomb", sx, sy)
 			}
-		}
+		}*/
 	}
 }
 

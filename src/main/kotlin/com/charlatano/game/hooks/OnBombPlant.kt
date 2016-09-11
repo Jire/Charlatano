@@ -22,7 +22,6 @@ import com.charlatano.game.entity.planted
 import com.charlatano.scripts.bomb
 import com.charlatano.utils.hook
 
-
 val bombPlanted = hook(8) {
 	bomb.planted()
 }

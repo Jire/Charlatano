@@ -28,9 +28,9 @@ import com.charlatano.scripts.*
 
 fun main(args: Array<String>) {
 	System.setProperty("sun.java2d.opengl", "True")
-	
+
 	CSGO.initalize()
-	
+
 	// -- START OF SCRIPTS -- //
 	bunnyHop()
 	esp()
@@ -39,13 +39,13 @@ fun main(args: Array<String>) {
 	bombTimer()
 	forceAim()
 	// -- END OF SCRIPTS -- //
-	
+
 	// -- START OF HOOKS -- //
 	GlowIteration.load()
 	// -- END OF HOOKS -- //
-	
+
 	Overlay.isVisible = true
-	
+
 	Strand.sleep(3000) // wait a bit to catch everything
 	System.gc() // then cleanup
 	Strand.sleep(Long.MAX_VALUE) // prevent exit
