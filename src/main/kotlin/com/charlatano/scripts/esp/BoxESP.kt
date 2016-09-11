@@ -22,6 +22,7 @@ import com.charlatano.game.EntityType
 import com.charlatano.game.entity.*
 import com.charlatano.game.hooks.GlowIteration
 import com.charlatano.overlay.Overlay
+import com.charlatano.overlay.Overlay.LARGE_FONT
 import com.charlatano.utils.Vector
 import com.charlatano.worldToScreen
 import java.awt.Color
@@ -57,6 +58,7 @@ fun boxEsp() = GlowIteration {
 
         Overlay {
             color = c
+            font = Overlay.LARGE_FONT
             drawRect(sx, sy, (w * 2).toInt(), h.toInt())
         }
     }
