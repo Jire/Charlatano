@@ -22,12 +22,14 @@ import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.EntityType
 import com.charlatano.game.EntityType.Companion.byEntityAddress
 import com.charlatano.game.netvars.NetVarOffsets.bSpotted
+import com.charlatano.game.netvars.NetVarOffsets.dwModel
 import com.charlatano.game.netvars.NetVarOffsets.iTeamNum
 import com.charlatano.game.netvars.NetVarOffsets.vecOrigin
 import com.charlatano.game.netvars.NetVarOffsets.vecViewOffset
 import com.charlatano.game.offsets.ClientOffsets.bDormant
 import com.charlatano.utils.Angle
 import com.charlatano.utils.Vector
+import com.charlatano.utils.uint
 import org.jire.arrowhead.get
 
 typealias Entity = Long
@@ -37,6 +39,8 @@ internal fun Entity.spotted(): Boolean = csgoEXE.int(this + bSpotted) != 0
 internal fun Entity.dormant(): Boolean = csgoEXE[this + bDormant]
 
 internal fun Entity.team(): Int = csgoEXE[this + iTeamNum]
+
+internal fun Entity.model(): Long = csgoEXE.uint(this + dwModel)
 
 internal fun Entity.position(): Angle = Vector(csgoEXE[this + vecOrigin], csgoEXE[this + vecOrigin + 4], csgoEXE.float(this + vecOrigin + 8) + csgoEXE.float(this + vecViewOffset + 8))
 
