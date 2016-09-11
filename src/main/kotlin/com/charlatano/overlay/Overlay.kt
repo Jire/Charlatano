@@ -64,8 +64,8 @@ object Overlay : JWindow() {
         hooks.add(body)
     }
 
-    val Overlay.LARGE_FONT by lazy { Font("Arial", Font.ITALIC, 24) }
+    val LARGE_FONT = Font("Arial", Font.ITALIC, 24)
 
-    val Overlay.MEDIUM_FONT by lazy { Font("Arial", Font.ITALIC, 20) }
+    val MEDIUM_FONT = Font("Arial", Font.ITALIC, 20)
 
 }
