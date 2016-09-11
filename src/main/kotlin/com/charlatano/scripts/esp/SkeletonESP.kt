@@ -33,9 +33,13 @@ import java.awt.Color
 const val MAXSTUDIOBONES = 128
 
 private val bones = Array(MAXSTUDIOBONES) { FloatArray(3) }
-private val studiobones = Array(MAXSTUDIOBONES) { mstudiobone_t() }
+private val studiobones = Array(MAXSTUDIOBONES) { Bone() }
+private val skeletons = Array(1024) { Line() }
 
+var currentIdx = 0
 fun skeletonEsp() = GlowIteration {
+    if (glowIndex == glowObjectCount) currentIdx = 0
+
     if (entity == me) return@GlowIteration
 
     if (entity.type() == EntityType.CCSPlayer) {
@@ -62,6 +66,16 @@ fun skeletonEsp() = GlowIteration {
         for (i in 0..numbones - 1) {
             if ((studiobones[i].flags and 0x100) == 0 || studiobones[i].parent == -1) continue
             drawBone(entity, studiobones[i].parent, i)
+        }
+    }
+
+    Overlay {
+        skeletons.forEach {
+            if (it.color != Color.BLACK) {
+                color = it.color
+                drawLine(it.sX, it.sY, it.eX, it.eY)
+            }
+            it.reset()
         }
     }
 }
@@ -105,25 +119,33 @@ fun drawBone(target: Player, start: Int, end: Int) {
     val StartDrawPos = StartDrawPos.get()
     val EndDrawPos = EndDrawPos.get()
 
-    if (!worldToScreen(StartBonePos, StartDrawPos))
-        return
-    if (!worldToScreen(EndBonePos, EndDrawPos))
+    if (!worldToScreen(StartBonePos, StartDrawPos) || !worldToScreen(EndBonePos, EndDrawPos))
         return
 
-    val health = target.health()
-    val sX = StartDrawPos.x.toInt()
-    val sY = StartDrawPos.y.toInt()
-    val eX = EndDrawPos.x.toInt()
-    val eY = EndDrawPos.y.toInt()
+    skeletons[currentIdx].sX = StartDrawPos.x.toInt()
+    skeletons[currentIdx].sY = StartDrawPos.y.toInt()
+    skeletons[currentIdx].eX = EndDrawPos.x.toInt()
+    skeletons[currentIdx].eY = EndDrawPos.y.toInt()
+    skeletons[currentIdx++].color = colors[target.health()]
+}
 
-    Overlay {
-        color = colors[health]
-        drawLine(sX, sY, eX, eY)
+class Line() {
+    var sX = -1
+    var sY = -1
+    var eX = -1
+    var eY = -1
+    var color: Color = Color.BLACK
+
+    fun reset() {
+        sX = -1
+        sY = -1
+        eX = -1
+        eY = -1
+        color = Color.BLACK
     }
 }
 
-
-class mstudiobone_t() {
+class Bone() {
 
     var parent: Int = -1
     var flags: Int = -1
