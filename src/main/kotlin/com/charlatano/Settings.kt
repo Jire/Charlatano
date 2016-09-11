@@ -52,3 +52,8 @@ const val BOMB_COLOR_RED = 0 //RGB colors
 const val BOMB_COLOR_BLUE = 0 //RGB colors
 const val BOMB_COLOR_GREEN = 255 //RGB colors
 const val BOMB_COLOR_ALPHA = 0.6f //RGB colors
+
+
+const val SKELETON_ESP = true
+const val GLOW_ESP = false
+const val BOX_ESP = false

@@ -20,8 +20,9 @@ package com.charlatano.utils
 
 import com.sun.jna.Native
 import com.sun.jna.Pointer
+import com.sun.jna.platform.win32.WinDef
 
-object User32 {
+object CUser32 {
 	
 	val MOUSEEVENTF_MOVE = 0x0001
 	val MOUSEEVENTF_ABSOLUTE = 0x8000
@@ -31,5 +32,7 @@ object User32 {
 	}
 	
 	external fun mouse_event(dwFlags: Int, dx: Int, dy: Int, dwData: Pointer?, dwExtraInfo: Pointer?)
-	
+
+    external fun GetClientRect(hWnd: WinDef.HWND, rect: WinDef.RECT): Boolean
+
 }

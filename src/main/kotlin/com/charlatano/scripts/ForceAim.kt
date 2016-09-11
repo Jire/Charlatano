@@ -73,7 +73,7 @@ fun forceAim() = every(FORCE_AIM_SMOOTHING) {
 		
 		val dx = Math.round(delta.x / (InGameSensitivity * InGamePitch))
 		val dy = Math.round(-delta.y / (InGameSensitivity * InGameYaw))
-		User32.mouse_event(User32.MOUSEEVENTF_MOVE, dx, dy, null, null)
+        CUser32.mouse_event(CUser32.MOUSEEVENTF_MOVE, dx, dy, null, null)
 	}
 	if (!pressed) target = -1L
 }

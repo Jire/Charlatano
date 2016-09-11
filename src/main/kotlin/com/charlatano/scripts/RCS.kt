@@ -19,54 +19,52 @@
 package com.charlatano.scripts
 
 import co.paralleluniverse.strands.Strand
-import com.charlatano.SCREEN_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.game.CSGO.gameHeight
+import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
-import com.charlatano.utils.User32
+import com.charlatano.utils.CUser32
 import com.charlatano.utils.Vector
 import com.charlatano.utils.every
 import com.charlatano.utils.uint
 
 var prevFired = 0
 
-val width = SCREEN_SIZE.width
-val height = SCREEN_SIZE.height
-
-val dxN = width / 90
-val dyN = height / 90
+val dxN = gameWidth / 90
+val dyN = gameHeight / 90
 
 fun rcs() = every(8) {
-	val myAddress = clientDLL.uint(dwLocalPlayer)
-	if (myAddress <= 0) return@every
-	
-	val shotsFired = csgoEXE.int(myAddress + iShotsFired)
-	if (shotsFired > 1 && shotsFired > prevFired) {
-		val lastPunch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
-		
-		Strand.sleep(8)
-		
-		val currentPunch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
-		
-		val toScreen = toScreen(currentPunch, lastPunch)
-		
-		User32.mouse_event(User32.MOUSEEVENTF_MOVE, toScreen.x.toInt(), toScreen.y.toInt(), null, null)
-		
-		prevFired = shotsFired
-	} else {
-		prevFired = 0
-		
-	}
+    val myAddress = clientDLL.uint(dwLocalPlayer)
+    if (myAddress <= 0) return@every
+
+    val shotsFired = csgoEXE.int(myAddress + iShotsFired)
+    if (shotsFired > 1 && shotsFired > prevFired) {
+        val lastPunch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
+
+        Strand.sleep(8)
+
+        val currentPunch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
+
+        val toScreen = toScreen(currentPunch, lastPunch)
+
+        CUser32.mouse_event(CUser32.MOUSEEVENTF_MOVE, toScreen.x.toInt(), toScreen.y.toInt(), null, null)
+
+        prevFired = shotsFired
+    } else {
+        prevFired = 0
+
+    }
 }
 
 fun toScreen(current: Vector, previous: Vector): Vector {
-	val previous = angleToScreen(previous)
-	val current = angleToScreen(current)
-	return Vector(-(current.x - previous.x) * 4, -(current.y - previous.y) * 6)
+    val previous = angleToScreen(previous)
+    val current = angleToScreen(current)
+    return Vector(-(current.x - previous.x) * 4, -(current.y - previous.y) * 6)
 }
 
 fun angleToScreen(vector: Vector)
-		= Vector(((width / 2.0) - (dxN * (vector.y / 2.0f))).toFloat(),
-		((height / 2.0) - (dyN * (-vector.x / 2.0f))).toFloat())
+        = Vector(((gameWidth / 2.0) - (dxN * (vector.y / 2.0f))).toFloat(),
+        ((gameHeight / 2.0) - (dyN * (-vector.x / 2.0f))).toFloat())

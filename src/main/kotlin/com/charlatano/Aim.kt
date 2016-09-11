@@ -19,13 +19,14 @@
 package com.charlatano
 
 import com.charlatano.game.CSGO.clientDLL
+import com.charlatano.game.CSGO.gameHeight
+import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.game.entity.*
 import com.charlatano.game.offsets.ClientOffsets.dwViewMatrix
 import com.charlatano.utils.Angle
+import com.charlatano.utils.CUser32
 import com.charlatano.utils.Random.randomFloat
-import com.charlatano.utils.User32
 import com.charlatano.utils.Vector
-import java.awt.Toolkit
 
 const val InGameSensitivity = 2F
 const val InGamePitch = 0.022F
@@ -38,8 +39,6 @@ const val YAW_MIN_PUNCH = 1.97F
 const val YAW_MAX_PUNCH = 2.02F
 
 const val AIM_SPEED = 5F
-
-val SCREEN_SIZE = Toolkit.getDefaultToolkit().screenSize!!
 
 val m_vMatrix = Array(4) { FloatArray(4) }
 
@@ -68,8 +67,8 @@ fun worldToScreen(from: Vector, vOut: Vector): Boolean {
 		vOut.x *= invw
 		vOut.y *= invw
 
-		val width = SCREEN_SIZE.width
-		val height = SCREEN_SIZE.height
+        val width = gameWidth
+        val height = gameHeight
 
 		var x = (width / 2).toFloat()
 		var y = (height / 2).toFloat()
@@ -127,8 +126,8 @@ fun calculateAngle(player: Player, dst: Vector): Angle {
 }
 
 fun moveTo(position: Vector) {
-	val ScreenCenterX = SCREEN_SIZE.width / 2F
-	val ScreenCenterY = SCREEN_SIZE.height / 2F
+    val ScreenCenterX = gameWidth / 2F
+    val ScreenCenterY = gameHeight / 2F
 
 	val screenPosition = Vector()
 	if (!worldToScreen(position, screenPosition)) {
@@ -170,5 +169,5 @@ fun moveTo(position: Vector) {
 		}
 	}
 
-	User32.mouse_event(User32.MOUSEEVENTF_MOVE, mouseX.toInt(), mouseY.toInt(), null, null)
+    CUser32.mouse_event(CUser32.MOUSEEVENTF_MOVE, mouseX.toInt(), mouseY.toInt(), null, null)
 }
