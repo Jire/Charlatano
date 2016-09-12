@@ -19,18 +19,14 @@
 package com.charlatano.game.entity
 
 import com.charlatano.FORCE_AIM_TARGET_BONE
-import com.charlatano.game.CSGO.ENTITY_SIZE
-import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.netvars.NetVarOffsets.dwBoneMatrix
 import com.charlatano.game.netvars.NetVarOffsets.fFlags
-import com.charlatano.game.netvars.NetVarOffsets.iCrossHairID
 import com.charlatano.game.netvars.NetVarOffsets.iHealth
 import com.charlatano.game.netvars.NetVarOffsets.lifeState
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.netvars.NetVarOffsets.vecVelocity
 import com.charlatano.game.netvars.NetVarOffsets.vecViewOffset
-import com.charlatano.game.offsets.ClientOffsets.dwEntityList
 import com.charlatano.utils.Angle
 import com.charlatano.utils.Vector
 import com.charlatano.utils.uint
@@ -41,8 +37,6 @@ typealias Player = Long
 internal fun Player.flags(): Int = csgoEXE[this + fFlags]
 
 internal fun Player.onGround() = flags() and 1 == 1
-
-internal fun Player.crosshair(): Int = csgoEXE.int(this + iCrossHairID) - 1
 
 internal fun Player.health(): Int = csgoEXE[this + iHealth]
 
@@ -56,13 +50,6 @@ internal fun Player.viewOffset(): Angle
 
 internal fun Player.velocity(): Angle
 		= Vector(csgoEXE[this + vecVelocity], csgoEXE[this + vecVelocity + 4], csgoEXE[this + vecVelocity + 8])
-
-internal fun Player.target(): Player {
-	val crosshair = crosshair()
-	if (crosshair <= 0)
-		return -1
-	return clientDLL.uint(dwEntityList + (crosshair * ENTITY_SIZE))
-}
 
 internal fun Player.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
 
