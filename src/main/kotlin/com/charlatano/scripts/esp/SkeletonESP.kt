@@ -44,9 +44,9 @@ fun skeletonEsp() = every(1) {
         val entity = players.getLong(i)
         if (entity == me || entity.dead() || entity.dormant()) continue
 
-        val pStudiomodel = findStudioModel(entity.model())
-        val numbones = csgoEXE.int(pStudiomodel + 0x9C)
-        val boneIndex = csgoEXE.int(pStudiomodel + 0xA0)
+        val studioModel = findStudioModel(entity.model())
+        val numbones = csgoEXE.int(studioModel + 0x9C)
+        val boneIndex = csgoEXE.int(studioModel + 0xA0)
 
         for (idx in 0..numbones) {
             bones[idx][0] = entity.bone(0xC, idx)
@@ -56,8 +56,8 @@ fun skeletonEsp() = every(1) {
 
         var offset = 0
         for (idx in 0..numbones) {
-            studiobones[idx].parent = csgoEXE.int(pStudiomodel + boneIndex + 0x4 + offset)
-            studiobones[idx].flags = csgoEXE.int(pStudiomodel + boneIndex + 0xA0 + offset)
+            studiobones[idx].parent = csgoEXE.int(studioModel + boneIndex + 0x4 + offset)
+            studiobones[idx].flags = csgoEXE.int(studioModel + boneIndex + 0xA0 + offset)
 
             offset += 216
         }
@@ -81,17 +81,17 @@ fun skeletonEsp() = every(1) {
 }
 
 fun findStudioModel(pModel: Long): Long {
-    val ModelType = csgoEXE.uint(pModel + 0x0110)
-    if (ModelType != 3L) return 0 //Type is not Studiomodel
+    val type = csgoEXE.uint(pModel + 0x0110)
+    if (type != 3L) return 0 //Type is not Studiomodel
 
-    var ModelHandle = csgoEXE.uint(pModel + 0x0138) and 0xFFFF
-    if (ModelHandle == 0xFFFFL) return 0 //Handle is not valid
+    var handle = csgoEXE.uint(pModel + 0x0138) and 0xFFFF
+    if (handle == 0xFFFFL) return 0 //Handle is not valid
 
-    ModelHandle = ModelHandle shl 4
+    handle = handle shl 4
 
     var studioModel = engineDLL.uint(studioModel)
     studioModel = csgoEXE.uint(studioModel + 0x028)
-    studioModel = csgoEXE.uint(studioModel + ModelHandle + 0x0C)
+    studioModel = csgoEXE.uint(studioModel + handle + 0x0C)
 
     return csgoEXE.uint(studioModel + 0x0074)
 }
@@ -103,29 +103,29 @@ private val colors: Array<Color> = Array(101) {
     Color(red, green, 0f)
 }
 
-private val StartBonePos = ThreadLocal.withInitial { Vector() }
-private val EndBonePos = ThreadLocal.withInitial { Vector() }
+private val startBone = ThreadLocal.withInitial { Vector() }
+private val endBone = ThreadLocal.withInitial { Vector() }
 
-private val StartDrawPos = ThreadLocal.withInitial { Vector() }
-private val EndDrawPos = ThreadLocal.withInitial { Vector() }
+private val startDraw = ThreadLocal.withInitial { Vector() }
+private val endDraw = ThreadLocal.withInitial { Vector() }
 
 fun drawBone(target: Player, start: Int, end: Int) {
-    val StartBonePos = StartBonePos.get()
-    val EndBonePos = EndBonePos.get()
+    val startBone = startBone.get()
+    val endBone = endBone.get()
 
-    StartBonePos.set(target.bone(0xC, start), target.bone(0x1C, start), target.bone(0x2C, start))
-    EndBonePos.set(target.bone(0xC, end), target.bone(0x1C, end), target.bone(0x2C, end))
+    startBone.set(target.bone(0xC, start), target.bone(0x1C, start), target.bone(0x2C, start))
+    endBone.set(target.bone(0xC, end), target.bone(0x1C, end), target.bone(0x2C, end))
 
-    val StartDrawPos = StartDrawPos.get()
-    val EndDrawPos = EndDrawPos.get()
+    val startDraw = startDraw.get()
+    val endDraw = endDraw.get()
 
-    if (!worldToScreen(StartBonePos, StartDrawPos) || !worldToScreen(EndBonePos, EndDrawPos))
+    if (!worldToScreen(startBone, startDraw) || !worldToScreen(endBone, endDraw))
         return
 
-    skeletons[currentIdx].sX = StartDrawPos.x.toInt()
-    skeletons[currentIdx].sY = StartDrawPos.y.toInt()
-    skeletons[currentIdx].eX = EndDrawPos.x.toInt()
-    skeletons[currentIdx].eY = EndDrawPos.y.toInt()
+    skeletons[currentIdx].sX = startDraw.x.toInt()
+    skeletons[currentIdx].sY = startDraw.y.toInt()
+    skeletons[currentIdx].eX = endDraw.x.toInt()
+    skeletons[currentIdx].eY = endDraw.y.toInt()
     skeletons[currentIdx++].color = colors[target.health()]
 }
 
