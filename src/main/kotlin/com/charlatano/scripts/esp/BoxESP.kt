@@ -34,7 +34,11 @@ private val vFeet = ThreadLocal.withInitial { Vector() }
 private val vTop = ThreadLocal.withInitial { Vector(0F, 0F, 0F) }
 private val vBot = ThreadLocal.withInitial { Vector(0F, 0F, 0F) }
 
-fun boxEsp() = every(32) {
+private val boxes = Array(128) { Box() }
+
+private var currentIdx = 0
+
+fun boxEsp() = every(1) {
     for (i in 0..players.size - 1) {//TODO clean this up alot
         val entity = players.getLong(i)
         if (entity == me || entity.dead() || entity.dormant()) continue
@@ -56,10 +60,37 @@ fun boxEsp() = every(32) {
         val sx = (vTop.x - w).toInt()
         val sy = vTop.y.toInt()
 
-        Overlay {
-            color = c
-            font = Overlay.LARGE_FONT
-            drawRect(sx, sy, (w * 2).toInt(), h.toInt())
+        boxes[currentIdx].x = sx
+        boxes[currentIdx].y = sy
+        boxes[currentIdx].w = (w * 2).toInt()
+        boxes[currentIdx].h = h.toInt()
+        boxes[currentIdx++].color = c
+    }
+    currentIdx = 0
+
+    Overlay {
+        boxes.forEach {
+            if (it.color != Color.BLACK) {
+                color = it.color
+                drawRect(it.x, it.y, it.w, it.h)
+            }
+            it.reset()
         }
+    }
+}
+
+class Box() {
+    var x = -1
+    var y = -1
+    var w = -1
+    var h = -1
+    var color: Color = Color.BLACK
+
+    fun reset() {
+        x = -1
+        y = -1
+        w = -1
+        h = -1
+        color = Color.BLACK
     }
 }

@@ -37,8 +37,9 @@ private val bones = Array(MAXSTUDIOBONES) { FloatArray(3) }
 private val studiobones = Array(MAXSTUDIOBONES) { Bone() }
 private val skeletons = Array(1024) { Line() }
 
-var currentIdx = 0
-fun skeletonEsp() = every(32) {
+private var currentIdx = 0
+
+fun skeletonEsp() = every(1) {
     for (i in 0..players.size - 1) {//TODO clean this up alot
         val entity = players.getLong(i)
         if (entity == me || entity.dead() || entity.dormant()) continue
