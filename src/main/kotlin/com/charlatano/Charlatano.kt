@@ -22,7 +22,7 @@ package com.charlatano
 
 import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
-import com.charlatano.game.hooks.GlowIteration
+import com.charlatano.game.hooks.entities
 import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.*
 
@@ -31,7 +31,9 @@ fun main(args: Array<String>) {
     System.setProperty("co.paralleluniverse.fibers.detectRunawayFibers", "false")
 
 	CSGO.initalize()
-	
+
+    entities()//DO NOT DELETE
+
 	// -- START OF SCRIPTS -- //
 	bunnyHop()
 	esp()
@@ -40,10 +42,6 @@ fun main(args: Array<String>) {
 	bombTimer()
 	forceAim()
 	// -- END OF SCRIPTS -- //
-	
-	// -- START OF HOOKS -- //
-	GlowIteration.load()
-	// -- END OF HOOKS -- //
 	
 	Overlay.isVisible = true
 	

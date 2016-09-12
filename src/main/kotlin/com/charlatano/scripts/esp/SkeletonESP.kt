@@ -20,12 +20,13 @@ package com.charlatano.scripts.esp
 
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
-import com.charlatano.game.EntityType
 import com.charlatano.game.entity.*
-import com.charlatano.game.hooks.GlowIteration
+import com.charlatano.game.hooks.me
+import com.charlatano.game.hooks.players
 import com.charlatano.game.offsets.EngineOffsets.studioModel
 import com.charlatano.overlay.Overlay
 import com.charlatano.utils.Vector
+import com.charlatano.utils.every
 import com.charlatano.utils.uint
 import com.charlatano.worldToScreen
 import java.awt.Color
@@ -37,37 +38,35 @@ private val studiobones = Array(MAXSTUDIOBONES) { Bone() }
 private val skeletons = Array(1024) { Line() }
 
 var currentIdx = 0
-fun skeletonEsp() = GlowIteration {
-    if (glowIndex == glowObjectCount) currentIdx = 0
-
-    if (entity == me) return@GlowIteration
-
-    if (entity.type() == EntityType.CCSPlayer) {
-        if (entity.dead() || entity.dormant()) return@GlowIteration
+fun skeletonEsp() = every(32) {
+    for (i in 0..players.size - 1) {//TODO clean this up alot
+        val entity = players.getLong(i)
+        if (entity == me || entity.dead() || entity.dormant()) continue
 
         val pStudiomodel = findStudioModel(entity.model())
         val numbones = csgoEXE.int(pStudiomodel + 0x9C)
         val boneIndex = csgoEXE.int(pStudiomodel + 0xA0)
 
-        for (i in 0..numbones) {
-            bones[i][0] = entity.bone(0xC, i)
-            bones[i][1] = entity.bone(0x1C, i)
-            bones[i][2] = entity.bone(0x2C, i)
+        for (idx in 0..numbones) {
+            bones[idx][0] = entity.bone(0xC, idx)
+            bones[idx][1] = entity.bone(0x1C, idx)
+            bones[idx][2] = entity.bone(0x2C, idx)
         }
 
         var offset = 0
-        for (i in 0..numbones) {
-            studiobones[i].parent = csgoEXE.int(pStudiomodel + boneIndex + 0x4 + offset)
-            studiobones[i].flags = csgoEXE.int(pStudiomodel + boneIndex + 0xA0 + offset)
+        for (idx in 0..numbones) {
+            studiobones[idx].parent = csgoEXE.int(pStudiomodel + boneIndex + 0x4 + offset)
+            studiobones[idx].flags = csgoEXE.int(pStudiomodel + boneIndex + 0xA0 + offset)
 
             offset += 216
         }
 
-        for (i in 0..numbones - 1) {
-            if ((studiobones[i].flags and 0x100) == 0 || studiobones[i].parent == -1) continue
-            drawBone(entity, studiobones[i].parent, i)
+        for (idx in 0..numbones - 1) {
+            if ((studiobones[idx].flags and 0x100) == 0 || studiobones[idx].parent == -1) continue
+            drawBone(entity, studiobones[idx].parent, idx)
         }
     }
+    currentIdx = 0
 
     Overlay {
         skeletons.forEach {

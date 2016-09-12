@@ -18,35 +18,35 @@
 
 package com.charlatano.scripts.esp
 
-import com.charlatano.game.EntityType
 import com.charlatano.game.entity.*
-import com.charlatano.game.hooks.GlowIteration
+import com.charlatano.game.hooks.me
+import com.charlatano.game.hooks.players
 import com.charlatano.overlay.Overlay
-import com.charlatano.overlay.Overlay.LARGE_FONT
 import com.charlatano.utils.Vector
+import com.charlatano.utils.every
 import com.charlatano.worldToScreen
 import java.awt.Color
 
 
-private val vHead = Vector()
-private val vFeet = Vector()
+private val vHead = ThreadLocal.withInitial { Vector() }
+private val vFeet = ThreadLocal.withInitial { Vector() }
 
-private val vTop = Vector(0F, 0F, 0F)
-private val vBot = Vector(0F, 0F, 0F)
+private val vTop = ThreadLocal.withInitial { Vector(0F, 0F, 0F) }
+private val vBot = ThreadLocal.withInitial { Vector(0F, 0F, 0F) }
 
-fun boxEsp() = GlowIteration {
-    if (entity == me) return@GlowIteration
+fun boxEsp() = every(32) {
+    for (i in 0..players.size - 1) {//TODO clean this up alot
+        val entity = players.getLong(i)
+        if (entity == me || entity.dead() || entity.dormant()) continue
 
-    if (entity.type() == EntityType.CCSPlayer) {
-        if (entity.dead() || entity.dormant()) return@GlowIteration
-
+        val vHead = vHead.get()
+        val vFeet = vFeet.get()
         vHead.set(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C) + 9)
         vFeet.set(vHead.x, vHead.y, vHead.z - 75)
 
-        if (!worldToScreen(vHead, vTop))
-            return@GlowIteration
-        if (!worldToScreen(vFeet, vBot))
-            return@GlowIteration
+        val vTop = vTop.get()
+        val vBot = vBot.get()
+        if (!worldToScreen(vHead, vTop) || !worldToScreen(vFeet, vBot)) continue
 
         val h = vBot.y - vTop.y
         val w = h / 5F
