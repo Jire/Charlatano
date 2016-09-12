@@ -23,31 +23,33 @@ import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.EntityType
 import com.charlatano.game.entity.*
 import com.charlatano.game.hooks.entites
+import com.charlatano.game.hooks.entity
+import com.charlatano.game.hooks.glow
 import com.charlatano.game.hooks.me
-import com.charlatano.game.hooks.players
 import com.charlatano.utils.every
 
 var bomb: Bomb = -1L
 
 fun glowEsp() = every(32) {
     for (i in 0..entites.size - 1) {//TODO clean this up alot
-        val entity = players.getLong(i)
+        val entity = entites.entity(i)
         if (entity == me) continue
 
+        val glowAddress = entites.glow(i)
         if (entity.type() == EntityType.CPlantedC4 || entity.type() == EntityType.CC4) {
             bomb = if (entity.type() == EntityType.CPlantedC4 || (entity.type() == EntityType.CC4 && !bomb.planted())) entity else -1L
-            // glowAddress.glow()
+            glowAddress.glow()
         } else if (entity.type() == EntityType.CCSPlayer) {
             if (entity.dead() || entity.dormant()) continue
 
             if (bomb > -1 && entity == bomb.planter()) {
-                //  glowAddress.glow(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE, BOMB_COLOR_ALPHA)
+                glowAddress.glow(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE, BOMB_COLOR_ALPHA)
                 entity.chams(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE)
             } else if (me.team() == entity.team()) {
-                // glowAddress.glow(TEAM_COLOR_RED, TEAM_COLOR_GREEN, TEAM_COLOR_BLUE, TEAM_COLOR_ALPHA)
+                glowAddress.glow(TEAM_COLOR_RED, TEAM_COLOR_GREEN, TEAM_COLOR_BLUE, TEAM_COLOR_ALPHA)
                 entity.chams(TEAM_COLOR_RED, TEAM_COLOR_GREEN, TEAM_COLOR_BLUE)
             } else {
-                // glowAddress.glow()
+                glowAddress.glow()
                 entity.chams()
             }
         }

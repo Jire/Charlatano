@@ -21,6 +21,7 @@ package com.charlatano.scripts.esp
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
 import com.charlatano.game.entity.*
+import com.charlatano.game.hooks.entity
 import com.charlatano.game.hooks.me
 import com.charlatano.game.hooks.players
 import com.charlatano.game.offsets.EngineOffsets.studioModel
@@ -41,7 +42,7 @@ private var currentIdx = 0
 
 fun skeletonEsp() = every(1) {
     for (i in 0..players.size - 1) {//TODO clean this up alot
-        val entity = players.getLong(i)
+        val entity = players.entity(i)
         if (entity == me || entity.dead() || entity.dormant()) continue
 
         val studioModel = findStudioModel(entity.model())

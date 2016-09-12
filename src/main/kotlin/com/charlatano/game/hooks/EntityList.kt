@@ -45,9 +45,12 @@ fun entities() = every(128) {
         val glowAddress = glowObject + (glowIndex * GLOW_OBJECT_SIZE)
         val entity = csgoEXE.uint(glowAddress)
         val type = EntityType.byEntityAddress(entity)
-        if (!players.contains(entity))
-            if (type == EntityType.CCSPlayer) players.add(entity)
-        if (!entites.contains(entity))
-            entites.add(entity)
+        if (!players.contains(glowAddress))
+            if (type == EntityType.CCSPlayer) players.add(glowAddress)
+        if (!entites.contains(glowAddress)) entites.add(glowAddress)
     }
 }
+
+fun LongArrayList.entity(index: Int) = csgoEXE.uint(getLong(index))
+
+fun LongArrayList.glow(index: Int) = getLong(index)
