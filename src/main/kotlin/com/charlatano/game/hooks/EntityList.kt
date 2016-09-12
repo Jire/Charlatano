@@ -21,22 +21,28 @@ package com.charlatano.game.hooks
 import com.charlatano.game.CSGO.GLOW_OBJECT_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.game.CSGO.engineDLL
+import com.charlatano.game.ClientState
 import com.charlatano.game.EntityType
 import com.charlatano.game.entity.Player
 import com.charlatano.game.offsets.ClientOffsets.dwGlowObject
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
+import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.utils.every
 import com.charlatano.utils.uint
 import it.unimi.dsi.fastutil.longs.LongArrayList
 
 
 var me: Player = 0
+var clientState: ClientState = 0
 val entites = LongArrayList(512)
 val players = LongArrayList(128)
 
 fun entities() = every(128) {
     me = clientDLL.uint(dwLocalPlayer)
     if (me < 0x200) return@every
+
+    clientState = engineDLL.uint(dwClientState)
 
     val glowObject = clientDLL.uint(dwGlowObject)
     val glowObjectCount = clientDLL.uint(dwGlowObject + 4)
