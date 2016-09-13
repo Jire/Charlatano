@@ -26,9 +26,9 @@ import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
-import com.charlatano.utils.CUser32
 import com.charlatano.utils.Vector
 import com.charlatano.utils.every
+import com.charlatano.utils.mouseMove
 import com.charlatano.utils.uint
 
 var prevFired = 0
@@ -50,7 +50,7 @@ fun rcs() = every(8) {
 
         val toScreen = toScreen(currentPunch, lastPunch)
 
-        CUser32.mouse_event(CUser32.MOUSEEVENTF_MOVE, toScreen.x.toInt(), toScreen.y.toInt(), null, null)
+        mouseMove(toScreen.x.toInt(), toScreen.y.toInt())
 
         prevFired = shotsFired
     } else {

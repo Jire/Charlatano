@@ -42,7 +42,9 @@ fun forceAim() = every(FORCE_AIM_SMOOTHING) {
         var currentTarget = target
         if (currentTarget == -1L) {
             currentTarget = findTarget(me.position(), currentAngle)
-            if (currentTarget == -1L) return@keyPressed
+            if (currentTarget == -1L) {
+                return@keyPressed
+            }
             target = currentTarget
             return@keyPressed
         }
@@ -63,7 +65,7 @@ fun forceAim() = every(FORCE_AIM_SMOOTHING) {
 
         val dx = Math.round(delta.x / (InGameSensitivity * InGamePitch))
         val dy = Math.round(-delta.y / (InGameSensitivity * InGameYaw))
-        CUser32.mouse_event(CUser32.MOUSEEVENTF_MOVE, dx, dy, null, null)
+        mouseMove(dx, dy)
     }
     if (!pressed) target = -1L
 }
@@ -74,6 +76,7 @@ private fun findTarget(position: Angle, angle: Angle, lockFOV: Int = LOCK_FOV): 
     for (i in 0..players.size - 1) {
         val entity = players.entity(i)
         if (entity == me || entity.team() == me.team()) continue
+
         if (me.dead() || entity.dead() || !entity.spotted() || entity.dormant()) continue
 
         val ePos: Angle = Vector(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C))
