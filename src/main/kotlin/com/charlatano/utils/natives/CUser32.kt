@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.utils
+package com.charlatano.utils.natives
 
 import com.sun.jna.Native
 import com.sun.jna.platform.win32.WinDef
