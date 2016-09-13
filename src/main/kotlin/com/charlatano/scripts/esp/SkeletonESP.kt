@@ -74,7 +74,7 @@ fun skeletonEsp() = every(1) {
     CharlatanoOverlay {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
         skeletons.forEach {
-            if (it.color != com.badlogic.gdx.graphics.Color.BLACK) {
+            if (it.color != Color.BLACK && it.sX > 0 && it.sY > 0 && it.eX > 0 && it.eX > 0) {
                 shapeRenderer.color = it.color
                 shapeRenderer.line(it.sX.toFloat(), it.sY.toFloat(), it.eX.toFloat(), it.eY.toFloat())
             }
