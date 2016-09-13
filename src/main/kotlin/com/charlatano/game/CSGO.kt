@@ -22,8 +22,8 @@ import com.charlatano.game.netvars.NetVars
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.game.offsets.EngineOffsets.dwInGame
-import com.charlatano.utils.CUser32
 import com.charlatano.utils.every
+import com.charlatano.utils.natives.CUser32
 import com.charlatano.utils.retry
 import com.charlatano.utils.uint
 import com.sun.jna.platform.win32.User32
