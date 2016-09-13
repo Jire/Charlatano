@@ -18,6 +18,8 @@
 
 package com.charlatano.scripts.esp
 
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
 import com.charlatano.game.entity.*
@@ -25,12 +27,11 @@ import com.charlatano.game.hooks.entity
 import com.charlatano.game.hooks.me
 import com.charlatano.game.hooks.players
 import com.charlatano.game.offsets.EngineOffsets.studioModel
-import com.charlatano.overlay.Overlay
+import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.utils.Vector
 import com.charlatano.utils.every
 import com.charlatano.utils.uint
 import com.charlatano.worldToScreen
-import java.awt.Color
 
 const val MAXSTUDIOBONES = 128
 
@@ -70,14 +71,16 @@ fun skeletonEsp() = every(1) {
     }
     currentIdx = 0
 
-    Overlay {
+    CharlatanoOverlay {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
         skeletons.forEach {
-            if (it.color != Color.BLACK) {
-                color = it.color
-                drawLine(it.sX, it.sY, it.eX, it.eY)
+            if (it.color != com.badlogic.gdx.graphics.Color.BLACK) {
+                shapeRenderer.color = it.color
+                shapeRenderer.line(it.sX.toFloat(), it.sY.toFloat(), it.eX.toFloat(), it.eY.toFloat())
             }
             it.reset()
         }
+        shapeRenderer.end()
     }
 }
 
@@ -101,7 +104,7 @@ private val colors: Array<Color> = Array(101) {
     val red = 1 - (it / 100f)
     val green = (it / 100f)
 
-    Color(red, green, 0f)
+    Color(red, green, 0f, 1f)
 }
 
 private val startBone = ThreadLocal.withInitial { Vector() }
