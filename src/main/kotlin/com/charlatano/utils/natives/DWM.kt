@@ -16,36 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@file:JvmName("Charlatano")
+package com.charlatano.utils.natives
 
-package com.charlatano
+import com.sun.jna.Native
+import com.sun.jna.Structure
+import com.sun.jna.platform.win32.WinDef
+import com.sun.jna.platform.win32.WinNT
+import java.util.*
 
-import co.paralleluniverse.strands.Strand
-import com.charlatano.game.CSGO
-import com.charlatano.game.hooks.entities
-import com.charlatano.overlay.Overlay
-import com.charlatano.scripts.*
+object DWM {
 
-fun main(args: Array<String>) {
-    System.setProperty("sun.java2d.opengl", "true")
-    System.setProperty("co.paralleluniverse.fibers.detectRunawayFibers", "false")
+    init {
+        Native.register("Dwmapi")
+    }
 
-	CSGO.initalize()
+    external fun DwmEnableBlurBehindWindow(hWnd: WinDef.HWND, pBlurBehind: DWM_BLURBEHIND): WinNT.HRESULT
 
-    entities()//DO NOT DELETE
+}
 
-	// -- START OF SCRIPTS -- //
-	bunnyHop()
-	esp()
-	//rcs()
-	noFlash()
-	bombTimer()
-	forceAim()
-	// -- END OF SCRIPTS -- //
+class DWM_BLURBEHIND : Structure() {
 
-    Overlay.open()
-	
-	Strand.sleep(3000) // wait a bit to catch everything
-	System.gc() // then cleanup
-	Strand.sleep(Long.MAX_VALUE) // prevent exit
+    @JvmField var dwFlags: WinDef.DWORD? = null
+    @JvmField var fEnable: Boolean = false
+    @JvmField var hRgnBlur: WinDef.HRGN? = null
+    @JvmField var fTransitionOnMaximized: Boolean = false
+
+    override fun getFieldOrder() = Arrays.asList("dwFlags", "fEnable", "hRgnBlur", "fTransitionOnMaximized")
+
 }

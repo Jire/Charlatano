@@ -18,54 +18,53 @@
 
 package com.charlatano.overlay
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
+import com.badlogic.gdx.graphics.Color
 import com.charlatano.game.CSGO.gameHeight
 import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.game.CSGO.gameX
 import com.charlatano.game.CSGO.gameY
 import com.charlatano.utils.every
-import it.unimi.dsi.fastutil.objects.ObjectArrayList
-import java.awt.Color
-import java.awt.Font
-import java.awt.Graphics
-import java.util.Collections.synchronizedList
-import javax.swing.JPanel
-import javax.swing.JWindow
+import com.sun.jna.platform.win32.User32
+import com.sun.jna.platform.win32.WinDef
 
-object Overlay : JWindow() {
+object Overlay {
 
-    private val hooks = synchronizedList(ObjectArrayList<Graphics.() -> Unit>(1024))
+    fun open() {
+        val cfg = LwjglApplicationConfiguration()
+        System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
+        cfg.width = gameWidth
+        cfg.height = gameHeight
+        cfg.x = gameX
+        cfg.y = gameY
+        cfg.resizable = false
+        cfg.fullscreen = false
+        cfg.initialBackgroundColor = Color(0f, 0f, 0f, 0f)
 
-    private val frame = object : JPanel() {
-        override fun paintComponent(g: Graphics) {
-            for (i in 0..hooks.size - 1) hooks[i](g)
-            hooks.clear()
+        LwjglApplication(CharlatanoOverlay, cfg)
+
+        var hwnd: WinDef.HWND?
+        while (true) {
+            hwnd = User32.INSTANCE.FindWindow(null, "CharlatanoOverlay")
+            if (hwnd != null) {
+                break
+            }
+            try {
+                Thread.sleep(100)
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+        }
+        WindowTools.transparentWindow(hwnd!!)
+
+        Gdx.graphics.isContinuousRendering = false
+
+        every(2) {
+            Gdx.graphics.requestRendering()
+            User32.INSTANCE.MoveWindow(hwnd!!, gameX, gameY, gameWidth, gameHeight, false)
         }
     }
-
-    init {
-        isAlwaysOnTop = true
-        background = Color(0f, 0f, 0f, 0f)
-
-        frame.isDoubleBuffered = true
-        frame.setBounds(0, 0, gameWidth, gameHeight)
-        add(frame)
-
-        isVisible = true
-
-        WindowTools.setTransparent(this)
-
-        every(16) {
-            setBounds(gameX, gameY, gameWidth, gameHeight)
-            repaint()
-        }
-    }
-
-    operator fun invoke(body: Graphics.() -> Unit) {
-        hooks.add(body)
-    }
-
-    val LARGE_FONT = Font("Arial", Font.ITALIC, 24)
-
-    val MEDIUM_FONT = Font("Arial", Font.ITALIC, 20)
 
 }
