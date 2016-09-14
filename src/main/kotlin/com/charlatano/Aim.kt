@@ -19,13 +19,14 @@
 package com.charlatano
 
 import com.charlatano.game.CSGO.clientDLL
+import com.charlatano.game.CSGO.gameHeight
+import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.game.entity.*
 import com.charlatano.game.offsets.ClientOffsets.dwViewMatrix
 import com.charlatano.utils.Angle
 import com.charlatano.utils.Random.randomFloat
-import com.charlatano.utils.User32
 import com.charlatano.utils.Vector
-import java.awt.Toolkit
+import com.charlatano.utils.mouseMove
 
 const val InGameSensitivity = 2F
 const val InGamePitch = 0.022F
@@ -39,136 +40,133 @@ const val YAW_MAX_PUNCH = 2.02F
 
 const val AIM_SPEED = 5F
 
-val SCREEN_SIZE = Toolkit.getDefaultToolkit().screenSize!!
-
 val m_vMatrix = Array(4) { FloatArray(4) }
 
 fun worldToScreen(from: Vector, vOut: Vector): Boolean {
-	try {
-		val buffer = clientDLL.read(dwViewMatrix, 4 * 4 * 4)!!
-		var offset = 0
-		for (row in 0..3) {
-			for (col in 0..3) {
-				val value = buffer.getFloat(offset.toLong())
-				m_vMatrix[row][col] = value
-				offset += 4
-			}
-		}
+    try {
+        val buffer = clientDLL.read(dwViewMatrix, 4 * 4 * 4)!!
+        var offset = 0
+        for (row in 0..3) {
+            for (col in 0..3) {
+                val value = buffer.getFloat(offset.toLong())
+                m_vMatrix[row][col] = value
+                offset += 4
+            }
+        }
 
-		vOut.x = m_vMatrix[0][0] * from.x + m_vMatrix[0][1] * from.y + m_vMatrix[0][2] * from.z + m_vMatrix[0][3]
-		vOut.y = m_vMatrix[1][0] * from.x + m_vMatrix[1][1] * from.y + m_vMatrix[1][2] * from.z + m_vMatrix[1][3]
+        vOut.x = m_vMatrix[0][0] * from.x + m_vMatrix[0][1] * from.y + m_vMatrix[0][2] * from.z + m_vMatrix[0][3]
+        vOut.y = m_vMatrix[1][0] * from.x + m_vMatrix[1][1] * from.y + m_vMatrix[1][2] * from.z + m_vMatrix[1][3]
 
-		val w = m_vMatrix[3][0] * from.x + m_vMatrix[3][1] * from.y + m_vMatrix[3][2] * from.z + m_vMatrix[3][3]
+        val w = m_vMatrix[3][0] * from.x + m_vMatrix[3][1] * from.y + m_vMatrix[3][2] * from.z + m_vMatrix[3][3]
 
-		if (w.isNaN() || w < 0.01f) {
-			return false
-		}
+        if (w.isNaN() || w < 0.01f) {
+            return false
+        }
 
-		val invw = 1.0f / w
-		vOut.x *= invw
-		vOut.y *= invw
+        val invw = 1.0f / w
+        vOut.x *= invw
+        vOut.y *= invw
 
-		val width = SCREEN_SIZE.width
-		val height = SCREEN_SIZE.height
+        val width = gameWidth
+        val height = gameHeight
 
-		var x = (width / 2).toFloat()
-		var y = (height / 2).toFloat()
+        var x = (width / 2).toFloat()
+        var y = (height / 2).toFloat()
 
-		x += (0.5 * vOut.x.toDouble() * width.toDouble() + 0.5).toFloat()
-		y -= (0.5 * vOut.y.toDouble() * height.toDouble() + 0.5).toFloat()
+        x += (0.5 * vOut.x.toDouble() * width.toDouble() + 0.5).toFloat()
+        y -= (0.5 * vOut.y.toDouble() * height.toDouble() + 0.5).toFloat()
 
-		vOut.x = x + 0
-		vOut.y = y + 0
-	} catch (t: Throwable) {
-		t.printStackTrace()
-		return false
-	}
+        vOut.x = x + 0
+        vOut.y = y + 0
+    } catch (t: Throwable) {
+        t.printStackTrace()
+        return false
+    }
 
-	return true
+    return true
 }
 
 fun compensateVelocity(source: Player, target: Player, enemyPos: Vector, smoothing: Float) {
-	val myVelocity = source.velocity()
-	val enemyVelocity = target.velocity()
+    val myVelocity = source.velocity()
+    val enemyVelocity = target.velocity()
 
-	val smoothingFactor = 40 / smoothing
-	enemyPos.x += (enemyVelocity.x / 100) * smoothingFactor
-	enemyPos.y += (enemyVelocity.y / 100) * smoothingFactor
-	enemyPos.z += (enemyVelocity.z / 100) * smoothingFactor
-	enemyPos.x -= (myVelocity.x / 100) * smoothingFactor
-	enemyPos.y -= (myVelocity.y / 100) * smoothingFactor
-	enemyPos.z -= (myVelocity.z / 100) * smoothingFactor
+    val smoothingFactor = 40 / smoothing
+    enemyPos.x += (enemyVelocity.x / 100) * smoothingFactor
+    enemyPos.y += (enemyVelocity.y / 100) * smoothingFactor
+    enemyPos.z += (enemyVelocity.z / 100) * smoothingFactor
+    enemyPos.x -= (myVelocity.x / 100) * smoothingFactor
+    enemyPos.y -= (myVelocity.y / 100) * smoothingFactor
+    enemyPos.z -= (myVelocity.z / 100) * smoothingFactor
 }
 
 val angles = Vector()
 
 
 fun calculateAngle(player: Player, dst: Vector): Angle {
-	angles.reset()
+    angles.reset()
 
-	val pitchReduction = randomFloat(PITCH_MIN_PUNCH, PITCH_MAX_PUNCH)
-	val yawReduction = randomFloat(YAW_MIN_PUNCH, YAW_MAX_PUNCH)
+    val pitchReduction = randomFloat(PITCH_MIN_PUNCH, PITCH_MAX_PUNCH)
+    val yawReduction = randomFloat(YAW_MIN_PUNCH, YAW_MAX_PUNCH)
 
-	val myPunch = player.punch()
-	val myPosition = player.position()
+    val myPunch = player.punch()
+    val myPosition = player.position()
 
-	val dX = myPosition.x - dst.x
-	val dY = myPosition.y - dst.y
-	val dZ = myPosition.z + player.viewOffset().x - dst.z
+    val dX = myPosition.x - dst.x
+    val dY = myPosition.y - dst.y
+    val dZ = myPosition.z + player.viewOffset().x - dst.z
 
-	val hyp = Math.sqrt(dX.toDouble() * dX + dY.toDouble() * dY)
+    val hyp = Math.sqrt(dX.toDouble() * dX + dY.toDouble() * dY)
 
-	angles.x = (Math.atan(dZ / hyp) * (180 / Math.PI) - myPunch.x * pitchReduction).toFloat()
-	angles.y = (Math.atan(dY.toDouble() / dX) * (180 / Math.PI) - myPunch.y * yawReduction).toFloat()
-	angles.z = 0F
-	if (dX >= 0) angles.y += 180
+    angles.x = (Math.atan(dZ / hyp) * (180 / Math.PI) - myPunch.x * pitchReduction).toFloat()
+    angles.y = (Math.atan(dY.toDouble() / dX) * (180 / Math.PI) - myPunch.y * yawReduction).toFloat()
+    angles.z = 0F
+    if (dX >= 0) angles.y += 180
 
-	return angles
+    return angles
 }
 
 fun moveTo(position: Vector) {
-	val ScreenCenterX = SCREEN_SIZE.width / 2F
-	val ScreenCenterY = SCREEN_SIZE.height / 2F
+    val ScreenCenterX = gameWidth / 2F
+    val ScreenCenterY = gameHeight / 2F
 
-	val screenPosition = Vector()
-	if (!worldToScreen(position, screenPosition)) {
-		println("Can't find screen position")
-		return
-	}
+    val screenPosition = Vector()
+    if (!worldToScreen(position, screenPosition)) {
+        println("Can't find screen position")
+        return
+    }
 
-	val x = screenPosition.x
-	val y = screenPosition.y
+    val x = screenPosition.x
+    val y = screenPosition.y
 
-	var mouseX = 0f
-	var mouseY = 0f
+    var mouseX = 0f
+    var mouseY = 0f
 
-	if (x !== 0F) {
-		if (x > ScreenCenterX) {
-			mouseX = -(ScreenCenterX - x)
-			mouseX /= AIM_SPEED
-			if (mouseX + ScreenCenterX > ScreenCenterX * 2) mouseX = 0f
-		}
+    if (x !== 0F) {
+        if (x > ScreenCenterX) {
+            mouseX = -(ScreenCenterX - x)
+            mouseX /= AIM_SPEED
+            if (mouseX + ScreenCenterX > ScreenCenterX * 2) mouseX = 0f
+        }
 
-		if (x < ScreenCenterX) {
-			mouseX = x - ScreenCenterX
-			mouseX /= AIM_SPEED
-			if (mouseX + ScreenCenterX < 0) mouseX = 0f
-		}
-	}
+        if (x < ScreenCenterX) {
+            mouseX = x - ScreenCenterX
+            mouseX /= AIM_SPEED
+            if (mouseX + ScreenCenterX < 0) mouseX = 0f
+        }
+    }
 
-	if (y !== 0F) {
-		if (y > ScreenCenterY) {
-			mouseY = -(ScreenCenterY - y)
-			mouseY /= AIM_SPEED
-			if (mouseY + ScreenCenterY > ScreenCenterY * 2) mouseY = 0f
-		}
+    if (y !== 0F) {
+        if (y > ScreenCenterY) {
+            mouseY = -(ScreenCenterY - y)
+            mouseY /= AIM_SPEED
+            if (mouseY + ScreenCenterY > ScreenCenterY * 2) mouseY = 0f
+        }
 
-		if (y < ScreenCenterY) {
-			mouseY = y - ScreenCenterY
-			mouseY /= AIM_SPEED
-			if (mouseY + ScreenCenterY < 0) mouseY = 0f
-		}
-	}
-
-	User32.mouse_event(User32.MOUSEEVENTF_MOVE, mouseX.toInt(), mouseY.toInt(), null, null)
+        if (y < ScreenCenterY) {
+            mouseY = y - ScreenCenterY
+            mouseY /= AIM_SPEED
+            if (mouseY + ScreenCenterY < 0) mouseY = 0f
+        }
+    }
+    mouseMove(mouseX.toInt(), mouseY.toInt())
 }

@@ -16,19 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.game.offsets
+package com.charlatano.utils.natives
 
-import com.charlatano.game.CSGO.engineDLL
-import com.charlatano.utils.get
+import com.sun.jna.Native
+import com.sun.jna.platform.win32.WinDef
 
-object EngineOffsets {
+object CUser32 {
 	
-	val dwClientState by engineDLL(1)(161, 0[4], 243, 15, 17, 128, 0[4], 217, 70, 4, 217, 5, 0[4])
-	val dwInGame by engineDLL(2, subtract = false)(131, 185, 0[4], 6, 15, 148, 192, 195)
-	val dwGlobalVars by engineDLL(12)(0x8B, 0x0D, 0x0[4], 0x83, 0xC4, 0x04,
-			0x8B, 0x01, 0x68, 0x0[4], 0xFF, 0x35)
-	val dwViewAngles by engineDLL(4, subtract = false)(0xF3, 0x0F, 0x11, 0x80, 0x00[4], 0xD9, 0x46, 0x04, 0xD9, 0x05, 0x00[4])
-
-    val studioModel by engineDLL(0x2)(0x8B, 0x0D, 0x00, 0x00, 0x00, 0x00, 0x0F, 0xB7, 0x80, 0x00, 0x00, 0x00, 0x00, 0x8B, 0x11, 0x89, 0x45, 0x08, 0x5D, 0xFF, 0x62, 0x38, 0x33, 0xC0)
+	init {
+		Native.register("user32")
+	}
+	
+    external fun GetClientRect(hWnd: WinDef.HWND, rect: WinDef.RECT): Boolean
 
 }

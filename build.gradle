@@ -23,6 +23,7 @@ buildscript {
 	ext.kotlin_version = '1.1-M01'
 	ext.jna_version = '4.3.0-SNAPSHOT'
 	ext.quasar_version = '0.7.6'
+    ext.gdxVersion = '1.9.4'
 	
 	repositories {
 		mavenCentral()
@@ -53,4 +54,11 @@ dependencies {
 	compile group: 'co.paralleluniverse', name: 'quasar-core', version: quasar_version
 	compile group: 'co.paralleluniverse', name: 'quasar-actors', version: quasar_version
 	compile group: 'co.paralleluniverse', name: 'quasar-kotlin', version: quasar_version
+
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 }

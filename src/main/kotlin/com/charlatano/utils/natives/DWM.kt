@@ -16,20 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.utils
+package com.charlatano.utils.natives
 
 import com.sun.jna.Native
-import com.sun.jna.Pointer
+import com.sun.jna.Structure
+import com.sun.jna.platform.win32.WinDef
+import com.sun.jna.platform.win32.WinNT
+import java.util.*
 
-object User32 {
-	
-	val MOUSEEVENTF_MOVE = 0x0001
-	val MOUSEEVENTF_ABSOLUTE = 0x8000
-	
-	init {
-		Native.register("user32")
-	}
-	
-	external fun mouse_event(dwFlags: Int, dx: Int, dy: Int, dwData: Pointer?, dwExtraInfo: Pointer?)
-	
+object DWM {
+
+    init {
+        Native.register("Dwmapi")
+    }
+
+    external fun DwmEnableBlurBehindWindow(hWnd: WinDef.HWND, pBlurBehind: DWM_BLURBEHIND): WinNT.HRESULT
+
+}
+
+class DWM_BLURBEHIND : Structure() {
+
+    @JvmField var dwFlags: WinDef.DWORD? = null
+    @JvmField var fEnable: Boolean = false
+    @JvmField var hRgnBlur: WinDef.HRGN? = null
+    @JvmField var fTransitionOnMaximized: Boolean = false
+
+    override fun getFieldOrder() = Arrays.asList("dwFlags", "fEnable", "hRgnBlur", "fTransitionOnMaximized")
+
 }

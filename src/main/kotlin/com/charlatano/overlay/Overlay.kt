@@ -18,50 +18,52 @@
 
 package com.charlatano.overlay
 
-import com.charlatano.SCREEN_SIZE
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
+import com.badlogic.gdx.graphics.Color
+import com.charlatano.game.CSGO.gameHeight
+import com.charlatano.game.CSGO.gameWidth
+import com.charlatano.game.CSGO.gameX
+import com.charlatano.game.CSGO.gameY
 import com.charlatano.utils.every
-import it.unimi.dsi.fastutil.objects.ObjectArrayList
-import java.awt.Color
-import java.awt.Dimension
-import java.awt.Font
-import java.awt.Graphics
-import java.util.Collections.synchronizedList
-import javax.swing.JPanel
-import javax.swing.JWindow
+import com.sun.jna.platform.win32.User32
+import com.sun.jna.platform.win32.WinDef
 
-object Overlay : JWindow() {
-	
-	private val hooks = synchronizedList(ObjectArrayList<Graphics.() -> Unit>(1024))
-	
-	private val frame = object : JPanel() {
-		override fun paintComponent(g: Graphics) {
-			for (i in 0..hooks.size - 1) hooks[i](g)
-			hooks.clear()
-		}
-	}
-	
-	init {
-		isAlwaysOnTop = true
-		size = Dimension(SCREEN_SIZE.width, SCREEN_SIZE.height)
-		background = Color(0, 0, 0, 0)
-		
-		frame.size = Dimension(SCREEN_SIZE.width, SCREEN_SIZE.height)
-		frame.isDoubleBuffered = true
-		add(frame)
-		
-		isVisible = true
-		
-		WindowTools.setTransparent(this)
-		
-		every(16) { repaint() }
-	}
-	
-	operator fun invoke(body: Graphics.() -> Unit) {
-		hooks.add(body)
-	}
-	
-	val Overlay.LARGE_FONT by lazy { Font("Arial", Font.ITALIC, 24) }
-	
-	val Overlay.MEDIUM_FONT by lazy { Font("Arial", Font.ITALIC, 20) }
-	
+object Overlay {
+
+    fun open() {
+        val cfg = LwjglApplicationConfiguration()
+        System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
+        cfg.width = gameWidth
+        cfg.height = gameHeight
+        cfg.x = gameX
+        cfg.y = gameY
+        cfg.resizable = false
+        cfg.fullscreen = false
+        cfg.initialBackgroundColor = Color(0f, 0f, 0f, 0f)
+
+        LwjglApplication(CharlatanoOverlay, cfg)
+
+        var hwnd: WinDef.HWND?
+        while (true) {
+            hwnd = User32.INSTANCE.FindWindow(null, "CharlatanoOverlay")
+            if (hwnd != null) {
+                break
+            }
+            try {
+                Thread.sleep(100)
+            } catch (e: InterruptedException) {
+                e.printStackTrace()
+            }
+        }
+        WindowTools.transparentWindow(hwnd!!)
+
+        // Gdx.graphics.isContinuousRendering = false
+
+        every(32) {
+            //Gdx.graphics.requestRendering()
+            User32.INSTANCE.MoveWindow(hwnd!!, gameX, gameY, gameWidth, gameHeight, false)
+        }
+    }
+
 }

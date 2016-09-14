@@ -19,9 +19,15 @@
 package com.charlatano.game.hooks
 
 import com.charlatano.game.entity.planted
-import com.charlatano.scripts.bomb
+import com.charlatano.scripts.esp.bomb
 import com.charlatano.utils.hook
 
+
+var location = ""
+
 val bombPlanted = hook(8) {
-	bomb.planted()
+	val planted = bomb.planted()
+	if (!planted) location = ""
+	
+	planted
 }
