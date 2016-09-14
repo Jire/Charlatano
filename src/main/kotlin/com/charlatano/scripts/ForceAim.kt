@@ -18,7 +18,10 @@
 
 package com.charlatano.scripts
 
+import co.paralleluniverse.fibers.Suspendable
+import co.paralleluniverse.strands.Strand
 import com.charlatano.*
+import com.charlatano.game.CSGO
 import com.charlatano.game.angle
 import com.charlatano.game.entity.*
 import com.charlatano.game.hooks.clientState
@@ -27,6 +30,9 @@ import com.charlatano.game.hooks.me
 import com.charlatano.game.hooks.players
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
+import java.awt.MouseInfo
+import java.awt.Point
+import java.util.concurrent.ThreadLocalRandom.current as tlr
 
 private var target: Player = -1L
 
@@ -34,6 +40,8 @@ private const val LOCK_FOV = 35
 
 private const val SMOOTHING_MIN = 30F
 private const val SMOOTHING_MAX = 35F
+
+private const val SMOOTHING = 100
 
 fun forceAim() = every(FORCE_AIM_SMOOTHING) {
     val pressed = keyPressed(FORCE_AIM_KEY) {
@@ -49,8 +57,7 @@ fun forceAim() = every(FORCE_AIM_SMOOTHING) {
             return@keyPressed
         }
 
-        if (me.dead() || target.dead() || target.dormant()
-                || !target.spotted() || target.team() == me.team()) {
+        if (me.dead() || target.dead() || target.dormant() || !target.spotted() || target.team() == me.team()) {
             target = -1L
             return@keyPressed
         }
@@ -65,7 +72,28 @@ fun forceAim() = every(FORCE_AIM_SMOOTHING) {
 
         val dx = Math.round(delta.x / (InGameSensitivity * InGamePitch))
         val dy = Math.round(-delta.y / (InGameSensitivity * InGameYaw))
-        mouseMove(dx, dy)
+
+        val current = MouseInfo.getPointerInfo().location!!
+        val target = Point(current.x + (dx / 2), current.y + (dy / 2))
+
+        if (target.x <= 0) return@every
+        else if (target.x >= CSGO.gameX + CSGO.gameWidth) return@every
+        if (target.y <= 0) return@every
+        else if (target.y >= CSGO.gameY + CSGO.gameHeight) return@every
+
+        val points = ZetaMouseGenerator.generate(current, target)
+        for (i in 1..points.lastIndex) {
+            val point = points[points.lastIndex]
+            val mouse = MouseInfo.getPointerInfo().location!!
+
+            val tx = point.x - mouse.x
+            val ty = point.y - mouse.y
+
+            val halfIndex = Math.ceil(points.lastIndex / 2.0)
+            mouseMove((tx / halfIndex).toInt(), (ty / halfIndex).toInt())
+
+            Strand.sleep(Math.ceil((2 + tlr().nextInt(6) + tlr().nextInt(i)) * (SMOOTHING / 100.0)).toLong())
+        }
     }
     if (!pressed) target = -1L
 }

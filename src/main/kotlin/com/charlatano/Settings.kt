@@ -24,7 +24,7 @@ import java.awt.event.KeyEvent
 /**
  * Force Aim Settings
  */
-const val FORCE_AIM_SMOOTHING = 20 //Lower = stronger lock
+const val FORCE_AIM_SMOOTHING = 16 //Lower = stronger lock
 const val FORCE_AIM_KEY = 5 //5 = Mouse forward button
 const val FORCE_AIM_TARGET_BONE = 6 //6 = Head
 
@@ -54,6 +54,6 @@ const val BOMB_COLOR_GREEN = 255 //RGB colors
 const val BOMB_COLOR_ALPHA = 0.6f //RGB colors
 
 
-const val SKELETON_ESP = true
-const val GLOW_ESP = false
-const val BOX_ESP = true
+const val SKELETON_ESP = false
+const val GLOW_ESP = true
+const val BOX_ESP = false
