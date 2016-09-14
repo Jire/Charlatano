@@ -18,53 +18,74 @@
 
 package com.charlatano.scripts
 
+import co.paralleluniverse.fibers.Suspendable
 import co.paralleluniverse.strands.Strand
+import co.paralleluniverse.strands.concurrent.ReentrantLock
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.CSGO.gameHeight
-import com.charlatano.game.CSGO.gameWidth
+import com.charlatano.game.aim
+import com.charlatano.game.angle
+import com.charlatano.game.entity.Player
+import com.charlatano.game.hooks.clientState
 import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
-import com.charlatano.utils.Vector
-import com.charlatano.utils.every
-import com.charlatano.utils.mouseMove
-import com.charlatano.utils.uint
+import com.charlatano.utils.*
+import org.jire.arrowhead.keyReleased
 
 var prevFired = 0
+val lastPunch = FloatArray(2)
 
-val dxN = gameWidth / 90
-val dyN = gameHeight / 90
+//val lock = ReentrantLock()
 
-fun rcs() = every(8) {
-    val myAddress = clientDLL.uint(dwLocalPlayer)
-    if (myAddress <= 0) return@every
+@Suspendable
+fun work() {
+	val myAddress: Player = clientDLL.uint(dwLocalPlayer)
+	if (myAddress <= 0) {
+		return
+	}
 
-    val shotsFired = csgoEXE.int(myAddress + iShotsFired)
-    if (shotsFired > 1 && shotsFired > prevFired) {
-        val lastPunch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
+	val shotsFired = csgoEXE.int(myAddress + iShotsFired)
+	if (shotsFired <= 2 || shotsFired < prevFired) {
+		if (keyReleased(1)) {
+			reset()
+			return
+		}
+	}
 
-        Strand.sleep(8)
+	val punch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
+	punch.x *= 2F
+	punch.y *= 2F
+	punch.z = 0F
+	punch.normalize()
 
-        val currentPunch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
+	var view = clientState.angle()
+	if (view.x == 0F || view.y == 0F || view.z == 0F) view = clientState.angle()
 
-        val toScreen = toScreen(currentPunch, lastPunch)
+	val newView: Angle = Vector(punch.x, punch.y, punch.z)
+	newView.x -= lastPunch[0]
+	newView.y -= lastPunch[1]
+	newView.z = 0F
+	newView.normalize()
 
-        mouseMove(toScreen.x.toInt(), toScreen.y.toInt())
+	view.x -= newView.x
+	view.y -= newView.y
+	view.z = 0F
+	view.normalize()
 
-        prevFired = shotsFired
-    } else {
-        prevFired = 0
+	aim(clientState.angle(), view, 100)
 
-    }
+	lastPunch[0] = punch.x
+	lastPunch[1] = punch.y
+	prevFired = shotsFired
 }
 
-fun toScreen(current: Vector, previous: Vector): Vector {
-    val previous = angleToScreen(previous)
-    val current = angleToScreen(current)
-    return Vector(-(current.x - previous.x) * 4, -(current.y - previous.y) * 6)
+fun rcs() = every(1) {
+	work()
 }
 
-fun angleToScreen(vector: Vector)
-        = Vector(((gameWidth / 2.0) - (dxN * (vector.y / 2.0f))).toFloat(),
-        ((gameHeight / 2.0) - (dyN * (-vector.x / 2.0f))).toFloat())
+private fun reset() {
+	prevFired = 0
+	lastPunch[0] = 0F
+	lastPunch[1] = 0F
+}

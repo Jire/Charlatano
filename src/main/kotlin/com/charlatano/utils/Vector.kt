@@ -20,7 +20,7 @@ package com.charlatano.utils
 
 data class Vector(var x: Float = 0F, var y: Float = 0F, var z: Float = 0F) {
 
-    fun reset() = set(0f, 0f, 0f)
+    fun reset() = set(0F, 0F, 0F)
 
     fun set(x: Float, y: Float, z: Float) = apply {
         this.x = x

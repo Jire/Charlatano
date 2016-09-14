@@ -18,10 +18,11 @@
 
 package com.charlatano.scripts
 
-import co.paralleluniverse.fibers.Suspendable
-import co.paralleluniverse.strands.Strand
-import com.charlatano.*
-import com.charlatano.game.CSGO
+import com.charlatano.FORCE_AIM_KEY
+import com.charlatano.FORCE_AIM_SMOOTHING
+import com.charlatano.calculateAngle
+import com.charlatano.compensateVelocity
+import com.charlatano.game.aim
 import com.charlatano.game.angle
 import com.charlatano.game.entity.*
 import com.charlatano.game.hooks.clientState
@@ -30,96 +31,74 @@ import com.charlatano.game.hooks.me
 import com.charlatano.game.hooks.players
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
-import java.awt.MouseInfo
-import java.awt.Point
 import java.util.concurrent.ThreadLocalRandom.current as tlr
 
 private var target: Player = -1L
 
-private const val LOCK_FOV = 35
+private const val LOCK_FOV = 60
 
 private const val SMOOTHING_MIN = 30F
-private const val SMOOTHING_MAX = 35F
+private const val SMOOTHING_MAX = 30F
 
 private const val SMOOTHING = 100
 
 fun forceAim() = every(FORCE_AIM_SMOOTHING) {
-    val pressed = keyPressed(FORCE_AIM_KEY) {
-        val currentAngle = clientState.angle()
+	try {
+		val pressed = keyPressed(FORCE_AIM_KEY) {
+			val currentAngle = clientState.angle()
 
-        var currentTarget = target
-        if (currentTarget == -1L) {
-            currentTarget = findTarget(me.position(), currentAngle)
-            if (currentTarget == -1L) {
-                return@keyPressed
-            }
-            target = currentTarget
-            return@keyPressed
-        }
+			var currentTarget = target
+			if (currentTarget == -1L) {
+				currentTarget = findTarget(me.position(), currentAngle)
+				if (currentTarget == -1L) {
+					return@keyPressed
+				}
+				target = currentTarget
+				return@keyPressed
+			}
 
-        if (me.dead() || target.dead() || target.dormant() || !target.spotted() || target.team() == me.team()) {
-            target = -1L
-            return@keyPressed
-        }
+			if (me.dead() || target.dead() || target.dormant() || !target.spotted() || target.team() == me.team()) {
+				target = -1L
+				return@keyPressed
+			}
 
-        val bonePosition = Vector(target.bone(0xC), target.bone(0x1C), target.bone(0x2C))
-        compensateVelocity(me, target, bonePosition, SMOOTHING_MAX)
+			val bonePosition = Vector(target.bone(0xC), target.bone(0x1C), target.bone(0x2C))
+			compensateVelocity(me, target, bonePosition, SMOOTHING_MAX)
 
-        val dest = calculateAngle(me, bonePosition)
-        dest.finalize(currentAngle, SMOOTHING_MAX)
+			val dest = calculateAngle(me, bonePosition)
+			//dest.normalize()
+			dest.finalize(currentAngle, SMOOTHING_MAX)
 
-        val delta = Vector(currentAngle.y - dest.y, currentAngle.x - dest.x, 0F)
-
-        val dx = Math.round(delta.x / (InGameSensitivity * InGamePitch))
-        val dy = Math.round(-delta.y / (InGameSensitivity * InGameYaw))
-
-        val current = MouseInfo.getPointerInfo().location!!
-        val target = Point(current.x + (dx / 2), current.y + (dy / 2))
-
-        if (target.x <= 0) return@every
-        else if (target.x >= CSGO.gameX + CSGO.gameWidth) return@every
-        if (target.y <= 0) return@every
-        else if (target.y >= CSGO.gameY + CSGO.gameHeight) return@every
-
-        val points = ZetaMouseGenerator.generate(current, target)
-        for (i in 1..points.lastIndex) {
-            val point = points[points.lastIndex]
-            val mouse = MouseInfo.getPointerInfo().location!!
-
-            val tx = point.x - mouse.x
-            val ty = point.y - mouse.y
-
-            val halfIndex = Math.ceil(points.lastIndex / 2.0)
-            mouseMove((tx / halfIndex).toInt(), (ty / halfIndex).toInt())
-
-            Strand.sleep(Math.ceil((2 + tlr().nextInt(6) + tlr().nextInt(i)) * (SMOOTHING / 100.0)).toLong())
-        }
-    }
-    if (!pressed) target = -1L
+			aim(currentAngle, dest)
+		}
+		if (!pressed) target = -1L
+	} catch (t: Throwable) {
+		t.printStackTrace()
+	}
 }
 
 private fun findTarget(position: Angle, angle: Angle, lockFOV: Int = LOCK_FOV): Player {
-    var closestDelta = Int.MAX_VALUE
-    var closetPlayer: Player? = null
-    for (i in 0..players.size - 1) {
-        val entity = players.entity(i)
-        if (entity == me || entity.team() == me.team()) continue
+	var closestDelta = Int.MAX_VALUE
+	var closetPlayer: Player? = null
+	for (i in 0..players.size - 1) {
+		val entity = players.entity(i)
+		if (entity == me || entity.team() == me.team()) continue
 
-        if (me.dead() || entity.dead() || !entity.spotted() || entity.dormant()) continue
+		if (me.dead() || entity.dead() || !entity.spotted() || entity.dormant()) continue
 
-        val ePos: Angle = Vector(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C))
-        val distance = position.distanceTo(ePos)
+		val ePos: Angle = Vector(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C))
+		val distance = position.distanceTo(ePos)
 
-        val dest = calculateAngle(me, ePos)
-        dest.normalize()
+		val dest = calculateAngle(me, ePos)
+		dest.normalize()
 
-        val yawDiff = Math.abs(angle.y - dest.y)
-        val delta = Math.abs(Math.sin(Math.toRadians(yawDiff.toDouble())) * distance)
+		val yawDiff = Math.abs(angle.y - dest.y)
+		val delta = Math.abs(Math.sin(Math.toRadians(yawDiff.toDouble())) * distance)
 
-        if (delta <= lockFOV && delta < closestDelta) {
-            closestDelta = delta.toInt()
-            closetPlayer = entity
-        }
-    }
-    return closetPlayer ?: -1
+		if (delta <= lockFOV && delta < closestDelta) {
+			closestDelta = delta.toInt()
+			closetPlayer = entity
+		}
+	}
+	return closetPlayer ?: -1
 }

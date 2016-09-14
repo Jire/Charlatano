@@ -21,10 +21,19 @@ package com.charlatano.utils
 import co.paralleluniverse.kotlin.fiber
 import co.paralleluniverse.strands.Strand
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.locks.ReentrantLock
+
+val lock = ThreadLocal.withInitial { ReentrantLock() }
 
 inline fun every(duration: Int, durationUnit: TimeUnit = TimeUnit.MILLISECONDS, crossinline body: () -> Unit) = fiber {
 	while (!Strand.interrupted()) {
-		body()
+		val l = lock.get()
+		l.lock()
+		try {
+			body()
+		} finally {
+			l.unlock()
+		}
 		Strand.sleep(duration.toLong(), durationUnit)
 	}
 }

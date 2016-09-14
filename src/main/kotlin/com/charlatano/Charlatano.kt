@@ -27,8 +27,9 @@ import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.*
 
 fun main(args: Array<String>) {
-    System.setProperty("sun.java2d.opengl", "true")
-    System.setProperty("co.paralleluniverse.fibers.detectRunawayFibers", "false")
+    //System.setProperty("co.paralleluniverse.fibers.detectRunawayFibers", "false")
+	System.setProperty("co.paralleluniverse.fibers.DefaultFiberPool.parallelism", "1")
+	System.setProperty("co.paralleluniverse.fibers.verifyInstrumentation", "true")
 
 	CSGO.initalize()
 
@@ -37,9 +38,9 @@ fun main(args: Array<String>) {
 	// -- START OF SCRIPTS -- //
 	bunnyHop()
 	esp()
-	//rcs()
+	rcs()
 	noFlash()
-	bombTimer()
+	//bombTimer()
 	forceAim()
 	// -- END OF SCRIPTS -- //
 

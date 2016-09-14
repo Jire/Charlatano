@@ -26,16 +26,20 @@ import com.charlatano.game.hooks.location
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.scripts.esp.bomb
 
+var canDefuse = false
 
-fun bombTimer() = bombPlanted {
-    val hasKit = false
-    val canDefuse = bomb.timeLeft() >= if (hasKit) 5 else 10
+fun bombTimer() {
+	bombPlanted {
+		val hasKit = false
+		canDefuse = bomb.timeLeft() >= if (hasKit) 5 else 10
 
-    if (location.isEmpty()) location = bomb.location()
+		if (location.isEmpty()) location = bomb.location()
+	}
 
-    CharlatanoOverlay {
-        textRenderer.color = Color.ORANGE
-        textRenderer.draw(batch, "Location: $location, ${bomb.timeLeft()} seconds, can defuse? $canDefuse", 200f, 20f)
-    }
+	CharlatanoOverlay {
+		val textRenderer = textRenderer.get() ?: return@CharlatanoOverlay
+		textRenderer.color = Color.ORANGE
+		val batch = batch.get() ?: return@CharlatanoOverlay
+		textRenderer.draw(batch, "Location: $location, ${bomb.timeLeft()} seconds, can defuse? $canDefuse", 200f, 20f)
+	}
 }
-
