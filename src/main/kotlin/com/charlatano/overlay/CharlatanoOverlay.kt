@@ -36,6 +36,13 @@ object CharlatanoOverlay : ApplicationAdapter() {
         lateinit var camera: OrthographicCamera
         lateinit var shapeRenderer: ShapeRenderer
         lateinit var textRenderer: BitmapFont
+
+        init {
+            batch = CharlatanoOverlay.batch
+            camera = CharlatanoOverlay.camera
+            shapeRenderer = CharlatanoOverlay.shapeRenderer
+            textRenderer = CharlatanoOverlay.textRenderer
+        }
     }
 
     lateinit var batch: SpriteBatch
@@ -48,6 +55,7 @@ object CharlatanoOverlay : ApplicationAdapter() {
         camera = OrthographicCamera(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
         camera.setToOrtho(true, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
         shapeRenderer = ShapeRenderer()
+        shapeRenderer.projectionMatrix = camera.combined
         shapeRenderer.setAutoShapeType(true)
         textRenderer = BitmapFont()
         textRenderer.color = Color.RED
@@ -64,18 +72,12 @@ object CharlatanoOverlay : ApplicationAdapter() {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-        camera.update()
-        shapeRenderer.projectionMatrix = camera.combined
-
         batch.begin()
 
-        val overlayIteration = overlayIteration.get()
-        overlayIteration.batch = batch
-        overlayIteration.camera = camera
-        overlayIteration.shapeRenderer = shapeRenderer
-        overlayIteration.textRenderer = textRenderer
-
-        for (x in 0..bodies.size - 1) bodies[x](overlayIteration)
+        for (x in 0..bodies.size - 1) {
+            if (bodies[x] != null)
+                bodies[x](overlayIteration.get())
+        }
 
         batch.end()
         Gdx.gl.glDisable(GL20.GL_BLEND)

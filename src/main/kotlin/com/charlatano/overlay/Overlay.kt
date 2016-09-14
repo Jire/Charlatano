@@ -18,7 +18,6 @@
 
 package com.charlatano.overlay
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
 import com.badlogic.gdx.graphics.Color
@@ -59,10 +58,10 @@ object Overlay {
         }
         WindowTools.transparentWindow(hwnd!!)
 
-        Gdx.graphics.isContinuousRendering = false
+        // Gdx.graphics.isContinuousRendering = false
 
-        every(2) {
-            Gdx.graphics.requestRendering()
+        every(32) {
+            //Gdx.graphics.requestRendering()
             User32.INSTANCE.MoveWindow(hwnd!!, gameX, gameY, gameWidth, gameHeight, false)
         }
     }

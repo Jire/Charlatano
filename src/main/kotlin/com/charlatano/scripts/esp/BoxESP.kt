@@ -73,7 +73,7 @@ fun boxEsp() = every(1) {
     CharlatanoOverlay {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
         boxes.forEach {
-            if (it.color != Color.BLACK) {
+            if (it.color != Color.BLACK && it.x > 0 && it.y > 0 && it.w > 0 && it.h > 0) {
                 shapeRenderer.color = it.color
                 shapeRenderer.rect(it.x.toFloat(), it.y.toFloat(), it.w.toFloat(), it.h.toFloat())
             }
