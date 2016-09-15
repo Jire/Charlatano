@@ -31,39 +31,43 @@ import com.sun.jna.platform.win32.WinDef
 
 object Overlay {
 
-    fun open() {
-        val cfg = LwjglApplicationConfiguration()
-        System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
-        cfg.width = gameWidth
-        cfg.height = gameHeight
-        cfg.x = gameX
-        cfg.y = gameY
-        cfg.resizable = false
-        cfg.fullscreen = false
-        cfg.initialBackgroundColor = Color(0f, 0f, 0f, 0f)
+	fun open() {
+		val cfg = LwjglApplicationConfiguration()
+		System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
+		cfg.width = gameWidth
+		cfg.height = gameHeight
+		cfg.x = gameX
+		cfg.y = gameY
+		cfg.resizable = false
+		cfg.fullscreen = false
+		cfg.initialBackgroundColor = Color(0f, 0f, 0f, 0f)
+		cfg.vSyncEnabled = true
+		cfg.samples = 4
+		cfg.foregroundFPS = 140
+		cfg.backgroundFPS = 140
 
-        LwjglApplication(CharlatanoOverlay, cfg)
+		LwjglApplication(CharlatanoOverlay, cfg)
 
-        var hwnd: WinDef.HWND?
-        while (true) {
-            hwnd = User32.INSTANCE.FindWindow(null, "CharlatanoOverlay")
-            if (hwnd != null) {
-                break
-            }
-            try {
-                Thread.sleep(100)
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
-            }
-        }
-        WindowTools.transparentWindow(hwnd!!)
+		var hwnd: WinDef.HWND?
+		while (true) {
+			hwnd = User32.INSTANCE.FindWindow(null, "CharlatanoOverlay")
+			if (hwnd != null) {
+				break
+			}
+			try {
+				Thread.sleep(100)
+			} catch (e: InterruptedException) {
+				e.printStackTrace()
+			}
+		}
+		WindowTools.transparentWindow(hwnd!!)
 
-        // Gdx.graphics.isContinuousRendering = false
+		// Gdx.graphics.isContinuousRendering = false
 
-        every(128) {
-            //Gdx.graphics.requestRendering()
-            User32.INSTANCE.MoveWindow(hwnd!!, gameX, gameY, gameWidth, gameHeight, false)
-        }
-    }
+		every(128) {
+			//Gdx.graphics.requestRendering()
+			User32.INSTANCE.MoveWindow(hwnd!!, gameX, gameY, gameWidth, gameHeight, false)
+		}
+	}
 
 }

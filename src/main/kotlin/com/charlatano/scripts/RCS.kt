@@ -73,7 +73,7 @@ fun work() {
 	view.z = 0F
 	view.normalize()
 
-	aim(clientState.angle(), view, 100)
+	aim(clientState.angle(), view, 65)
 
 	lastPunch[0] = punch.x
 	lastPunch[1] = punch.y

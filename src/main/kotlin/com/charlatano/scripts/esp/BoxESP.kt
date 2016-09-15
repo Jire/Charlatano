@@ -76,9 +76,10 @@ fun boxEsp() {
 		val shapeRenderer = shapeRenderer.get() ?: return@CharlatanoOverlay
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
 		boxes.forEach {
-			if (it.color != Color.BLACK && it.x > 0 && it.y > 0 && it.w > 0 && it.h > 0) {
+			if (it.color != Color.WHITE && it.x > 0 && it.y > 0 && it.w > 0 && it.h > 0) {
 				shapeRenderer.color = it.color
 				shapeRenderer.rect(it.x.toFloat(), it.y.toFloat(), it.w.toFloat(), it.h.toFloat())
+				//shapeRenderer.rect(it.x.toFloat() - 1, it.y.toFloat() - 1, it.w.toFloat() + 2, it.h.toFloat() + 2)
 			}
 			it.reset()
 		}
@@ -91,13 +92,13 @@ class Box() {
 	var y = -1
 	var w = -1
 	var h = -1
-	var color: Color = Color.BLACK
+	var color: Color = Color.WHITE
 
 	fun reset() {
 		x = -1
 		y = -1
 		w = -1
 		h = -1
-		color = Color.BLACK
+		color = Color.WHITE
 	}
 }

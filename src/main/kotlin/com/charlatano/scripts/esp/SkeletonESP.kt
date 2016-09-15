@@ -76,7 +76,7 @@ fun skeletonEsp() {
 		val shapeRenderer = shapeRenderer.get() ?: return@CharlatanoOverlay
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
 		skeletons.forEach {
-			if (it.color != Color.BLACK && it.sX > 0 && it.sY > 0 && it.eX > 0 && it.eX > 0) {
+			if (it.color != Color.WHITE && it.sX > 0 && it.sY > 0 && it.eX > 0 && it.eX > 0) {
 				shapeRenderer.color = it.color
 				shapeRenderer.line(it.sX.toFloat(), it.sY.toFloat(), it.eX.toFloat(), it.eY.toFloat())
 			}
@@ -140,14 +140,14 @@ class Line() {
 	var sY = -1
 	var eX = -1
 	var eY = -1
-	var color: Color = Color.BLACK
+	var color: Color = Color.WHITE
 
 	fun reset() {
 		sX = -1
 		sY = -1
 		eX = -1
 		eY = -1
-		color = Color.BLACK
+		color = Color.WHITE
 	}
 }
 

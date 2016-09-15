@@ -43,7 +43,7 @@ fun bombTimer() {
         val batch = batch.get() ?: return@CharlatanoOverlay
         batch.begin()
 		textRenderer.color = Color.ORANGE
-        textRenderer.draw(batch, "Location: $location, ${bomb.timeLeft()} seconds, can defuse? $canDefuse", 0f, 400f)
+        textRenderer.draw(batch, "Location: $location, ${bomb.timeLeft()} seconds, can defuse? $canDefuse", 20f, 400f)
         batch.end()
     }
 }

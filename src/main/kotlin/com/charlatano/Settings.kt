@@ -55,5 +55,5 @@ const val BOMB_COLOR_ALPHA = 0.6f //RGB colors
 
 
 const val SKELETON_ESP = true
-const val GLOW_ESP = true
+const val GLOW_ESP = false
 const val BOX_ESP = true

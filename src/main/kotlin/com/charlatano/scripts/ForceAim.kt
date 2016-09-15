@@ -38,9 +38,9 @@ private var target: Player = -1L
 private const val LOCK_FOV = 60
 
 private const val SMOOTHING_MIN = 30F
-private const val SMOOTHING_MAX = 30F
+private const val SMOOTHING_MAX = 40F
 
-private const val SMOOTHING = 100
+private const val SMOOTHING = 1
 
 fun forceAim() = every(FORCE_AIM_SMOOTHING) {
 	try {
@@ -66,10 +66,10 @@ fun forceAim() = every(FORCE_AIM_SMOOTHING) {
 			compensateVelocity(me, target, bonePosition, SMOOTHING_MAX)
 
 			val dest = calculateAngle(me, bonePosition)
-			//dest.normalize()
-			dest.finalize(currentAngle, SMOOTHING_MAX)
+			dest.normalize()
+			//dest.finalize(currentAngle, SMOOTHING_MAX)
 
-			aim(currentAngle, dest)
+			aim(currentAngle, dest, SMOOTHING)
 		}
 		if (!pressed) target = -1L
 	} catch (t: Throwable) {
@@ -82,6 +82,7 @@ private fun findTarget(position: Angle, angle: Angle, lockFOV: Int = LOCK_FOV): 
 	var closetPlayer: Player? = null
 	for (i in 0..players.size - 1) {
 		val entity = players.entity(i)
+		if (entity <= 0) continue
 		if (entity == me || entity.team() == me.team()) continue
 
 		if (me.dead() || entity.dead() || !entity.spotted() || entity.dormant()) continue

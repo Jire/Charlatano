@@ -25,7 +25,7 @@ import com.charlatano.game.entity.*
 import com.charlatano.game.hooks.*
 import com.charlatano.utils.every
 
-fun glowEsp() = every(32) {
+fun glowEsp() = every(4) {
     for (i in 0..entites.size - 1) {//TODO clean this up alot
         val entity = entites.entity(i)
         if (entity == me) continue
