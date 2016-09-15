@@ -21,6 +21,7 @@ package com.charlatano.scripts.esp
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.charlatano.game.entity.*
+import com.charlatano.game.hooks.bomb
 import com.charlatano.game.hooks.entity
 import com.charlatano.game.hooks.me
 import com.charlatano.game.hooks.players

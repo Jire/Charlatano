@@ -31,75 +31,66 @@ import java.util.concurrent.atomic.AtomicReference
 
 object CharlatanoOverlay : ApplicationAdapter() {
 
-	/*	class OverlayContext {
-			lateinit var batch: SpriteBatch
-			lateinit var camera: OrthographicCamera
-			lateinit var shapeRenderer: ShapeRenderer
-			lateinit var textRenderer: BitmapFont
+    val batch = AtomicReference<SpriteBatch>()
+    val camera = AtomicReference<OrthographicCamera>()
+    val shapeRenderer = AtomicReference<ShapeRenderer>()
+    val textRenderer = AtomicReference<BitmapFont>()
 
-			init {
-				batch = CharlatanoOverlay.batch
-				camera = CharlatanoOverlay.camera
-				shapeRenderer = CharlatanoOverlay.shapeRenderer
-				textRenderer = CharlatanoOverlay.textRenderer
-			}
-		}*/
+    override fun create() {
+        val cam = with(OrthographicCamera(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())) {
+            setToOrtho(true, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
+            camera.set(this)
+            this
+        }
 
-	val batch = AtomicReference<SpriteBatch>()
-	val camera = AtomicReference<OrthographicCamera>()
-	val shapeRenderer = AtomicReference<ShapeRenderer>()
-	val textRenderer = AtomicReference<BitmapFont>()
+        with(SpriteBatch()) {
+            projectionMatrix = cam.combined
+            batch.set(this)
+        }
 
-	override fun create() {
-		batch.set(SpriteBatch())
+        with(ShapeRenderer()) {
+            setAutoShapeType(true)
+            shapeRenderer.set(this)
+        }
 
-		val cam = with(OrthographicCamera(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())) {
-			setToOrtho(true, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
-			camera.set(this)
-			this
-		}
+        with(BitmapFont(true)) {
+            color = Color.RED
+            textRenderer.set(this)
+        }
+    }
 
-		with(ShapeRenderer()) {
-			projectionMatrix = cam.combined
-			setAutoShapeType(true)
-			shapeRenderer.set(this)
-		}
+    private val bodies = ObjectArrayList<CharlatanoOverlay.() -> Unit>()
 
-		with(BitmapFont()) {
-			color = Color.RED
-			textRenderer.set(this)
-		}
-	}
+    override fun render() {
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
 
-	private val bodies = ObjectArrayList<CharlatanoOverlay.() -> Unit>()
+        Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-	override fun render() {
-		Gdx.gl.glEnable(GL20.GL_BLEND)
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+        val batch = batch.get()!!
+        val camera = camera.get()!!
+        val shapeRenderer = shapeRenderer.get()!!
 
-		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+        camera.update()
+        batch.projectionMatrix = camera.combined
+        shapeRenderer.projectionMatrix = camera.combined
 
-		val batch = batch.get()!!
-		batch.begin()
+        for (x in 0..bodies.size - 1) bodies[x]()
 
-		for (x in 0..bodies.size - 1) {
-			if (bodies[x] != null)
-				bodies[x]()
-		}
 
-		batch.end()
-		Gdx.gl.glDisable(GL20.GL_BLEND)
-	}
+        Gdx.gl.glDisable(GL20.GL_BLEND)
+    }
 
-	override fun dispose() {
-		batch.get()!!.dispose()
-		shapeRenderer.get()!!.dispose()
-	}
+    override fun dispose() {
+        batch.get()!!.dispose()
+        shapeRenderer.get()!!.dispose()
+        textRenderer.get()!!.dispose()
+    }
 
-	operator fun invoke(body: CharlatanoOverlay.() -> Unit) {
-		bodies.add(body)
-		println("bodies are now ${bodies.size}")
-	}
+    operator fun invoke(body: CharlatanoOverlay.() -> Unit) {
+        bodies.add(body)
+        println("bodies are now ${bodies.size}")
+    }
 
 }

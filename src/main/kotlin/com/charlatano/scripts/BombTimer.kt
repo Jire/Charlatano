@@ -21,10 +21,10 @@ package com.charlatano.scripts
 import com.badlogic.gdx.graphics.Color
 import com.charlatano.game.entity.location
 import com.charlatano.game.entity.timeLeft
+import com.charlatano.game.hooks.bomb
 import com.charlatano.game.hooks.bombPlanted
 import com.charlatano.game.hooks.location
 import com.charlatano.overlay.CharlatanoOverlay
-import com.charlatano.scripts.esp.bomb
 
 var canDefuse = false
 
@@ -37,9 +37,13 @@ fun bombTimer() {
 	}
 
 	CharlatanoOverlay {
-		val textRenderer = textRenderer.get() ?: return@CharlatanoOverlay
+        if (location.isEmpty()) return@CharlatanoOverlay
+
+        val textRenderer = textRenderer.get() ?: return@CharlatanoOverlay
+        val batch = batch.get() ?: return@CharlatanoOverlay
+        batch.begin()
 		textRenderer.color = Color.ORANGE
-		val batch = batch.get() ?: return@CharlatanoOverlay
-		textRenderer.draw(batch, "Location: $location, ${bomb.timeLeft()} seconds, can defuse? $canDefuse", 200f, 20f)
-	}
+        textRenderer.draw(batch, "Location: $location, ${bomb.timeLeft()} seconds, can defuse? $canDefuse", 0f, 400f)
+        batch.end()
+    }
 }

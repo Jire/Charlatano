@@ -60,10 +60,10 @@ object Overlay {
 
         // Gdx.graphics.isContinuousRendering = false
 
-       /* every(32) {
+        every(128) {
             //Gdx.graphics.requestRendering()
             User32.INSTANCE.MoveWindow(hwnd!!, gameX, gameY, gameWidth, gameHeight, false)
-        }*/
+        }
     }
 
 }
