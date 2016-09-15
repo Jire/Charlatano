@@ -40,7 +40,7 @@ fun main(args: Array<String>) {
 	esp()
 	rcs()
 	noFlash()
-	//bombTimer()
+    bombTimer()
 	forceAim()
 	// -- END OF SCRIPTS -- //
 
