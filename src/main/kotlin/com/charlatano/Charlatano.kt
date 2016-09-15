@@ -27,26 +27,26 @@ import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.*
 
 fun main(args: Array<String>) {
-    //System.setProperty("co.paralleluniverse.fibers.detectRunawayFibers", "false")
+	System.setProperty("co.paralleluniverse.fibers.detectRunawayFibers", "false")
 	System.setProperty("co.paralleluniverse.fibers.DefaultFiberPool.parallelism", "1")
-	System.setProperty("co.paralleluniverse.fibers.verifyInstrumentation", "true")
+	//System.setProperty("co.paralleluniverse.fibers.verifyInstrumentation", "true")
 
 	CSGO.initalize()
 
-    entities()//DO NOT DELETE
+	entities()//DO NOT DELETE
 
 	// -- START OF SCRIPTS -- //
 	bunnyHop()
 	esp()
 	rcs()
 	noFlash()
-    bombTimer()
+	bombTimer()
 	forceAim()
 	// -- END OF SCRIPTS -- //
 
-    Overlay.open()
-	
-	Strand.sleep(3000) // wait a bit to catch everything
+	Overlay.open()
+
+	Strand.sleep(5000) // wait a bit to catch everything
 	System.gc() // then cleanup
 	Strand.sleep(Long.MAX_VALUE) // prevent exit
 }

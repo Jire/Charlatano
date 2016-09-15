@@ -26,7 +26,7 @@ import com.charlatano.scripts.esp.glowEsp
 import com.charlatano.scripts.esp.skeletonEsp
 
 fun esp() {
-    if (GLOW_ESP) glowEsp()
-    if (BOX_ESP) boxEsp()
-    if (SKELETON_ESP) skeletonEsp()
+	if (GLOW_ESP) glowEsp()
+	if (BOX_ESP) boxEsp()
+	if (SKELETON_ESP) skeletonEsp()
 }
