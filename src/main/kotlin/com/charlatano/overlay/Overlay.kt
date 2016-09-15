@@ -40,7 +40,7 @@ object Overlay {
 		cfg.y = gameY
 		cfg.resizable = false
 		cfg.fullscreen = false
-		cfg.initialBackgroundColor = Color(0f, 0f, 0f, 0f)
+		cfg.initialBackgroundColor = Color(0F, 0F, 0F, 0F)
 		cfg.vSyncEnabled = true
 		cfg.samples = 4
 		cfg.foregroundFPS = 140
