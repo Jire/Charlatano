@@ -24,6 +24,7 @@ import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
 import com.charlatano.game.ClientState
 import com.charlatano.game.EntityType
+import com.charlatano.game.entity.Bomb
 import com.charlatano.game.entity.Player
 import com.charlatano.game.offsets.ClientOffsets.dwGlowObject
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
@@ -32,6 +33,7 @@ import com.charlatano.utils.every
 import com.charlatano.utils.uint
 import it.unimi.dsi.fastutil.longs.LongArrayList
 
+var bomb: Bomb = -1L
 
 var me: Player = 0
 var clientState: ClientState = 0
@@ -54,6 +56,9 @@ fun entities() = every(128) {
         if (!players.contains(glowAddress))
             if (type == EntityType.CCSPlayer) players.add(glowAddress)
         if (!entites.contains(glowAddress)) entites.add(glowAddress)
+
+        if (type == EntityType.CC4) bomb = -1
+        if (type == EntityType.CPlantedC4) bomb = entity
     }
 }
 

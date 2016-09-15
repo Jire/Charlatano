@@ -19,7 +19,6 @@
 package com.charlatano.game.hooks
 
 import com.charlatano.game.entity.planted
-import com.charlatano.scripts.esp.bomb
 import com.charlatano.utils.hook
 
 
