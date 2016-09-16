@@ -24,7 +24,6 @@ import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
 import com.charlatano.game.ClientState
 import com.charlatano.game.EntityType
-import com.charlatano.game.entity.Bomb
 import com.charlatano.game.entity.Entity
 import com.charlatano.game.entity.Player
 import com.charlatano.game.offsets.ClientOffsets.dwGlowObject
@@ -58,9 +57,8 @@ fun entitiesByType(vararg types: EntityType = arrayOf(EntityType.NULL)): List<En
 	return result
 }
 
-fun entityByType(type: EntityType): EntityContext = entitiesByType(type).firstOrNull()!!
+fun entityByType(type: EntityType): EntityContext? = entitiesByType(type).firstOrNull()
 
-var bomb: Bomb = -1
 var me: Player = 0
 var clientState: ClientState = 0
 
@@ -80,9 +78,6 @@ fun constructEntities() = every(128) {
 		
 		val pair = Pair(entity, glowAddress)
 		val list = entites[type]!!
-		
-		if (type == EntityType.CC4) bomb = -1
-		if (type == EntityType.CPlantedC4) bomb = entity
 		
 		if (!list.contains(pair)) list.add(pair)
 	}

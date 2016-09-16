@@ -22,7 +22,6 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.charlatano.game.EntityType
 import com.charlatano.game.entity.*
-import com.charlatano.game.hooks.bomb
 import com.charlatano.game.hooks.entitiesByType
 import com.charlatano.game.hooks.me
 import com.charlatano.overlay.CharlatanoOverlay
@@ -43,7 +42,7 @@ private var currentIdx = 0
 
 fun boxEsp() {
 	every(1) {
-		for (e in entitiesByType(EntityType.CCSPlayer)) {//TODO clean this up alot
+		for (e in entitiesByType(EntityType.CCSPlayer/*, EntityType.CPlantedC4, EntityType.CC4*/)) {//TODO clean this up alot
 			val entity = e.entity
 			if (entity == me || entity.dead() || entity.dormant()) continue
 			
@@ -59,6 +58,7 @@ fun boxEsp() {
 			val h = vBot.y - vTop.y
 			val w = h / 5F
 			
+			val bomb: Entity = -1//entityByType(EntityType.CC4).entity
 			val c = if (bomb > -1 && entity == bomb.carrier()) Color.GREEN else if (me.team() == entity.team()) Color.BLUE else Color.RED
 			
 			val sx = (vTop.x - w).toInt()
