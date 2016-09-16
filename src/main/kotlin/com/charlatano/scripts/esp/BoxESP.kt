@@ -20,11 +20,11 @@ package com.charlatano.scripts.esp
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.charlatano.game.EntityType
 import com.charlatano.game.entity.*
 import com.charlatano.game.hooks.bomb
-import com.charlatano.game.hooks.entity
+import com.charlatano.game.hooks.entitiesByType
 import com.charlatano.game.hooks.me
-import com.charlatano.game.hooks.players
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.utils.Vector
 import com.charlatano.utils.every
@@ -43,33 +43,57 @@ private var currentIdx = 0
 
 fun boxEsp() {
 	every(1) {
-		for (i in 0..players.size - 1) {//TODO clean this up alot
-			val entity = players.entity(i)
+		for (e in entitiesByType(EntityType.CCSPlayer)) {//TODO clean this up alot
+			val entity = e.entity
 			if (entity == me || entity.dead() || entity.dormant()) continue
-
+			
 			val vHead = vHead.get()
 			val vFeet = vFeet.get()
 			vHead.set(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C) + 9)
 			vFeet.set(vHead.x, vHead.y, vHead.z - 75)
-
+			
 			val vTop = vTop.get()
 			val vBot = vBot.get()
 			if (!worldToScreen(vHead, vTop) || !worldToScreen(vFeet, vBot)) continue
-
+			
 			val h = vBot.y - vTop.y
 			val w = h / 5F
-
+			
 			val c = if (bomb > -1 && entity == bomb.carrier()) Color.GREEN else if (me.team() == entity.team()) Color.BLUE else Color.RED
-
+			
 			val sx = (vTop.x - w).toInt()
 			val sy = vTop.y.toInt()
-
+			
 			boxes[currentIdx].x = sx
 			boxes[currentIdx].y = sy
 			boxes[currentIdx].w = (w * 2).toInt()
 			boxes[currentIdx].h = h.toInt()
 			boxes[currentIdx++].color = c
 		}
+		/*if (bomb != -1L) {
+			val vHead = vHead.get()
+			val vFeet = vFeet.get()
+			vHead.set(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C) + 9)
+			vFeet.set(vHead.x, vHead.y, vHead.z - 75)
+			
+			val vTop = vTop.get()
+			val vBot = vBot.get()
+			if (!worldToScreen(vHead, vTop) || !worldToScreen(vFeet, vBot)) continue
+			
+			val h = vBot.y - vTop.y
+			val w = h / 5F
+			
+			val c = if (bomb > -1 && entity == bomb.carrier()) Color.GREEN else if (me.team() == entity.team()) Color.BLUE else Color.RED
+			
+			val sx = (vTop.x - w).toInt()
+			val sy = vTop.y.toInt()
+			
+			boxes[currentIdx].x = sx
+			boxes[currentIdx].y = sy
+			boxes[currentIdx].w = (w * 2).toInt()
+			boxes[currentIdx].h = h.toInt()
+			boxes[currentIdx++].color = c
+		}*/
 		currentIdx = 0
 	}
 	CharlatanoOverlay {
@@ -79,7 +103,6 @@ fun boxEsp() {
 			if (it.color != Color.WHITE && it.x > 0 && it.y > 0 && it.w > 0 && it.h > 0) {
 				shapeRenderer.color = it.color
 				shapeRenderer.rect(it.x.toFloat(), it.y.toFloat(), it.w.toFloat(), it.h.toFloat())
-				//shapeRenderer.rect(it.x.toFloat() - 1, it.y.toFloat() - 1, it.w.toFloat() + 2, it.h.toFloat() + 2)
 			}
 			it.reset()
 		}
@@ -93,7 +116,7 @@ class Box() {
 	var w = -1
 	var h = -1
 	var color: Color = Color.WHITE
-
+	
 	fun reset() {
 		x = -1
 		y = -1

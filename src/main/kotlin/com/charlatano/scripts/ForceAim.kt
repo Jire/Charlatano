@@ -22,13 +22,13 @@ import com.charlatano.FORCE_AIM_KEY
 import com.charlatano.FORCE_AIM_SMOOTHING
 import com.charlatano.calculateAngle
 import com.charlatano.compensateVelocity
+import com.charlatano.game.EntityType
 import com.charlatano.game.aim
 import com.charlatano.game.angle
 import com.charlatano.game.entity.*
 import com.charlatano.game.hooks.clientState
-import com.charlatano.game.hooks.entity
+import com.charlatano.game.hooks.entitiesByType
 import com.charlatano.game.hooks.me
-import com.charlatano.game.hooks.players
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
 import java.util.concurrent.ThreadLocalRandom.current as tlr
@@ -46,7 +46,7 @@ fun forceAim() = every(FORCE_AIM_SMOOTHING) {
 	try {
 		val pressed = keyPressed(FORCE_AIM_KEY) {
 			val currentAngle = clientState.angle()
-
+			
 			var currentTarget = target
 			if (currentTarget == -1L) {
 				currentTarget = findTarget(me.position(), currentAngle)
@@ -56,19 +56,19 @@ fun forceAim() = every(FORCE_AIM_SMOOTHING) {
 				target = currentTarget
 				return@keyPressed
 			}
-
+			
 			if (me.dead() || target.dead() || target.dormant() || !target.spotted() || target.team() == me.team()) {
 				target = -1L
 				return@keyPressed
 			}
-
+			
 			val bonePosition = Vector(target.bone(0xC), target.bone(0x1C), target.bone(0x2C))
 			compensateVelocity(me, target, bonePosition, SMOOTHING_MAX)
-
+			
 			val dest = calculateAngle(me, bonePosition)
 			dest.normalize()
 			//dest.finalize(currentAngle, SMOOTHING_MAX)
-
+			
 			aim(currentAngle, dest, SMOOTHING)
 		}
 		if (!pressed) target = -1L
@@ -80,22 +80,22 @@ fun forceAim() = every(FORCE_AIM_SMOOTHING) {
 private fun findTarget(position: Angle, angle: Angle, lockFOV: Int = LOCK_FOV): Player {
 	var closestDelta = Int.MAX_VALUE
 	var closetPlayer: Player? = null
-	for (i in 0..players.size - 1) {
-		val entity = players.entity(i)
+	for (e in entitiesByType(EntityType.CCSPlayer)) {
+		val entity = e.entity
 		if (entity <= 0) continue
 		if (entity == me || entity.team() == me.team()) continue
-
+		
 		if (me.dead() || entity.dead() || !entity.spotted() || entity.dormant()) continue
-
+		
 		val ePos: Angle = Vector(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C))
 		val distance = position.distanceTo(ePos)
-
+		
 		val dest = calculateAngle(me, ePos)
 		dest.normalize()
-
+		
 		val yawDiff = Math.abs(angle.y - dest.y)
 		val delta = Math.abs(Math.sin(Math.toRadians(yawDiff.toDouble())) * distance)
-
+		
 		if (delta <= lockFOV && delta < closestDelta) {
 			closestDelta = delta.toInt()
 			closetPlayer = entity

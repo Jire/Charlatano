@@ -22,18 +22,20 @@ import com.charlatano.*
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.EntityType
 import com.charlatano.game.entity.*
-import com.charlatano.game.hooks.*
+import com.charlatano.game.hooks.bomb
+import com.charlatano.game.hooks.entitiesByType
+import com.charlatano.game.hooks.me
 import com.charlatano.utils.every
 
 fun glowEsp() = every(4) {
-    for (i in 0..entites.size - 1) {//TODO clean this up alot
-        val entity = entites.entity(i)
+	for (e in entitiesByType(EntityType.CCSPlayer, EntityType.CPlantedC4, EntityType.CC4)) {//TODO clean this up alot
+		val entity = e.entity
         if (entity == me) continue
-
-        val glowAddress = entites.glow(i)
-        if (entity.type() == EntityType.CPlantedC4 || entity.type() == EntityType.CC4) {
+		
+		val glowAddress = e.glowAddress
+		if (e.type == EntityType.CPlantedC4 || e.type == EntityType.CC4) {
             glowAddress.glow()
-        } else if (entity.type() == EntityType.CCSPlayer) {
+		} else if (e.type == EntityType.CCSPlayer) {
             if (entity.dead() || entity.dormant()) continue
 
             if (bomb > -1 && entity == bomb.planter()) {

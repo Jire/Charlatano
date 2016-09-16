@@ -22,7 +22,7 @@ package com.charlatano
 
 import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
-import com.charlatano.game.hooks.entities
+import com.charlatano.game.hooks.constructEntities
 import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.*
 
@@ -32,8 +32,8 @@ fun main(args: Array<String>) {
 	//System.setProperty("co.paralleluniverse.fibers.verifyInstrumentation", "true")
 
 	CSGO.initalize()
-
-	entities()//DO NOT DELETE
+	
+	constructEntities()//DO NOT DELETE
 
 	// -- START OF SCRIPTS -- //
 	bunnyHop()

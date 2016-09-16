@@ -19,8 +19,6 @@
 package com.charlatano.game.entity
 
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.EntityType
-import com.charlatano.game.EntityType.Companion.byEntityAddress
 import com.charlatano.game.netvars.NetVarOffsets.bSpotted
 import com.charlatano.game.netvars.NetVarOffsets.dwModel
 import com.charlatano.game.netvars.NetVarOffsets.iTeamNum
@@ -43,5 +41,3 @@ internal fun Entity.team(): Int = csgoEXE[this + iTeamNum]
 internal fun Entity.model(): Long = csgoEXE.uint(this + dwModel)
 
 internal fun Entity.position(): Angle = Vector(csgoEXE[this + vecOrigin], csgoEXE[this + vecOrigin + 4], csgoEXE.float(this + vecOrigin + 8) + csgoEXE.float(this + vecViewOffset + 8))
-
-internal fun Entity.type(): EntityType = byEntityAddress(this)
