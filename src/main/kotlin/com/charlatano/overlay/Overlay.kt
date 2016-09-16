@@ -20,7 +20,6 @@ package com.charlatano.overlay
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
-import com.badlogic.gdx.graphics.Color
 import com.charlatano.game.CSGO.gameHeight
 import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.game.CSGO.gameX
@@ -28,6 +27,8 @@ import com.charlatano.game.CSGO.gameY
 import com.charlatano.utils.every
 import com.sun.jna.platform.win32.User32
 import com.sun.jna.platform.win32.WinDef
+import java.awt.GraphicsEnvironment
+import java.util.concurrent.ThreadLocalRandom.current as tlr
 
 object Overlay {
 
@@ -36,21 +37,27 @@ object Overlay {
 		System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
 		cfg.width = gameWidth
 		cfg.height = gameHeight
+		cfg.title = tlr().nextLong(Long.MAX_VALUE).toString()
 		cfg.x = gameX
 		cfg.y = gameY
 		cfg.resizable = false
 		cfg.fullscreen = false
-		cfg.initialBackgroundColor = Color(0F, 0F, 0F, 0F)
-		cfg.vSyncEnabled = true
-		cfg.samples = 4
-		cfg.foregroundFPS = 140
-		cfg.backgroundFPS = 140
+		cfg.vSyncEnabled = false
+		cfg.samples = 8
+
+		var fps = 60
+		for (screen in GraphicsEnvironment.getLocalGraphicsEnvironment().screenDevices) {
+			val screenFPS = screen.displayMode.refreshRate
+			if (screenFPS > fps) fps = screenFPS
+		}
+		cfg.foregroundFPS = fps
+		cfg.backgroundFPS = fps
 
 		LwjglApplication(CharlatanoOverlay, cfg)
 
 		var hwnd: WinDef.HWND?
 		while (true) {
-			hwnd = User32.INSTANCE.FindWindow(null, "CharlatanoOverlay")
+			hwnd = User32.INSTANCE.FindWindow(null, cfg.title)
 			if (hwnd != null) {
 				break
 			}
@@ -62,10 +69,7 @@ object Overlay {
 		}
 		WindowTools.transparentWindow(hwnd!!)
 
-		// Gdx.graphics.isContinuousRendering = false
-
 		every(128) {
-			//Gdx.graphics.requestRendering()
 			User32.INSTANCE.MoveWindow(hwnd!!, gameX, gameY, gameWidth, gameHeight, false)
 		}
 	}

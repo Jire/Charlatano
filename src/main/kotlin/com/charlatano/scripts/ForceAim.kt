@@ -40,41 +40,37 @@ private const val LOCK_FOV = 60
 private const val SMOOTHING_MIN = 30F
 private const val SMOOTHING_MAX = 40F
 
-private const val SMOOTHING = 1
+private const val SMOOTHING = 70
 
 fun forceAim() = every(FORCE_AIM_SMOOTHING) {
-	try {
-		val pressed = keyPressed(FORCE_AIM_KEY) {
-			val currentAngle = clientState.angle()
-			
-			var currentTarget = target
+	val pressed = keyPressed(FORCE_AIM_KEY) {
+		val currentAngle = clientState.angle()
+
+		var currentTarget = target
+		if (currentTarget == -1L) {
+			currentTarget = findTarget(me.position(), currentAngle)
 			if (currentTarget == -1L) {
-				currentTarget = findTarget(me.position(), currentAngle)
-				if (currentTarget == -1L) {
-					return@keyPressed
-				}
-				target = currentTarget
 				return@keyPressed
 			}
-			
-			if (me.dead() || target.dead() || target.dormant() || !target.spotted() || target.team() == me.team()) {
-				target = -1L
-				return@keyPressed
-			}
-			
-			val bonePosition = Vector(target.bone(0xC), target.bone(0x1C), target.bone(0x2C))
-			compensateVelocity(me, target, bonePosition, SMOOTHING_MAX)
-			
-			val dest = calculateAngle(me, bonePosition)
-			dest.normalize()
-			//dest.finalize(currentAngle, SMOOTHING_MAX)
-			
-			aim(currentAngle, dest, SMOOTHING)
+			target = currentTarget
+			return@keyPressed
 		}
-		if (!pressed) target = -1L
-	} catch (t: Throwable) {
-		t.printStackTrace()
+
+		if (me.dead() || target.dead() || target.dormant() || !target.spotted() || target.team() == me.team()) {
+			target = -1L
+			return@keyPressed
+		}
+
+		val bonePosition = Vector(target.bone(0xC), target.bone(0x1C), target.bone(0x2C))
+		compensateVelocity(me, target, bonePosition, SMOOTHING_MAX)
+
+		val dest = calculateAngle(me, bonePosition)
+		dest.normalize()
+		//dest.finalize(currentAngle, SMOOTHING_MAX)
+
+		aim(currentAngle, dest, SMOOTHING)
 	}
+	if (!pressed) target = -1L
 }
 
 private fun findTarget(position: Angle, angle: Angle, lockFOV: Int = LOCK_FOV): Player {
@@ -84,18 +80,18 @@ private fun findTarget(position: Angle, angle: Angle, lockFOV: Int = LOCK_FOV): 
 		val entity = e.entity
 		if (entity <= 0) continue
 		if (entity == me || entity.team() == me.team()) continue
-		
+
 		if (me.dead() || entity.dead() || !entity.spotted() || entity.dormant()) continue
-		
+
 		val ePos: Angle = Vector(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C))
 		val distance = position.distanceTo(ePos)
-		
+
 		val dest = calculateAngle(me, ePos)
 		dest.normalize()
-		
+
 		val yawDiff = Math.abs(angle.y - dest.y)
 		val delta = Math.abs(Math.sin(Math.toRadians(yawDiff.toDouble())) * distance)
-		
+
 		if (delta <= lockFOV && delta < closestDelta) {
 			closestDelta = delta.toInt()
 			closetPlayer = entity

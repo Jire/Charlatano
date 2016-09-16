@@ -32,7 +32,7 @@ import com.charlatano.game.offsets.EngineOffsets.dwViewAngles
 import com.charlatano.utils.*
 import com.sun.jna.platform.win32.WinDef
 import org.jire.arrowhead.get
-import java.util.concurrent.ThreadLocalRandom.current
+import java.util.concurrent.ThreadLocalRandom.current as tlr
 
 typealias ClientState = Long
 
@@ -49,33 +49,35 @@ private val delta = Vector()
 fun aim(currentAngle: Angle, dest: Angle, smoothing: Int = 100) {
 	if (dest.z != 0F || dest.x < -89 || dest.x > 180 || dest.y < -180 || dest.y > 180
 			|| dest.x.isNaN() || dest.y.isNaN() || dest.z.isNaN()) return
-	
+
 	delta.set(currentAngle.y - dest.y, currentAngle.x - dest.x, 0F)
-	
+
 	val dx = Math.round(delta.x / (InGameSensitivity * InGamePitch))
 	val dy = Math.round(-delta.y / (InGameSensitivity * InGameYaw))
-	
+
 	mousePos.refresh()
-	
+
 	target.set(mousePos.x + (dx / 2), mousePos.y + (dy / 2))
-	
+
 	if (target.x <= 0) return
 	else if (target.x >= gameX + gameWidth) return
 	if (target.y <= 0) return
 	else if (target.y >= gameY + gameHeight) return
-	
+
 	val points = ZetaMouseGenerator.generate(mousePos, target)
 	for (i in 1..points.lastIndex) @Suspendable {
 		val point = points[points.lastIndex]
 		mousePos.refresh()
-		
+
 		val tx = point.x - mousePos.x
 		val ty = point.y - mousePos.y
-		
+
 		var halfIndex = points.lastIndex / 2
 		if (halfIndex == 0) halfIndex = 1
 		mouseMove(tx / halfIndex, ty / halfIndex)
-		
-		Strand.sleep(Math.ceil((2 + current().nextInt(6) + current().nextInt(i)) * (smoothing / 100.0)).toLong())
+
+		val sleepingFactor = smoothing / 100.0
+		val sleepTime = (1 + tlr().nextInt(1) + tlr().nextInt(i)) * sleepingFactor
+		if (sleepTime > 0) Strand.sleep(sleepTime.toLong())
 	}
 }

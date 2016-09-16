@@ -29,9 +29,9 @@ import com.charlatano.game.hooks.me
 import com.charlatano.game.offsets.EngineOffsets.studioModel
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.utils.Vector
-import com.charlatano.utils.every
 import com.charlatano.utils.uint
 import com.charlatano.worldToScreen
+import java.util.concurrent.atomic.AtomicBoolean
 
 const val MAXSTUDIOBONES = 128
 
@@ -41,8 +41,15 @@ private val skeletons = Array(1024) { Line() }
 
 private var currentIdx = 0
 
+private val lock = AtomicBoolean()
+
 fun skeletonEsp() {
-	every(1) {
+	/*every(30) {
+		lock.set(true)
+
+		lock.set(false)
+	}*/
+	CharlatanoOverlay {
 		for (e in entitiesByType(EntityType.CCSPlayer)) {
 			val entity = e.entity
 			if (entity == me || entity.dead() || entity.dormant()) continue
@@ -70,18 +77,15 @@ fun skeletonEsp() {
 				drawBone(entity, studiobones[idx].parent, idx)
 			}
 		}
-		currentIdx = 0
-	}
-	CharlatanoOverlay {
+
 		val shapeRenderer = shapeRenderer.get() ?: return@CharlatanoOverlay
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
-		skeletons.forEach {
-			if (it.color != Color.WHITE && it.sX > 0 && it.sY > 0 && it.eX > 0 && it.eX > 0) {
-				shapeRenderer.color = it.color
-				shapeRenderer.line(it.sX.toFloat(), it.sY.toFloat(), it.eX.toFloat(), it.eY.toFloat())
-			}
-			it.reset()
+		for (i in 0..currentIdx - 1) {
+			val it = skeletons[i]
+			shapeRenderer.color = it.color
+			shapeRenderer.line(it.sX.toFloat(), it.sY.toFloat(), it.eX.toFloat(), it.eY.toFloat())
 		}
+		currentIdx = 0
 		shapeRenderer.end()
 	}
 }
@@ -141,14 +145,6 @@ class Line() {
 	var eX = -1
 	var eY = -1
 	var color: Color = Color.WHITE
-
-	fun reset() {
-		sX = -1
-		sY = -1
-		eX = -1
-		eY = -1
-		color = Color.WHITE
-	}
 }
 
 class Bone() {
