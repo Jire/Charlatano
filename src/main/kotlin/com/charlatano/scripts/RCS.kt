@@ -19,14 +19,12 @@
 package com.charlatano.scripts
 
 import co.paralleluniverse.fibers.Suspendable
-import co.paralleluniverse.strands.Strand
-import co.paralleluniverse.strands.concurrent.ReentrantLock
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.aim
 import com.charlatano.game.angle
+import com.charlatano.game.clientState
 import com.charlatano.game.entity.Player
-import com.charlatano.game.hooks.clientState
 import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
