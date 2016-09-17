@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.game
+package com.charlatano.game.entity
 
 import com.charlatano.game.CSGO.csgoEXE
 import org.jire.arrowhead.unsign

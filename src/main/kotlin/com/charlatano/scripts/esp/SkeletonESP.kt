@@ -22,10 +22,9 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
-import com.charlatano.game.EntityType
+import com.charlatano.game.entitiesByType
 import com.charlatano.game.entity.*
-import com.charlatano.game.hooks.entitiesByType
-import com.charlatano.game.hooks.me
+import com.charlatano.game.me
 import com.charlatano.game.offsets.EngineOffsets.studioModel
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.utils.Vector

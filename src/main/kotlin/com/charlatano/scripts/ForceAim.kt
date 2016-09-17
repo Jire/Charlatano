@@ -22,13 +22,8 @@ import com.charlatano.FORCE_AIM_KEY
 import com.charlatano.FORCE_AIM_SMOOTHING
 import com.charlatano.calculateAngle
 import com.charlatano.compensateVelocity
-import com.charlatano.game.EntityType
-import com.charlatano.game.aim
-import com.charlatano.game.angle
+import com.charlatano.game.*
 import com.charlatano.game.entity.*
-import com.charlatano.game.hooks.clientState
-import com.charlatano.game.hooks.entitiesByType
-import com.charlatano.game.hooks.me
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
 import java.util.concurrent.ThreadLocalRandom.current as tlr

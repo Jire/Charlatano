@@ -18,8 +18,9 @@
 
 package com.charlatano.game.hooks
 
-import com.charlatano.game.EntityType
+import com.charlatano.game.entity.EntityType
 import com.charlatano.game.entity.planted
+import com.charlatano.game.entityByType
 import com.charlatano.utils.hook
 
 

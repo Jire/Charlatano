@@ -20,13 +20,9 @@ package com.charlatano.scripts.esp
 
 import com.charlatano.*
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.EntityType
-import com.charlatano.game.entity.Player
-import com.charlatano.game.entity.dead
-import com.charlatano.game.entity.dormant
-import com.charlatano.game.entity.team
-import com.charlatano.game.hooks.entitiesByType
-import com.charlatano.game.hooks.me
+import com.charlatano.game.entitiesByType
+import com.charlatano.game.entity.*
+import com.charlatano.game.me
 import com.charlatano.utils.every
 
 fun glowEsp() = every(4) {

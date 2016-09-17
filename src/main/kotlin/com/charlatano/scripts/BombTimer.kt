@@ -19,11 +19,11 @@
 package com.charlatano.scripts
 
 import com.badlogic.gdx.graphics.Color
-import com.charlatano.game.EntityType
+import com.charlatano.game.entity.EntityType
 import com.charlatano.game.entity.location
 import com.charlatano.game.entity.timeLeft
+import com.charlatano.game.entityByType
 import com.charlatano.game.hooks.bombPlanted
-import com.charlatano.game.hooks.entityByType
 import com.charlatano.game.hooks.location
 import com.charlatano.overlay.CharlatanoOverlay
 
