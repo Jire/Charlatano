@@ -99,8 +99,6 @@ fun boxEsp() {
 			val it = boxes[i]
 			shapeRenderer.color = it.color
 			shapeRenderer.rect(it.x.toFloat(), it.y.toFloat(), it.w.toFloat(), it.h.toFloat())
-			shapeRenderer.color = Color.BLACK
-			shapeRenderer.rect(it.x.toFloat() - 1, it.y.toFloat() - 1, it.w.toFloat() + 2, it.h.toFloat() + 2)
 		}
 		shapeRenderer.end()
 		currentIdx = 0

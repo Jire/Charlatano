@@ -24,15 +24,18 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 
 val lock = ThreadLocal.withInitial { ReentrantLock() }
+var paused = false
 
-inline fun every(duration: Int, durationUnit: TimeUnit = TimeUnit.MILLISECONDS, crossinline body: () -> Unit) = fiber {
+inline fun every(duration: Int, durationUnit: TimeUnit = TimeUnit.MILLISECONDS, continuous: Boolean = false, crossinline body: () -> Unit) = fiber {
 	while (!Strand.interrupted()) {
-		val l = lock.get()
-		l.lock()
-		try {
-			body()
-		} finally {
-			l.unlock()
+		if (continuous || !paused) {
+			val l = lock.get()
+			l.lock()
+			try {
+				body()
+			} finally {
+				l.unlock()
+			}
 		}
 		Strand.sleep(duration.toLong(), durationUnit)
 	}

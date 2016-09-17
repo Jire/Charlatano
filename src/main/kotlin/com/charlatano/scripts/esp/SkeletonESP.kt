@@ -31,53 +31,34 @@ import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.utils.Vector
 import com.charlatano.utils.uint
 import com.charlatano.worldToScreen
-import java.util.concurrent.atomic.AtomicBoolean
 
 const val MAXSTUDIOBONES = 128
 
-private val bones = Array(MAXSTUDIOBONES) { FloatArray(3) }
-private val studiobones = Array(MAXSTUDIOBONES) { Bone() }
-private val skeletons = Array(1024) { Line() }
+private val skeletons = Array(2048) { Line() }
 
 private var currentIdx = 0
 
-private val lock = AtomicBoolean()
-
 fun skeletonEsp() {
-	/*every(30) {
-		lock.set(true)
-
-		lock.set(false)
-	}*/
 	CharlatanoOverlay {
 		for (e in entitiesByType(EntityType.CCSPlayer)) {
 			val entity = e.entity
 			if (entity == me || entity.dead() || entity.dormant()) continue
-
+			
 			val studioModel = findStudioModel(entity.model())
 			val numbones = csgoEXE.int(studioModel + 0x9C)
 			val boneIndex = csgoEXE.int(studioModel + 0xA0)
-
-			for (idx in 0..numbones) {
-				bones[idx][0] = entity.bone(0xC, idx)
-				bones[idx][1] = entity.bone(0x1C, idx)
-				bones[idx][2] = entity.bone(0x2C, idx)
-			}
-
+			
 			var offset = 0
-			for (idx in 0..numbones) {
-				studiobones[idx].parent = csgoEXE.int(studioModel + boneIndex + 0x4 + offset)
-				studiobones[idx].flags = csgoEXE.int(studioModel + boneIndex + 0xA0 + offset)
-
+			for (idx in 0..numbones - 1) {
+				val parent = csgoEXE.int(studioModel + boneIndex + 0x4 + offset)
+				val flags = csgoEXE.int(studioModel + boneIndex + 0xA0 + offset) and 0x100
+				
+				if (flags != 0 && parent != -1) drawBone(entity, parent, idx)
+				
 				offset += 216
 			}
-
-			for (idx in 0..numbones - 1) {
-				if ((studiobones[idx].flags and 0x100) == 0 || studiobones[idx].parent == -1) continue
-				drawBone(entity, studiobones[idx].parent, idx)
-			}
 		}
-
+		
 		val shapeRenderer = shapeRenderer.get() ?: return@CharlatanoOverlay
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
 		for (i in 0..currentIdx - 1) {
@@ -93,23 +74,23 @@ fun skeletonEsp() {
 fun findStudioModel(pModel: Long): Long {
 	val type = csgoEXE.uint(pModel + 0x0110)
 	if (type != 3L) return 0 //Type is not Studiomodel
-
+	
 	var handle = csgoEXE.uint(pModel + 0x0138) and 0xFFFF
 	if (handle == 0xFFFFL) return 0 //Handle is not valid
-
+	
 	handle = handle shl 4
-
+	
 	var studioModel = engineDLL.uint(studioModel)
 	studioModel = csgoEXE.uint(studioModel + 0x028)
 	studioModel = csgoEXE.uint(studioModel + handle + 0x0C)
-
+	
 	return csgoEXE.uint(studioModel + 0x0074)
 }
 
 private val colors: Array<Color> = Array(101) {
 	val red = 1 - (it / 100f)
 	val green = (it / 100f)
-
+	
 	Color(red, green, 0f, 1f)
 }
 
@@ -122,16 +103,17 @@ private val endDraw = ThreadLocal.withInitial { Vector() }
 fun drawBone(target: Player, start: Int, end: Int) {
 	val startBone = startBone.get()
 	val endBone = endBone.get()
-
-	startBone.set(target.bone(0xC, start), target.bone(0x1C, start), target.bone(0x2C, start))
-	endBone.set(target.bone(0xC, end), target.bone(0x1C, end), target.bone(0x2C, end))
-
+	
+	val boneMatrix = target.boneMatrix()
+	startBone.set(target.bone(0xC, start, boneMatrix), target.bone(0x1C, start, boneMatrix), target.bone(0x2C, start, boneMatrix))
+	endBone.set(target.bone(0xC, end, boneMatrix), target.bone(0x1C, end, boneMatrix), target.bone(0x2C, end, boneMatrix))
+	
 	val startDraw = startDraw.get()
 	val endDraw = endDraw.get()
-
+	
 	if (!worldToScreen(startBone, startDraw) || !worldToScreen(endBone, endDraw))
 		return
-
+	
 	skeletons[currentIdx].sX = startDraw.x.toInt()
 	skeletons[currentIdx].sY = startDraw.y.toInt()
 	skeletons[currentIdx].eX = endDraw.x.toInt()
@@ -145,11 +127,4 @@ class Line() {
 	var eX = -1
 	var eY = -1
 	var color: Color = Color.WHITE
-}
-
-class Bone() {
-
-	var parent: Int = -1
-	var flags: Int = -1
-
 }

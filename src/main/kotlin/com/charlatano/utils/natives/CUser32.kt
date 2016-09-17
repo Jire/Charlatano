@@ -27,6 +27,6 @@ object CUser32 {
 		Native.register("user32")
 	}
 	
-    external fun GetClientRect(hWnd: WinDef.HWND, rect: WinDef.RECT): Boolean
-
+	external fun GetClientRect(hWnd: WinDef.HWND, rect: WinDef.RECT): Boolean
+	
 }

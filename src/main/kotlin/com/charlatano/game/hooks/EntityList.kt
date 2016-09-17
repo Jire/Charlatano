@@ -31,30 +31,82 @@ import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.utils.every
 import com.charlatano.utils.uint
-import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import java.util.*
 
-private val entites = Object2ObjectArrayMap<EntityType, ObjectArrayList<Pair<Entity, Entity>>>(EntityType.size).apply {
-	for (type in EntityType.cachedValues) put(type, ObjectArrayList<Pair<Entity, Entity>>())
+typealias Int2ObjectList = Int2ObjectArrayMap<ObjectArrayList<Triple>>
+
+private val entites = Int2ObjectList(EntityType.size).apply {
+	for (type in EntityType.cachedValues) put(type.hashCode(), ObjectArrayList<Triple>())
 }
 
-class EntityContext(var entity: Entity, var glowAddress: Entity, var type: EntityType)
+private val cachedResults = Int2ObjectArrayMap<EntityList>(EntityType.size)
 
-private val result = ThreadLocal.withInitial { ArrayList<EntityContext>() }
+
+private val contexts = Array(1024) { EntityContext() }
+private val triples = Array(1024) { Triple() }
+
+class EntityContext {
+	
+	var entity: Entity = -1
+	var glowAddress: Entity = -1
+	var type: EntityType = EntityType.NULL
+	
+	fun set(entity: Entity, glowAddress: Entity, type: EntityType) = apply {
+		this.entity = entity
+		this.glowAddress = glowAddress
+		this.type = type
+	}
+	
+}
+
+class Triple {
+	
+	var entity: Entity = -1
+	var glowAddress: Entity = -1
+	var glowIndex: Int = -1
+	
+	fun set(entity: Entity, glowAddress: Entity, glowIndex: Int) = apply {
+		this.entity = entity
+		this.glowAddress = glowAddress
+		this.glowIndex = glowIndex
+	}
+	
+}
+
+private val result = ThreadLocal.withInitial { EntityList() }
 
 fun entitiesByType(vararg types: EntityType = arrayOf(EntityType.NULL)): List<EntityContext> {
 	var types = types
 	if (types.first() == EntityType.NULL) types = EntityType.cachedValues
 	
-	val result = result.get()
-	result.clear()
-	for (type in types) {
-		for (list in entites[type]!!)
-			result.add(EntityContext(list.first, list.second, type))
+	val hashcode = Arrays.hashCode(types)
+	if (cachedResults.containsKey(hashcode)) {
+		val list = cachedResults.get(hashcode)
+		if ((System.currentTimeMillis() - list.lastUpdate) <= 10000) {
+			return list
+		}
 	}
+	val result = EntityList()
+	//result.clear()
+	
+	for (type in types)
+		for (list in entites[type.hashCode()]!!)
+			result.add(contexts[list.glowIndex].set(list.entity, list.glowAddress, type))
+	
+	
+	cachedResults.put(hashcode, result.update())
 	
 	return result
+}
+
+class EntityList(size: Int = 32) : ArrayList<EntityContext>(size) {
+	
+	var lastUpdate = -1L
+	
+	fun update() = apply { lastUpdate = System.currentTimeMillis() }
+	
 }
 
 fun entityByType(type: EntityType): EntityContext? = entitiesByType(type).firstOrNull()
@@ -69,16 +121,16 @@ fun constructEntities() = every(128) {
 	clientState = engineDLL.uint(dwClientState)
 	
 	val glowObject = clientDLL.uint(dwGlowObject)
-	val glowObjectCount = clientDLL.uint(dwGlowObject + 4)
+	val glowObjectCount = clientDLL.int(dwGlowObject + 4)
 	
 	for (glowIndex in 0..glowObjectCount) {
 		val glowAddress = glowObject + (glowIndex * GLOW_OBJECT_SIZE)
 		val entity = csgoEXE.uint(glowAddress)
 		val type = EntityType.byEntityAddress(entity)
 		
-		val pair = Pair(entity, glowAddress)
-		val list = entites[type]!!
+		val triple = triples[glowIndex].set(entity, glowAddress, glowIndex)
+		val list = entites[type.hashCode()]!!
 		
-		if (!list.contains(pair)) list.add(pair)
+		if (!list.contains(triple)) list.add(triple)
 	}
 }

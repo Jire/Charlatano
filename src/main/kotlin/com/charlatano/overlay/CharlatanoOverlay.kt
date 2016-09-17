@@ -26,6 +26,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.charlatano.utils.paused
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import java.util.concurrent.atomic.AtomicReference
 
@@ -67,6 +68,8 @@ object CharlatanoOverlay : ApplicationAdapter() {
 
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+		
+		if (paused) return
 
 		val batch = batch.get()!!
 		val camera = camera.get()!!

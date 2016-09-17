@@ -42,7 +42,7 @@ object Overlay {
 		cfg.y = gameY
 		cfg.resizable = false
 		cfg.fullscreen = false
-		cfg.vSyncEnabled = false
+		cfg.vSyncEnabled = true
 		cfg.samples = 8
 
 		var fps = 60

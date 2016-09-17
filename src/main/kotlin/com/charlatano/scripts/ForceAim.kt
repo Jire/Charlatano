@@ -40,7 +40,7 @@ private const val LOCK_FOV = 60
 private const val SMOOTHING_MIN = 30F
 private const val SMOOTHING_MAX = 40F
 
-private const val SMOOTHING = 70
+private const val SMOOTHING = 1
 
 fun forceAim() = every(FORCE_AIM_SMOOTHING) {
 	val pressed = keyPressed(FORCE_AIM_KEY) {
