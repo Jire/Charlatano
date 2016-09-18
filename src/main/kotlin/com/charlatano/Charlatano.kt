@@ -32,7 +32,7 @@ fun main(args: Array<String>) {
 	//System.setProperty("co.paralleluniverse.fibers.verifyInstrumentation", "true")
 
 	CSGO.initalize()
-	
+
 	constructEntities()//DO NOT DELETE
 
 	// -- START OF SCRIPTS -- //

@@ -43,12 +43,12 @@ fun bombTimer() {
 	}
 
 	CharlatanoOverlay {
-        if (location.isEmpty()) return@CharlatanoOverlay
+		if (location.isEmpty()) return@CharlatanoOverlay
 
-        val textRenderer = textRenderer.get() ?: return@CharlatanoOverlay
-        val batch = batch.get() ?: return@CharlatanoOverlay
-        batch.begin()
-		
+		val textRenderer = textRenderer.get() ?: return@CharlatanoOverlay
+		val batch = batch.get() ?: return@CharlatanoOverlay
+		batch.begin()
+
 		val bomb = entityByType(EntityType.CPlantedC4)?.entity
 		if (bomb == null) {
 			location = ""
@@ -56,6 +56,6 @@ fun bombTimer() {
 		}
 		textRenderer.color = Color.ORANGE
 		textRenderer.draw(batch, "Location: $location, ${bomb.timeLeft()} seconds, can defuse? $canDefuse", 20f, 400f)
-        batch.end()
-    }
+		batch.end()
+	}
 }

@@ -23,10 +23,11 @@ import co.paralleluniverse.strands.Strand
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 
-val lock = ThreadLocal.withInitial { ReentrantLock() }
+val lock: ThreadLocal<ReentrantLock> = ThreadLocal.withInitial { ReentrantLock() }
 var paused = false
 
-inline fun every(duration: Int, durationUnit: TimeUnit = TimeUnit.MILLISECONDS, continuous: Boolean = false, crossinline body: () -> Unit) = fiber {
+inline fun every(duration: Int, durationUnit: TimeUnit = TimeUnit.MILLISECONDS,
+                 continuous: Boolean = false, crossinline body: () -> Unit) = fiber {
 	while (!Strand.interrupted()) {
 		if (continuous || !paused) {
 			val l = lock.get()

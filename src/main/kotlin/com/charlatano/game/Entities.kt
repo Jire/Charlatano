@@ -32,7 +32,7 @@ var clientState: ClientState = 0
 fun entitiesByType(vararg types: EntityType = arrayOf(EntityType.NULL)): CacheableList<EntityContext> {
 	var types = types
 	if (types.first() == EntityType.NULL) types = EntityType.cachedValues
-	
+
 	val hashcode = Arrays.hashCode(types)
 	if (cachedResults.containsKey(hashcode)) {
 		val list = cachedResults.get(hashcode)
@@ -41,14 +41,14 @@ fun entitiesByType(vararg types: EntityType = arrayOf(EntityType.NULL)): Cacheab
 		}
 	}
 	val result = CacheableList<EntityContext>(10)
-	
+
 	for (type in types)
 		for (list in entities[type.hashCode()]!!)
 			result.add(contexts[list.glowIndex].set(list.entity, list.glowAddress, type))
-	
-	
+
+
 	cachedResults.put(hashcode, result.update())
-	
+
 	return result
 }
 
@@ -62,29 +62,29 @@ private val cachedResults = Int2ObjectArrayMap<CacheableList<EntityContext>>(Ent
 private val contexts = Array(1024) { EntityContext() }
 
 class EntityContext {
-	
+
 	var entity: Entity = -1
 	var glowAddress: Entity = -1
 	var type: EntityType = EntityType.NULL
-	
+
 	fun set(entity: Entity, glowAddress: Entity, type: EntityType) = apply {
 		this.entity = entity
 		this.glowAddress = glowAddress
 		this.type = type
 	}
-	
+
 }
 
 class Triple {
-	
+
 	var entity: Entity = -1
 	var glowAddress: Entity = -1
 	var glowIndex: Int = -1
-	
+
 	fun set(entity: Entity, glowAddress: Entity, glowIndex: Int) = apply {
 		this.entity = entity
 		this.glowAddress = glowAddress
 		this.glowIndex = glowIndex
 	}
-	
+
 }

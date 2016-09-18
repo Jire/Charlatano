@@ -68,7 +68,7 @@ object CharlatanoOverlay : ApplicationAdapter() {
 
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-		
+
 		if (paused) return
 
 		val batch = batch.get()!!

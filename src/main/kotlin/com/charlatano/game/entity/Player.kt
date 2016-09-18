@@ -53,4 +53,5 @@ internal fun Player.velocity(): Angle
 
 internal fun Player.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
 
-internal fun Player.bone(offset: Int, boneID: Int = FORCE_AIM_TARGET_BONE, boneMatrix: Long = boneMatrix()) = csgoEXE.float(boneMatrix + ((0x30 * boneID) + offset))
+internal fun Player.bone(offset: Int, boneID: Int = FORCE_AIM_TARGET_BONE, boneMatrix: Long = boneMatrix())
+		= csgoEXE.float(boneMatrix + ((0x30 * boneID) + offset))

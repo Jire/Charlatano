@@ -27,10 +27,10 @@ import kotlin.reflect.KProperty
 
 class Offset(val module: Module, val patternOffset: Long, val addressOffset: Long,
              val read: Boolean, val subtract: Boolean, val mask: ByteArray) : Addressed {
-	
+
 	companion object {
 		val memoryByModule = Object2ObjectArrayMap<Module, Memory>()
-		
+
 		private fun Offset.cachedMemory(): Memory {
 			var memory = memoryByModule[module]
 			if (memory == null) {
@@ -40,12 +40,12 @@ class Offset(val module: Module, val patternOffset: Long, val addressOffset: Lon
 			return memory
 		}
 	}
-	
+
 	val memory = cachedMemory()
-	
+
 	override val address by lazy(LazyThreadSafetyMode.NONE) {
 		val offset = module.size - mask.size
-		
+
 		var currentAddress = 0L
 		while (currentAddress < offset) {
 			if (mask(memory, currentAddress, mask)) {
@@ -56,12 +56,12 @@ class Offset(val module: Module, val patternOffset: Long, val addressOffset: Lon
 			}
 			currentAddress++
 		}
-		
+
 		throw IllegalStateException("Failed to resolve offset")
 	}
-	
+
 	operator fun getValue(thisRef: Any?, property: KProperty<*>) = address
-	
+
 	private fun mask(memory: Memory, offset: Long, mask: ByteArray): Boolean {
 		for (i in mask.indices) {
 			val value = mask[i]
@@ -70,5 +70,5 @@ class Offset(val module: Module, val patternOffset: Long, val addressOffset: Lon
 		}
 		return true
 	}
-	
+
 }

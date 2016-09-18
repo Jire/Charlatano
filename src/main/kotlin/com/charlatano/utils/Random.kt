@@ -21,9 +21,9 @@ package com.charlatano.utils
 import java.util.Random
 
 object Random {
-	
+
 	private val rand = Random()
-	
+
 	@JvmStatic fun randomFloat(min: Float, max: Float) = rand.nextFloat() * (max - min) + min
-	
+
 }

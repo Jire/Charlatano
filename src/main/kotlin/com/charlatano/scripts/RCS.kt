@@ -34,10 +34,7 @@ import org.jire.arrowhead.keyReleased
 var prevFired = 0
 val lastPunch = FloatArray(2)
 
-//val lock = ReentrantLock()
-
-@Suspendable
-fun work() {
+@Suspendable private fun work() {
 	val myAddress: Player = clientDLL.uint(dwLocalPlayer)
 	if (myAddress <= 0) {
 		return
@@ -78,12 +75,10 @@ fun work() {
 	prevFired = shotsFired
 }
 
-fun rcs() = every(1) {
-	work()
-}
-
 private fun reset() {
 	prevFired = 0
 	lastPunch[0] = 0F
 	lastPunch[1] = 0F
 }
+
+fun rcs() = every(1) { work() }

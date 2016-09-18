@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit.MILLISECONDS
 class Hook(val clauseDefault: Boolean, val durationDefault: Int,
            val durationUnitDefault: TimeUnit,
            val predicate: () -> Boolean) {
-	
+
 	operator inline fun invoke(clause: Boolean = clauseDefault,
 	                           duration: Int = durationDefault,
 	                           durationUnit: TimeUnit = durationUnitDefault,
@@ -33,7 +33,7 @@ class Hook(val clauseDefault: Boolean, val durationDefault: Int,
 			if (predicate()) body()
 		} else if (predicate()) body()
 	}
-	
+
 }
 
 fun hook(durationDefault: Int = 8, durationUnitDefault: TimeUnit = MILLISECONDS,

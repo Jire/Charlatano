@@ -38,20 +38,20 @@ private val triples = Array(1024) { Triple() }
 fun constructEntities() = every(128) {
 	me = clientDLL.uint(dwLocalPlayer)
 	if (me < 0x200) return@every
-	
+
 	clientState = engineDLL.uint(dwClientState)
-	
+
 	val glowObject = clientDLL.uint(dwGlowObject)
 	val glowObjectCount = clientDLL.int(dwGlowObject + 4)
-	
+
 	for (glowIndex in 0..glowObjectCount) {
 		val glowAddress = glowObject + (glowIndex * GLOW_OBJECT_SIZE)
 		val entity = csgoEXE.uint(glowAddress)
 		val type = EntityType.byEntityAddress(entity)
-		
+
 		val triple = triples[glowIndex].set(entity, glowAddress, glowIndex)
 		val list = entities[type.hashCode()]!!
-		
+
 		if (!list.contains(triple)) list.add(triple)
 	}
 }

@@ -26,9 +26,9 @@ import com.charlatano.game.offsets.ClientOffsets.dwForceJump
 import org.jire.arrowhead.keyPressed
 
 fun bunnyHop() = onGround {
-    if (keyPressed(BUNNY_HOP_KEY)) {
-        clientDLL[dwForceJump] = 5.toByte()
-        Strand.sleep(20)
-        clientDLL[dwForceJump] = 4.toByte()
-    }
+	if (keyPressed(BUNNY_HOP_KEY)) {
+		clientDLL[dwForceJump] = 5.toByte()
+		Strand.sleep(20)
+		clientDLL[dwForceJump] = 4.toByte()
+	}
 }

@@ -33,8 +33,8 @@ import java.util.concurrent.ThreadLocalRandom.current as tlr
 object Overlay {
 
 	fun open() {
-		val cfg = LwjglApplicationConfiguration()
 		System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
+		val cfg = LwjglApplicationConfiguration()
 		cfg.width = gameWidth
 		cfg.height = gameHeight
 		cfg.title = tlr().nextLong(Long.MAX_VALUE).toString()
@@ -55,21 +55,17 @@ object Overlay {
 
 		LwjglApplication(CharlatanoOverlay, cfg)
 
-		var hwnd: WinDef.HWND?
-		while (true) {
+		var hwnd: WinDef.HWND? = null
+		while (!Thread.interrupted()) {
 			hwnd = User32.INSTANCE.FindWindow(null, cfg.title)
 			if (hwnd != null) {
 				break
 			}
-			try {
-				Thread.sleep(100)
-			} catch (e: InterruptedException) {
-				e.printStackTrace()
-			}
+			Thread.sleep(128)
 		}
 		WindowTools.transparentWindow(hwnd!!)
 
-		every(128) {
+		every(1024) {
 			User32.INSTANCE.MoveWindow(hwnd!!, gameX, gameY, gameWidth, gameHeight, false)
 		}
 	}

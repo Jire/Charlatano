@@ -28,10 +28,9 @@ const val FORCE_AIM_KEY = 5 //5 = Mouse forward button
 const val FORCE_AIM_TARGET_BONE = 6 //6 = Head
 
 /**
- * Bunnyhop Settings
+ * Bunny Hop Settings
  */
 const val BUNNY_HOP_KEY = KeyEvent.VK_SPACE //KeyEvent.VK_SPACE = Space button
-
 
 /**
  * Glow ESP Settings

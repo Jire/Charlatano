@@ -29,6 +29,6 @@ import com.charlatano.utils.uint
 val onGround = hook(4) {
 	val me: Player = clientDLL.uint(dwLocalPlayer)
 	if (me <= 0x200 || me.dead()) return@hook false
-	
+
 	me.onGround()
 }

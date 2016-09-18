@@ -40,4 +40,5 @@ internal fun Entity.team(): Int = csgoEXE[this + iTeamNum]
 
 internal fun Entity.model(): Long = csgoEXE.uint(this + dwModel)
 
-internal fun Entity.position(): Angle = Vector(csgoEXE[this + vecOrigin], csgoEXE[this + vecOrigin + 4], csgoEXE.float(this + vecOrigin + 8) + csgoEXE.float(this + vecViewOffset + 8))
+internal fun Entity.position(): Angle = Vector(csgoEXE[this + vecOrigin], csgoEXE[this + vecOrigin + 4],
+		csgoEXE.float(this + vecOrigin + 8) + csgoEXE.float(this + vecViewOffset + 8))
