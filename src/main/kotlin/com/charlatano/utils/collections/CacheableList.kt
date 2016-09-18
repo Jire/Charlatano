@@ -20,16 +20,16 @@ package com.charlatano.utils.collections
 
 @Suppress("UNCHECKED_CAST")
 class CacheableList<E>(val minIndex: Int, val capacity: Int) : Iterable<E> {
-	
+
 	private var arr = arrayOfNulls<Any>(capacity)
-	
+
 	private var size = 0
 	private var highest: Int = 0
-	
+
 	constructor(capacity: Int) : this(0, capacity)
-	
+
 	operator fun get(index: Int) = arr[index] as E
-	
+
 	operator fun set(index: Int, element: E?): E {
 		val previous = arr[index]
 		arr[index] = element
@@ -46,13 +46,13 @@ class CacheableList<E>(val minIndex: Int, val capacity: Int) : Iterable<E> {
 		}
 		return previous as E
 	}
-	
+
 	fun add(element: E): Int {
 		val index = nextIndex()
 		set(index, element)
 		return index
 	}
-	
+
 	fun remove(element: E) {
 		for (i in minIndex..highest) {
 			if (element!!.equals(arr[i])) {
@@ -61,25 +61,25 @@ class CacheableList<E>(val minIndex: Int, val capacity: Int) : Iterable<E> {
 			}
 		}
 	}
-	
+
 	operator fun contains(element: E): Boolean {
 		for (e in this) {
 			if (element!!.equals(e)) {
 				return true
 			}
 		}
-		
+
 		return false
 	}
-	
+
 	fun clear() {
 		for (i in minIndex..arr.size - 1)
 			arr[i] = null
 		size = 0
 	}
-	
+
 	fun size() = size
-	
+
 	fun nextIndex(): Int {
 		for (i in minIndex..arr.size - 1) {
 			if (null == arr[i]) {
@@ -95,20 +95,20 @@ class CacheableList<E>(val minIndex: Int, val capacity: Int) : Iterable<E> {
 				action.accept(e)
 		}
 	}*/
-	
+
 	override fun iterator(): Iterator<E> {
 		iterator.pointer = minIndex
 		return iterator
 	}
-	
+
 	private val iterator = IndexerIterator()
-	
+
 	private inner class IndexerIterator : Iterator<E> {
-		
+
 		var pointer: Int = 0
-		
+
 		override fun hasNext() = size > 0 && pointer <= highest
-		
+
 		override fun next(): E {
 			val o = arr[pointer++]
 			if (o == null && hasNext()) {
@@ -116,13 +116,13 @@ class CacheableList<E>(val minIndex: Int, val capacity: Int) : Iterable<E> {
 			}
 			return o as E
 		}
-		
+
 		fun remove() = set(pointer, null)
-		
+
 	}
-	
+
 	var lastUpdate = -1L
-	
+
 	fun update() = apply { lastUpdate = System.currentTimeMillis() }
-	
+
 }

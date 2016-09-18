@@ -26,13 +26,13 @@ import com.charlatano.game.me
 import com.charlatano.utils.every
 
 fun glowEsp() = every(4) {
-	for (e in entitiesByType(EntityType.CCSPlayer, EntityType.CPlantedC4, EntityType.CC4)) {//TODO clean this up alot
+	for (e in entitiesByType(EntityType.CCSPlayer, EntityType.CPlantedC4, EntityType.CC4)) {// TODO clean this up a lot
 		val entity = e.entity
-		if (entity == me) continue
-		
+		if (entity <= 0 || entity == me) continue
+
 		val glowAddress = e.glowAddress
 		if (entity.dead() || entity.dormant()) continue
-		
+
 		if (e.type == EntityType.CPlantedC4 || e.type == EntityType.CC4) {
 			glowAddress.glow(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE, BOMB_COLOR_ALPHA)
 			entity.chams(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE)
@@ -46,7 +46,8 @@ fun glowEsp() = every(4) {
 	}
 }
 
-fun Player.glow(red: Int = ENEMY_COLOR_RED, green: Int = ENEMY_COLOR_GREEN, blue: Int = ENEMY_COLOR_BLUE, alpha: Float = ENEMY_COLOR_ALPHA) {
+fun Player.glow(red: Int = ENEMY_COLOR_RED, green: Int = ENEMY_COLOR_GREEN,
+                blue: Int = ENEMY_COLOR_BLUE, alpha: Float = ENEMY_COLOR_ALPHA) {
 	csgoEXE[this + 0x4] = red / 255F
 	csgoEXE[this + 0x8] = green / 255F
 	csgoEXE[this + 0xC] = blue / 255F

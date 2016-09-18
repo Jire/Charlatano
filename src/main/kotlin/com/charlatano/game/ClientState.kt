@@ -45,8 +45,7 @@ private val target = WinDef.POINT()
 
 private val delta = Vector()
 
-@Suspendable
-fun aim(currentAngle: Angle, dest: Angle, smoothing: Int = 100) {
+@Suspendable fun aim(currentAngle: Angle, dest: Angle, smoothing: Int = 100) {
 	if (dest.z != 0F || dest.x < -89 || dest.x > 180 || dest.y < -180 || dest.y > 180
 			|| dest.x.isNaN() || dest.y.isNaN() || dest.z.isNaN()) return
 
@@ -77,7 +76,7 @@ fun aim(currentAngle: Angle, dest: Angle, smoothing: Int = 100) {
 		mouseMove(tx / halfIndex, ty / halfIndex)
 
 		val sleepingFactor = smoothing / 100.0
-		val sleepTime = (1 + tlr().nextInt(1) + tlr().nextInt(i)) * sleepingFactor
+		val sleepTime = Math.ceil(2.0 + tlr().nextInt(10) + tlr().nextInt(i)) * sleepingFactor
 		if (sleepTime > 0) Strand.sleep(sleepTime.toLong())
 	}
 }

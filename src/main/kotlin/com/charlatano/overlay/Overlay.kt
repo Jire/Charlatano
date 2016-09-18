@@ -55,17 +55,14 @@ object Overlay {
 
 		LwjglApplication(CharlatanoOverlay, cfg)
 
-		var hwnd: WinDef.HWND? = null
-		while (!Thread.interrupted()) {
+		var hwnd: WinDef.HWND?
+		do {
+			Thread.sleep(64)
 			hwnd = User32.INSTANCE.FindWindow(null, cfg.title)
-			if (hwnd != null) {
-				break
-			}
-			Thread.sleep(128)
-		}
-		WindowTools.transparentWindow(hwnd!!)
+		} while (hwnd == null)
+		WindowTools.transparentWindow(hwnd)
 
-		every(64) {
+		every(512) {
 			User32.INSTANCE.MoveWindow(hwnd!!, gameX, gameY, gameWidth, gameHeight, false)
 		}
 	}
