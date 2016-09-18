@@ -27,8 +27,6 @@ import java.util.concurrent.ThreadLocalRandom.current as tlr
 
 private var target: Player = -1L
 
-private const val ANGLE_CALCULATE_SMOOTHING = 40F
-
 fun aim() = every(AIM_DURATION) {
 	val pressed = keyPressed(1) or keyPressed(FORCE_AIM_KEY)
 	if (!pressed) {
@@ -52,11 +50,10 @@ fun aim() = every(AIM_DURATION) {
 	}
 
 	val bonePosition = Vector(target.bone(0xC), target.bone(0x1C), target.bone(0x2C))
-	compensateVelocity(me, target, bonePosition, ANGLE_CALCULATE_SMOOTHING)
+	compensateVelocity(me, target, bonePosition, AIM_CALCULATION_SMOOTHING)
 
 	val dest = calculateAngle(me, bonePosition)
-	dest.normalize()
-	//dest.finalize(currentAngle, ANGLE_CALCULATE_SMOOTHING)
+	if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_CALCULATION_SMOOTHING) else dest.normalize()
 
 	aim(currentAngle, dest, AIM_SMOOTHING)
 }

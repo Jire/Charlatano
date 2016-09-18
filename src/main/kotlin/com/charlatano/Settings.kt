@@ -28,6 +28,14 @@ const val FORCE_AIM_KEY = 5 // 5 = Mouse forward button
 const val AIM_BONE = 6 // 6 = Head
 const val AIM_FOV = 60
 const val AIM_SMOOTHING = 100 // 100 = slowest, 1 = fastest
+const val AIM_ASSIST_MODE = true
+const val AIM_CALCULATION_SMOOTHING = 40F
+
+/**
+ * RCS Settings
+ */
+const val RCS_DURATION = 1
+const val RCS_SMOOTHING = 75
 
 /**
  * Bunny Hop Settings

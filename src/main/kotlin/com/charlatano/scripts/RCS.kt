@@ -19,6 +19,8 @@
 package com.charlatano.scripts
 
 import co.paralleluniverse.fibers.Suspendable
+import com.charlatano.RCS_DURATION
+import com.charlatano.RCS_SMOOTHING
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.aim
@@ -36,9 +38,7 @@ val lastPunch = FloatArray(2)
 
 @Suspendable private fun work() {
 	val myAddress: Player = clientDLL.uint(dwLocalPlayer)
-	if (myAddress <= 0) {
-		return
-	}
+	if (myAddress <= 0) return
 
 	val shotsFired = csgoEXE.int(myAddress + iShotsFired)
 	if (shotsFired <= 2 || shotsFired < prevFired) {
@@ -68,7 +68,7 @@ val lastPunch = FloatArray(2)
 	view.z = 0F
 	view.normalize()
 
-	aim(clientState.angle(), view, 65)
+	aim(clientState.angle(), view, RCS_SMOOTHING)
 
 	lastPunch[0] = punch.x
 	lastPunch[1] = punch.y
@@ -81,4 +81,4 @@ private fun reset() {
 	lastPunch[1] = 0F
 }
 
-fun rcs() = every(1) { work() }
+fun rcs() = every(RCS_DURATION) { work() }
