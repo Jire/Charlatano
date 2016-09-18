@@ -65,7 +65,7 @@ object Overlay {
 		}
 		WindowTools.transparentWindow(hwnd!!)
 
-		every(1024) {
+		every(64) {
 			User32.INSTANCE.MoveWindow(hwnd!!, gameX, gameY, gameWidth, gameHeight, false)
 		}
 	}

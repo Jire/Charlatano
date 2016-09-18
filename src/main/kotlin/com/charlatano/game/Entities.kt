@@ -40,7 +40,7 @@ fun entitiesByType(vararg types: EntityType = arrayOf(EntityType.NULL)): Cacheab
 			return list
 		}
 	}
-	val result = CacheableList<EntityContext>(10)
+	val result = CacheableList<EntityContext>(64)
 
 	for (type in types)
 		for (list in entities[type.hashCode()]!!)
