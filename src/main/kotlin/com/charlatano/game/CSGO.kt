@@ -34,63 +34,63 @@ import org.jire.arrowhead.Process
 import org.jire.arrowhead.processByName
 
 object CSGO {
-	
+
 	lateinit var csgoEXE: Process
 		private set
-	
+
 	lateinit var clientDLL: Module
 		private set
 	lateinit var engineDLL: Module
 		private set
-	
+
 	var gameHeight: Int = 0
 		private set
-	
+
 	var gameX: Int = 0
 		private set
-	
+
 	var gameWidth: Int = 0
 		private set
-	
+
 	var gameY: Int = 0
 		private set
-	
+
 	fun initalize() {
-		retry(10) { csgoEXE = processByName("csgo.exe")!! }
-		retry(10) {
+		retry(128) { csgoEXE = processByName("csgo.exe")!! }
+		retry(128) {
 			csgoEXE.loadModules()
-			
+
 			clientDLL = csgoEXE.modules["client.dll"]!!
 			engineDLL = csgoEXE.modules["engine.dll"]!!
 		}
-		
+
 		val rect = WinDef.RECT()
 		val hwd = User32.INSTANCE.FindWindow(null, "Counter-Strike: Global Offensive")
-		every(128, continuous = true) {
+		every(1024, continuous = true) {
 			paused = User32.INSTANCE.GetForegroundWindow() != hwd
 			if (paused) return@every
-			
+
 			if (!CUser32.GetClientRect(hwd, rect)) System.exit(2)
 			gameWidth = rect.right - rect.left
 			gameHeight = rect.bottom - rect.top
-			
+
 			if (!User32.INSTANCE.GetWindowRect(hwd, rect)) System.exit(3)
 			gameX = rect.left + (((rect.right - rect.left) - gameWidth) / 2)
 			gameY = rect.top + ((rect.bottom - rect.top) - gameHeight)
 		}
-		
+
 		// TODO: Offsets.load()
 		NetVars.load()
-		
-		retry(5) {
+
+		retry(16) {
 			val enginePointer = engineDLL.uint(dwClientState)
 			val inGame = csgoEXE.int(enginePointer + dwInGame) == 6
 			val myAddress = clientDLL.uint(dwLocalPlayer)
 			if (!inGame || myAddress < 0x200) throw RuntimeException() // TODO find nicer solution
 		}
 	}
-	
+
 	const val ENTITY_SIZE = 16
 	const val GLOW_OBJECT_SIZE = 56
-	
+
 }

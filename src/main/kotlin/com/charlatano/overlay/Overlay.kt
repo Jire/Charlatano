@@ -57,8 +57,8 @@ object Overlay {
 
 		var hwnd: WinDef.HWND?
 		do {
-			Thread.sleep(64)
 			hwnd = User32.INSTANCE.FindWindow(null, cfg.title)
+			Thread.sleep(64)
 		} while (hwnd == null)
 		WindowTools.transparentWindow(hwnd)
 
