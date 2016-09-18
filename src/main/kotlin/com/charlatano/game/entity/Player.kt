@@ -1,6 +1,6 @@
 /*
- * Charlatan is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
+ * Charlatano is a premium CS:GO cheat ran on the JVM.
+ * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 
 package com.charlatano.game.entity
 
-import com.charlatano.FORCE_AIM_TARGET_BONE
+import com.charlatano.AIM_BONE
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.netvars.NetVarOffsets.dwBoneMatrix
 import com.charlatano.game.netvars.NetVarOffsets.fFlags
@@ -53,5 +53,5 @@ internal fun Player.velocity(): Angle
 
 internal fun Player.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
 
-internal fun Player.bone(offset: Int, boneID: Int = FORCE_AIM_TARGET_BONE, boneMatrix: Long = boneMatrix())
+internal fun Player.bone(offset: Int, boneID: Int = AIM_BONE, boneMatrix: Long = boneMatrix())
 		= csgoEXE.float(boneMatrix + ((0x30 * boneID) + offset))

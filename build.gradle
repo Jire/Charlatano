@@ -1,6 +1,6 @@
 /*
- * Charlatan is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
+ * Charlatano is a premium CS:GO cheat ran on the JVM.
+ * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,43 +17,43 @@
  */
 
 group 'com.charlatano'
-version '0.3.2'
+version '0.4.0'
 
 buildscript {
-	ext.kotlin_version = '1.1-M01'
-	ext.jna_version = '4.3.0-SNAPSHOT'
-	ext.quasar_version = '0.7.6'
+    ext.kotlin_version = '1.1-M01'
+    ext.jna_version = '4.3.0-SNAPSHOT'
+    ext.quasar_version = '0.7.6'
     ext.gdxVersion = '1.9.4'
-	
-	repositories {
-		mavenCentral()
-		maven { url 'https://dl.bintray.com/kotlin/kotlin-eap-1.1' }
-	}
-	dependencies {
-		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-	}
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap-1.1' }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
 }
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
 
 repositories {
-	mavenCentral()
-	maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-	maven { url 'https://dl.bintray.com/kotlin/kotlin-eap-1.1' }
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap-1.1' }
 }
 
 dependencies {
-	compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
-	
-	compile group: 'net.java.dev.jna', name: 'jna', version: jna_version
-	compile group: 'net.java.dev.jna', name: 'jna-platform', version: jna_version
-	
-	compile group: 'org.jire.arrowhead', name: 'arrowhead', version: '1.2.1'
-	
-	compile group: 'co.paralleluniverse', name: 'quasar-core', version: quasar_version
-	compile group: 'co.paralleluniverse', name: 'quasar-actors', version: quasar_version
-	compile group: 'co.paralleluniverse', name: 'quasar-kotlin', version: quasar_version
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
+
+    compile group: 'net.java.dev.jna', name: 'jna', version: jna_version
+    compile group: 'net.java.dev.jna', name: 'jna-platform', version: jna_version
+
+    compile group: 'org.jire.arrowhead', name: 'arrowhead', version: '1.2.1'
+
+    compile group: 'co.paralleluniverse', name: 'quasar-core', version: quasar_version
+    compile group: 'co.paralleluniverse', name: 'quasar-actors', version: quasar_version
+    compile group: 'co.paralleluniverse', name: 'quasar-kotlin', version: quasar_version
 
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"

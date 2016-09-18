@@ -1,6 +1,6 @@
 /*
- * Charlatan is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
+ * Charlatano is a premium CS:GO cheat ran on the JVM.
+ * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ fun main(args: Array<String>) {
 	rcs()
 	noFlash()
 	bombTimer()
-	forceAim()
+	aim()
 	// -- END OF SCRIPTS -- //
 
 	Overlay.open()

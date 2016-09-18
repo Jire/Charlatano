@@ -1,6 +1,6 @@
 /*
- * Charlatan is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
+ * Charlatano is a premium CS:GO cheat ran on the JVM.
+ * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,10 +18,7 @@
 
 package com.charlatano.scripts
 
-import com.charlatano.FORCE_AIM_KEY
-import com.charlatano.FORCE_AIM_SMOOTHING
-import com.charlatano.calculateAngle
-import com.charlatano.compensateVelocity
+import com.charlatano.*
 import com.charlatano.game.*
 import com.charlatano.game.entity.*
 import com.charlatano.utils.*
@@ -30,45 +27,41 @@ import java.util.concurrent.ThreadLocalRandom.current as tlr
 
 private var target: Player = -1L
 
-private const val LOCK_FOV = 60
+private const val ANGLE_CALCULATE_SMOOTHING = 40F
 
-private const val SMOOTHING_MIN = 30F
-private const val SMOOTHING_MAX = 40F
-
-private const val SMOOTHING = 1
-
-fun forceAim() = every(FORCE_AIM_SMOOTHING) {
-	val pressed = keyPressed(FORCE_AIM_KEY) {
-		val currentAngle = clientState.angle()
-
-		var currentTarget = target
-		if (currentTarget == -1L) {
-			currentTarget = findTarget(me.position(), currentAngle)
-			if (currentTarget == -1L) {
-				return@keyPressed
-			}
-			target = currentTarget
-			return@keyPressed
-		}
-
-		if (me.dead() || target.dead() || target.dormant() || !target.spotted() || target.team() == me.team()) {
-			target = -1L
-			return@keyPressed
-		}
-
-		val bonePosition = Vector(target.bone(0xC), target.bone(0x1C), target.bone(0x2C))
-		compensateVelocity(me, target, bonePosition, SMOOTHING_MAX)
-
-		val dest = calculateAngle(me, bonePosition)
-		dest.normalize()
-		//dest.finalize(currentAngle, SMOOTHING_MAX)
-
-		aim(currentAngle, dest, SMOOTHING)
+fun aim() = every(AIM_DURATION) {
+	val pressed = keyPressed(1) or keyPressed(FORCE_AIM_KEY)
+	if (!pressed) {
+		target = -1L
+		return@every
 	}
-	if (!pressed) target = -1L
+
+	val currentAngle = clientState.angle()
+
+	var currentTarget = target
+	if (currentTarget == -1L) {
+		currentTarget = findTarget(me.position(), currentAngle)
+		if (currentTarget == -1L) return@every
+		target = currentTarget
+		return@every
+	}
+
+	if (me.dead() || target.dead() || target.dormant() || !target.spotted() || target.team() == me.team()) {
+		target = -1L
+		return@every
+	}
+
+	val bonePosition = Vector(target.bone(0xC), target.bone(0x1C), target.bone(0x2C))
+	compensateVelocity(me, target, bonePosition, ANGLE_CALCULATE_SMOOTHING)
+
+	val dest = calculateAngle(me, bonePosition)
+	dest.normalize()
+	//dest.finalize(currentAngle, ANGLE_CALCULATE_SMOOTHING)
+
+	aim(currentAngle, dest, AIM_SMOOTHING)
 }
 
-private fun findTarget(position: Angle, angle: Angle, lockFOV: Int = LOCK_FOV): Player {
+private fun findTarget(position: Angle, angle: Angle, lockFOV: Int = AIM_FOV): Player {
 	var closestDelta = Int.MAX_VALUE
 	var closetPlayer: Player? = null
 	for (e in entitiesByType(EntityType.CCSPlayer)) {

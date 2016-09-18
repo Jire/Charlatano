@@ -1,6 +1,6 @@
 /*
- * Charlatan is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
+ * Charlatano is a premium CS:GO cheat ran on the JVM.
+ * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,11 +21,13 @@ package com.charlatano
 import java.awt.event.KeyEvent
 
 /**
- * Force Aim Settings
+ * Aim Settings
  */
-const val FORCE_AIM_SMOOTHING = 16 //Lower = stronger lock
-const val FORCE_AIM_KEY = 5 //5 = Mouse forward button
-const val FORCE_AIM_TARGET_BONE = 6 //6 = Head
+const val AIM_DURATION = 16
+const val FORCE_AIM_KEY = 5 // 5 = Mouse forward button
+const val AIM_BONE = 6 // 6 = Head
+const val AIM_FOV = 60
+const val AIM_SMOOTHING = 100 // 100 = slowest, 1 = fastest
 
 /**
  * Bunny Hop Settings
