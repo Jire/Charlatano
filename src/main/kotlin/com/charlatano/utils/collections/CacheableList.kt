@@ -132,14 +132,4 @@ open class CacheableList<E>(val minIndex: Int, val capacity: Int) {
 		
 	}
 	
-	private var lastCleanup = 0L
-	
-	fun shouldReset() = (System.currentTimeMillis() - lastCleanup) >= 10000
-	
-	fun reset() {
-		clear()
-		lastCleanup = System.currentTimeMillis()
-	}
-	
-	
 }
