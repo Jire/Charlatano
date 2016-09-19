@@ -19,7 +19,7 @@
 package com.charlatano.utils.collections
 
 @Suppress("UNCHECKED_CAST")
-open class CacheableList<E>(val minIndex: Int, val capacity: Int) {
+open class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
 	
 	private var arr = arrayOfNulls<Any>(capacity)
 	
@@ -31,7 +31,7 @@ open class CacheableList<E>(val minIndex: Int, val capacity: Int) {
 	
 	operator fun get(index: Int) = arr[index] as E
 	
-	operator fun set(index: Int, element: E?): E {
+	operator fun set(index: Int, element: @UnsafeVariance E?): E {
 		val previous = arr[index]
 		if (previous == element) return previous as E
 		
@@ -51,13 +51,13 @@ open class CacheableList<E>(val minIndex: Int, val capacity: Int) {
 		return previous as E
 	}
 	
-	fun add(element: E): Int {
+	fun add(element: @UnsafeVariance E): Int {
 		val index = nextIndex()
 		set(index, element)
 		return index
 	}
 	
-	fun remove(element: E) {
+	fun remove(element: @UnsafeVariance E) {
 		for (i in minIndex..highest) {
 			if (element!!.equals(arr[i])) {
 				set(i, null)
@@ -66,7 +66,7 @@ open class CacheableList<E>(val minIndex: Int, val capacity: Int) {
 		}
 	}
 	
-	operator fun contains(element: E): Boolean {
+	operator fun contains(element: @UnsafeVariance E): Boolean {
 		for (e in iterator()) {
 			if (element!!.equals(e)) {
 				return true
@@ -76,10 +76,10 @@ open class CacheableList<E>(val minIndex: Int, val capacity: Int) {
 		return false
 	}
 	
-	inline fun <E> forEach(action: (E) -> Unit): Unit {
+	inline fun forEach(action: (E) -> Unit): Unit {
 		for (e in iterator()) {
 			if (e != null)
-				action(e as E)
+				action(e)
 		}
 	}
 	

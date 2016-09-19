@@ -20,7 +20,6 @@ package com.charlatano.scripts.esp
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import com.charlatano.game.EntityContext
 import com.charlatano.game.entitiesByType
 import com.charlatano.game.entity.*
 import com.charlatano.game.me
@@ -64,7 +63,7 @@ fun boxEsp() {
 		boxes[currentIdx++].color = c
 	}*/
 	CharlatanoOverlay {
-		entitiesByType(EntityType.CCSPlayer/*, EntityType.CPlantedC4, EntityType.CC4*/).forEach<EntityContext> {//TODO clean this up alot
+		entitiesByType(EntityType.CCSPlayer/*, EntityType.CPlantedC4, EntityType.CC4*/).forEach {//TODO clean this up alot
 			val entity = it.entity
 			if (entity == me || entity.dead() || entity.dormant()) return@forEach
 			

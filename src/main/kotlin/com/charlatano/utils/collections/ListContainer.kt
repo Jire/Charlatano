@@ -34,15 +34,15 @@ class EntityContainer : CacheableList<EntityContext>(0, 256) {
 	}
 	
 	fun collect() = apply {
-		lists.forEach<CacheableList<EntityContext>> {
-			it.forEach<EntityContext> { add(it) }
+		lists.forEach {
+			it.forEach { add(it) }
 			it.clean()
 		}
 	}
 	
 	fun needsUpdate(): Boolean {
 		if (lists.size() == 0) return true
-		lists.forEach<CacheableList<EntityContext>> {
+		lists.forEach {
 			if (it.isDirty()) return true
 		}
 		return false

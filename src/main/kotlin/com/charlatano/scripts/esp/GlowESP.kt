@@ -20,14 +20,13 @@ package com.charlatano.scripts.esp
 
 import com.charlatano.*
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.EntityContext
 import com.charlatano.game.entitiesByType
 import com.charlatano.game.entity.*
 import com.charlatano.game.me
 import com.charlatano.utils.every
 
 fun glowEsp() = every(4) {
-	entitiesByType(EntityType.CCSPlayer, EntityType.CPlantedC4, EntityType.CC4).forEach<EntityContext> {// TODO clean this up a lot
+	entitiesByType(EntityType.CCSPlayer, EntityType.CPlantedC4, EntityType.CC4).forEach {// TODO clean this up a lot
 		val entity = it.entity
 		if (entity <= 0 || entity == me) return@forEach
 		
