@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,19 +19,22 @@
 package com.charlatano.utils.collections
 
 @Suppress("UNCHECKED_CAST")
-class CacheableList<E>(val minIndex: Int, val capacity: Int) : Iterable<E> {
-
+open class CacheableList<E>(val minIndex: Int, val capacity: Int) {
+	
 	private var arr = arrayOfNulls<Any>(capacity)
-
+	
 	private var size = 0
 	private var highest: Int = 0
-
+	private var dirty = false
+	
 	constructor(capacity: Int) : this(0, capacity)
-
+	
 	operator fun get(index: Int) = arr[index] as E
-
+	
 	operator fun set(index: Int, element: E?): E {
 		val previous = arr[index]
+		if (previous == element) return previous as E
+		
 		arr[index] = element
 		if (previous == null && element != null) {
 			size++
@@ -44,15 +47,16 @@ class CacheableList<E>(val minIndex: Int, val capacity: Int) : Iterable<E> {
 				highest--
 			}
 		}
+		dirty = true
 		return previous as E
 	}
-
+	
 	fun add(element: E): Int {
 		val index = nextIndex()
 		set(index, element)
 		return index
 	}
-
+	
 	fun remove(element: E) {
 		for (i in minIndex..highest) {
 			if (element!!.equals(arr[i])) {
@@ -61,25 +65,39 @@ class CacheableList<E>(val minIndex: Int, val capacity: Int) : Iterable<E> {
 			}
 		}
 	}
-
+	
 	operator fun contains(element: E): Boolean {
-		for (e in this) {
+		for (e in iterator()) {
 			if (element!!.equals(e)) {
 				return true
 			}
 		}
-
+		
 		return false
 	}
-
-	fun clear() {
+	
+	inline fun <E> forEach(action: (E) -> Unit): Unit {
+		for (e in iterator()) {
+			if (e != null)
+				action(e as E)
+		}
+	}
+	
+	open fun clear() {
 		for (i in minIndex..arr.size - 1)
 			arr[i] = null
 		size = 0
+		dirty = true
 	}
-
+	
 	fun size() = size
-
+	
+	fun highest() = highest
+	
+	fun isDirty() = dirty
+	
+	fun clean() = apply { dirty = false }
+	
 	fun nextIndex(): Int {
 		for (i in minIndex..arr.size - 1) {
 			if (null == arr[i]) {
@@ -88,27 +106,20 @@ class CacheableList<E>(val minIndex: Int, val capacity: Int) : Iterable<E> {
 		}
 		throw IllegalStateException("Out of indices!")
 	}
-
-/*	override fun forEach(action: Consumer<E>) {
-		for (e in this) {
-			if (e != null)
-				action.accept(e)
-		}
-	}*/
-
-	override fun iterator(): Iterator<E> {
+	
+	fun iterator(): Iterator<E> {
 		iterator.pointer = minIndex
 		return iterator
 	}
-
+	
 	private val iterator = IndexerIterator()
-
+	
 	private inner class IndexerIterator : Iterator<E> {
-
+		
 		var pointer: Int = 0
-
+		
 		override fun hasNext() = size > 0 && pointer <= highest
-
+		
 		override fun next(): E {
 			val o = arr[pointer++]
 			if (o == null && hasNext()) {
@@ -116,13 +127,19 @@ class CacheableList<E>(val minIndex: Int, val capacity: Int) : Iterable<E> {
 			}
 			return o as E
 		}
-
+		
 		fun remove() = set(pointer, null)
-
+		
 	}
-
-	var lastUpdate = -1L
-
-	fun update() = apply { lastUpdate = System.currentTimeMillis() }
-
+	
+	private var lastCleanup = 0L
+	
+	fun shouldReset() = (System.currentTimeMillis() - lastCleanup) >= 10000
+	
+	fun reset() {
+		clear()
+		lastCleanup = System.currentTimeMillis()
+	}
+	
+	
 }

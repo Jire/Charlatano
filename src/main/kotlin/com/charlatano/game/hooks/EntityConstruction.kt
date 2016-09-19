@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,8 +22,8 @@ import com.charlatano.game.CSGO.GLOW_OBJECT_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
-import com.charlatano.game.Triple
 import com.charlatano.game.clientState
+import com.charlatano.game.contexts
 import com.charlatano.game.entities
 import com.charlatano.game.entity.EntityType
 import com.charlatano.game.me
@@ -33,25 +33,27 @@ import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.utils.every
 import com.charlatano.utils.uint
 
-private val triples = Array(1024) { Triple() }
 
 fun constructEntities() = every(128) {
 	me = clientDLL.uint(dwLocalPlayer)
 	if (me < 0x200) return@every
-
+	
 	clientState = engineDLL.uint(dwClientState)
-
+	
 	val glowObject = clientDLL.uint(dwGlowObject)
 	val glowObjectCount = clientDLL.int(dwGlowObject + 4)
-
+	
 	for (glowIndex in 0..glowObjectCount) {
 		val glowAddress = glowObject + (glowIndex * GLOW_OBJECT_SIZE)
 		val entity = csgoEXE.uint(glowAddress)
 		val type = EntityType.byEntityAddress(entity)
-
-		val triple = triples[glowIndex].set(entity, glowAddress, glowIndex)
+		
+		val triple = contexts[glowIndex].set(entity, glowAddress, glowIndex, type)
 		val list = entities[type.hashCode()]!!
-
+		
+		if (list.shouldReset()) list.reset()
 		if (!list.contains(triple)) list.add(triple)
+		
+		
 	}
 }
