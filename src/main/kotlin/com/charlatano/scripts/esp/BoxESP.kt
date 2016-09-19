@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@ package com.charlatano.scripts.esp
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.charlatano.game.EntityContext
 import com.charlatano.game.entitiesByType
 import com.charlatano.game.entity.*
 import com.charlatano.game.me
@@ -63,35 +64,35 @@ fun boxEsp() {
 		boxes[currentIdx++].color = c
 	}*/
 	CharlatanoOverlay {
-		for (e in entitiesByType(EntityType.CCSPlayer/*, EntityType.CPlantedC4, EntityType.CC4*/)) {//TODO clean this up alot
-			val entity = e.entity
-			if (entity == me || entity.dead() || entity.dormant()) continue
-
+		entitiesByType(EntityType.CCSPlayer/*, EntityType.CPlantedC4, EntityType.CC4*/).forEach<EntityContext> {//TODO clean this up alot
+			val entity = it.entity
+			if (entity == me || entity.dead() || entity.dormant()) return@forEach
+			
 			val vHead = vHead.get()
 			val vFeet = vFeet.get()
 			vHead.set(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C) + 9)
 			vFeet.set(vHead.x, vHead.y, vHead.z - 75)
-
+			
 			val vTop = vTop.get()
 			val vBot = vBot.get()
-			if (!worldToScreen(vHead, vTop) || !worldToScreen(vFeet, vBot)) continue
-
+			if (!worldToScreen(vHead, vTop) || !worldToScreen(vFeet, vBot)) return@forEach
+			
 			val h = vBot.y - vTop.y
 			val w = h / 5F
-
+			
 			val bomb: Entity = -1//entityByType(EntityType.CC4).entity
 			val c = if (bomb > -1 && entity == bomb.carrier()) Color.GREEN else if (me.team() == entity.team()) Color.BLUE else Color.RED
-
+			
 			val sx = (vTop.x - w).toInt()
 			val sy = vTop.y.toInt()
-
+			
 			boxes[currentIdx].x = sx
 			boxes[currentIdx].y = sy
 			boxes[currentIdx].w = (w * 2).toInt()
 			boxes[currentIdx].h = h.toInt()
 			boxes[currentIdx++].color = c
 		}
-
+		
 		val shapeRenderer = shapeRenderer.get() ?: return@CharlatanoOverlay
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
 		for (i in 0..currentIdx - 1) {

@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,12 +61,14 @@ fun aim() = every(AIM_DURATION) {
 private fun findTarget(position: Angle, angle: Angle, lockFOV: Int = AIM_FOV): Player {
 	var closestDelta = Int.MAX_VALUE
 	var closetPlayer: Player? = null
-	for (e in entitiesByType(EntityType.CCSPlayer)) {
-		val entity = e.entity
-		if (entity <= 0) continue
-		if (entity == me || entity.team() == me.team()) continue
-
-		if (me.dead() || entity.dead() || !entity.spotted() || entity.dormant()) continue
+	val list = listOf<String>()
+	list.forEach { }
+	entitiesByType(EntityType.CCSPlayer).forEach<EntityContext> {
+		val entity = it.entity
+		if (entity <= 0) return@forEach
+		if (entity == me || entity.team() == me.team()) return@forEach
+		
+		if (me.dead() || entity.dead() || !entity.spotted() || entity.dormant()) return@forEach
 
 		val ePos: Angle = Vector(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C))
 		val distance = position.distanceTo(ePos)
