@@ -92,8 +92,6 @@ open class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
 	
 	fun size() = size
 	
-	fun highest() = highest
-	
 	fun isDirty() = dirty
 	
 	fun clean() = apply { dirty = false }
@@ -107,7 +105,7 @@ open class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
 		throw IllegalStateException("Out of indices!")
 	}
 	
-	fun iterator(): Iterator<E> {
+	operator fun iterator(): Iterator<E> {
 		iterator.pointer = minIndex
 		return iterator
 	}

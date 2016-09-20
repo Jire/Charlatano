@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,4 +65,4 @@ const val BOMB_COLOR_ALPHA = 0.6f //RGB colors
  */
 const val SKELETON_ESP = true
 const val GLOW_ESP = true
-const val BOX_ESP = false
+const val BOX_ESP = true

@@ -62,12 +62,12 @@ private fun findTarget(position: Angle, angle: Angle, lockFOV: Int = AIM_FOV): P
 	var closestDelta = Int.MAX_VALUE
 	var closetPlayer: Player? = null
 	
-	entitiesByType(EntityType.CCSPlayer).forEach {
+	entities(EntityType.CCSPlayer) {
 		val entity = it.entity
-		if (entity <= 0) return@forEach
-		if (entity == me || entity.team() == me.team()) return@forEach
+		if (entity <= 0) return@entities
+		if (entity == me || entity.team() == me.team()) return@entities
 		
-		if (me.dead() || entity.dead() || !entity.spotted() || entity.dormant()) return@forEach
+		if (me.dead() || entity.dead() || !entity.spotted() || entity.dormant()) return@entities
 		
 		val ePos: Angle = Vector(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C))
 		val distance = position.distanceTo(ePos)

@@ -22,32 +22,19 @@ import com.charlatano.game.entity.Entity
 import com.charlatano.game.entity.EntityType
 import com.charlatano.game.entity.Player
 import com.charlatano.utils.collections.CacheableList
-import com.charlatano.utils.collections.EntityContainer
+import com.charlatano.utils.collections.ListContainer
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap
 import java.util.*
 
 var me: Player = 0
 var clientState: ClientState = 0
 
-fun entitiesByType(vararg types: EntityType = arrayOf(EntityType.NULL)): CacheableList<EntityContext> {
-	var types = types
-	if (types.first() == EntityType.NULL) types = EntityType.cachedValues
-	
-	val hashcode = Arrays.hashCode(types)
-	val container = cachedResults.get(hashcode) ?: EntityContainer()
-	if (!container.needsUpdate()) return container
-	
-	container.clear() //TODO bug if we clean CCSPlayer it might not call collect for the other cached results
-	
-	for (type in types) container.addList(entities[type.hashCode()]!!)
-	
-	cachedResults.put(hashcode, container.collect())
-	return container
-}
+typealias EntityContainer = ListContainer<EntityContext>
+typealias EntityList = Int2ObjectArrayMap<CacheableList<EntityContext>>
 
-fun entityByType(type: EntityType): EntityContext? = entitiesByType(type)[0]
+fun entityByType(type: EntityType): EntityContext? = /* entities[type].firstOrNull()*/null
 
-val entities = Int2ObjectArrayMap<CacheableList<EntityContext>>(EntityType.size).apply {
+val entities = EntityList(EntityType.size).apply {
 	for (type in EntityType.cachedValues) put(type.hashCode(), CacheableList<EntityContext>(0, 256))
 }
 
@@ -69,4 +56,19 @@ class EntityContext {
 		this.type = type
 	}
 	
+}
+
+internal inline fun entities(vararg types: EntityType = arrayOf(EntityType.NULL), body: (EntityContext) -> Unit) {
+	var types = types
+	if (types.first() == EntityType.NULL) types = EntityType.cachedValues
+	
+	val hashcode = Arrays.hashCode(types)
+	val container = cachedResults.get(hashcode) ?: EntityContainer()
+	
+	if (container.empty()) {
+		for (type in types) container.addList(entities[type.hashCode()]!!)
+		cachedResults.put(hashcode, container)
+	}
+	
+	container.forEach(body)
 }

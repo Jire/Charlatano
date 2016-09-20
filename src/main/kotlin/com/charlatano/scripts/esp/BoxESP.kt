@@ -20,7 +20,7 @@ package com.charlatano.scripts.esp
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import com.charlatano.game.entitiesByType
+import com.charlatano.game.entities
 import com.charlatano.game.entity.*
 import com.charlatano.game.me
 import com.charlatano.overlay.CharlatanoOverlay
@@ -63,9 +63,9 @@ fun boxEsp() {
 		boxes[currentIdx++].color = c
 	}*/
 	CharlatanoOverlay {
-		entitiesByType(EntityType.CCSPlayer/*, EntityType.CPlantedC4, EntityType.CC4*/).forEach {//TODO clean this up alot
+		entities(EntityType.CCSPlayer/*, EntityType.CPlantedC4, EntityType.CC4*/) {//TODO clean this up alot
 			val entity = it.entity
-			if (entity == me || entity.dead() || entity.dormant()) return@forEach
+			if (entity == me || entity.dead() || entity.dormant()) return@entities
 			
 			val vHead = vHead.get()
 			val vFeet = vFeet.get()
@@ -74,7 +74,7 @@ fun boxEsp() {
 			
 			val vTop = vTop.get()
 			val vBot = vBot.get()
-			if (!worldToScreen(vHead, vTop) || !worldToScreen(vFeet, vBot)) return@forEach
+			if (!worldToScreen(vHead, vTop) || !worldToScreen(vFeet, vBot)) return@entities
 			
 			val h = vBot.y - vTop.y
 			val w = h / 5F

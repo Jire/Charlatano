@@ -18,34 +18,28 @@
 
 package com.charlatano.utils.collections
 
-import com.charlatano.game.EntityContext
-
 
 @Suppress("UNCHECKED_CAST")
-class EntityContainer : CacheableList<EntityContext>(0, 256) {
+class ListContainer<E> {
 	
-	private val lists = CacheableList<CacheableList<EntityContext>>(0, 10)
+	private val lists = CacheableList<CacheableList<E>>(0, 10)
 	
-	fun addList(list: CacheableList<EntityContext>) = lists.add(list)
+	fun addList(list: CacheableList<E>) = lists.add(list)
 	
-	override fun clear() {
-		super.clear()
-		lists.clear()
-	}
+	fun clear() = lists.clear()
 	
-	fun collect() = apply {
+	fun empty() = lists.size() == 0
+	
+	internal inline fun forEach(action: (E) -> Unit): Unit {
 		lists.forEach {
-			it.forEach { add(it) }
-			it.clean()
+			it.forEach {
+				action(it)
+			}
 		}
 	}
 	
-	fun needsUpdate(): Boolean {
-		if (lists.size() == 0) return true
-		lists.forEach {
-			if (it.isDirty()) return true
-		}
-		return false
-	}
+	fun <E> firstOrNull() = lists[0][0] as E
 	
 }
+
+internal inline operator fun <E> ListContainer<E>.invoke(action: (E) -> Unit) = this.forEach { action(it) }

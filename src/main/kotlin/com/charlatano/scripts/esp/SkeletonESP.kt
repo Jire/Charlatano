@@ -22,7 +22,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
-import com.charlatano.game.entitiesByType
+import com.charlatano.game.entities
 import com.charlatano.game.entity.*
 import com.charlatano.game.me
 import com.charlatano.game.offsets.EngineOffsets.studioModel
@@ -39,9 +39,9 @@ private var currentIdx = 0
 
 fun skeletonEsp() {
 	CharlatanoOverlay {
-		entitiesByType(EntityType.CCSPlayer).forEach {
+		entities(EntityType.CCSPlayer) {
 			val entity = it.entity
-			if (entity <= 0 || entity == me || entity.dead() || entity.dormant()) return@forEach
+			if (entity <= 0 || entity == me || entity.dead() || entity.dormant()) return@entities
 			
 			val studioModel = findStudioModel(entity.model())
 			val numbones = csgoEXE.int(studioModel + 0x9C)
@@ -65,8 +65,8 @@ fun skeletonEsp() {
 			shapeRenderer.color = it.color
 			shapeRenderer.line(it.sX.toFloat(), it.sY.toFloat(), it.eX.toFloat(), it.eY.toFloat())
 		}
-		currentIdx = 0
 		shapeRenderer.end()
+		currentIdx = 0
 	}
 }
 
