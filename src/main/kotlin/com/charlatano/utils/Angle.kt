@@ -23,14 +23,19 @@ import java.lang.Math.abs
 typealias Angle = Vector
 
 internal fun Angle.normalize() {
-	if (x > 89 && x <= 180) x = 89F
-	if (x > 180) x -= 360
+	if (x != x) x = 0F
+	if (y != y) y = 0F
+
+	if (x > 89) x = 89F
 	if (x < -89) x = -89F
 
-	if (y > 180) y -= 360
-	if (y < -180) y += 360
+	while (y > 180) y -= 360
+	while (y <= -180) y += 360
 
-	if (z != 0F) z = 0F
+	if (y > 180) y = 180F
+	if (y < -180F) y = -180F
+
+	z = 0F
 }
 
 internal fun Angle.distanceTo(target: Angle) = abs(x - target.x) + abs(y - target.y) + abs(z - target.z)
