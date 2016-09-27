@@ -15,22 +15,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package opengl.gl2d.impl;
 
-package com.charlatano.utils
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import com.charlatano.utils.natives.CUser32
-import com.sun.jna.platform.win32.WinDef
-import java.lang.Math.sqrt
-
-fun WinDef.POINT.set(x: Int, y: Int) = apply {
-	this.x = x
-	this.y = y
-}
-
-fun WinDef.POINT.refresh() = apply { CUser32.GetCursorPos(this) }
-
-fun WinDef.POINT.distance(b: WinDef.POINT): Double {
-	val px = (b.x - this.x).toDouble()
-	val py = (b.y - this.y).toDouble()
-	return sqrt(px * px + py * py)
+public class GLG2DNotImplemented {
+	private static final Logger LOGGER = Logger.getLogger(GLG2DNotImplemented.class.getName());
+	
+	private static final Set<String> tags = new TreeSet<String>();
+	
+	public static void notImplemented(String tag) {
+		if (tags.add(tag)) {
+			LOGGER.log(Level.WARNING, tag + " has not been implemented yet ...");
+		}
+	}
 }

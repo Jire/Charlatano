@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 package com.charlatano.utils.natives
 
 import com.sun.jna.Native
+import com.sun.jna.Pointer
 import com.sun.jna.platform.win32.WinDef
 
 object CUser32 {
@@ -27,6 +28,27 @@ object CUser32 {
 		Native.register("user32")
 	}
 	
+	@JvmStatic
 	external fun GetClientRect(hWnd: WinDef.HWND, rect: WinDef.RECT): Boolean
 	
+	@JvmStatic
+	external fun GetCursorPos(p: WinDef.POINT): Boolean
+	
+	@JvmStatic
+	external fun FindWindowA(lpClassName: String?, lpWindowName: String): WinDef.HWND
+	
+	@JvmStatic
+	external fun GetForegroundWindow(): WinDef.HWND
+	
+	@JvmStatic
+	external fun GetWindowRect(hWnd: WinDef.HWND, rect: WinDef.RECT): Boolean
+	
+	@JvmStatic
+	external fun mouse_event(dwFlags: Int, dx: Int, dy: Int, dwData: Int, dwExtraInfo: Long)
+	
+	@JvmStatic
+	external fun SetWindowLongPtrA(hWnd: WinDef.HWND, nIndex: Int, dwNewLongPtr: Pointer): Long
+	
+	@JvmStatic
+	external fun GetWindowLongPtrA(hWnd: WinDef.HWND, nIndex: Int): Long
 }

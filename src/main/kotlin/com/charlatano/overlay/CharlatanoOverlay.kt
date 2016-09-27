@@ -18,82 +18,107 @@
 
 package com.charlatano.overlay
 
-import com.badlogic.gdx.ApplicationAdapter
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.g2d.BitmapFont
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import com.charlatano.game.CSGO.gameHeight
-import com.charlatano.game.CSGO.gameWidth
-import com.charlatano.utils.paused
+import com.charlatano.utils.natives.CUser32
+import com.jogamp.newt.event.WindowAdapter
+import com.jogamp.newt.event.WindowEvent
+import com.jogamp.newt.opengl.GLWindow
+import com.jogamp.opengl.*
+import com.jogamp.opengl.util.FPSAnimator
+import com.sun.jna.platform.win32.WinUser
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
-import java.util.concurrent.atomic.AtomicReference
+import opengl.gl2d.GLGraphics2D
+import org.jire.arrowhead.PointerCache
+import kotlin.concurrent.thread
+import java.util.concurrent.ThreadLocalRandom as tlr
 
-object CharlatanoOverlay : ApplicationAdapter() {
+object CharlatanoOverlay : GLEventListener {
 	
-	val batch = AtomicReference<SpriteBatch>()
-	val camera = AtomicReference<OrthographicCamera>()
-	val shapeRenderer = AtomicReference<ShapeRenderer>()
-	val textRenderer = AtomicReference<BitmapFont>()
+	private val TITLE = tlr.current().nextLong(Long.MAX_VALUE).toString()
+	private val WINDOW_WIDTH = 2560
+	private val WINDOW_HEIGHT = 1440
+	private val FPS = 60
 	
-	override fun create() {
-		val cam = with(OrthographicCamera(gameWidth.toFloat(), gameHeight.toFloat())) {
-			setToOrtho(true, gameWidth.toFloat(), gameHeight.toFloat())
-			camera.set(this)
-			this
-		}
+	val window by lazy {
+		val glp = GLProfile.getDefault()
+		val caps = GLCapabilities(glp)
+		caps.alphaBits = 8
+		caps.isBackgroundOpaque = false
 		
-		with(SpriteBatch()) {
-			projectionMatrix = cam.combined
-			batch.set(this)
-		}
-		
-		with(ShapeRenderer()) {
-			setAutoShapeType(true)
-			shapeRenderer.set(this)
-		}
-		
-		with(BitmapFont(true)) {
-			color = Color.RED
-			textRenderer.set(this)
-		}
+		GLWindow.create(caps)
 	}
 	
-	private val bodies = ObjectArrayList<CharlatanoOverlay.() -> Unit>()
-	
-	override fun render() {
-		Gdx.gl.glEnable(GL20.GL_BLEND)
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
-		
-		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-		
-		if (paused) return
-		
-		val batch = batch.get()!!
-		val camera = camera.get()!!
-		val shapeRenderer = shapeRenderer.get()!!
-		
-		camera.setToOrtho(true, gameWidth.toFloat(), gameHeight.toFloat())
-		camera.update()
-		batch.projectionMatrix = camera.combined
-		shapeRenderer.projectionMatrix = camera.combined
-		
-		for (x in 0..bodies.size - 1) bodies[x]()
-		
-		Gdx.gl.glDisable(GL20.GL_BLEND)
+	init {
+		GLProfile.initSingleton()
 	}
 	
-	override fun dispose() {
-		batch.get()!!.dispose()
-		shapeRenderer.get()!!.dispose()
-		textRenderer.get()!!.dispose()
+	fun open(width: Int = WINDOW_WIDTH, height: Int = WINDOW_HEIGHT, x: Int = 0, y: Int = 0) {
+		window.isUndecorated = true
+		window.isAlwaysOnTop = true
+		val animator = FPSAnimator(window, FPS, true)
+		
+		window.addWindowListener(object : WindowAdapter() {
+			override fun windowDestroyNotify(e: WindowEvent) {
+				thread {
+					if (animator.isStarted)
+						animator.stop()
+					System.exit(0)
+				}.start()
+			}
+		})
+		
+		window.addGLEventListener(this)
+		window.setSize(width, height)
+		window.setPosition(x, y)
+		window.title = TITLE
+		window.isVisible = true
+		animator.start()
+		
+		val hwnd = CUser32.FindWindowA(null, TITLE)
+		var wl = CUser32.GetWindowLongPtrA(hwnd, WinUser.GWL_EXSTYLE)
+		wl = wl or WinUser.WS_EX_LAYERED.toLong() or WinUser.WS_EX_TRANSPARENT.toLong()
+		CUser32.SetWindowLongPtrA(hwnd, WinUser.GWL_EXSTYLE, PointerCache[wl])
 	}
 	
-	operator fun invoke(body: CharlatanoOverlay.() -> Unit) {
+	val g = GLGraphics2D()
+	
+	override fun display(gLDrawable: GLAutoDrawable) {
+		val gl2 = gLDrawable.gl.gL2
+		
+		gl2.glEnable(GL.GL_BLEND)
+		gl2.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA)
+		
+		gl2.glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
+		gl2.glClear(GL.GL_COLOR_BUFFER_BIT)
+		
+		g.prePaint(gLDrawable.context)
+		for (x in 0..bodies.size - 1) {
+			bodies[x](g)
+		}
+		
+		gl2.glEnd()
+		gl2.glFlush()
+		
+		gl2.glDisable(GL.GL_BLEND)
+	}
+	
+	override fun init(glDrawable: GLAutoDrawable) {
+		val gl = glDrawable.gl.gL2
+		gl.glEnable(GL.GL_BLEND)
+		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA)
+	}
+	
+	override fun reshape(gLDrawable: GLAutoDrawable, x: Int, y: Int, width: Int, height: Int) {
+		val gl = gLDrawable.gl.gL2
+		gl.glViewport(0, 0, width, height)
+	}
+	
+	override fun dispose(gLDrawable: GLAutoDrawable) {
+		g.glDispose()
+	}
+	
+	private val bodies = ObjectArrayList<CharlatanoOverlay.(GLGraphics2D) -> Unit>()
+	
+	operator fun invoke(body: CharlatanoOverlay.(GLGraphics2D) -> Unit) {
 		bodies.add(body)
 	}
 	

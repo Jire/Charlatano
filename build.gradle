@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,31 +16,45 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-group 'com.charlatano'
-version '0.4.3'
-
 buildscript {
     ext.kotlin_version = '1.1-M01'
     ext.jna_version = '4.3.0-SNAPSHOT'
     ext.quasar_version = '0.7.6'
-    ext.gdxVersion = '1.9.4'
 
     repositories {
         mavenCentral()
         maven { url 'https://dl.bintray.com/kotlin/kotlin-eap-1.1' }
     }
+
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
+plugins {
+    id "us.kirchmeier.capsule" version "1.0.2"
+}
+
 apply plugin: 'java'
 apply plugin: 'kotlin'
+apply plugin: 'application'
+
+group 'com.charlatano'
+version '0.4.3'
+
+mainClassName = 'com.charlatano.Charlatano'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url 'https://dl.bintray.com/kotlin/kotlin-eap-1.1' }
+}
+
+configurations {
+    quasar
+    capsule
 }
 
 dependencies {
@@ -51,14 +65,40 @@ dependencies {
 
     compile group: 'org.jire.arrowhead', name: 'arrowhead', version: '1.2.1'
 
+    capsule group: 'co.paralleluniverse', name: 'capsule', version: '1.0.3'
+    quasar group: 'co.paralleluniverse', name: 'quasar-core', version: quasar_version
+
     compile group: 'co.paralleluniverse', name: 'quasar-core', version: quasar_version
     compile group: 'co.paralleluniverse', name: 'quasar-actors', version: quasar_version
     compile group: 'co.paralleluniverse', name: 'quasar-kotlin', version: quasar_version
 
-    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-    compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+    compile "org.jogamp.gluegen:gluegen-rt:2.3.1"
+    compile "org.jogamp.jogl:jogl-all:2.3.1"
 
-    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
-    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-    compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+    runtime "org.jogamp.gluegen:gluegen-rt:2.3.1:natives-windows-amd64"
+    runtime "org.jogamp.gluegen:gluegen-rt:2.3.1:natives-windows-i586"
+
+    runtime "org.jogamp.jogl:jogl-all:2.3.1:natives-windows-amd64"
+    runtime "org.jogamp.jogl:jogl-all:2.3.1:natives-windows-i586"
+}
+
+
+task capsule(type: FatCapsule) {
+    applicationClass mainClassName
+
+    classifier = 'release'
+    reallyExecutable
+
+
+    capsuleManifest {
+        systemProperties['co.paralleluniverse.fibers.detectRunawayFibers'] = 'false'
+        systemProperties['co.paralleluniverse.fibers.DefaultFiberPool.parallelism'] = '1'
+        //args = ["-javaagent:${configurations.quasar.iterator().next()}"]
+        minJavaVersion = '1.8.0'
+        javaAgents = [configurations.quasar.iterator().next().getName()]
+    }
+}
+
+run {
+    jvmArgs "-javaagent:${configurations.quasar.iterator().next()}"
 }

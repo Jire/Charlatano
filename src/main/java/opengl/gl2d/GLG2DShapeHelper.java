@@ -16,21 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.utils
+package opengl.gl2d;
 
-import com.charlatano.utils.natives.CUser32
-import com.sun.jna.platform.win32.WinDef
-import java.lang.Math.sqrt
 
-fun WinDef.POINT.set(x: Int, y: Int) = apply {
-	this.x = x
-	this.y = y
-}
+import java.awt.*;
 
-fun WinDef.POINT.refresh() = apply { CUser32.GetCursorPos(this) }
-
-fun WinDef.POINT.distance(b: WinDef.POINT): Double {
-	val px = (b.x - this.x).toDouble()
-	val py = (b.y - this.y).toDouble()
-	return sqrt(px * px + py * py)
+public interface GLG2DShapeHelper extends G2DDrawingHelper {
+	void setStroke(Stroke stroke);
+	
+	Stroke getStroke();
+	
+	void drawRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight, boolean fill);
+	
+	void drawRect(int x, int y, int width, int height, boolean fill);
+	
+	void drawLine(int x1, int y1, int x2, int y2);
+	
+	void drawOval(int x, int y, int width, int height, boolean fill);
+	
+	void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle, boolean fill);
+	
+	void drawPolyline(int[] xPoints, int[] yPoints, int nPoints);
+	
+	void drawPolygon(int[] xPoints, int[] yPoints, int nPoints, boolean fill);
+	
+	void draw(Shape shape);
+	
+	void fill(Shape shape);
 }

@@ -15,29 +15,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package opengl.gl2d.impl;
 
-package com.charlatano.utils
+import java.awt.*;
 
-import co.paralleluniverse.kotlin.fiber
-import co.paralleluniverse.strands.Strand
-import co.paralleluniverse.strands.concurrent.ReentrantLock
-import java.util.concurrent.TimeUnit
-
-val lock: ThreadLocal<ReentrantLock> = ThreadLocal.withInitial { ReentrantLock() }
-@Volatile var paused = false
-
-inline fun every(duration: Int, durationUnit: TimeUnit = TimeUnit.MILLISECONDS,
-                 continuous: Boolean = false, crossinline body: () -> Unit) = fiber {
-	while (!Strand.interrupted()) {
-		if (continuous || !paused) {
-			val l = lock.get()
-			l.lock()
-			try {
-				body()
-			} finally {
-				l.unlock()
-			}
+/**
+ * Fulfills the contract of a {@code GraphicsDevice}.
+ */
+public class GLGraphicsDevice extends GraphicsDevice {
+	protected final GLGraphicsConfiguration config;
+	
+	public GLGraphicsDevice(GLGraphicsConfiguration config) {
+		this.config = config;
+	}
+	
+	@Override
+	public int getType() {
+		if (config.getTarget().getChosenGLCapabilities().isOnscreen()) {
+			return TYPE_RASTER_SCREEN;
+		} else {
+			return TYPE_IMAGE_BUFFER;
 		}
-		Strand.sleep(duration.toLong(), durationUnit)
+	}
+	
+	@Override
+	public String getIDstring() {
+		return "glg2d";
+	}
+	
+	@Override
+	public GraphicsConfiguration[] getConfigurations() {
+		return new GraphicsConfiguration[]{getDefaultConfiguration()};
+	}
+	
+	@Override
+	public GraphicsConfiguration getDefaultConfiguration() {
+		return config;
 	}
 }

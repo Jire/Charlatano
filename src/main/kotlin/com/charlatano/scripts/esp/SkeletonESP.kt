@@ -18,8 +18,6 @@
 
 package com.charlatano.scripts.esp
 
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
 import com.charlatano.game.entities
@@ -30,10 +28,11 @@ import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.utils.Vector
 import com.charlatano.utils.uint
 import com.charlatano.worldToScreen
+import java.awt.Color
 
 const val MAXSTUDIOBONES = 128
 
-private val skeletons = Array(2048) { Line() }
+private val bones = Array(2048) { Line() }
 
 private var currentIdx = 0
 
@@ -58,14 +57,11 @@ fun skeletonEsp() {
 			}
 		}
 		
-		val shapeRenderer = shapeRenderer.get() ?: return@CharlatanoOverlay
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
 		for (i in 0..currentIdx - 1) {
-			val it = skeletons[i]
-			shapeRenderer.color = it.color
-			shapeRenderer.line(it.sX.toFloat(), it.sY.toFloat(), it.eX.toFloat(), it.eY.toFloat())
+			val bone = bones[i]
+			it.color = bone.color
+			it.drawLine(bone.sX, bone.sY, bone.eX, bone.eY)
 		}
-		shapeRenderer.end()
 		currentIdx = 0
 	}
 }
@@ -113,11 +109,11 @@ fun drawBone(target: Player, start: Int, end: Int) {
 	if (!worldToScreen(startBone, startDraw) || !worldToScreen(endBone, endDraw))
 		return
 	
-	skeletons[currentIdx].sX = startDraw.x.toInt()
-	skeletons[currentIdx].sY = startDraw.y.toInt()
-	skeletons[currentIdx].eX = endDraw.x.toInt()
-	skeletons[currentIdx].eY = endDraw.y.toInt()
-	skeletons[currentIdx++].color = colors[target.health()]
+	bones[currentIdx].sX = startDraw.x.toInt()
+	bones[currentIdx].sY = startDraw.y.toInt()
+	bones[currentIdx].eX = endDraw.x.toInt()
+	bones[currentIdx].eY = endDraw.y.toInt()
+	bones[currentIdx++].color = colors[target.health()]
 }
 
 class Line() {

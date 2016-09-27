@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,16 +22,17 @@ import com.charlatano.game.netvars.NetVars
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.game.offsets.EngineOffsets.dwInGame
+import com.charlatano.overlay.CharlatanoOverlay.window
 import com.charlatano.utils.every
 import com.charlatano.utils.natives.CUser32
 import com.charlatano.utils.paused
 import com.charlatano.utils.retry
 import com.charlatano.utils.uint
-import com.sun.jna.platform.win32.User32
 import com.sun.jna.platform.win32.WinDef
 import org.jire.arrowhead.Module
 import org.jire.arrowhead.Process
 import org.jire.arrowhead.processByName
+import java.util.concurrent.TimeUnit
 
 object CSGO {
 
@@ -63,23 +64,32 @@ object CSGO {
 			clientDLL = csgoEXE.modules["client.dll"]!!
 			engineDLL = csgoEXE.modules["engine.dll"]!!
 		}
-
+		
 		val rect = WinDef.RECT()
-		val hwd = User32.INSTANCE.FindWindow(null, "Counter-Strike: Global Offensive")
-		every(1024, continuous = true) {
-			paused = User32.INSTANCE.GetForegroundWindow() != hwd
-			if (paused) return@every
-
+		val hwd = CUser32.FindWindowA(null, "Counter-Strike: Global Offensive")
+		
+		every(1, TimeUnit.SECONDS) {
 			if (!CUser32.GetClientRect(hwd, rect)) System.exit(2)
 			gameWidth = rect.right - rect.left
 			gameHeight = rect.bottom - rect.top
-
-			if (!User32.INSTANCE.GetWindowRect(hwd, rect)) System.exit(3)
+			
+			if (!CUser32.GetWindowRect(hwd, rect)) System.exit(3)
 			gameX = rect.left + (((rect.right - rect.left) - gameWidth) / 2)
 			gameY = rect.top + ((rect.bottom - rect.top) - gameHeight)
+			
+			if (window.x != gameX || window.y != gameY) {
+				window.setPosition(gameX, gameY)
+			}
+			
+			if (window.width != gameWidth || window.height != gameHeight) {
+				window.setSize(gameX, gameY)
+			}
+		}
+		every(1024, continuous = true) {
+			paused = CUser32.GetForegroundWindow() != hwd
+			if (paused) return@every
 		}
 
-		// TODO: Offsets.load()
 		NetVars.load()
 
 		retry(16) {

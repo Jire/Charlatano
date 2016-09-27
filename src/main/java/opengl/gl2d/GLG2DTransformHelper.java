@@ -16,21 +16,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.utils
+package opengl.gl2d;
 
-import com.charlatano.utils.natives.CUser32
-import com.sun.jna.platform.win32.WinDef
-import java.lang.Math.sqrt
+import java.awt.geom.AffineTransform;
 
-fun WinDef.POINT.set(x: Int, y: Int) = apply {
-	this.x = x
-	this.y = y
-}
-
-fun WinDef.POINT.refresh() = apply { CUser32.GetCursorPos(this) }
-
-fun WinDef.POINT.distance(b: WinDef.POINT): Double {
-	val px = (b.x - this.x).toDouble()
-	val py = (b.y - this.y).toDouble()
-	return sqrt(px * px + py * py)
+public interface GLG2DTransformHelper extends G2DDrawingHelper {
+	void translate(int x, int y);
+	
+	void translate(double tx, double ty);
+	
+	void rotate(double theta);
+	
+	void rotate(double theta, double x, double y);
+	
+	void scale(double sx, double sy);
+	
+	void shear(double shx, double shy);
+	
+	void transform(AffineTransform Tx);
+	
+	void setTransform(AffineTransform transform);
+	
+	AffineTransform getTransform();
 }

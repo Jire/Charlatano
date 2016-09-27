@@ -16,21 +16,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.utils
+package opengl.gl2d;
 
-import com.charlatano.utils.natives.CUser32
-import com.sun.jna.platform.win32.WinDef
-import java.lang.Math.sqrt
+import java.awt.*;
 
-fun WinDef.POINT.set(x: Int, y: Int) = apply {
-	this.x = x
-	this.y = y
-}
-
-fun WinDef.POINT.refresh() = apply { CUser32.GetCursorPos(this) }
-
-fun WinDef.POINT.distance(b: WinDef.POINT): Double {
-	val px = (b.x - this.x).toDouble()
-	val py = (b.y - this.y).toDouble()
-	return sqrt(px * px + py * py)
+public interface GLG2DColorHelper extends G2DDrawingHelper {
+	void setComposite(Composite comp);
+	
+	Composite getComposite();
+	
+	void setPaint(Paint paint);
+	
+	Paint getPaint();
+	
+	void setColor(Color c);
+	
+	Color getColor();
+	
+	void setColorNoRespectComposite(Color c);
+	
+	void setColorRespectComposite(Color c);
+	
+	void setBackground(Color color);
+	
+	Color getBackground();
+	
+	void setPaintMode();
+	
+	void setXORMode(Color c);
+	
+	void copyArea(int x, int y, int width, int height, int dx, int dy);
 }

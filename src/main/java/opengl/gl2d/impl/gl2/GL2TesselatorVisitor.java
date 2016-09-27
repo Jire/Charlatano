@@ -15,22 +15,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package opengl.gl2d.impl.gl2;
 
-package com.charlatano.utils
 
-import com.charlatano.utils.natives.CUser32
-import com.sun.jna.platform.win32.WinDef
-import java.lang.Math.sqrt
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL2;
+import opengl.gl2d.impl.AbstractTesselatorVisitor;
 
-fun WinDef.POINT.set(x: Int, y: Int) = apply {
-	this.x = x
-	this.y = y
-}
-
-fun WinDef.POINT.refresh() = apply { CUser32.GetCursorPos(this) }
-
-fun WinDef.POINT.distance(b: WinDef.POINT): Double {
-	val px = (b.x - this.x).toDouble()
-	val py = (b.y - this.y).toDouble()
-	return sqrt(px * px + py * py)
+public class GL2TesselatorVisitor extends AbstractTesselatorVisitor {
+	protected GL2 gl;
+	
+	@Override
+	public void setGLContext(GL context) {
+		gl = context.getGL2();
+	}
+	
+	@Override
+	protected void endTess() {
+		vBuffer.drawBuffer(gl, drawMode);
+	}
 }
