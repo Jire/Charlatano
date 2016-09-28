@@ -99,6 +99,10 @@ task capsule(type: FatCapsule) {
     }
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.1' //version required
+}
+
 run {
     jvmArgs "-javaagent:${configurations.quasar.iterator().next()}"
 }
