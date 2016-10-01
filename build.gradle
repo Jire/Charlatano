@@ -47,6 +47,7 @@ mainClassName = 'com.charlatano.Charlatano'
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
+    jCenter()
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url 'https://dl.bintray.com/kotlin/kotlin-eap-1.1' }
@@ -60,8 +61,11 @@ configurations {
 dependencies {
     compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
 
+
     compile group: 'net.java.dev.jna', name: 'jna', version: jna_version
     compile group: 'net.java.dev.jna', name: 'jna-platform', version: jna_version
+
+    compile group: 'org.anglur', name: 'joglext', version: '1.0'
 
     compile group: 'org.jire.arrowhead', name: 'arrowhead', version: '1.2.1'
 

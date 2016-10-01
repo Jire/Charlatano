@@ -26,7 +26,7 @@ import com.jogamp.opengl.*
 import com.jogamp.opengl.util.FPSAnimator
 import com.sun.jna.platform.win32.WinUser
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
-import opengl.gl2d.GLGraphics2D
+import org.anglur.joglext.jogl2d.GLGraphics2D
 import org.jire.arrowhead.PointerCache
 import kotlin.concurrent.thread
 import java.util.concurrent.ThreadLocalRandom as tlr

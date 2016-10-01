@@ -26,13 +26,17 @@ import com.charlatano.game.me
 import com.charlatano.game.offsets.EngineOffsets.studioModel
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.utils.Vector
+import com.charlatano.utils.collections.CacheableList
 import com.charlatano.utils.uint
 import com.charlatano.worldToScreen
+import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap
 import java.awt.Color
 
 const val MAXSTUDIOBONES = 128
 
 private val bones = Array(2048) { Line() }
+
+private val entityBones = Long2ObjectArrayMap<CacheableList<Pair<Int, Int>>>()
 
 private var currentIdx = 0
 
@@ -46,15 +50,23 @@ fun skeletonEsp() {
 			val numbones = csgoEXE.int(studioModel + 0x9C)
 			val boneIndex = csgoEXE.int(studioModel + 0xA0)
 			
-			var offset = 0
-			for (idx in 0..numbones - 1) {
-				val parent = csgoEXE.int(studioModel + boneIndex + 0x4 + offset)
-				val flags = csgoEXE.int(studioModel + boneIndex + 0xA0 + offset) and 0x100
-				
-				if (flags != 0 && parent != -1) drawBone(entity, parent, idx)
-				
-				offset += 216
+			val list = entityBones.get(entity) ?: CacheableList<Pair<Int, Int>>(20)
+			
+			if (list.isEmpty()) {
+				var offset = 0
+				for (idx in 0..numbones - 1) {
+					val parent = csgoEXE.int(studioModel + boneIndex + 0x4 + offset)
+					val flags = csgoEXE.int(studioModel + boneIndex + 0xA0 + offset) and 0x100
+					
+					if (flags != 0 && parent != -1) {
+						list.add(Pair(parent, idx))
+					}
+					
+					offset += 216
+				}
+				entityBones.put(entity, list)
 			}
+			list.forEach { drawBone(entity, it.first, it.second) }
 		}
 		
 		for (i in 0..currentIdx - 1) {
