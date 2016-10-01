@@ -31,7 +31,6 @@ import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.utils.*
-import org.jire.arrowhead.keyReleased
 
 var prevFired = 0
 val lastPunch = FloatArray(2)
@@ -42,10 +41,8 @@ val lastPunch = FloatArray(2)
 
 	val shotsFired = csgoEXE.int(myAddress + iShotsFired)
 	if (shotsFired <= 2 || shotsFired < prevFired) {
-		if (keyReleased(1)) {
-			reset()
-			return
-		}
+		reset()
+		return
 	}
 
 	val punch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
