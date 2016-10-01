@@ -82,23 +82,15 @@ object CharlatanoOverlay : GLEventListener {
 	val g = GLGraphics2D()
 	
 	override fun display(gLDrawable: GLAutoDrawable) {
+		if (bodies.isEmpty) return
+		
 		val gl2 = gLDrawable.gl.gL2
-		
-		gl2.glEnable(GL.GL_BLEND)
-		gl2.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA)
-		
-		gl2.glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
 		gl2.glClear(GL.GL_COLOR_BUFFER_BIT)
 		
 		g.prePaint(gLDrawable.context)
 		for (x in 0..bodies.size - 1) {
 			bodies[x](g)
 		}
-		
-		gl2.glEnd()
-		gl2.glFlush()
-		
-		gl2.glDisable(GL.GL_BLEND)
 	}
 	
 	override fun init(glDrawable: GLAutoDrawable) {
