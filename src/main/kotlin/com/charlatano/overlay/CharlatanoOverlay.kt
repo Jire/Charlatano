@@ -24,25 +24,31 @@ import com.jogamp.newt.event.WindowEvent
 import com.jogamp.newt.opengl.GLWindow
 import com.jogamp.opengl.*
 import com.jogamp.opengl.util.FPSAnimator
-import com.sun.jna.platform.win32.WinUser
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import org.anglur.joglext.jogl2d.GLGraphics2D
-import org.jire.arrowhead.PointerCache
 import kotlin.concurrent.thread
 import java.util.concurrent.ThreadLocalRandom as tlr
+
+fun main(args: Array<String>) {
+	CharlatanoOverlay.open()
+	
+	CharlatanoOverlay {
+		it.drawRect(250, 250, 1000, 1000)
+	}
+}
 
 object CharlatanoOverlay : GLEventListener {
 	
 	private val TITLE = tlr.current().nextLong(Long.MAX_VALUE).toString()
-	private val WINDOW_WIDTH = 2560
-	private val WINDOW_HEIGHT = 1440
+	private val WINDOW_WIDTH = 2500
+	private val WINDOW_HEIGHT = 1400
 	private val FPS = 60
 	
 	val window by lazy {
 		val glp = GLProfile.getDefault()
 		val caps = GLCapabilities(glp)
-		caps.alphaBits = 8
 		caps.isBackgroundOpaque = false
+		caps.alphaBits = 8
 		
 		GLWindow.create(caps)
 	}
@@ -53,6 +59,7 @@ object CharlatanoOverlay : GLEventListener {
 	
 	fun open(width: Int = WINDOW_WIDTH, height: Int = WINDOW_HEIGHT, x: Int = 0, y: Int = 0) {
 		window.isUndecorated = true
+		window.isFullscreen = false
 		window.isAlwaysOnTop = true
 		val animator = FPSAnimator(window, FPS, true)
 		
@@ -74,9 +81,7 @@ object CharlatanoOverlay : GLEventListener {
 		animator.start()
 		
 		val hwnd = CUser32.FindWindowA(null, TITLE)
-		var wl = CUser32.GetWindowLongPtrA(hwnd, WinUser.GWL_EXSTYLE)
-		wl = wl or WinUser.WS_EX_LAYERED.toLong() or WinUser.WS_EX_TRANSPARENT.toLong()
-		CUser32.SetWindowLongPtrA(hwnd, WinUser.GWL_EXSTYLE, PointerCache[wl])
+		WindowTools.transparentWindow(hwnd)
 	}
 	
 	val g = GLGraphics2D()

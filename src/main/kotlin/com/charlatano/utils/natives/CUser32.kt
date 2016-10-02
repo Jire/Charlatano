@@ -51,4 +51,13 @@ object CUser32 {
 	
 	@JvmStatic
 	external fun GetWindowLongPtrA(hWnd: WinDef.HWND, nIndex: Int): Long
+	
+	
+	@JvmStatic
+	external fun ShowWindow(hWnd: WinDef.HWND, nCmdShow: Int): Boolean
+	
+	@JvmStatic
+	external fun SetWindowPos(hWnd: WinDef.HWND, hWndInsertAfter: WinDef.HWND, X: Int, Y: Int, cx: Int,
+	                          cy: Int, uFlags: Int): Boolean
+	
 }

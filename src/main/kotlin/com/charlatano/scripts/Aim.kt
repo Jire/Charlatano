@@ -44,7 +44,7 @@ fun aim() = every(AIM_DURATION) {
 		return@every
 	}
 	
-	if (me.dead() || target.dead() || target.dormant() || !target.spotted() || target.team() == me.team()) {
+	if (me.dead() || target.dead() || target.dormant() /*|| !target.spotted() */ || target.team() == me.team()) {
 		target = -1L
 		return@every
 	}
@@ -67,7 +67,7 @@ private fun findTarget(position: Angle, angle: Angle, lockFOV: Int = AIM_FOV): P
 		if (entity <= 0) return@entities
 		if (entity == me || entity.team() == me.team()) return@entities
 		
-		if (me.dead() || entity.dead() || !entity.spotted() || entity.dormant()) return@entities
+		if (me.dead() || entity.dead() /*|| !entity.spotted() */ || entity.dormant()) return@entities
 		
 		val ePos: Angle = Vector(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C))
 		val distance = position.distanceTo(ePos)
