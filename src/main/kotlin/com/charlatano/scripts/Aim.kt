@@ -44,7 +44,7 @@ fun aim() = every(AIM_DURATION) {
 		return@every
 	}
 	
-	if (me.dead() || target.dead() || target.dormant() /*|| !target.spotted() */ || target.team() == me.team()) {
+	if (me.dead() || target.dead() || target.dormant() || !target.spotted() || target.team() == me.team()) {
 		target = -1L
 		return@every
 	}

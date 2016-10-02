@@ -32,8 +32,8 @@ import com.charlatano.scripts.*
 
 fun main(args: Array<String>) {
 	System.setProperty("co.paralleluniverse.fibers.detectRunawayFibers", "false")
-	System.setProperty("co.paralleluniverse.fibers.DefaultFiberPool.parallelism", "1")
-	//System.setProperty("co.paralleluniverse.fibers.verifyInstrumentation", "true")
+	//System.setProperty("co.paralleluniverse.fibers.DefaultFiberPool.parallelism", "1")
+	System.setProperty("co.paralleluniverse.fibers.verifyInstrumentation", "false")
 
 	CSGO.initalize()
 
@@ -43,8 +43,8 @@ fun main(args: Array<String>) {
 	bunnyHop()
 	esp()
 	rcs()
-	noFlash()
-	bombTimer()
+	//noFlash()
+	//bombTimer()
 	aim()
 	// -- END OF SCRIPTS -- //
 	

@@ -26,9 +26,9 @@ import java.awt.event.KeyEvent
 const val AIM_DURATION = 16
 const val FORCE_AIM_KEY = 5 // 5 = Mouse forward button
 const val AIM_BONE = 6 // 6 = Head
-const val AIM_FOV = Int.MAX_VALUE
-const val AIM_SMOOTHING = 1 // 100 = slowest, 1 = fastest
-const val AIM_ASSIST_MODE = true
+const val AIM_FOV = 20
+const val AIM_SMOOTHING = 34 // 100 = slowest, 1 = fastest
+const val AIM_ASSIST_MODE = false
 const val AIM_CALCULATION_SMOOTHING = 40F
 
 /**
@@ -64,5 +64,5 @@ const val BOMB_COLOR_ALPHA = 0.6f //RGB colors
  * ESP toggles
  */
 const val SKELETON_ESP = true
-const val GLOW_ESP = true //Glowesp causes Skeleton esp to flicker
+const val GLOW_ESP = false //Glowesp causes Skeleton esp to flicker
 const val BOX_ESP = true
