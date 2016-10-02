@@ -47,7 +47,7 @@ mainClassName = 'com.charlatano.Charlatano'
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
-    jCenter()
+    jcenter()
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url 'https://dl.bintray.com/kotlin/kotlin-eap-1.1' }
@@ -99,7 +99,7 @@ task capsule(type: FatCapsule) {
         systemProperties['co.paralleluniverse.fibers.DefaultFiberPool.parallelism'] = '1'
         //args = ["-javaagent:${configurations.quasar.iterator().next()}"]
         minJavaVersion = '1.8.0'
-        javaAgents = [configurations.quasar.iterator().next().getName()]
+        javaAgents = [(++configurations.quasar.iterator()).getName()]
     }
 }
 
@@ -108,5 +108,5 @@ task wrapper(type: Wrapper) {
 }
 
 run {
-    jvmArgs "-javaagent:${configurations.quasar.iterator().next()}"
+    jvmArgs "-javaagent:${(++configurations.quasar.iterator())}"
 }
