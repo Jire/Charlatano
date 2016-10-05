@@ -47,7 +47,6 @@ mainClassName = 'com.charlatano.Charlatano'
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
-    jcenter()
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url 'https://dl.bintray.com/kotlin/kotlin-eap-1.1' }
