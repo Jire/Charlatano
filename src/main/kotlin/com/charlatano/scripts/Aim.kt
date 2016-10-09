@@ -33,9 +33,9 @@ fun aim() = every(AIM_DURATION) {
 		target = -1L
 		return@every
 	}
-	
+
 	val currentAngle = clientState.angle()
-	
+
 	var currentTarget = target
 	if (currentTarget == -1L) {
 		currentTarget = findTarget(me.position(), currentAngle)
@@ -43,41 +43,40 @@ fun aim() = every(AIM_DURATION) {
 		target = currentTarget
 		return@every
 	}
-	
+
 	if (me.dead() || target.dead() || target.dormant() || !target.spotted() || target.team() == me.team()) {
 		target = -1L
 		return@every
 	}
-	
+
 	val bonePosition = Vector(target.bone(0xC), target.bone(0x1C), target.bone(0x2C))
 	compensateVelocity(me, target, bonePosition, AIM_CALCULATION_SMOOTHING)
-	
+
 	val dest = calculateAngle(me, bonePosition)
 	if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_CALCULATION_SMOOTHING) else dest.normalize()
-	
-	aim(currentAngle, dest, AIM_SMOOTHING)
+
+	aim(currentAngle, dest, AIM_SMOOTHING, sensMultiplier = AIM_STRICTNESS)
 }
 
 private fun findTarget(position: Angle, angle: Angle, lockFOV: Int = AIM_FOV): Player {
 	var closestDelta = Int.MAX_VALUE
 	var closetPlayer: Player? = null
-	
+
 	entities(EntityType.CCSPlayer) {
 		val entity = it.entity
 		if (entity <= 0) return@entities
 		if (entity == me || entity.team() == me.team()) return@entities
-		
+
 		if (me.dead() || entity.dead() || !entity.spotted() || entity.dormant()) return@entities
-		
+
 		val ePos: Angle = Vector(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C))
 		val distance = position.distanceTo(ePos)
-		
+
 		val dest = calculateAngle(me, ePos)
-		dest.normalize()
-		
+
 		val yawDiff = Math.abs(angle.y - dest.y)
 		val delta = Math.abs(Math.sin(Math.toRadians(yawDiff.toDouble())) * distance)
-		
+
 		if (delta <= lockFOV && delta < closestDelta) {
 			closestDelta = delta.toInt()
 			closetPlayer = entity

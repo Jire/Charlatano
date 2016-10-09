@@ -22,7 +22,7 @@ import java.lang.Math.abs
 
 typealias Angle = Vector
 
-internal fun Angle.normalize() {
+fun Vector.normalize() = apply {
 	if (x != x) x = 0F
 	if (y != y) y = 0F
 

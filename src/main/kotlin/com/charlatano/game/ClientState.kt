@@ -18,7 +18,7 @@
 
 package com.charlatano.game
 
-import co.paralleluniverse.fibers.Suspendable
+import co.paralleluniverse.fibers.SuspendExecution
 import co.paralleluniverse.strands.Strand
 import com.charlatano.InGamePitch
 import com.charlatano.InGameSensitivity
@@ -39,24 +39,26 @@ typealias ClientState = Long
 fun ClientState.angle(): Angle
 		= Vector(csgoEXE[this + dwViewAngles], csgoEXE[this + dwViewAngles + 4], csgoEXE[this + dwViewAngles + 8])
 
-
 private val mousePos = WinDef.POINT()
 private val target = WinDef.POINT()
 
-private val delta = Vector()
+private val delta = ThreadLocal.withInitial { Vector() }
 
-@Suspendable fun aim(currentAngle: Angle, dest: Angle, smoothing: Int = 100) {
+@Throws(SuspendExecution::class) fun aim(currentAngle: Angle, dest: Angle, smoothing: Int = 100,
+                                         randomSleepMax: Int = 10, staticSleep: Int = 2, sensMultiplier: Double = 1.0) {
 	if (dest.z != 0F || dest.x < -89 || dest.x > 180 || dest.y < -180 || dest.y > 180
 			|| dest.x.isNaN() || dest.y.isNaN() || dest.z.isNaN()) return
 
+	val delta = delta.get()
 	delta.set(currentAngle.y - dest.y, currentAngle.x - dest.x, 0F)
 
-	val dx = Math.round(delta.x / (InGameSensitivity * InGamePitch))
-	val dy = Math.round(-delta.y / (InGameSensitivity * InGameYaw))
+	val sens = InGameSensitivity * sensMultiplier
+	val dx = Math.round(delta.x / (sens * InGamePitch))
+	val dy = Math.round(-delta.y / (sens * InGameYaw))
 
 	mousePos.refresh()
 
-	target.set(mousePos.x + (dx / 2), mousePos.y + (dy / 2))
+	target.set((mousePos.x + (dx / 2)).toInt(), (mousePos.y + (dy / 2)).toInt())
 
 	if (target.x <= 0) return
 	else if (target.x >= gameX + gameWidth) return
@@ -64,7 +66,7 @@ private val delta = Vector()
 	else if (target.y >= gameY + gameHeight) return
 
 	val points = ZetaMouseGenerator.generate(mousePos, target)
-	for (i in 1..points.lastIndex) @Suspendable {
+	for (i in 1..points.lastIndex) {
 		val point = points[points.lastIndex]
 		mousePos.refresh()
 
@@ -76,7 +78,9 @@ private val delta = Vector()
 		mouseMove(tx / halfIndex, ty / halfIndex)
 
 		val sleepingFactor = smoothing / 100.0
-		val sleepTime = Math.ceil(2.0 + tlr().nextInt(10) + tlr().nextInt(i)) * sleepingFactor
+		val sleepTime = Math.floor(staticSleep.toDouble()
+				+ tlr().nextInt(randomSleepMax)
+				+ tlr().nextInt(i)) * sleepingFactor
 		if (sleepTime > 0) Strand.sleep(sleepTime.toLong())
 	}
 }

@@ -27,7 +27,6 @@ import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.game.CSGO.gameX
 import com.charlatano.game.CSGO.gameY
 import com.charlatano.game.hooks.constructEntities
-import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.scripts.*
 
 fun main(args: Array<String>) {
@@ -43,13 +42,13 @@ fun main(args: Array<String>) {
 	bunnyHop()
 	esp()
 	rcs()
-	//noFlash()
+	noFlash()
 	//bombTimer()
 	aim()
 	// -- END OF SCRIPTS -- //
-	
+
 	println("$gameWidth, $gameHeight, $gameX, $gameY")
-	CharlatanoOverlay.open(gameWidth, gameHeight, gameX, gameY)
+	//CharlatanoOverlay.open(gameWidth, gameHeight, gameX, gameY)
 
 	Strand.sleep(5000) // wait a bit to catch everything
 	System.gc() // then cleanup

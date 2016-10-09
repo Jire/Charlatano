@@ -31,7 +31,7 @@ fun glowEsp() = every(100) {
 		if (entity <= 0 || entity == me) return@entities
 		
 		val glowAddress = it.glowAddress
-		if (entity.dead() || entity.dormant()) return@entities
+		if (entity.dead()/* || entity.dormant()*/) return@entities
 		
 		if (it.type == EntityType.CPlantedC4 || it.type == EntityType.CC4) {
 			glowAddress.glow(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE, BOMB_COLOR_ALPHA)

@@ -26,6 +26,7 @@ import com.charlatano.game.offsets.ClientOffsets.dwViewMatrix
 import com.charlatano.utils.Angle
 import com.charlatano.utils.Random.randomFloat
 import com.charlatano.utils.Vector
+import com.charlatano.utils.normalize
 
 const val InGameSensitivity = 2F
 const val InGamePitch = 0.022F
@@ -96,9 +97,10 @@ fun compensateVelocity(source: Player, target: Player, enemyPos: Vector, smoothi
 	enemyPos.z -= (myVelocity.z / 100) * smoothingFactor
 }
 
-val angles = Vector()
+val angles: ThreadLocal<Angle> = ThreadLocal.withInitial { Vector() }
 
 fun calculateAngle(player: Player, dst: Vector): Angle {
+	val angles = angles.get()
 	angles.reset()
 
 	val pitchReduction = randomFloat(PITCH_MIN_PUNCH, PITCH_MAX_PUNCH)
@@ -118,5 +120,5 @@ fun calculateAngle(player: Player, dst: Vector): Angle {
 	angles.z = 0F
 	if (dX >= 0) angles.y += 180
 
-	return angles
+	return angles.normalize()
 }
