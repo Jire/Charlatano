@@ -32,37 +32,39 @@ import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.utils.every
 import com.charlatano.utils.uint
+import java.util.concurrent.atomic.AtomicLong
 
-private var lastCleanup = 0L
+private val lastCleanup = AtomicLong(0L)
 
-private fun shouldReset() = (System.currentTimeMillis() - lastCleanup) >= 10000
+private fun shouldReset() = (System.currentTimeMillis() - lastCleanup.get()) >= 10000
 
 private fun reset() {
 	entities.forEach { i, cacheableList ->
 		cacheableList.clear()
-		lastCleanup = System.currentTimeMillis()
+		lastCleanup.set(System.currentTimeMillis())
 	}
 }
 
 fun constructEntities() = every(128) {
 	me = clientDLL.uint(dwLocalPlayer)
 	if (me < 0x200) return@every
-	
+
 	clientState = engineDLL.uint(dwClientState)
-	
+
 	val glowObject = clientDLL.uint(dwGlowObject)
 	val glowObjectCount = clientDLL.int(dwGlowObject + 4)
-	
+
 	if (shouldReset()) reset()
-	
+
 	for (glowIndex in 0..glowObjectCount) {
 		val glowAddress = glowObject + (glowIndex * GLOW_OBJECT_SIZE)
 		val entity = csgoEXE.uint(glowAddress)
 		val type = EntityType.byEntityAddress(entity)
-		
-		val triple = contexts[glowIndex].set(entity, glowAddress, glowIndex, type)
-		val list = entities[type.hashCode()]!!
-		
-		if (!list.contains(triple)) list.add(triple)
+
+		val context = contexts[glowIndex].set(entity, glowAddress, glowIndex, type)
+
+		with(entities[type]!!) {
+			if (!contains(context)) add(context)
+		}
 	}
 }

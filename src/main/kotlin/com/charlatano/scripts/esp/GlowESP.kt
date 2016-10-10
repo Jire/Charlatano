@@ -25,39 +25,53 @@ import com.charlatano.game.entity.*
 import com.charlatano.game.me
 import com.charlatano.utils.every
 
-fun glowEsp() = every(100) {
+fun glowEsp() = every(4) {
 	entities(EntityType.CCSPlayer, EntityType.CPlantedC4, EntityType.CC4) {
 		val entity = it.entity
-		if (entity <= 0 || entity == me) return@entities
-		
+		if (entity <= 0 || me == entity) return@entities
+
 		val glowAddress = it.glowAddress
-		if (entity.dead()/* || entity.dormant()*/) return@entities
-		
-		if (it.type == EntityType.CPlantedC4 || it.type == EntityType.CC4) {
-			glowAddress.glow(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE, BOMB_COLOR_ALPHA)
-			entity.chams(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE)
-		} else if (me.team() == entity.team()) {
-			glowAddress.glow(TEAM_COLOR_RED, TEAM_COLOR_GREEN, TEAM_COLOR_BLUE, TEAM_COLOR_ALPHA)
-			entity.chams(TEAM_COLOR_RED, TEAM_COLOR_GREEN, TEAM_COLOR_BLUE)
+		if (glowAddress <= 0) return@entities
+
+		val type = it.type
+		if (EntityType.CCSPlayer == type) {
+			if (entity.dead() || (!SHOW_DORMANT && entity.dormant())) return@entities
+
+			val team = me.team() == entity.team()
+			if (!team) {
+				glowAddress.glow(ENEMY_COLOR_RED, ENEMY_COLOR_GREEN, ENEMY_COLOR_BLUE, ENEMY_COLOR_ALPHA)
+				entity.chams(ENEMY_COLOR_RED, ENEMY_COLOR_GREEN, ENEMY_COLOR_BLUE)
+			} else if (SHOW_TEAM && team) {
+				glowAddress.glow(TEAM_COLOR_RED, TEAM_COLOR_GREEN, TEAM_COLOR_BLUE, TEAM_COLOR_ALPHA)
+				entity.chams(TEAM_COLOR_RED, TEAM_COLOR_GREEN, TEAM_COLOR_BLUE)
+			}
+		} else if (type.weapon || type.grenade) {
+			if (SHOW_EQUIPMENT) {
+				glowAddress.glow(EQUIPMENT_COLOR_RED, EQUIPMENT_COLOR_GREEN, EQUIPMENT_COLOR_BLUE, EQUIPMENT_COLOR_ALPHA)
+				entity.chams(EQUIPMENT_COLOR_RED, EQUIPMENT_COLOR_GREEN, EQUIPMENT_COLOR_BLUE)
+			}
+		} else if (EntityType.CPlantedC4 == type || EntityType.CC4 == type) {
+			if (SHOW_BOMB) {
+				glowAddress.glow(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE, BOMB_COLOR_ALPHA)
+				entity.chams(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE)
+			}
 		} else {
-			glowAddress.glow()
-			entity.chams()
+			println(type)
 		}
 	}
 }
 
-fun Player.glow(red: Int = ENEMY_COLOR_RED, green: Int = ENEMY_COLOR_GREEN,
-                blue: Int = ENEMY_COLOR_BLUE, alpha: Float = ENEMY_COLOR_ALPHA) {
+fun Entity.glow(red: Int, green: Int, blue: Int, alpha: Double) {
 	csgoEXE[this + 0x4] = red / 255F
 	csgoEXE[this + 0x8] = green / 255F
 	csgoEXE[this + 0xC] = blue / 255F
-	csgoEXE[this + 0x10] = alpha
+	csgoEXE[this + 0x10] = alpha.toFloat()
 	csgoEXE[this + 0x24] = true
 }
 
-fun Player.chams(red: Int = ENEMY_COLOR_RED, green: Int = ENEMY_COLOR_GREEN, blue: Int = ENEMY_COLOR_BLUE) {
+fun Entity.chams(red: Int, green: Int, blue: Int, alpha: Int = 255) {
 	csgoEXE[this + 0x70] = red.toByte()
 	csgoEXE[this + 0x71] = green.toByte()
 	csgoEXE[this + 0x72] = blue.toByte()
-	csgoEXE[this + 0x73] = 255.toByte()
+	csgoEXE[this + 0x73] = alpha.toByte()
 }

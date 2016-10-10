@@ -19,26 +19,29 @@
 package com.charlatano
 
 import com.charlatano.game.CSGO.clientDLL
+import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.gameHeight
 import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.game.entity.*
+import com.charlatano.game.netvars.NetVarOffsets.vecViewOffset
 import com.charlatano.game.offsets.ClientOffsets.dwViewMatrix
 import com.charlatano.utils.Angle
-import com.charlatano.utils.Random.randomFloat
 import com.charlatano.utils.Vector
 import com.charlatano.utils.normalize
+import java.lang.Math.atan
+import java.lang.Math.toDegrees
 
-const val InGameSensitivity = 2F
-const val InGamePitch = 0.022F
-const val InGameYaw = 0.022F
+const val InGameSensitivity = 2.0
+const val InGamePitch = 0.022
+const val InGameYaw = 0.022
 
-const val PITCH_MIN_PUNCH = 1.96F
-const val PITCH_MAX_PUNCH = 2.07F
+const val PITCH_MIN_PUNCH = 1.96
+const val PITCH_MAX_PUNCH = 2.07
 
-const val YAW_MIN_PUNCH = 1.97F
-const val YAW_MAX_PUNCH = 2.02F
+const val YAW_MIN_PUNCH = 1.97
+const val YAW_MAX_PUNCH = 2.02
 
-val m_vMatrix = Array(4) { FloatArray(4) }
+val m_vMatrix = Array(4) { DoubleArray(4) }
 
 fun worldToScreen(from: Vector, vOut: Vector): Boolean {
 	try {
@@ -47,7 +50,7 @@ fun worldToScreen(from: Vector, vOut: Vector): Boolean {
 		for (row in 0..3) {
 			for (col in 0..3) {
 				val value = buffer.getFloat(offset.toLong())
-				m_vMatrix[row][col] = value
+				m_vMatrix[row][col] = value.toDouble()
 				offset += 4
 			}
 		}
@@ -61,18 +64,18 @@ fun worldToScreen(from: Vector, vOut: Vector): Boolean {
 			return false
 		}
 
-		val invw = 1.0f / w
+		val invw = 1.0 / w
 		vOut.x *= invw
 		vOut.y *= invw
 
 		val width = gameWidth
 		val height = gameHeight
 
-		var x = (width / 2).toFloat()
-		var y = (height / 2).toFloat()
+		var x = width / 2.0
+		var y = height / 2.0
 
-		x += (0.5 * vOut.x.toDouble() * width.toDouble() + 0.5).toFloat()
-		y -= (0.5 * vOut.y.toDouble() * height.toDouble() + 0.5).toFloat()
+		x += 0.5 * vOut.x * width + 0.5
+		y -= 0.5 * vOut.y * height + 0.5
 
 		vOut.x = x + 0
 		vOut.y = y + 0
@@ -84,17 +87,28 @@ fun worldToScreen(from: Vector, vOut: Vector): Boolean {
 	return true
 }
 
-fun compensateVelocity(source: Player, target: Player, enemyPos: Vector, smoothing: Float) {
+fun compensateVelocity(source: Player, target: Player, enemyPos: Vector, smoothing: Double): Vector {
 	val myVelocity = source.velocity()
 	val enemyVelocity = target.velocity()
 
-	val smoothingFactor = 40 / smoothing
+	val smoothingFactor = 0.15F
+	enemyPos.x += enemyVelocity.x * smoothingFactor
+	enemyPos.y += enemyVelocity.y * smoothingFactor
+	enemyPos.z += enemyVelocity.z * smoothingFactor
+
+	enemyPos.x -= myVelocity.x * smoothingFactor
+	enemyPos.y -= myVelocity.y * smoothingFactor
+	enemyPos.z -= myVelocity.z * smoothingFactor
+
+/*	val smoothingFactor = 40.0 / smoothing
 	enemyPos.x += (enemyVelocity.x / 100) * smoothingFactor
 	enemyPos.y += (enemyVelocity.y / 100) * smoothingFactor
 	enemyPos.z += (enemyVelocity.z / 100) * smoothingFactor
 	enemyPos.x -= (myVelocity.x / 100) * smoothingFactor
 	enemyPos.y -= (myVelocity.y / 100) * smoothingFactor
-	enemyPos.z -= (myVelocity.z / 100) * smoothingFactor
+	enemyPos.z -= (myVelocity.z / 100) * smoothingFactor*/
+
+	return enemyPos
 }
 
 val angles: ThreadLocal<Angle> = ThreadLocal.withInitial { Vector() }
@@ -103,22 +117,19 @@ fun calculateAngle(player: Player, dst: Vector): Angle {
 	val angles = angles.get()
 	angles.reset()
 
-	val pitchReduction = randomFloat(PITCH_MIN_PUNCH, PITCH_MAX_PUNCH)
-	val yawReduction = randomFloat(YAW_MIN_PUNCH, YAW_MAX_PUNCH)
-
 	val myPunch = player.punch()
 	val myPosition = player.position()
 
 	val dX = myPosition.x - dst.x
 	val dY = myPosition.y - dst.y
-	val dZ = myPosition.z + player.viewOffset().x - dst.z
+	val dZ = myPosition.z + csgoEXE.float(player + vecViewOffset) - dst.z
 
-	val hyp = Math.sqrt(dX.toDouble() * dX + dY.toDouble() * dY)
+	val hyp = Math.sqrt((dX * dX) + (dY * dY))
 
-	angles.x = (Math.atan(dZ / hyp) * (180 / Math.PI) - myPunch.x * pitchReduction).toFloat()
-	angles.y = (Math.atan(dY.toDouble() / dX) * (180 / Math.PI) - myPunch.y * yawReduction).toFloat()
-	angles.z = 0F
-	if (dX >= 0) angles.y += 180
+	angles.x = toDegrees(atan(dZ / hyp)) - myPunch.x * 2.0
+	angles.y = toDegrees(atan(dY / dX)) - myPunch.y * 2.0
+	angles.z = 0.0
+	if (dX >= 0.0) angles.y += 180
 
 	return angles.normalize()
 }

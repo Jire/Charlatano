@@ -37,27 +37,31 @@ import java.util.concurrent.ThreadLocalRandom.current as tlr
 typealias ClientState = Long
 
 fun ClientState.angle(): Angle
-		= Vector(csgoEXE[this + dwViewAngles], csgoEXE[this + dwViewAngles + 4], csgoEXE[this + dwViewAngles + 8])
+		= Vector(csgoEXE.float(this + dwViewAngles).toDouble(),
+		csgoEXE.float(this + dwViewAngles + 4).toDouble(),
+		csgoEXE.float(this + dwViewAngles + 8).toDouble())
 
-private val mousePos = WinDef.POINT()
-private val target = WinDef.POINT()
+private val mousePos = ThreadLocal.withInitial { WinDef.POINT() }
+private val target = ThreadLocal.withInitial { WinDef.POINT() }
 
 private val delta = ThreadLocal.withInitial { Vector() }
 
 @Throws(SuspendExecution::class) fun aim(currentAngle: Angle, dest: Angle, smoothing: Int = 100,
                                          randomSleepMax: Int = 10, staticSleep: Int = 2, sensMultiplier: Double = 1.0) {
-	if (dest.z != 0F || dest.x < -89 || dest.x > 180 || dest.y < -180 || dest.y > 180
+	if (dest.z != 0.0 || dest.x < -89 || dest.x > 180 || dest.y < -180 || dest.y > 180
 			|| dest.x.isNaN() || dest.y.isNaN() || dest.z.isNaN()) return
 
 	val delta = delta.get()
-	delta.set(currentAngle.y - dest.y, currentAngle.x - dest.x, 0F)
+	delta.set(currentAngle.y - dest.y, currentAngle.x - dest.x, 0.0)
 
 	val sens = InGameSensitivity * sensMultiplier
 	val dx = Math.round(delta.x / (sens * InGamePitch))
 	val dy = Math.round(-delta.y / (sens * InGameYaw))
 
+	val mousePos = mousePos.get()
 	mousePos.refresh()
 
+	val target = target.get()
 	target.set((mousePos.x + (dx / 2)).toInt(), (mousePos.y + (dy / 2)).toInt())
 
 	if (target.x <= 0) return

@@ -31,9 +31,10 @@ import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.utils.*
+import java.util.concurrent.ThreadLocalRandom.current as tlr
 
 var prevFired = 0
-val lastPunch = FloatArray(2)
+val lastPunch = DoubleArray(2)
 
 @Suspendable private fun work() {
 	val myAddress: Player = clientDLL.uint(dwLocalPlayer)
@@ -45,24 +46,23 @@ val lastPunch = FloatArray(2)
 		return
 	}
 
-	val punch = Vector(csgoEXE.float(myAddress + vecPunch), csgoEXE.float(myAddress + vecPunch + 4), 0F)
-	punch.x *= 2F
-	punch.y *= 2F
-	punch.z = 0F
+	val punch = Vector(csgoEXE.float(myAddress + vecPunch).toDouble(),
+			csgoEXE.float(myAddress + vecPunch + 4).toDouble(), 0.0)
+	punch.x *= 2.0
+	punch.y *= 2.0
+	punch.z = 0.0
 	punch.normalize()
-
-	var view = clientState.angle()
-	if (view.x == 0F || view.y == 0F || view.z == 0F) view = clientState.angle()
 
 	val newView: Angle = Vector(punch.x, punch.y, punch.z)
 	newView.x -= lastPunch[0]
 	newView.y -= lastPunch[1]
-	newView.z = 0F
+	newView.z = 0.0
 	newView.normalize()
 
+	val view = clientState.angle()
 	view.x -= newView.x
 	view.y -= newView.y
-	view.z = 0F
+	view.z = 0.0
 	view.normalize()
 
 	aim(clientState.angle(), view, RCS_SMOOTHING)
@@ -74,8 +74,8 @@ val lastPunch = FloatArray(2)
 
 private fun reset() {
 	prevFired = 0
-	lastPunch[0] = 0F
-	lastPunch[1] = 0F
+	lastPunch[0] = 0.0
+	lastPunch[1] = 0.0
 }
 
 fun rcs() = every(RCS_DURATION) { work() }

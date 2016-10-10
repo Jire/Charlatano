@@ -23,47 +23,59 @@ import java.awt.event.KeyEvent
 /**
  * Aim Settings
  */
-const val AIM_DURATION = 20
-const val FORCE_AIM_KEY = 5 // 5 = Mouse forward button
+const val AIM_DURATION = 1 // duration at which aim paths are recalculated
+const val FORCE_AIM_KEY = 5 // 5 = mouse forward button
 const val AIM_BONE = 6 // 6 = Head
-const val AIM_FOV = 32
-const val AIM_SMOOTHING = 20 // 100 = slowest, 1 = fastest
+const val AIM_FOV = 40 // field of view, in degrees (0 to 360)
+const val AIM_SPEED = 50 // higher = slower, minimum = 1
 const val AIM_STRICTNESS = 2.6 // higher = less strict
+const val AIM_STRICTNESS_BASELINE_MODIFIER = 1.282 // multiplied by the aim strictness when baseline is met
+const val AIM_STRICTNESS_BASELINE_DISTANCE = 900 // the distance at which strictness scales
 const val AIM_ASSIST_MODE = false
-const val AIM_CALCULATION_SMOOTHING = 40F
+const val AIM_CALCULATION_SMOOTHING = 40.0
 
 /**
  * RCS Settings
  */
 const val RCS_DURATION = 1
-const val RCS_SMOOTHING = 50
+const val RCS_SMOOTHING = 56
 
 /**
  * Bunny Hop Settings
  */
-const val BUNNY_HOP_KEY = KeyEvent.VK_SPACE //KeyEvent.VK_SPACE = Space button
+const val BUNNY_HOP_KEY = KeyEvent.VK_SPACE // spacebar
 
 /**
  * Glow ESP Settings
  */
-const val TEAM_COLOR_RED = 0 //RGB colors
-const val TEAM_COLOR_BLUE = 255 //RGB colors
-const val TEAM_COLOR_GREEN = 0 //RGB colors
-const val TEAM_COLOR_ALPHA = 0.6f //RGB colors
+const val TEAM_COLOR_RED = 0
+const val TEAM_COLOR_GREEN = 0
+const val TEAM_COLOR_BLUE = 255
+const val TEAM_COLOR_ALPHA = 0.6
 
-const val ENEMY_COLOR_RED = 255 //RGB colors
-const val ENEMY_COLOR_BLUE = 0 //RGB colors
-const val ENEMY_COLOR_GREEN = 0 //RGB colors
-const val ENEMY_COLOR_ALPHA = 0.6f //RGB colors
+const val ENEMY_COLOR_RED = 255
+const val ENEMY_COLOR_GREEN = 0
+const val ENEMY_COLOR_BLUE = 0
+const val ENEMY_COLOR_ALPHA = 0.6
 
-const val BOMB_COLOR_RED = 0 //RGB colorsN
-const val BOMB_COLOR_BLUE = 0 //RGB colors
-const val BOMB_COLOR_GREEN = 255 //RGB colors
-const val BOMB_COLOR_ALPHA = 0.6f //RGB colors
+const val BOMB_COLOR_RED = 255
+const val BOMB_COLOR_GREEN = 255
+const val BOMB_COLOR_BLUE = 0
+const val BOMB_COLOR_ALPHA = 1.0
+
+const val EQUIPMENT_COLOR_RED = 0
+const val EQUIPMENT_COLOR_GREEN = 255
+const val EQUIPMENT_COLOR_BLUE = 0
+const val EQUIPMENT_COLOR_ALPHA = 0.7
+
+const val SHOW_TEAM = true
+const val SHOW_DORMANT = true
+const val SHOW_EQUIPMENT = true
+const val SHOW_BOMB = true
 
 /**
  * ESP toggles
  */
 const val SKELETON_ESP = false
-const val GLOW_ESP = true //Glowesp causes Skeleton esp to flicker
+const val GLOW_ESP = true
 const val BOX_ESP = false

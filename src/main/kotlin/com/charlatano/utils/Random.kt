@@ -24,6 +24,6 @@ object Random {
 
 	private val rand = Random()
 
-	@JvmStatic fun randomFloat(min: Float, max: Float) = rand.nextFloat() * (max - min) + min
+	@JvmStatic fun randomDouble(min: Double, max: Double) = rand.nextDouble() * (max - min) + min
 
 }

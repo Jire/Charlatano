@@ -23,43 +23,56 @@ import com.charlatano.game.*
 import com.charlatano.game.entity.*
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
+import java.lang.Math.*
+import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.ThreadLocalRandom.current as tlr
 
-private var target: Player = -1L
+private val target = AtomicLong(-1)
 
 fun aim() = every(AIM_DURATION) {
 	val pressed = keyPressed(1) or keyPressed(FORCE_AIM_KEY)
 	if (!pressed) {
-		target = -1L
+		target.set(-1L)
 		return@every
 	}
 
 	val currentAngle = clientState.angle()
 
-	var currentTarget = target
+	var currentTarget = target.get()
+	val position = me.position()
 	if (currentTarget == -1L) {
-		currentTarget = findTarget(me.position(), currentAngle)
+		currentTarget = findTarget(position, currentAngle)
 		if (currentTarget == -1L) return@every
-		target = currentTarget
+		target.set(currentTarget)
 		return@every
 	}
 
-	if (me.dead() || target.dead() || target.dormant() || !target.spotted() || target.team() == me.team()) {
-		target = -1L
+	if (me.dead() || currentTarget.dead() || currentTarget.dormant()
+			|| !currentTarget.spotted() || currentTarget.team() == me.team()) {
+		target.set(-1L)
 		return@every
 	}
 
-	val bonePosition = Vector(target.bone(0xC), target.bone(0x1C), target.bone(0x2C))
-	compensateVelocity(me, target, bonePosition, AIM_CALCULATION_SMOOTHING)
+	val bonePosition = Vector(currentTarget.bone(0xC), currentTarget.bone(0x1C), currentTarget.bone(0x2C))
+	compensateVelocity(me, currentTarget, bonePosition, AIM_CALCULATION_SMOOTHING)
 
 	val dest = calculateAngle(me, bonePosition)
-	if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_CALCULATION_SMOOTHING) else dest.normalize()
+	if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_CALCULATION_SMOOTHING)
 
-	aim(currentAngle, dest, AIM_SMOOTHING, sensMultiplier = AIM_STRICTNESS)
+	val ePos: Angle = Vector(currentTarget.bone(0xC), currentTarget.bone(0x1C), currentTarget.bone(0x2C))
+	val distance = position.distanceTo(ePos)
+	var sensMultiplier = AIM_STRICTNESS
+
+	if (distance > AIM_STRICTNESS_BASELINE_DISTANCE) {
+		val amountOver = AIM_STRICTNESS_BASELINE_DISTANCE / distance
+		sensMultiplier *= (amountOver * AIM_STRICTNESS_BASELINE_MODIFIER)
+	}
+
+	aim(currentAngle, dest, AIM_SPEED, sensMultiplier = sensMultiplier)
 }
 
 private fun findTarget(position: Angle, angle: Angle, lockFOV: Int = AIM_FOV): Player {
-	var closestDelta = Int.MAX_VALUE
+	var closestDelta = Double.MAX_VALUE
 	var closetPlayer: Player? = null
 
 	entities(EntityType.CCSPlayer) {
@@ -74,13 +87,15 @@ private fun findTarget(position: Angle, angle: Angle, lockFOV: Int = AIM_FOV): P
 
 		val dest = calculateAngle(me, ePos)
 
-		val yawDiff = Math.abs(angle.y - dest.y)
-		val delta = Math.abs(Math.sin(Math.toRadians(yawDiff.toDouble())) * distance)
+		val yawDiff = abs(angle.y - dest.y)
+		val delta = abs(sin(toRadians(yawDiff.toDouble())) * distance)
 
 		if (delta <= lockFOV && delta < closestDelta) {
-			closestDelta = delta.toInt()
+			closestDelta = delta
 			closetPlayer = entity
 		}
 	}
+
+	if (closestDelta == Double.MAX_VALUE) return -1
 	return closetPlayer ?: -1
 }

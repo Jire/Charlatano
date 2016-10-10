@@ -43,15 +43,19 @@ internal fun Player.health(): Int = csgoEXE[this + iHealth]
 internal fun Player.dead() = csgoEXE.byte(this + lifeState) != 0.toByte()
 
 internal fun Player.punch(): Angle
-		= Vector(csgoEXE[this + vecPunch], csgoEXE[this + vecPunch + 4], 0f)
+		= Vector(csgoEXE.float(this + vecPunch).toDouble(), csgoEXE.float(this + vecPunch + 4).toDouble(), 0.0)
 
 internal fun Player.viewOffset(): Angle
-		= Vector(csgoEXE[this + vecViewOffset], csgoEXE[this + vecViewOffset + 4], csgoEXE[this + vecViewOffset + 8])
+		= Vector(csgoEXE.float(this + vecViewOffset).toDouble(),
+		csgoEXE.float(this + vecViewOffset + 4).toDouble(),
+		csgoEXE.float(this + vecViewOffset + 8).toDouble())
 
 internal fun Player.velocity(): Angle
-		= Vector(csgoEXE[this + vecVelocity], csgoEXE[this + vecVelocity + 4], csgoEXE[this + vecVelocity + 8])
+		= Vector(csgoEXE.float(this + vecVelocity).toDouble(),
+		csgoEXE.float(this + vecVelocity + 4).toDouble(),
+		csgoEXE.float(this + vecVelocity + 8).toDouble())
 
 internal fun Player.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
 
 internal fun Player.bone(offset: Int, boneID: Int = AIM_BONE, boneMatrix: Long = boneMatrix())
-		= csgoEXE.float(boneMatrix + ((0x30 * boneID) + offset))
+		= csgoEXE.float(boneMatrix + ((0x30 * boneID) + offset)).toDouble()

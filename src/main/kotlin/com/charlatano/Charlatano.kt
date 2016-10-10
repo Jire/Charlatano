@@ -36,18 +36,18 @@ fun main(args: Array<String>) {
 
 	CSGO.initalize()
 
-	constructEntities()//DO NOT DELETE
+	constructEntities() //DO NOT DELETE
 
 	// -- START OF SCRIPTS -- //
 	bunnyHop()
 	esp()
 	rcs()
-	noFlash()
+	//noFlash()
 	//bombTimer()
 	aim()
 	// -- END OF SCRIPTS -- //
 
-	println("$gameWidth, $gameHeight, $gameX, $gameY")
+	//println("$gameWidth, $gameHeight, $gameX, $gameY")
 	//CharlatanoOverlay.open(gameWidth, gameHeight, gameX, gameY)
 
 	Strand.sleep(5000) // wait a bit to catch everything

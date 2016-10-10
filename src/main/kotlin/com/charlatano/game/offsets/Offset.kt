@@ -23,6 +23,7 @@ import com.sun.jna.Memory
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap
 import org.jire.arrowhead.Addressed
 import org.jire.arrowhead.Module
+import kotlin.LazyThreadSafetyMode.NONE
 import kotlin.reflect.KProperty
 
 class Offset(val module: Module, val patternOffset: Long, val addressOffset: Long,
@@ -43,7 +44,7 @@ class Offset(val module: Module, val patternOffset: Long, val addressOffset: Lon
 
 	val memory = cachedMemory()
 
-	override val address by lazy(LazyThreadSafetyMode.NONE) {
+	override val address by lazy(NONE) {
 		val offset = module.size - mask.size
 
 		var currentAddress = 0L
