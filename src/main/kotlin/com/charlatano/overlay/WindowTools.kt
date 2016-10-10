@@ -26,6 +26,7 @@ import com.charlatano.utils.natives.CUser32
 import com.charlatano.utils.natives.DWM
 import com.charlatano.utils.natives.DWM_BLURBEHIND
 import com.sun.jna.Pointer
+import com.sun.jna.platform.win32.User32
 import com.sun.jna.platform.win32.WinDef
 import com.sun.jna.platform.win32.WinUser
 import com.sun.jna.platform.win32.WinUser.*
@@ -65,6 +66,8 @@ object WindowTools {
 		CUser32.SetWindowLongPtrA(hwnd, GWL_STYLE, PointerCache[wl]) // set the style
 		CUser32.ShowWindow(hwnd, SW_SHOW) // show the window for the new style to come into effect
 		CUser32.SetWindowLongPtrA(hwnd, WinUser.GWL_EXSTYLE, PointerCache[wl])
+		
+		User32.INSTANCE.SetLayeredWindowAttributes(hwnd, 0, 255.toByte(), WinUser.ULW_COLORKEY or WinUser.LWA_ALPHA)
 		
 		return CUser32.SetWindowPos(hwnd, HWND_TOPPOS, gameX, gameY,
 				gameWidth, gameHeight, SWP_NOMOVE or SWP_NOSIZE)

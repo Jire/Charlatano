@@ -64,6 +64,6 @@ const val BOMB_COLOR_ALPHA = 0.6f //RGB colors
 /**
  * ESP toggles
  */
-const val SKELETON_ESP = false
+const val SKELETON_ESP = true
 const val GLOW_ESP = true //Glowesp causes Skeleton esp to flicker
-const val BOX_ESP = false
+const val BOX_ESP = true

@@ -33,15 +33,15 @@ fun main(args: Array<String>) {
 	CharlatanoOverlay.open()
 	
 	CharlatanoOverlay {
-		it.drawRect(250, 250, 1000, 1000)
+		it.drawRect(10, 10, 1000, 1000)
 	}
 }
 
 object CharlatanoOverlay : GLEventListener {
 	
 	private val TITLE = tlr.current().nextLong(Long.MAX_VALUE).toString()
-	private val WINDOW_WIDTH = 2500
-	private val WINDOW_HEIGHT = 1400
+	private val WINDOW_WIDTH = 2560
+	private val WINDOW_HEIGHT = 1440
 	private val FPS = 60
 	
 	val window by lazy {
@@ -74,7 +74,7 @@ object CharlatanoOverlay : GLEventListener {
 		})
 		
 		window.addGLEventListener(this)
-		window.setSize(width, height)
+		window.setSize(width - 1, height - 1)
 		window.setPosition(x, y)
 		window.title = TITLE
 		window.isVisible = true
