@@ -24,6 +24,7 @@ import com.jogamp.newt.event.WindowEvent
 import com.jogamp.newt.opengl.GLWindow
 import com.jogamp.opengl.*
 import com.jogamp.opengl.util.FPSAnimator
+import com.sun.jna.platform.win32.WinDef
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import org.anglur.joglext.jogl2d.GLGraphics2D
 import kotlin.concurrent.thread
@@ -48,7 +49,6 @@ object CharlatanoOverlay : GLEventListener {
 		val glp = GLProfile.getDefault()
 		val caps = GLCapabilities(glp)
 		caps.isBackgroundOpaque = false
-		caps.alphaBits = 8
 		
 		GLWindow.create(caps)
 	}
@@ -74,13 +74,17 @@ object CharlatanoOverlay : GLEventListener {
 		})
 		
 		window.addGLEventListener(this)
-		window.setSize(width - 1, height - 1)
+		window.setSize(width, height)
 		window.setPosition(x, y)
 		window.title = TITLE
 		window.isVisible = true
 		animator.start()
 		
-		val hwnd = CUser32.FindWindowA(null, TITLE)
+		var hwnd: WinDef.HWND? = null
+		while (hwnd == null) {
+			hwnd = CUser32.FindWindowA(null, TITLE)
+			Thread.sleep(200)
+		}
 		WindowTools.transparentWindow(hwnd)
 	}
 	
