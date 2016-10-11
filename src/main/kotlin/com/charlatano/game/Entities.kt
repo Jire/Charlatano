@@ -66,11 +66,13 @@ internal inline fun entities(vararg types: EntityType = all, body: (EntityContex
 	if (types.first() == EntityType.NULL) types = EntityType.cachedValues
 
 	val hashcode = Arrays.hashCode(types)
-	val container = cachedResults.get(hashcode) ?: EntityContainer(256)
+	val container = cachedResults.get(hashcode) ?: EntityContainer(4096)
 
 	if (container.empty()) {
-		for (type in types) if (EntityType.NULL != type) container.addList(entities[type]!!)
-		cachedResults.put(hashcode, container)
+		for (type in types) if (EntityType.NULL != type) {
+			container.addList(entities[type]!!)
+			cachedResults.put(hashcode, container)
+		}
 	}
 
 	container.forEach(body)

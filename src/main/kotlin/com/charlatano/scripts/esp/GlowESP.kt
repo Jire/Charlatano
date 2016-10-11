@@ -49,7 +49,7 @@ fun glowEsp() = every(4) {
 			if (SHOW_EQUIPMENT) {
 				glowAddress.glow(EQUIPMENT_COLOR_RED, EQUIPMENT_COLOR_GREEN, EQUIPMENT_COLOR_BLUE,
 						if (type.grenade) 1.0 else EQUIPMENT_COLOR_ALPHA)
-				entity.chams(EQUIPMENT_COLOR_RED, EQUIPMENT_COLOR_GREEN, EQUIPMENT_COLOR_BLUE)
+				//entity.chams(EQUIPMENT_COLOR_RED, EQUIPMENT_COLOR_GREEN, EQUIPMENT_COLOR_BLUE)
 			}
 		} else if (EntityType.CPlantedC4 == type || EntityType.CC4 == type) {
 			if (SHOW_BOMB) {
