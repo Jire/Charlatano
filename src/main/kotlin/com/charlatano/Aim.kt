@@ -91,7 +91,7 @@ fun compensateVelocity(source: Player, target: Player, enemyPos: Vector, smoothi
 	val myVelocity = source.velocity()
 	val enemyVelocity = target.velocity()
 
-	val smoothingFactor = 0.15F
+	val smoothingFactor = 1.0 /*0.15*/
 	enemyPos.x += enemyVelocity.x * smoothingFactor
 	enemyPos.y += enemyVelocity.y * smoothingFactor
 	enemyPos.z += enemyVelocity.z * smoothingFactor

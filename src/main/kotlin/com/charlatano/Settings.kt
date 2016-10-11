@@ -66,7 +66,7 @@ const val BOMB_COLOR_ALPHA = 1.0
 const val EQUIPMENT_COLOR_RED = 0
 const val EQUIPMENT_COLOR_GREEN = 255
 const val EQUIPMENT_COLOR_BLUE = 0
-const val EQUIPMENT_COLOR_ALPHA = 0.7
+const val EQUIPMENT_COLOR_ALPHA = 0.5
 
 const val SHOW_TEAM = true
 const val SHOW_DORMANT = true
@@ -77,5 +77,5 @@ const val SHOW_BOMB = true
  * ESP toggles
  */
 const val SKELETON_ESP = true
-const val GLOW_ESP = false
+const val GLOW_ESP = true
 const val BOX_ESP = true

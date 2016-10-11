@@ -26,7 +26,7 @@ import com.charlatano.game.me
 import com.charlatano.utils.every
 
 fun glowEsp() = every(4) {
-	entities(EntityType.CCSPlayer, EntityType.CPlantedC4, EntityType.CC4) {
+	entities() {
 		val entity = it.entity
 		if (entity <= 0 || me == entity) return@entities
 
@@ -47,7 +47,8 @@ fun glowEsp() = every(4) {
 			}
 		} else if (type.weapon || type.grenade) {
 			if (SHOW_EQUIPMENT) {
-				glowAddress.glow(EQUIPMENT_COLOR_RED, EQUIPMENT_COLOR_GREEN, EQUIPMENT_COLOR_BLUE, EQUIPMENT_COLOR_ALPHA)
+				glowAddress.glow(EQUIPMENT_COLOR_RED, EQUIPMENT_COLOR_GREEN, EQUIPMENT_COLOR_BLUE,
+						if (type.grenade) 1.0 else EQUIPMENT_COLOR_ALPHA)
 				entity.chams(EQUIPMENT_COLOR_RED, EQUIPMENT_COLOR_GREEN, EQUIPMENT_COLOR_BLUE)
 			}
 		} else if (EntityType.CPlantedC4 == type || EntityType.CC4 == type) {
@@ -55,8 +56,6 @@ fun glowEsp() = every(4) {
 				glowAddress.glow(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE, BOMB_COLOR_ALPHA)
 				entity.chams(BOMB_COLOR_RED, BOMB_COLOR_GREEN, BOMB_COLOR_BLUE)
 			}
-		} else {
-			println(type)
 		}
 	}
 }

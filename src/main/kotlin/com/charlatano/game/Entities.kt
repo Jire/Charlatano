@@ -59,12 +59,14 @@ class EntityContext {
 
 }
 
-internal inline fun entities(vararg types: EntityType = arrayOf(EntityType.NULL), body: (EntityContext) -> Unit) {
+val all = arrayOf(EntityType.NULL)
+
+internal inline fun entities(vararg types: EntityType = all, body: (EntityContext) -> Unit) {
 	var types = types
 	if (types.first() == EntityType.NULL) types = EntityType.cachedValues
 
 	val hashcode = Arrays.hashCode(types)
-	val container = cachedResults.get(hashcode) ?: EntityContainer()
+	val container = cachedResults.get(hashcode) ?: EntityContainer(256)
 
 	if (container.empty()) {
 		for (type in types) container.addList(entities[type]!!)
