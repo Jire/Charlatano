@@ -40,13 +40,13 @@ fun Vector.normalize() = apply {
 
 internal fun Angle.distanceTo(target: Angle) = abs(x - target.x) + abs(y - target.y) + abs(z - target.z)
 
-internal fun Angle.finalize(orig: Angle, smoothing: Double) {
+internal fun Angle.finalize(orig: Angle, strictness: Double) {
 	x -= orig.x
 	y -= orig.y
 	z = 0.0
 	normalize()
 
-	x = orig.x + x / 100.0 * smoothing
-	y = orig.y + y / 100.0 * smoothing
+	x = orig.x + x * strictness
+	y = orig.y + y * strictness
 	normalize()
 }

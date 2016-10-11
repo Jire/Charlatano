@@ -69,7 +69,7 @@ internal inline fun entities(vararg types: EntityType = all, body: (EntityContex
 	val container = cachedResults.get(hashcode) ?: EntityContainer(256)
 
 	if (container.empty()) {
-		for (type in types) container.addList(entities[type]!!)
+		for (type in types) if (EntityType.NULL != type) container.addList(entities[type]!!)
 		cachedResults.put(hashcode, container)
 	}
 

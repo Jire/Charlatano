@@ -54,10 +54,10 @@ fun aim() = every(AIM_DURATION) {
 	}
 
 	val bonePosition = Vector(currentTarget.bone(0xC), currentTarget.bone(0x1C), currentTarget.bone(0x2C))
-	compensateVelocity(me, currentTarget, bonePosition, AIM_CALCULATION_SMOOTHING)
+	compensateVelocity(me, currentTarget, bonePosition, AIM_VELOCITY_STRICTNESS)
 
 	val dest = calculateAngle(me, bonePosition)
-	if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_CALCULATION_SMOOTHING)
+	if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)
 
 	val ePos: Angle = Vector(currentTarget.bone(0xC), currentTarget.bone(0x1C), currentTarget.bone(0x2C))
 	val distance = position.distanceTo(ePos)

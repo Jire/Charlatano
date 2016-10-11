@@ -87,26 +87,18 @@ fun worldToScreen(from: Vector, vOut: Vector): Boolean {
 	return true
 }
 
-fun compensateVelocity(source: Player, target: Player, enemyPos: Vector, smoothing: Double): Vector {
+fun compensateVelocity(source: Player, target: Player, enemyPos: Vector, compensation: Int): Vector {
 	val myVelocity = source.velocity()
 	val enemyVelocity = target.velocity()
 
-	val smoothingFactor = 1.0 /*0.15*/
-	enemyPos.x += enemyVelocity.x * smoothingFactor
-	enemyPos.y += enemyVelocity.y * smoothingFactor
-	enemyPos.z += enemyVelocity.z * smoothingFactor
+	val compensationFactor = compensation / 100.0
+	if (enemyVelocity.x.isFinite()) enemyPos.x += enemyVelocity.x * compensationFactor
+	if (enemyVelocity.y.isFinite()) enemyPos.y += enemyVelocity.y * compensationFactor
+	if (enemyVelocity.z.isFinite()) enemyPos.z += enemyVelocity.z * compensationFactor
 
-	enemyPos.x -= myVelocity.x * smoothingFactor
-	enemyPos.y -= myVelocity.y * smoothingFactor
-	enemyPos.z -= myVelocity.z * smoothingFactor
-
-/*	val smoothingFactor = 40.0 / smoothing
-	enemyPos.x += (enemyVelocity.x / 100) * smoothingFactor
-	enemyPos.y += (enemyVelocity.y / 100) * smoothingFactor
-	enemyPos.z += (enemyVelocity.z / 100) * smoothingFactor
-	enemyPos.x -= (myVelocity.x / 100) * smoothingFactor
-	enemyPos.y -= (myVelocity.y / 100) * smoothingFactor
-	enemyPos.z -= (myVelocity.z / 100) * smoothingFactor*/
+	if (myVelocity.x.isFinite()) enemyPos.x -= myVelocity.x * compensationFactor
+	if (myVelocity.y.isFinite()) enemyPos.y -= myVelocity.y * compensationFactor
+	if (myVelocity.z.isFinite()) enemyPos.z -= myVelocity.z * compensationFactor
 
 	return enemyPos
 }
