@@ -32,12 +32,10 @@ import com.charlatano.scripts.*
 
 fun main(args: Array<String>) {
 	System.setProperty("co.paralleluniverse.fibers.detectRunawayFibers", "false")
-	//System.setProperty("co.paralleluniverse.fibers.DefaultFiberPool.parallelism", "1")
 	System.setProperty("co.paralleluniverse.fibers.verifyInstrumentation", "false")
+	//System.setProperty("co.paralleluniverse.fibers.DefaultFiberPool.parallelism", "1")
 
 	CSGO.initalize()
-
-	constructEntities() //DO NOT DELETE
 
 	// -- START OF SCRIPTS -- //
 	bunnyHop()

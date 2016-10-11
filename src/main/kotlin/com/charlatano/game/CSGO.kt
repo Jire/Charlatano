@@ -18,6 +18,7 @@
 
 package com.charlatano.game
 
+import com.charlatano.game.hooks.constructEntities
 import com.charlatano.game.netvars.NetVars
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
@@ -98,6 +99,8 @@ object CSGO {
 			val myAddress = clientDLL.uint(dwLocalPlayer)
 			if (!inGame || myAddress < 0x200) throw RuntimeException() // TODO find nicer solution
 		}
+
+		constructEntities()
 	}
 
 	const val ENTITY_SIZE = 16

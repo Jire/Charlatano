@@ -18,15 +18,12 @@
 
 package com.charlatano.game.hooks
 
+import com.charlatano.game.*
 import com.charlatano.game.CSGO.GLOW_OBJECT_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
-import com.charlatano.game.clientState
-import com.charlatano.game.contexts
-import com.charlatano.game.entities
 import com.charlatano.game.entity.EntityType
-import com.charlatano.game.me
 import com.charlatano.game.offsets.ClientOffsets.dwGlowObject
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets.dwClientState

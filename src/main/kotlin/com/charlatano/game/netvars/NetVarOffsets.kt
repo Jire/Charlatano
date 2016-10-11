@@ -23,6 +23,7 @@ object NetVarOffsets {
 	val dwModel = 0x6C
 	val iTeamNum by netVar("DT_BaseEntity")
 	val bSpotted by netVar("DT_BaseEntity")
+	val bSpottedByMask by netVar("DT_BaseEntity")
 	val vecOrigin by netVar("DT_BaseEntity")
 
 	val fFlags by netVar("DT_BasePlayer")
