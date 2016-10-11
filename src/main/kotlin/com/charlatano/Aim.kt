@@ -88,7 +88,7 @@ fun worldToScreen(from: Vector, vOut: Vector): Boolean {
 }
 
 fun compensateVelocity(source: Player, target: Player, enemyPos: Vector, compensation: Int): Vector {
-	val myVelocity = source.velocity()
+/*	val myVelocity = source.velocity()
 	val enemyVelocity = target.velocity()
 
 	val compensationFactor = compensation / 100.0
@@ -98,7 +98,7 @@ fun compensateVelocity(source: Player, target: Player, enemyPos: Vector, compens
 
 	if (myVelocity.x.isFinite()) enemyPos.x -= myVelocity.x * compensationFactor
 	if (myVelocity.y.isFinite()) enemyPos.y -= myVelocity.y * compensationFactor
-	if (myVelocity.z.isFinite()) enemyPos.z -= myVelocity.z * compensationFactor
+	if (myVelocity.z.isFinite()) enemyPos.z -= myVelocity.z * compensationFactor*/
 
 	return enemyPos
 }

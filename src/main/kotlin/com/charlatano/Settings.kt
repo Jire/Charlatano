@@ -27,8 +27,8 @@ import java.awt.event.KeyEvent
 const val FORCE_AIM_KEY = 5 // 5 = mouse forward button
 const val AIM_BONE = 6 // 6 = Head
 
-const val AIM_FOV = 40 // field of view, in degrees (0 to 360)
-const val AIM_SPEED = 50 // higher = slower, minimum = 1
+const val AIM_FOV = 50 // field of view, in degrees (0 to 360)
+const val AIM_SPEED = 20 // higher = slower, minimum = 1
 const val AIM_DURATION = 1 // duration at which aim paths are recalculated
 
 const val AIM_STRICTNESS = 2.6 // higher = less strict
@@ -75,8 +75,8 @@ const val EQUIPMENT_COLOR_BLUE = 0
 const val EQUIPMENT_COLOR_ALPHA = 0.5
 
 const val SHOW_TEAM = true
-const val SHOW_DORMANT = true
-const val SHOW_EQUIPMENT = true
+const val SHOW_DORMANT = false
+const val SHOW_EQUIPMENT = false
 const val SHOW_BOMB = true
 
 /**
