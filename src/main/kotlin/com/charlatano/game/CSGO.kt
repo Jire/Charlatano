@@ -23,7 +23,6 @@ import com.charlatano.game.netvars.NetVars
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.game.offsets.EngineOffsets.dwInGame
-import com.charlatano.overlay.CharlatanoOverlay.window
 import com.charlatano.utils.every
 import com.charlatano.utils.natives.CUser32
 import com.charlatano.utils.paused
@@ -78,13 +77,13 @@ object CSGO {
 			gameX = rect.left + (((rect.right - rect.left) - gameWidth) / 2)
 			gameY = rect.top + ((rect.bottom - rect.top) - gameHeight)
 			
-			if (window.x != gameX || window.y != gameY) {
+			/*if (window.x != gameX || window.y != gameY) {
 				window.setPosition(gameX, gameY)
 			}
 			
 			if (window.width != gameWidth || window.height != gameHeight) {
 				window.setSize(gameX, gameY)
-			}
+			}*/
 		}
 		every(1024, continuous = true) {
 			paused = CUser32.GetForegroundWindow() != hwd

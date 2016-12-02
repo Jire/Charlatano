@@ -18,38 +18,40 @@
 
 package com.charlatano
 
-import java.awt.event.KeyEvent
-
 /**
  * Aim Settings
  */
 
 const val FORCE_AIM_KEY = 5 // 5 = mouse forward button
-const val AIM_BONE = 6 // 6 = Head
+const val AIM_BONE = 8 // 6 = Head
 
-const val AIM_FOV = 50 // field of view, in degrees (0 to 360)
-const val AIM_SPEED = 20 // higher = slower, minimum = 1
+const val AIM_FOV = 140 // field of view, in degrees (0 to 360)
+const val AIM_SPEED_MIN = 12 // higher = slower, minimum = 1
+const val AIM_SPEED_MAX = 14
 const val AIM_DURATION = 1 // duration at which aim paths are recalculated
 
-const val AIM_STRICTNESS = 2.6 // higher = less strict
-const val AIM_STRICTNESS_BASELINE_MODIFIER = 1.282 // multiplied by the aim strictness when baseline is met
+const val AIM_STRICTNESS = 1.1/*2.0*//*2.6*/ // higher = less strict
+const val AIM_STRICTNESS_BASELINE_MODIFIER = 0.85//1.282 // multiplied by the aim strictness when baseline is met
 const val AIM_STRICTNESS_BASELINE_DISTANCE = 900 // the distance at which strictness scales
-
 const val AIM_VELOCITY_STRICTNESS = 15 // higher = more strict
 
 const val AIM_ASSIST_MODE = false
 const val AIM_ASSIST_STRICTNESS = 40 // higher = less strict
 
+const val PERFECT_AIM = false
+const val PERFECT_AIM_FOV = 100
+const val PERFECT_AIM_CHANCE = 100
+
 /**
  * RCS Settings
  */
 const val RCS_DURATION = 1
-const val RCS_SMOOTHING = 56
+const val RCS_SMOOTHING = 66
 
 /**
- * Bunny Hop Settings
+* Bunny Hop Settings
  */
-const val BUNNY_HOP_KEY = KeyEvent.VK_SPACE // spacebar
+val BUNNY_HOP_KEY = 0x20 // spacebar
 
 /**
  * Glow ESP Settings
@@ -63,7 +65,6 @@ const val ENEMY_COLOR_RED = 255
 const val ENEMY_COLOR_GREEN = 0
 const val ENEMY_COLOR_BLUE = 0
 const val ENEMY_COLOR_ALPHA = 0.6
-
 const val BOMB_COLOR_RED = 255
 const val BOMB_COLOR_GREEN = 255
 const val BOMB_COLOR_BLUE = 0

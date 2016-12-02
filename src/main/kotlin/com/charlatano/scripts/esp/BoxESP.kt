@@ -18,13 +18,13 @@
 
 package com.charlatano.scripts.esp
 
+import com.badlogic.gdx.graphics.Color
 import com.charlatano.game.entities
 import com.charlatano.game.entity.*
 import com.charlatano.game.me
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.utils.Vector
 import com.charlatano.worldToScreen
-import java.awt.Color
 
 private val vHead = ThreadLocal.withInitial { Vector() }
 private val vFeet = ThreadLocal.withInitial { Vector() }
@@ -68,11 +68,15 @@ fun boxEsp() {
 			boxes[currentIdx++].color = c
 		}
 
+		val sr = shapeRenderer.get()
 		for (i in 0..currentIdx - 1) {
 			val box = boxes[i]
-			it.color = box.color
-			it.drawRect(box.x, box.y, box.w, box.h)
+			sr.begin()
+			sr.color = box.color
+			sr.rect(box.x.toFloat(), box.y.toFloat(), box.w.toFloat(), box.h.toFloat())
+			sr.end()
 		}
+
 		currentIdx = 0
 	}
 }

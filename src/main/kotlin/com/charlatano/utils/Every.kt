@@ -20,24 +20,14 @@ package com.charlatano.utils
 
 import co.paralleluniverse.kotlin.fiber
 import co.paralleluniverse.strands.Strand
-import co.paralleluniverse.strands.concurrent.ReentrantLock
 import java.util.concurrent.TimeUnit
 
-val lock: ThreadLocal<ReentrantLock> = ThreadLocal.withInitial { ReentrantLock() }
 @Volatile var paused = false
 
 inline fun every(duration: Int, durationUnit: TimeUnit = TimeUnit.MILLISECONDS,
                  continuous: Boolean = false, crossinline body: () -> Unit) = fiber {
 	while (!Strand.interrupted()) {
-		if (continuous || !paused) {
-			val l = lock.get()
-			l.lock()
-			try {
-				body()
-			} finally {
-				l.unlock()
-			}
-		}
+		if (continuous || !paused) body()
 		Strand.sleep(duration.toLong(), durationUnit)
 	}
 }

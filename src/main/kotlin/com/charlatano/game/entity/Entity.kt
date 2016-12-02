@@ -41,7 +41,11 @@ internal fun Entity.spotted(): Boolean {
 	return result != 0L
 }
 
-internal fun Entity.dormant(): Boolean = csgoEXE[this + bDormant]
+internal fun Entity.dormant(): Boolean = try {
+	csgoEXE[this + bDormant]
+} catch (t: Throwable) {
+	false
+}
 
 internal fun Entity.team(): Int = csgoEXE[this + iTeamNum]
 
@@ -50,4 +54,5 @@ internal fun Entity.model(): Long = csgoEXE.uint(this + dwModel)
 internal fun Entity.position(): Angle = Vector(
 		csgoEXE.float(this + vecOrigin).toDouble(),
 		csgoEXE.float(this + vecOrigin + 4).toDouble(),
-		csgoEXE.float(this + vecOrigin + 8).toDouble() + csgoEXE.float(this + vecViewOffset + 8))
+		csgoEXE.float(this + vecOrigin + 8).toDouble()
+				+ csgoEXE.float(this + vecViewOffset + 8))

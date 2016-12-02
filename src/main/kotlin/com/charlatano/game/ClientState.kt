@@ -32,6 +32,7 @@ import com.charlatano.game.offsets.EngineOffsets.dwViewAngles
 import com.charlatano.utils.*
 import com.sun.jna.platform.win32.WinDef
 import org.jire.arrowhead.get
+import java.util.concurrent.ThreadLocalRandom
 import java.util.concurrent.ThreadLocalRandom.current as tlr
 
 typealias ClientState = Long
@@ -47,14 +48,17 @@ private val target = ThreadLocal.withInitial { WinDef.POINT() }
 private val delta = ThreadLocal.withInitial { Vector() }
 
 @Throws(SuspendExecution::class) fun aim(currentAngle: Angle, dest: Angle, smoothing: Int = 100,
-                                         randomSleepMax: Int = 10, staticSleep: Int = 2, sensMultiplier: Double = 1.0) {
+                                         randomSleepMax: Int = 10, staticSleep: Int = 2,
+                                         sensMultiplier: Double = 1.0, perfect: Boolean = false) {
 	if (dest.z != 0.0 || dest.x < -89 || dest.x > 180 || dest.y < -180 || dest.y > 180
 			|| dest.x.isNaN() || dest.y.isNaN() || dest.z.isNaN()) return
 
 	val delta = delta.get()
 	delta.set(currentAngle.y - dest.y, currentAngle.x - dest.x, 0.0)
 
-	val sens = InGameSensitivity * sensMultiplier
+	var sens = InGameSensitivity * sensMultiplier
+	if (sens < InGameSensitivity || perfect) sens = InGameSensitivity
+
 	val dx = Math.round(delta.x / (sens * InGamePitch))
 	val dy = Math.round(-delta.y / (sens * InGameYaw))
 
@@ -68,6 +72,22 @@ private val delta = ThreadLocal.withInitial { Vector() }
 	else if (target.x >= gameX + gameWidth) return
 	if (target.y <= 0) return
 	else if (target.y >= gameY + gameHeight) return
+
+	if (perfect) {
+		mousePos.refresh()
+
+		val original = WinDef.POINT(mousePos.x, mousePos.y)
+
+		val x = (target.x - original.x) * 2
+		val y = (target.y - original.y) * 2
+
+		mouseMove(x, y)
+		/*Strand.sleep(16)
+		mouseMove(-x, -y)*/
+		Strand.sleep(1)
+
+		return
+	}
 
 	val points = ZetaMouseGenerator.generate(mousePos, target)
 	for (i in 1..points.lastIndex) {

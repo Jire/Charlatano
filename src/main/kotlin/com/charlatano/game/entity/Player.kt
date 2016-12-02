@@ -40,7 +40,11 @@ internal fun Player.onGround() = flags() and 1 == 1
 
 internal fun Player.health(): Int = csgoEXE[this + iHealth]
 
-internal fun Player.dead() = csgoEXE.byte(this + lifeState) != 0.toByte()
+internal fun Player.dead() = try {
+	csgoEXE.byte(this + lifeState) != 0.toByte()
+} catch (t: Throwable) {
+	false
+}
 
 internal fun Player.punch(): Angle
 		= Vector(csgoEXE.float(this + vecPunch).toDouble(), csgoEXE.float(this + vecPunch + 4).toDouble(), 0.0)

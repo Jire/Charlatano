@@ -20,6 +20,7 @@ package com.charlatano.utils
 
 import com.charlatano.utils.natives.CUser32
 import com.sun.jna.platform.win32.WinDef
+import org.jire.arrowhead.windows.User32
 
 private const val MOUSEEVENTF_MOVE = 0x0001
 private const val MOUSEEVENTF_ABSOLUTE = 0x8000

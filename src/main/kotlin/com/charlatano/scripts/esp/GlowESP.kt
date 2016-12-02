@@ -67,11 +67,14 @@ fun Entity.glow(red: Int, green: Int, blue: Int, alpha: Double) {
 	csgoEXE[this + 0xC] = blue / 255F
 	csgoEXE[this + 0x10] = alpha.toFloat()
 	csgoEXE[this + 0x24] = true
+	//csgoEXE[this + 0x25] = true
+	//csgoEXE[this + 0x26] = true
+	//csgoEXE[this + 0x2C] = true
 }
 
 fun Entity.chams(red: Int, green: Int, blue: Int, alpha: Int = 255) {
-	csgoEXE[this + 0x70] = red.toByte()
+/*	csgoEXE[this + 0x70] = red.toByte()
 	csgoEXE[this + 0x71] = green.toByte()
 	csgoEXE[this + 0x72] = blue.toByte()
-	csgoEXE[this + 0x73] = alpha.toByte()
+	csgoEXE[this + 0x73] = alpha.toByte()*/
 }

@@ -19,6 +19,7 @@
 package com.charlatano.scripts
 
 import co.paralleluniverse.fibers.Suspendable
+import com.charlatano.AIM_BONE
 import com.charlatano.RCS_DURATION
 import com.charlatano.RCS_SMOOTHING
 import com.charlatano.game.CSGO.clientDLL
@@ -70,12 +71,15 @@ val lastPunch = DoubleArray(2)
 	lastPunch[0] = punch.x
 	lastPunch[1] = punch.y
 	prevFired = shotsFired
+
+	if (shotsFired > 3) bone.set(6)
 }
 
 private fun reset() {
 	prevFired = 0
 	lastPunch[0] = 0.0
 	lastPunch[1] = 0.0
+	bone.set(AIM_BONE)
 }
 
 fun rcs() = every(RCS_DURATION) { work() }

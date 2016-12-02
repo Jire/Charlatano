@@ -43,9 +43,9 @@ object ZetaMouseGenerator {
 		var y = Math.toRadians(180 / steps.toDouble())
 
 		//RANDOMISE PATH VARS
-		var waviness = 2.8
+		var waviness = 2.8/*2.8*/
 		if (a.distance(b) < 120) { // less than 120px
-			waviness = 0.4
+			waviness = 0.5
 		}
 
 		if (Math.random() >= 0.5) {

@@ -18,7 +18,9 @@
 
 package com.charlatano.utils
 
-import java.lang.Math.abs
+import com.charlatano.calculateAngle
+import com.charlatano.game.entity.Player
+import java.lang.Math.*
 
 typealias Angle = Vector
 
@@ -38,7 +40,32 @@ fun Vector.normalize() = apply {
 	z = 0.0
 }
 
-internal fun Angle.distanceTo(target: Angle) = abs(x - target.x) + abs(y - target.y) + abs(z - target.z)
+fun GetFov(angle: Angle, src: Angle, dst: Angle, player: Player): Double {
+	val ang = calculateAngle(player, dst)
+	val aim = Angle()
+
+	MakeVector(angle, aim)
+	MakeVector(ang, ang)
+
+	val mag = sqrt(pow(aim.x, 2.0) + pow(aim.y, 2.0) + pow(aim.z, 2.0))
+	val u_dot_v = aim.Dot(ang)
+
+	return Math.toDegrees(acos(u_dot_v / pow(mag, 2.0)))
+}
+
+fun MakeVector(angle: Angle, vector: Angle) {
+	val pitch = angle.x * Math.PI / 180
+	val yaw = angle.y * Math.PI / 180
+	val tmp = cos(pitch)
+	vector.x = -tmp * -cos(yaw)
+	vector.y = sin(yaw) * tmp
+	vector.z = -sin(pitch)
+}
+
+fun Angle.Dot(v: Angle) = x * v.x + y * v.y + z * v.z
+
+internal fun Angle.distanceTo(target: Angle)
+		/*= sqrt((x * x - target.x * target.x) + (y * y - target.y * target.y) + (z * z - target.z * target.z))*/= abs(x - target.x) + abs(y - target.y) + abs(z - target.z)
 
 internal fun Angle.finalize(orig: Angle, strictness: Double) {
 	x -= orig.x

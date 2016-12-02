@@ -19,16 +19,33 @@
 package com.charlatano.scripts
 
 import co.paralleluniverse.strands.Strand
-import com.charlatano.BUNNY_HOP_KEY
+import com.charlatano.game.CSGO
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.hooks.onGround
+import com.charlatano.game.offsets.ClientOffsets
 import com.charlatano.game.offsets.ClientOffsets.dwForceJump
 import org.jire.arrowhead.keyPressed
+import java.awt.Robot
+import java.awt.event.KeyEvent
+
+val robot = Robot()
+
+// onGround + key(VK_SPACE) {
+//     press(VK_SPACE)
+//     sleep(20)
+//     release(VK_SPACE)
+
+//    pressAndRelease(VK_SPACE, 20)
+// }
+//
 
 fun bunnyHop() = onGround {
-	if (keyPressed(BUNNY_HOP_KEY)) {
+	if (keyPressed(KeyEvent.VK_SPACE)) {
 		clientDLL[dwForceJump] = 5.toByte()
+		/*robot.keyPress(KeyEvent.VK_MINUS)*/
 		Strand.sleep(20)
+		//robot.keyRelease(KeyEvent.VK_MINUS)
+		//Strand.sleep(2)
 		clientDLL[dwForceJump] = 4.toByte()
 	}
 }

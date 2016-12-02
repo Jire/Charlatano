@@ -31,7 +31,7 @@ import com.charlatano.utils.normalize
 import java.lang.Math.atan
 import java.lang.Math.toDegrees
 
-const val InGameSensitivity = 2.0
+const val InGameSensitivity = 2.5
 const val InGamePitch = 0.022
 const val InGameYaw = 0.022
 
@@ -88,17 +88,27 @@ fun worldToScreen(from: Vector, vOut: Vector): Boolean {
 }
 
 fun compensateVelocity(source: Player, target: Player, enemyPos: Vector, compensation: Int): Vector {
-/*	val myVelocity = source.velocity()
+	val myVelocity = source.velocity()
 	val enemyVelocity = target.velocity()
 
-	val compensationFactor = compensation / 100.0
+	val amount = 1
+	/*enemyPos.x += enemyVelocity.x * amount
+	enemyPos.y += enemyVelocity.y * amount
+	enemyPos.z += enemyVelocity.z * amount*/
+
+	enemyPos.x += myVelocity.x * amount
+	enemyPos.y += myVelocity.y * amount
+	enemyPos.z += myVelocity.z * amount
+
+	//enemyPos
+	val compensationFactor = 2//compensation / 100.0
 	if (enemyVelocity.x.isFinite()) enemyPos.x += enemyVelocity.x * compensationFactor
 	if (enemyVelocity.y.isFinite()) enemyPos.y += enemyVelocity.y * compensationFactor
 	if (enemyVelocity.z.isFinite()) enemyPos.z += enemyVelocity.z * compensationFactor
 
 	if (myVelocity.x.isFinite()) enemyPos.x -= myVelocity.x * compensationFactor
 	if (myVelocity.y.isFinite()) enemyPos.y -= myVelocity.y * compensationFactor
-	if (myVelocity.z.isFinite()) enemyPos.z -= myVelocity.z * compensationFactor*/
+	if (myVelocity.z.isFinite()) enemyPos.z -= myVelocity.z * compensationFactor
 
 	return enemyPos
 }
