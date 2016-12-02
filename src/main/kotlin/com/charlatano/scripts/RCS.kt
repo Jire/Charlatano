@@ -72,7 +72,7 @@ val lastPunch = DoubleArray(2)
 	lastPunch[1] = punch.y
 	prevFired = shotsFired
 
-	if (shotsFired > 3) bone.set(6)
+	if (shotsFired >= 3) bone.set(if (shotsFired == 3) 7 else 6)
 }
 
 private fun reset() {
