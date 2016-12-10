@@ -32,6 +32,7 @@ import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.utils.*
+import java.util.concurrent.ThreadLocalRandom
 import java.util.concurrent.ThreadLocalRandom.current as tlr
 
 var prevFired = 0
