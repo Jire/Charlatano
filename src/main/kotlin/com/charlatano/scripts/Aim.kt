@@ -44,98 +44,93 @@ fun aim() = every(AIM_DURATION) {
 		target.set(-1L)
 		return@every
 	}
-
+	
 	val currentAngle = clientState.angle()
-
+	
 	var currentTarget = target.get()
 	val position = me.position()
 	if (currentTarget == -1L) {
 		currentTarget = findTarget(position, currentAngle, aim)
-		if (currentTarget == -1L) {
-			//println("no target")
-			return@every
-		}
+		if (currentTarget == -1L) return@every
 		target.set(currentTarget)
-		//println("set target")
 		return@every
 	}
-
+	
 	if (me.dead() || currentTarget.dead() || currentTarget.dormant()
 			|| !currentTarget.spotted() || currentTarget.team() == me.team()) {
 		target.set(-1L)
 		Strand.sleep(200 + tlr().nextLong(350))
 		return@every
 	}
-
+	
 	if (!currentTarget.onGround() || !me.onGround()) return@every
-
+	
 	val boneID = bone.get()
 	val bonePosition = Vector(
 			currentTarget.bone(0xC, boneID),
 			currentTarget.bone(0x1C, boneID),
 			currentTarget.bone(0x2C, boneID))
-
+	
 	val dest = calculateAngle(me, bonePosition)
 	if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)
-
+	
 	val distance = position.distanceTo(bonePosition)
 	var sensMultiplier = AIM_STRICTNESS
-
+	
 	if (distance > AIM_STRICTNESS_BASELINE_DISTANCE) {
 		val amountOver = AIM_STRICTNESS_BASELINE_DISTANCE / distance
 		sensMultiplier *= (amountOver * AIM_STRICTNESS_BASELINE_MODIFIER)
 	}
-
+	
 	sensMultiplier *= (tlr().nextDouble() + 1)
-
+	
 	//compensateVelocity(me, currentTarget, bonePosition, AIM_VELOCITY_STRICTNESS)
-
+	
 	val aimSpeed = AIM_SPEED_MIN + tlr().nextInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
-	aim(currentAngle, dest, aimSpeed, sensMultiplier = sensMultiplier, perfect = false/*perfect.getAndSet(false)*/)
+	aim(currentAngle, dest, aimSpeed, sensMultiplier = sensMultiplier, perfect = perfect.getAndSet(false))
 }
 
 private fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, lockFOV: Int = AIM_FOV): Player {
 	var closestDelta = Double.MAX_VALUE
 	var closetPlayer: Player? = null
-
+	
 	var closestFOV = Double.MAX_VALUE
-
+	
 	entities(EntityType.CCSPlayer) {
 		val entity = it.entity
 		if (entity <= 0) return@entities
 		if (entity == me || entity.team() == me.team()) return@entities
-
+		
 		if (me.dead() || entity.dead() || !entity.spotted() || entity.dormant()) return@entities
-
+		
 		val ePos: Angle = Vector(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C))
 		val distance = position.distanceTo(ePos)
-		//val fov = GetFov(angle, position, ePos, me)
-
+		
 		val dest = calculateAngle(me, ePos)
-
+		
 		val pitchDiff = abs(angle.x - dest.x)
 		val yawDiff = abs(angle.y - dest.y)
-		val delta = abs(sin(toRadians(yawDiff.toDouble())) * distance)
-		val fovDelta = abs((sin(toRadians(pitchDiff.toDouble())) + sin(toRadians(yawDiff.toDouble()))) * distance)
-
+		val delta = abs(sin(toRadians(yawDiff)) * distance)
+		val fovDelta = abs((sin(toRadians(pitchDiff)) + sin(toRadians(yawDiff))) * distance)
+		
 		if (delta <= lockFOV && delta < closestDelta) {
 			closestDelta = delta
 			closetPlayer = entity
 			closestFOV = fovDelta
 		}
 	}
-
+	
 	if (closestDelta == Double.MAX_VALUE) return -1
-
+	
 	if (closetPlayer != null) {
-
+		
 		if (PERFECT_AIM && allowPerfect
 				&& closestFOV <= PERFECT_AIM_FOV
-				&& tlr().nextInt(100) <= PERFECT_AIM_CHANCE)
+				&& tlr().nextInt(100 + 1) <= PERFECT_AIM_CHANCE)
 			perfect.set(true)
-
+		
 		return closetPlayer!!
 	}
-
+	
 	return -1
 }

@@ -74,18 +74,8 @@ private val delta = ThreadLocal.withInitial { Vector() }
 	else if (target.y >= gameY + gameHeight) return
 
 	if (perfect) {
-		mousePos.refresh()
-
-		val original = WinDef.POINT(mousePos.x, mousePos.y)
-
-		val x = (target.x - original.x) * 2
-		val y = (target.y - original.y) * 2
-
-		mouseMove(x, y)
-		/*Strand.sleep(16)
-		mouseMove(-x, -y)*/
-		Strand.sleep(1)
-
+		mouseMove(dx.toInt(), dy.toInt())
+		Strand.sleep(20)
 		return
 	}
 
