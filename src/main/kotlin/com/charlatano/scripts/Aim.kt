@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.ThreadLocalRandom.current as tlr
 
 private val target = AtomicLong(-1)
-private val perfect = AtomicBoolean(false)
+val perfect = AtomicBoolean(false)
 
 val bone = AtomicInteger(AIM_BONE)
 
