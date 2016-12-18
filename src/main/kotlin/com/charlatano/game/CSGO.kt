@@ -35,34 +35,35 @@ import org.jire.arrowhead.processByName
 import java.util.concurrent.TimeUnit
 
 object CSGO {
-
+	
 	lateinit var csgoEXE: Process
 		private set
-
+	
 	lateinit var clientDLL: Module
 		private set
 	lateinit var engineDLL: Module
 		private set
-
+	
 	var gameHeight: Int = 0
 		private set
-
+	
 	var gameX: Int = 0
 		private set
-
+	
 	var gameWidth: Int = 0
 		private set
-
+	
 	var gameY: Int = 0
 		private set
-
+	
 	fun initalize() {
 		retry(128) { csgoEXE = processByName("csgo.exe")!! }
 		retry(128) {
 			csgoEXE.loadModules()
-
+			
 			clientDLL = csgoEXE.modules["client.dll"]!!
 			engineDLL = csgoEXE.modules["engine.dll"]!!
+			
 		}
 		
 		val rect = WinDef.RECT()
@@ -89,20 +90,20 @@ object CSGO {
 			paused = CUser32.GetForegroundWindow() != hwd
 			if (paused) return@every
 		}
-
+		
 		NetVars.load()
-
+		
 		retry(16) {
 			val enginePointer = engineDLL.uint(dwClientState)
 			val inGame = csgoEXE.int(enginePointer + dwInGame) == 6
 			val myAddress = clientDLL.uint(dwLocalPlayer)
 			if (!inGame || myAddress < 0x200) throw RuntimeException() // TODO find nicer solution
 		}
-
+		
 		constructEntities()
 	}
-
+	
 	const val ENTITY_SIZE = 16
 	const val GLOW_OBJECT_SIZE = 56
-
+	
 }
