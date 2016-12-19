@@ -17,24 +17,24 @@
  */
 
 buildscript {
-    ext.kotlin_version = '1.0.5-3'
-    ext.kotlin_version = '1.1-M03'
-    ext.jna_version = '4.3.0-SNAPSHOT'
-    ext.quasar_version = '0.7.7'
-    ext.gdxVersion = '1.9.4'
+	ext.kotlin_version = '1.0.5-3'
+	ext.kotlin_version = '1.1-M03'
+	ext.jna_version = '4.3.0-SNAPSHOT'
+	ext.quasar_version = '0.7.7'
+	ext.gdxVersion = '1.9.4'
 
-    repositories {
-        mavenCentral()
-        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap-1.1' }
-    }
+	repositories {
+		mavenCentral()
+		maven { url 'https://dl.bintray.com/kotlin/kotlin-eap-1.1' }
+	}
 
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
+	dependencies {
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+	}
 }
 
 plugins {
-    id "us.kirchmeier.capsule" version "1.0.2"
+	id "us.kirchmeier.capsule" version "1.0.2"
 }
 
 apply plugin: 'java'
@@ -49,67 +49,66 @@ mainClassName = 'com.charlatano.Charlatano'
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
-    mavenCentral()
-    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap-1.1' }
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+	mavenCentral()
+	maven { url 'https://dl.bintray.com/kotlin/kotlin-eap-1.1' }
+	maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 configurations {
-    quasar
-    capsule
+	quasar
+	capsule
 }
 
 dependencies {
-    compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
-    compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlin_version
+	compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
+	compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlin_version
 
-    capsule group: 'co.paralleluniverse', name: 'capsule', version: '1.0.3'
-    quasar group: 'co.paralleluniverse', name: 'quasar-core', version: quasar_version
+	capsule group: 'co.paralleluniverse', name: 'capsule', version: '1.0.3'
+	quasar group: 'co.paralleluniverse', name: 'quasar-core', version: quasar_version
 
-    compile group: 'co.paralleluniverse', name: 'quasar-core', version: quasar_version
-    compile group: 'co.paralleluniverse', name: 'quasar-actors', version: quasar_version
-    compile group: 'co.paralleluniverse', name: 'quasar-kotlin', version: quasar_version
+	compile group: 'co.paralleluniverse', name: 'quasar-core', version: quasar_version
+	compile group: 'co.paralleluniverse', name: 'quasar-actors', version: quasar_version
+	compile group: 'co.paralleluniverse', name: 'quasar-kotlin', version: quasar_version
 
-    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-    compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+	compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
 
-    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
-    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-    compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+	compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 
-    compile group: 'org.jetbrains.kotlin', name: 'kotlin-script-util', version: "$kotlin_version"
+	compile group: 'net.java.dev.jna', name: 'jna', version: jna_version
+	compile group: 'net.java.dev.jna', name: 'jna-platform', version: jna_version
 
-    compile group: 'net.java.dev.jna', name: 'jna', version: jna_version
-    compile group: 'net.java.dev.jna', name: 'jna-platform', version: jna_version
+	compile group: 'it.unimi.dsi', name: 'fastutil', version: '7.0.13'
 
-    compile group: 'it.unimi.dsi', name: 'fastutil', version: '7.0.13'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+	compile group: 'org.jire.arrowhead', name: 'arrowhead', version: '1.2.1'
 }
 
 
 task capsule(type: FatCapsule) {
-    applicationClass mainClassName
+	applicationClass mainClassName
 
-    classifier = 'release'
-    reallyExecutable
+	classifier = 'release'
+	reallyExecutable
 
-
-    capsuleManifest {
-        systemProperties['co.paralleluniverse.fibers.detectRunawayFibers'] = 'false'
-        systemProperties['co.paralleluniverse.fibers.DefaultFiberPool.parallelism'] = '1'
-        //args = ["-javaagent:${configurations.quasar.iterator().next()}"]
-        minJavaVersion = '1.8.0'
-        javaAgents = [(++configurations.quasar.iterator()).getName()]
-    }
+	capsuleManifest {
+		systemProperties['co.paralleluniverse.fibers.detectRunawayFibers'] = 'false'
+		systemProperties['co.paralleluniverse.fibers.DefaultFiberPool.parallelism'] = '1'
+		//args = ["-javaagent:${configurations.quasar.iterator().next()}"]
+		minJavaVersion = '1.8.0'
+		javaAgents = [(++configurations.quasar.iterator()).getName()]
+	}
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.1' //version required
+	gradleVersion = '3.1' //version required
 }
 
 run {
-    jvmArgs "-javaagent:${(++configurations.quasar.iterator())}"
+	jvmArgs "-javaagent:${(++configurations.quasar.iterator())}"
 }
+
 sourceSets {
-    main.java.srcDirs += 'src/main/kotlin'
+	main.java.srcDirs += 'src/main/kotlin'
 }
