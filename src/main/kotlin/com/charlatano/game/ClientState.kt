@@ -75,17 +75,17 @@ private val delta = ThreadLocal.withInitial { Vector() }
 	
 	if (perfect) {
 		mouseMove(dx.toInt(), dy.toInt())
-		Strand.sleep(tlr().nextLong(4) + 10)
+		Strand.sleep(20)
 		return
-	} else {
+	}/* else {
 		val moveX = dx / (1.06 + (tlr().nextInt(2000) / 1000.0))
 		val moveY = dy / (1.03 + (tlr().nextInt(2000) / 1000.0))
 		mouseMove(moveX.toInt(), moveY.toInt())
 		Strand.sleep(tlr().nextLong(8) + 10)
 		return
-	}
+	}*/
 	
-	/*val points = ZetaMouseGenerator.generate(mousePos, target)
+	val points = ZetaMouseGenerator.generate(mousePos, target)
 	for (i in 1..points.lastIndex) {
 		val point = points[points.lastIndex]
 		mousePos.refresh()
@@ -102,5 +102,5 @@ private val delta = ThreadLocal.withInitial { Vector() }
 				+ tlr().nextInt(randomSleepMax)
 				+ tlr().nextInt(i)) * sleepingFactor
 		if (sleepTime > 0) Strand.sleep(sleepTime.toLong())
-	}*/
+	}
 }
