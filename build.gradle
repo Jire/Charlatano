@@ -17,9 +17,7 @@
  */
 
 buildscript {
-	ext.kotlin_version = '1.0.5-3'
 	ext.kotlin_version = '1.1-M03'
-	ext.jna_version = '4.3.0-SNAPSHOT'
 	ext.quasar_version = '0.7.7'
 	ext.gdxVersion = '1.9.4'
 
@@ -63,6 +61,8 @@ dependencies {
 	compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
 	compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlin_version
 
+	compile group: 'org.jire.arrowhead', name: 'arrowhead', version: '1.2.1'
+
 	capsule group: 'co.paralleluniverse', name: 'capsule', version: '1.0.3'
 	quasar group: 'co.paralleluniverse', name: 'quasar-core', version: quasar_version
 
@@ -77,14 +77,11 @@ dependencies {
 	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 	compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 
-	compile group: 'net.java.dev.jna', name: 'jna', version: jna_version
-	compile group: 'net.java.dev.jna', name: 'jna-platform', version: jna_version
+	compile group: 'net.java.dev.jna', name: 'jna', version: '4.3.0-20161031.222201-3'
+	compile group: 'net.java.dev.jna', name: 'jna-platform', version: '4.3.0-20161031.222304-3'
 
 	compile group: 'it.unimi.dsi', name: 'fastutil', version: '7.0.13'
-
-	compile group: 'org.jire.arrowhead', name: 'arrowhead', version: '1.2.1'
 }
-
 
 task capsule(type: FatCapsule) {
 	applicationClass mainClassName
