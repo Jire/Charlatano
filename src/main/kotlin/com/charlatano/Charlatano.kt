@@ -24,6 +24,7 @@ import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.scripts.*
+import com.charlatano.utils.uint
 
 fun main(args: Array<String>) {
 
@@ -33,6 +34,11 @@ fun main(args: Array<String>) {
 
 	CSGO.initalize()
 
+	while (true) {
+		println(CSGO.scaleformuiDLL.boolean(0x31AF90))
+		Thread.sleep(100)
+	}
+	
 	// -- START OF SCRIPTS -- //
 	//bunnyHop()
 	esp()
