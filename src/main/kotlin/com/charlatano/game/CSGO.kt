@@ -43,8 +43,6 @@ object CSGO {
 		private set
 	lateinit var engineDLL: Module
 		private set
-	lateinit var scaleformuiDLL: Module
-		private set
 	
 	var gameHeight: Int = 0
 		private set
@@ -65,7 +63,6 @@ object CSGO {
 			
 			clientDLL = csgoEXE.modules["client.dll"]!!
 			engineDLL = csgoEXE.modules["engine.dll"]!!
-			scaleformuiDLL = csgoEXE.modules["scaleformui.dll"]!!
 		}
 		
 		val rect = WinDef.RECT()

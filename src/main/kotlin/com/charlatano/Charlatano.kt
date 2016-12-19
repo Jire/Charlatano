@@ -22,22 +22,17 @@ package com.charlatano
 
 import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
-import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
-import com.charlatano.scripts.*
-import com.charlatano.utils.uint
+import com.charlatano.scripts.aim
+import com.charlatano.scripts.esp
+import com.charlatano.scripts.rcs
 
 fun main(args: Array<String>) {
-
+	
 	System.setProperty("co.paralleluniverse.fibers.detectRunawayFibers", "false")
 	System.setProperty("co.paralleluniverse.fibers.verifyInstrumentation", "false")
 	System.setProperty("co.paralleluniverse.fibers.DefaultFiberPool.parallelism", "1")
-
+	
 	CSGO.initalize()
-
-	while (true) {
-		println(CSGO.scaleformuiDLL.boolean(0x31AF90))
-		Thread.sleep(100)
-	}
 	
 	// -- START OF SCRIPTS -- //
 	//bunnyHop()
@@ -47,13 +42,12 @@ fun main(args: Array<String>) {
 	//bombTimer()
 	aim()
 	// -- END OF SCRIPTS -- //
-
+	
 	//println("$gameWidth, $gameHeight, $gameX, $gameY")
 	//Overlay.open()
 	//CharlatanoOverlay.open(gameWidth, gameHeight, gameX, gameY)
-
+	
 	Strand.sleep(5000) // wait a bit to catch everything
 	System.gc() // then cleanup
 	Strand.sleep(Long.MAX_VALUE) // prevent exit
-
 }

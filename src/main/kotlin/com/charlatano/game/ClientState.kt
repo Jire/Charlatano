@@ -52,37 +52,38 @@ private val delta = ThreadLocal.withInitial { Vector() }
                                          sensMultiplier: Double = 1.0, perfect: Boolean = false) {
 	if (dest.z != 0.0 || dest.x < -89 || dest.x > 180 || dest.y < -180 || dest.y > 180
 			|| dest.x.isNaN() || dest.y.isNaN() || dest.z.isNaN()) return
-
+	
 	val delta = delta.get()
 	delta.set(currentAngle.y - dest.y, currentAngle.x - dest.x, 0.0)
-
+	
 	var sens = InGameSensitivity * sensMultiplier
 	if (sens < InGameSensitivity || perfect) sens = InGameSensitivity
-
+	
 	val dx = Math.round(delta.x / (sens * InGamePitch))
 	val dy = Math.round(-delta.y / (sens * InGameYaw))
-
+	
 	val mousePos = mousePos.get()
 	mousePos.refresh()
-
+	
 	val target = target.get()
 	target.set((mousePos.x + (dx / 2)).toInt(), (mousePos.y + (dy / 2)).toInt())
-
+	
 	if (target.x <= 0) return
 	else if (target.x >= gameX + gameWidth) return
 	if (target.y <= 0) return
 	else if (target.y >= gameY + gameHeight) return
-
+	
 	if (perfect) {
 		mouseMove(dx.toInt(), dy.toInt())
-		Strand.sleep(20)
+		Strand.sleep(tlr().nextLong(4) + 10)
 		return
 	} else {
-		mouseMove((dx / 10).toInt(), (dy / 10).toInt())
-		Strand.sleep(20)
+		val moveX = dx / (1.06 + (tlr().nextInt(2000) / 1000.0))
+		val moveY = dy / (1.03 + (tlr().nextInt(2000) / 1000.0))
+		mouseMove(moveX.toInt(), moveY.toInt())
+		Strand.sleep(tlr().nextLong(8) + 10)
 		return
 	}
-
 	
 	/*val points = ZetaMouseGenerator.generate(mousePos, target)
 	for (i in 1..points.lastIndex) {

@@ -41,7 +41,7 @@ internal fun Player.onGround() = flags() and 1 == 1
 internal fun Player.health(): Int = csgoEXE[this + iHealth]
 
 internal fun Player.dead() = try {
-	csgoEXE.byte(this + lifeState) != 0.toByte()
+	(csgoEXE.byte(this + lifeState) != 0.toByte()) || health() <= 0
 } catch (t: Throwable) {
 	false
 }

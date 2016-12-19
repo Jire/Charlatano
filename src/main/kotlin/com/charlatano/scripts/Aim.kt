@@ -49,9 +49,9 @@ fun aim() = every(AIM_DURATION) {
 	
 	var currentTarget = target.get()
 	val position = me.position()
-	if (currentTarget == -1L) {
+	if (currentTarget < 0) {
 		currentTarget = findTarget(position, currentAngle, aim)
-		if (currentTarget == -1L) return@every
+		if (currentTarget < 0) return@every
 		target.set(currentTarget)
 		return@every
 	}
