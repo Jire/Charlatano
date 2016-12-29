@@ -24,7 +24,6 @@ import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
 import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.aim
-import com.charlatano.scripts.bunnyHop
 import com.charlatano.scripts.esp
 import com.charlatano.scripts.rcs
 
@@ -37,7 +36,7 @@ fun main(args: Array<String>) {
 	CSGO.initalize()
 	
 	// -- START OF SCRIPTS -- //
-	bunnyHop()
+	//bunnyHop()
 	esp()
 	rcs()
 	//noFlash()
