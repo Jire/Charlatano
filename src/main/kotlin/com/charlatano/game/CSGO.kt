@@ -23,11 +23,14 @@ import com.charlatano.game.netvars.NetVars
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.game.offsets.EngineOffsets.dwInGame
+import com.charlatano.overlay.CharlatanoOverlay
+import com.charlatano.overlay.Overlay
 import com.charlatano.utils.every
 import com.charlatano.utils.natives.CUser32
 import com.charlatano.utils.paused
 import com.charlatano.utils.retry
 import com.charlatano.utils.uint
+import com.sun.jna.platform.win32.User32
 import com.sun.jna.platform.win32.WinDef
 import org.jire.arrowhead.Module
 import org.jire.arrowhead.Process
@@ -68,6 +71,11 @@ object CSGO {
 		val rect = WinDef.RECT()
 		val hwd = CUser32.FindWindowA(null, "Counter-Strike: Global Offensive")
 		
+		var lastWidth = 0
+		var lastHeight = 0
+		var lastX = 0
+		var lastY = 0
+		
 		every(1, TimeUnit.SECONDS) {
 			if (!CUser32.GetClientRect(hwd, rect)) System.exit(2)
 			gameWidth = rect.right - rect.left
@@ -77,14 +85,20 @@ object CSGO {
 			gameX = rect.left + (((rect.right - rect.left) - gameWidth) / 2)
 			gameY = rect.top + ((rect.bottom - rect.top) - gameHeight)
 			
-			/*if (window.x != gameX || window.y != gameY) {
-				window.setPosition(gameX, gameY)
+			if ((lastX != gameX || lastY != gameY) && Overlay.hwnd != null) {
+				User32.INSTANCE.MoveWindow(Overlay.hwnd, gameX, gameY, gameWidth, gameHeight, false)
 			}
 			
-			if (window.width != gameWidth || window.height != gameHeight) {
-				window.setSize(gameX, gameY)
-			}*/
+			if (lastWidth != gameWidth || lastHeight != gameHeight) {
+				CharlatanoOverlay.camera.get()?.setToOrtho(true, gameWidth.toFloat(), gameHeight.toFloat())
+			}
+			
+			lastWidth = gameWidth
+			lastHeight = gameHeight
+			lastX = gameX
+			lastY = gameY
 		}
+		
 		every(1024, continuous = true) {
 			paused = CUser32.GetForegroundWindow() != hwd
 			if (paused) return@every
@@ -96,7 +110,7 @@ object CSGO {
 			val enginePointer = engineDLL.uint(dwClientState)
 			val inGame = csgoEXE.int(enginePointer + dwInGame) == 6
 			val myAddress = clientDLL.uint(dwLocalPlayer)
-			if (!inGame || myAddress < 0x200) throw RuntimeException() // TODO find nicer solution
+			paused = !inGame || myAddress < 0x200
 		}
 		
 		constructEntities()

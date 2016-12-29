@@ -22,6 +22,7 @@ package com.charlatano
 
 import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
+import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.aim
 import com.charlatano.scripts.esp
 import com.charlatano.scripts.rcs
@@ -43,9 +44,8 @@ fun main(args: Array<String>) {
 	aim()
 	// -- END OF SCRIPTS -- //
 	
-	//println("$gameWidth, $gameHeight, $gameX, $gameY")
-	//Overlay.open()
-	//CharlatanoOverlay.open(gameWidth, gameHeight, gameX, gameY)
+	if (OPENGL_GUI)
+		Overlay.open()
 	
 	Strand.sleep(5000) // wait a bit to catch everything
 	System.gc() // then cleanup

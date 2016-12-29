@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.charlatano.game.CSGO.gameHeight
+import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.utils.paused
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import java.util.concurrent.atomic.AtomicReference
@@ -38,8 +40,8 @@ object CharlatanoOverlay : ApplicationAdapter() {
 	val textRenderer = AtomicReference<BitmapFont>()
 
 	override fun create() {
-		val cam = with(OrthographicCamera(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())) {
-			setToOrtho(true, Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
+		val cam = with(OrthographicCamera(gameWidth.toFloat(), gameHeight.toFloat())) {
+			setToOrtho(true, gameWidth.toFloat(), gameHeight.toFloat())
 			camera.set(this)
 			this
 		}
@@ -74,8 +76,8 @@ object CharlatanoOverlay : ApplicationAdapter() {
 		val batch = batch.get()!!
 		val camera = camera.get()!!
 		val shapeRenderer = shapeRenderer.get()!!
-
-		camera.update()
+		
+		camera.setToOrtho(true, gameWidth.toFloat(), gameHeight.toFloat())
 		batch.projectionMatrix = camera.combined
 		shapeRenderer.projectionMatrix = camera.combined
 
