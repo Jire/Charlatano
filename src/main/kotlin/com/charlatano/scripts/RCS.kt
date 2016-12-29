@@ -22,17 +22,15 @@ import co.paralleluniverse.fibers.Suspendable
 import com.charlatano.AIM_BONE
 import com.charlatano.RCS_DURATION
 import com.charlatano.RCS_SMOOTHING
+import com.charlatano.game.*
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.aim
-import com.charlatano.game.angle
-import com.charlatano.game.clientState
 import com.charlatano.game.entity.Player
 import com.charlatano.game.entity.weapon
-import com.charlatano.game.me
 import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
+import com.charlatano.game.offsets.ScaleFormOffsets
 import com.charlatano.utils.*
 import java.util.concurrent.ThreadLocalRandom.current as tlr
 
@@ -44,7 +42,7 @@ val lastPunch = DoubleArray(2)
 	if (myAddress <= 0) return
 
 	val shotsFired = csgoEXE.int(myAddress + iShotsFired)
-	if (shotsFired <= 2 || shotsFired < prevFired) {
+	if (shotsFired <= 2 || shotsFired < prevFired || CSGO.scaleFormDLL.boolean(ScaleFormOffsets.CursorEnabled)) {
 		reset()
 		return
 	}

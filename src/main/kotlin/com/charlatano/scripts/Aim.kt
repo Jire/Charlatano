@@ -21,7 +21,9 @@ package com.charlatano.scripts
 import co.paralleluniverse.strands.Strand
 import com.charlatano.*
 import com.charlatano.game.*
+import com.charlatano.game.CSGO.scaleFormDLL
 import com.charlatano.game.entity.*
+import com.charlatano.game.offsets.ScaleFormOffsets
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
 import java.lang.Math.*
@@ -39,7 +41,8 @@ fun aim() = every(AIM_DURATION) {
 	val aim = keyPressed(1)
 	val forceAim = keyPressed(FORCE_AIM_KEY)
 	val pressed = aim or forceAim
-	if (!pressed) {
+	
+	if (!pressed || scaleFormDLL.boolean(ScaleFormOffsets.CursorEnabled)) {
 		target.set(-1L)
 		return@every
 	}
