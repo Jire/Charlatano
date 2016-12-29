@@ -86,7 +86,7 @@ object CSGO {
 			}*/
 		}
 		every(1024, continuous = true) {
-			//paused = CUser32.GetForegroundWindow() != hwd
+			paused = CUser32.GetForegroundWindow() != hwd
 			if (paused) return@every
 		}
 		
