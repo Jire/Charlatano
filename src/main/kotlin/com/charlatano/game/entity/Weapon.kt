@@ -16,20 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.scripts
+package com.charlatano.game.entity
 
-import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.entity.Player
-import com.charlatano.game.entity.dead
-import com.charlatano.game.hooks.onFlash
-import com.charlatano.game.netvars.NetVarOffsets.flFlashMaxAlpha
-import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
-import com.charlatano.utils.uint
+import com.charlatano.game.me
+import com.charlatano.game.netvars.NetVarOffsets.flNextPrimaryAttack
+import com.charlatano.game.netvars.NetVarOffsets.iClip1
+import org.jire.arrowhead.get
 
-fun noFlash() = onFlash {
-	val me: Player = clientDLL.uint(dwLocalPlayer)
-	if (me <= 0x200 || me.dead()) return@onFlash
-	
-	csgoEXE[me + flFlashMaxAlpha] = 0f
+typealias Weapon = Long
+
+internal fun Weapon.bullets(): Int = csgoEXE[this + iClip1]
+
+internal fun Weapon.nextPrimaryAttack(): Float = csgoEXE[this + flNextPrimaryAttack]
+
+internal fun Weapon.canFire(): Boolean {
+	val nextAttack = nextPrimaryAttack()
+	return nextAttack <= 0 || nextAttack < me.time()
 }

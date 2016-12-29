@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,11 +28,12 @@ import com.charlatano.game.aim
 import com.charlatano.game.angle
 import com.charlatano.game.clientState
 import com.charlatano.game.entity.Player
+import com.charlatano.game.entity.weapon
+import com.charlatano.game.me
 import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.utils.*
-import java.util.concurrent.ThreadLocalRandom
 import java.util.concurrent.ThreadLocalRandom.current as tlr
 
 var prevFired = 0
@@ -44,6 +45,11 @@ val lastPunch = DoubleArray(2)
 
 	val shotsFired = csgoEXE.int(myAddress + iShotsFired)
 	if (shotsFired <= 2 || shotsFired < prevFired) {
+		reset()
+		return
+	}
+	val weapon = me.weapon()
+	if (!weapon.pistol && !weapon.automatic && !weapon.shotgun) {
 		reset()
 		return
 	}

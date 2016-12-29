@@ -25,7 +25,6 @@ import com.charlatano.game.entity.*
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
 import java.lang.Math.*
-import java.util.concurrent.ThreadLocalRandom
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
@@ -41,6 +40,12 @@ fun aim() = every(AIM_DURATION) {
 	val forceAim = keyPressed(FORCE_AIM_KEY)
 	val pressed = aim or forceAim
 	if (!pressed) {
+		target.set(-1L)
+		return@every
+	}
+	
+	val weapon = me.weapon()
+	if (!weapon.pistol && !weapon.automatic && !weapon.shotgun) {
 		target.set(-1L)
 		return@every
 	}
@@ -83,8 +88,6 @@ fun aim() = every(AIM_DURATION) {
 	}
 	
 	sensMultiplier *= (tlr().nextDouble() + 1)
-	
-	//compensateVelocity(me, currentTarget, bonePosition, AIM_VELOCITY_STRICTNESS)
 	
 	val aimSpeed = AIM_SPEED_MIN + tlr().nextInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
 	aim(currentAngle, dest, aimSpeed, sensMultiplier = sensMultiplier, perfect = perfect.getAndSet(false))

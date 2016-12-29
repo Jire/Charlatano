@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,20 +19,40 @@
 package com.charlatano.game.entity
 
 import com.charlatano.AIM_BONE
+import com.charlatano.game.CSGO.ENTITY_SIZE
+import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.game.netvars.NetVarOffsets.bIsScoped
 import com.charlatano.game.netvars.NetVarOffsets.dwBoneMatrix
 import com.charlatano.game.netvars.NetVarOffsets.fFlags
+import com.charlatano.game.netvars.NetVarOffsets.hActiveWeapon
 import com.charlatano.game.netvars.NetVarOffsets.iHealth
+import com.charlatano.game.netvars.NetVarOffsets.iWeaponID
 import com.charlatano.game.netvars.NetVarOffsets.lifeState
+import com.charlatano.game.netvars.NetVarOffsets.nTickBase
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.netvars.NetVarOffsets.vecVelocity
 import com.charlatano.game.netvars.NetVarOffsets.vecViewOffset
+import com.charlatano.game.offsets.ClientOffsets.dwEntityList
 import com.charlatano.utils.Angle
 import com.charlatano.utils.Vector
+import com.charlatano.utils.Weapons
 import com.charlatano.utils.uint
 import org.jire.arrowhead.get
 
 typealias Player = Long
+
+internal fun Player.weapon(): Weapons {
+	val address: Int = csgoEXE[this + hActiveWeapon]
+	val index = address and 0xFFF
+	val base: Int = clientDLL[dwEntityList + (index - 1) * ENTITY_SIZE]
+	
+	var id = 42
+	if (base > 0)
+		id = csgoEXE[base + iWeaponID]
+	
+	return Weapons[id]
+}
 
 internal fun Player.flags(): Int = csgoEXE[this + fFlags]
 
@@ -63,3 +83,9 @@ internal fun Player.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
 
 internal fun Player.bone(offset: Int, boneID: Int = AIM_BONE, boneMatrix: Long = boneMatrix())
 		= csgoEXE.float(boneMatrix + ((0x30 * boneID) + offset)).toDouble()
+
+internal fun Player.isScoped(): Boolean = csgoEXE[this + bIsScoped]
+
+const val TICK_RATIO = 1F / 64F
+
+internal fun Player.time(): Float = csgoEXE.int(this + nTickBase) * TICK_RATIO

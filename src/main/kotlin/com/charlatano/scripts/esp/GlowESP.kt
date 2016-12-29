@@ -26,7 +26,7 @@ import com.charlatano.game.me
 import com.charlatano.utils.every
 
 fun glowEsp() = every(4) {
-	entities() {
+	entities {
 		val entity = it.entity
 		if (entity <= 0 || me == entity) return@entities
 
