@@ -19,7 +19,7 @@
 package com.charlatano.utils.collections
 
 @Suppress("UNCHECKED_CAST")
-open class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
+class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
 	
 	private var arr = arrayOfNulls<Any>(capacity)
 	
@@ -83,7 +83,7 @@ open class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
 		}
 	}
 	
-	open fun clear() {
+	fun clear() {
 		for (i in minIndex..arr.size - 1)
 			arr[i] = null
 		size = 0
