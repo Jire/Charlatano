@@ -19,14 +19,11 @@
 package com.charlatano.scripts
 
 import co.paralleluniverse.strands.Strand
-import com.charlatano.game.CSGO
-import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.hooks.onGround
-import com.charlatano.game.offsets.ClientOffsets
-import com.charlatano.game.offsets.ClientOffsets.dwForceJump
 import org.jire.arrowhead.keyPressed
 import java.awt.Robot
 import java.awt.event.KeyEvent
+import java.util.concurrent.ThreadLocalRandom
 
 val robot = Robot()
 
@@ -41,11 +38,14 @@ val robot = Robot()
 
 fun bunnyHop() = onGround {
 	if (keyPressed(KeyEvent.VK_SPACE)) {
-		clientDLL[dwForceJump] = 5.toByte()
+		var amount = ThreadLocalRandom.current().nextInt(60) + 10
+		if (ThreadLocalRandom.current().nextBoolean()) amount = -amount
+		robot.mouseWheel(amount)
+		//clientDLL[dwForceJump] = 5.toByte()
 		/*robot.keyPress(KeyEvent.VK_MINUS)*/
 		Strand.sleep(20)
 		//robot.keyRelease(KeyEvent.VK_MINUS)
 		//Strand.sleep(2)
-		clientDLL[dwForceJump] = 4.toByte()
+		//clientDLL[dwForceJump] = 4.toByte()
 	}
 }
