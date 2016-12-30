@@ -132,4 +132,6 @@ open class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
 	
 	fun isEmpty() = size <= 0
 	
+	fun firstOrNull(): E? = if (isEmpty()) null else get(0)
+	
 }

@@ -33,7 +33,7 @@ var clientState: ClientState = 0
 typealias EntityContainer = ListContainer<EntityContext>
 typealias EntityList = Object2ObjectArrayMap<EntityType, CacheableList<EntityContext>>
 
-fun entityByType(type: EntityType): EntityContext? = /* entities[type].firstOrNull()*/null
+fun entityByType(type: EntityType): EntityContext? = entities[type]?.firstOrNull()
 
 val entities = EntityList(EntityType.size).apply {
 	for (type in EntityType.cachedValues) put(type, CacheableList<EntityContext>(0, 256))

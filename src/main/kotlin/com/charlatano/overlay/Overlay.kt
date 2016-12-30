@@ -24,10 +24,10 @@ import com.charlatano.game.CSGO.gameHeight
 import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.game.CSGO.gameX
 import com.charlatano.game.CSGO.gameY
+import com.charlatano.utils.nextLong
 import com.sun.jna.platform.win32.User32
 import com.sun.jna.platform.win32.WinDef
 import java.awt.GraphicsEnvironment
-import java.util.concurrent.ThreadLocalRandom.current as tlr
 
 object Overlay {
 	
@@ -38,7 +38,7 @@ object Overlay {
 		val cfg = LwjglApplicationConfiguration()
 		cfg.width = gameWidth
 		cfg.height = gameHeight
-		cfg.title = tlr().nextLong(Long.MAX_VALUE).toString()
+		cfg.title = nextLong(Long.MAX_VALUE).toString()
 		cfg.x = gameX
 		cfg.y = gameY
 		cfg.resizable = false

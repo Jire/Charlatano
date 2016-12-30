@@ -37,7 +37,7 @@ import com.charlatano.game.offsets.ClientOffsets.dwEntityList
 import com.charlatano.utils.Angle
 import com.charlatano.utils.Vector
 import com.charlatano.utils.Weapons
-import com.charlatano.utils.uint
+import com.charlatano.utils.extensions.uint
 import org.jire.arrowhead.get
 
 typealias Player = Long

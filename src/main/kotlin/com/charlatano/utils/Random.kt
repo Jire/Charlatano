@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,12 +18,23 @@
 
 package com.charlatano.utils
 
-import java.util.Random
+import java.util.concurrent.ThreadLocalRandom.current as tlr
 
-object Random {
 
-	private val rand = Random()
+fun nextDouble(min: Double, max: Double) = tlr().nextDouble(min, max)
 
-	@JvmStatic fun randomDouble(min: Double, max: Double) = rand.nextDouble() * (max - min) + min
+fun nextDouble() = tlr().nextDouble()
 
-}
+
+fun nextInt(min: Int, max: Int) = tlr().nextInt(min, max)
+
+fun nextInt(min: Int) = tlr().nextInt(min)
+
+fun nextInt() = tlr().nextInt()
+
+
+fun nextLong(min: Long, max: Long) = tlr().nextLong(min, max)
+
+fun nextLong(min: Long) = tlr().nextLong(min)
+
+fun nextLong() = tlr().nextLong()

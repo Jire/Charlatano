@@ -20,9 +20,12 @@ package com.charlatano.scripts
 
 import co.paralleluniverse.strands.Strand
 import com.charlatano.*
-import com.charlatano.game.*
 import com.charlatano.game.CSGO.scaleFormDLL
+import com.charlatano.game.angle
+import com.charlatano.game.clientState
+import com.charlatano.game.entities
 import com.charlatano.game.entity.*
+import com.charlatano.game.me
 import com.charlatano.game.offsets.ScaleFormOffsets
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
@@ -30,19 +33,19 @@ import java.lang.Math.*
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
-import java.util.concurrent.ThreadLocalRandom.current as tlr
 
 private val target = AtomicLong(-1)
 val perfect = AtomicBoolean(false)
 
 val bone = AtomicInteger(AIM_BONE)
 
-fun aim() = every(AIM_DURATION) {
+fun fovAim() = every(AIM_DURATION) {
 	val aim = keyPressed(1)
 	val forceAim = keyPressed(FORCE_AIM_KEY)
 	val pressed = aim or forceAim
+	var currentTarget = target.get()
 	
-	if (!pressed || scaleFormDLL.boolean(ScaleFormOffsets.CursorEnabled)) {
+	if (!pressed || scaleFormDLL.boolean(ScaleFormOffsets.bCursorEnabled)) {
 		target.set(-1L)
 		return@every
 	}
@@ -55,19 +58,18 @@ fun aim() = every(AIM_DURATION) {
 	
 	val currentAngle = clientState.angle()
 	
-	var currentTarget = target.get()
 	val position = me.position()
 	if (currentTarget < 0) {
 		currentTarget = findTarget(position, currentAngle, aim)
-		if (currentTarget < 0) return@every
+		if (currentTarget < 0)
+			return@every
 		target.set(currentTarget)
-		return@every
 	}
 	
 	if (me.dead() || currentTarget.dead() || currentTarget.dormant()
 			|| !currentTarget.spotted() || currentTarget.team() == me.team()) {
 		target.set(-1L)
-		Strand.sleep(200 + tlr().nextLong(350))
+		Strand.sleep(200 + nextLong(350))
 		return@every
 	}
 	
@@ -81,7 +83,7 @@ fun aim() = every(AIM_DURATION) {
 	
 	val dest = calculateAngle(me, bonePosition)
 	if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)
-	
+
 	val distance = position.distanceTo(bonePosition)
 	var sensMultiplier = AIM_STRICTNESS
 	
@@ -90,9 +92,7 @@ fun aim() = every(AIM_DURATION) {
 		sensMultiplier *= (amountOver * AIM_STRICTNESS_BASELINE_MODIFIER)
 	}
 	
-	sensMultiplier *= (tlr().nextDouble() + 1)
-	
-	val aimSpeed = AIM_SPEED_MIN + tlr().nextInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
+	val aimSpeed = AIM_SPEED_MIN + nextInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
 	aim(currentAngle, dest, aimSpeed, sensMultiplier = sensMultiplier, perfect = perfect.getAndSet(false))
 }
 
@@ -130,9 +130,8 @@ private fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, loc
 	
 	if (closetPlayer != null) {
 		
-		if (PERFECT_AIM && allowPerfect
-				&& closestFOV <= PERFECT_AIM_FOV
-				&& tlr().nextInt(100 + 1) <= PERFECT_AIM_CHANCE)
+		if (PERFECT_AIM && allowPerfect && closestFOV <= PERFECT_AIM_FOV &&
+				nextInt(100 + 1) <= PERFECT_AIM_CHANCE)
 			perfect.set(true)
 		
 		return closetPlayer!!

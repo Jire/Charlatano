@@ -19,7 +19,6 @@
 package com.charlatano.utils.natives
 
 import com.sun.jna.Native
-import com.sun.jna.Pointer
 import com.sun.jna.platform.win32.WinDef
 
 object CUser32 {
@@ -45,18 +44,5 @@ object CUser32 {
 
 	@JvmStatic
 	external fun mouse_event(dwFlags: Int, dx: Int, dy: Int, dwData: Int, dwExtraInfo: Long)
-
-	@JvmStatic
-	external fun SetWindowLongPtrA(hWnd: WinDef.HWND, nIndex: Int, dwNewLongPtr: Pointer): Long
-
-	@JvmStatic
-	external fun GetWindowLongPtrA(hWnd: WinDef.HWND, nIndex: Int): Long
-
-	@JvmStatic
-	external fun ShowWindow(hWnd: WinDef.HWND, nCmdShow: Int): Boolean
-
-	@JvmStatic
-	external fun SetWindowPos(hWnd: WinDef.HWND, hWndInsertAfter: WinDef.HWND, X: Int, Y: Int, cx: Int,
-	                          cy: Int, uFlags: Int): Boolean
 
 }

@@ -81,7 +81,7 @@ fun boxEsp() {
 	}
 }
 
-class Box() {
+class Box {
 	var x = -1
 	var y = -1
 	var w = -1

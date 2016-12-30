@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@ import com.charlatano.game.entity.Player
 import com.charlatano.game.entity.dead
 import com.charlatano.game.netvars.NetVarOffsets.flFlashMaxAlpha
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
+import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.hook
-import com.charlatano.utils.uint
 
 val onFlash = hook(256) {
 	val me: Player = clientDLL.uint(dwLocalPlayer)

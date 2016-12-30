@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ import com.charlatano.game.netvars.NetVarOffsets.hOwnerEntity
 import com.charlatano.game.netvars.NetVarOffsets.szLastPlaceName
 import com.charlatano.game.offsets.ClientOffsets.dwEntityList
 import com.charlatano.game.offsets.EngineOffsets.dwGlobalVars
-import com.charlatano.utils.uint
+import com.charlatano.utils.extensions.uint
 import org.jire.arrowhead.get
 
 typealias Bomb = Long

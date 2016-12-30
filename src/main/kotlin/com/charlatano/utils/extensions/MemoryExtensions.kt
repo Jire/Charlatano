@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,9 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.utils
+package com.charlatano.utils.extensions
 
-import org.jire.arrowhead.Source
-import org.jire.arrowhead.unsign
+import com.sun.jna.Memory
 
-fun Source.uint(address: Long, offset: Long = 0) = int(address, offset).unsign()
+fun Memory?.readable() = null != this

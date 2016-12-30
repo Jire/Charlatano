@@ -20,6 +20,6 @@ package com.charlatano.game.offsets
 
 object ScaleFormOffsets {
 	
-	val CursorEnabled = 3439908
+	val bCursorEnabled = 3439908
 	
 }

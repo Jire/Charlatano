@@ -28,7 +28,7 @@ import com.charlatano.game.offsets.EngineOffsets.studioModel
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.utils.Vector
 import com.charlatano.utils.collections.CacheableList
-import com.charlatano.utils.uint
+import com.charlatano.utils.extensions.uint
 import com.charlatano.worldToScreen
 import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap
 
@@ -132,7 +132,7 @@ fun drawBone(target: Player, start: Int, end: Int) {
 	bones[currentIdx++].color = colors[target.health()]
 }
 
-class Line() {
+class Line {
 	var sX = -1
 	var sY = -1
 	var eX = -1

@@ -26,10 +26,10 @@ import com.charlatano.game.offsets.EngineOffsets.dwInGame
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.overlay.Overlay
 import com.charlatano.utils.every
+import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.natives.CUser32
 import com.charlatano.utils.paused
 import com.charlatano.utils.retry
-import com.charlatano.utils.uint
 import com.sun.jna.platform.win32.User32
 import com.sun.jna.platform.win32.WinDef
 import org.jire.arrowhead.Module

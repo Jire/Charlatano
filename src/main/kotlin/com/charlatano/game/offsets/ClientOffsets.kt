@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 package com.charlatano.game.offsets
 
 import com.charlatano.game.CSGO.clientDLL
+import com.charlatano.utils.extensions.invoke
 import com.charlatano.utils.get
 
 object ClientOffsets {

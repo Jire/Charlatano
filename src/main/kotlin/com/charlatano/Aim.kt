@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,9 @@ import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.gameHeight
 import com.charlatano.game.CSGO.gameWidth
-import com.charlatano.game.entity.*
+import com.charlatano.game.entity.Player
+import com.charlatano.game.entity.position
+import com.charlatano.game.entity.punch
 import com.charlatano.game.netvars.NetVarOffsets.vecViewOffset
 import com.charlatano.game.offsets.ClientOffsets.dwViewMatrix
 import com.charlatano.utils.Angle
@@ -31,17 +33,11 @@ import com.charlatano.utils.normalize
 import java.lang.Math.atan
 import java.lang.Math.toDegrees
 
-const val InGameSensitivity = 2.5
-const val InGamePitch = 0.022
-const val InGameYaw = 0.022
+const val GAME_SENSITIVITY = 2.5
+const val GAME_PITCH = 0.022
+const val GAME_YAW = 0.022
 
-const val PITCH_MIN_PUNCH = 1.96
-const val PITCH_MAX_PUNCH = 2.07
-
-const val YAW_MIN_PUNCH = 1.97
-const val YAW_MAX_PUNCH = 2.02
-
-val m_vMatrix = Array(4) { DoubleArray(4) }
+private val viewMatrix = Array(4) { DoubleArray(4) }
 
 fun worldToScreen(from: Vector, vOut: Vector): Boolean {
 	try {
@@ -50,88 +46,61 @@ fun worldToScreen(from: Vector, vOut: Vector): Boolean {
 		for (row in 0..3) {
 			for (col in 0..3) {
 				val value = buffer.getFloat(offset.toLong())
-				m_vMatrix[row][col] = value.toDouble()
+				viewMatrix[row][col] = value.toDouble()
 				offset += 4
 			}
 		}
-
-		vOut.x = m_vMatrix[0][0] * from.x + m_vMatrix[0][1] * from.y + m_vMatrix[0][2] * from.z + m_vMatrix[0][3]
-		vOut.y = m_vMatrix[1][0] * from.x + m_vMatrix[1][1] * from.y + m_vMatrix[1][2] * from.z + m_vMatrix[1][3]
-
-		val w = m_vMatrix[3][0] * from.x + m_vMatrix[3][1] * from.y + m_vMatrix[3][2] * from.z + m_vMatrix[3][3]
-
+		
+		vOut.x = viewMatrix[0][0] * from.x + viewMatrix[0][1] * from.y + viewMatrix[0][2] * from.z + viewMatrix[0][3]
+		vOut.y = viewMatrix[1][0] * from.x + viewMatrix[1][1] * from.y + viewMatrix[1][2] * from.z + viewMatrix[1][3]
+		
+		val w = viewMatrix[3][0] * from.x + viewMatrix[3][1] * from.y + viewMatrix[3][2] * from.z + viewMatrix[3][3]
+		
 		if (w.isNaN() || w < 0.01f) {
 			return false
 		}
-
+		
 		val invw = 1.0 / w
 		vOut.x *= invw
 		vOut.y *= invw
-
+		
 		val width = gameWidth
 		val height = gameHeight
-
+		
 		var x = width / 2.0
 		var y = height / 2.0
-
+		
 		x += 0.5 * vOut.x * width + 0.5
 		y -= 0.5 * vOut.y * height + 0.5
-
+		
 		vOut.x = x + 0
 		vOut.y = y + 0
 	} catch (t: Throwable) {
 		t.printStackTrace()
 		return false
 	}
-
 	return true
 }
 
-fun compensateVelocity(source: Player, target: Player, enemyPos: Vector, compensation: Int): Vector {
-	val myVelocity = source.velocity()
-	val enemyVelocity = target.velocity()
-
-	val amount = 1
-	/*enemyPos.x += enemyVelocity.x * amount
-	enemyPos.y += enemyVelocity.y * amount
-	enemyPos.z += enemyVelocity.z * amount*/
-
-	enemyPos.x += myVelocity.x * amount
-	enemyPos.y += myVelocity.y * amount
-	enemyPos.z += myVelocity.z * amount
-
-	//enemyPos
-	val compensationFactor = 2//compensation / 100.0
-	if (enemyVelocity.x.isFinite()) enemyPos.x += enemyVelocity.x * compensationFactor
-	if (enemyVelocity.y.isFinite()) enemyPos.y += enemyVelocity.y * compensationFactor
-	if (enemyVelocity.z.isFinite()) enemyPos.z += enemyVelocity.z * compensationFactor
-
-	if (myVelocity.x.isFinite()) enemyPos.x -= myVelocity.x * compensationFactor
-	if (myVelocity.y.isFinite()) enemyPos.y -= myVelocity.y * compensationFactor
-	if (myVelocity.z.isFinite()) enemyPos.z -= myVelocity.z * compensationFactor
-
-	return enemyPos
-}
-
-val angles: ThreadLocal<Angle> = ThreadLocal.withInitial { Vector() }
+private val angles: ThreadLocal<Angle> = ThreadLocal.withInitial { Vector() }
 
 fun calculateAngle(player: Player, dst: Vector): Angle {
 	val angles = angles.get()
 	angles.reset()
-
+	
 	val myPunch = player.punch()
 	val myPosition = player.position()
-
+	
 	val dX = myPosition.x - dst.x
 	val dY = myPosition.y - dst.y
 	val dZ = myPosition.z + csgoEXE.float(player + vecViewOffset) - dst.z
-
+	
 	val hyp = Math.sqrt((dX * dX) + (dY * dY))
-
+	
 	angles.x = toDegrees(atan(dZ / hyp)) - myPunch.x * 2.0
 	angles.y = toDegrees(atan(dY / dX)) - myPunch.y * 2.0
 	angles.z = 0.0
 	if (dX >= 0.0) angles.y += 180
-
+	
 	return angles.normalize()
 }
