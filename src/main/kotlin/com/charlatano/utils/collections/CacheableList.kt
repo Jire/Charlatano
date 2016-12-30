@@ -19,7 +19,7 @@
 package com.charlatano.utils.collections
 
 @Suppress("UNCHECKED_CAST")
-open class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
+open class CacheableList<out E>(val minIndex: Int, capacity: Int) {
 	
 	private var arr = arrayOfNulls<Any>(capacity)
 	
@@ -59,7 +59,7 @@ open class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
 	
 	fun remove(element: @UnsafeVariance E) {
 		for (i in minIndex..highest) {
-			if (element!!.equals(arr[i])) {
+			if (element == arr[i]) {
 				set(i, null)
 				return
 			}
@@ -68,7 +68,7 @@ open class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
 	
 	operator fun contains(element: @UnsafeVariance E): Boolean {
 		for (e in iterator()) {
-			if (element!!.equals(e)) {
+			if (element == e) {
 				return true
 			}
 		}
