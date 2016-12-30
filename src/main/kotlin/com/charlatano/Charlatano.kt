@@ -22,6 +22,8 @@ package com.charlatano
 
 import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
+import com.charlatano.game.CSGO.clientDLL
+import com.charlatano.game.offsets.ClientOffsets.dwSensitivity
 import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.esp
 import com.charlatano.scripts.fovAim
@@ -44,6 +46,14 @@ fun main(args: Array<String>) {
 	fovAim()
 	// -- END OF SCRIPTS -- //
 	
+	println(dwSensitivity)
+	val sens_ptr = clientDLL.float(0xAAB004)
+	val sens_value_xored = clientDLL.float(0xAAAFD8)
+	val Value = (sens_ptr.toInt() xor sens_value_xored.toInt()).toFloat()
+	
+	println(sens_ptr)
+	println(sens_value_xored)
+	println(Value)
 	if (OPENGL_GUI)
 		Overlay.open()
 	

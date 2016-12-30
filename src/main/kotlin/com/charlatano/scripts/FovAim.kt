@@ -35,6 +35,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
 private val target = AtomicLong(-1)
+
 val perfect = AtomicBoolean(false)
 
 val bone = AtomicInteger(AIM_BONE)
