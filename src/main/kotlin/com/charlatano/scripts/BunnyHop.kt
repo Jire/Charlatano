@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,10 +20,12 @@ package com.charlatano.scripts
 
 import co.paralleluniverse.strands.Strand
 import com.charlatano.game.hooks.onGround
+import com.charlatano.utils.nextBoolean
+import com.charlatano.utils.nextInt
+import com.charlatano.utils.nextLong
 import org.jire.arrowhead.keyPressed
 import java.awt.Robot
 import java.awt.event.KeyEvent
-import java.util.concurrent.ThreadLocalRandom
 
 val robot = Robot()
 
@@ -38,8 +40,9 @@ val robot = Robot()
 
 fun bunnyHop() = onGround {
 	if (keyPressed(KeyEvent.VK_SPACE)) {
-		var amount = ThreadLocalRandom.current().nextInt(60) + 10
-		if (ThreadLocalRandom.current().nextBoolean()) amount = -amount
+		var amount = nextInt(60) + 10
+		if (nextBoolean()) amount = -amount
+		Strand.sleep(nextLong(10, 70))
 		robot.mouseWheel(amount)
 		//clientDLL[dwForceJump] = 5.toByte()
 		/*robot.keyPress(KeyEvent.VK_MINUS)*/

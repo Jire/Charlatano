@@ -38,3 +38,5 @@ fun nextLong(min: Long, max: Long) = tlr().nextLong(min, max)
 fun nextLong(min: Long) = tlr().nextLong(min)
 
 fun nextLong() = tlr().nextLong()
+
+fun nextBoolean() = tlr().nextBoolean()
