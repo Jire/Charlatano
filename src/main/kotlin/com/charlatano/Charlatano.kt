@@ -23,9 +23,11 @@ package com.charlatano
 import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
 import com.charlatano.overlay.Overlay
+import com.charlatano.scripts.bunnyHop
 import com.charlatano.scripts.esp
 import com.charlatano.scripts.fovAim
 import com.charlatano.scripts.rcs
+import java.util.*
 
 fun main(args: Array<String>) {
 	
@@ -36,7 +38,7 @@ fun main(args: Array<String>) {
 	CSGO.initalize()
 	
 	// -- START OF SCRIPTS -- //
-	//bunnyHop()
+	bunnyHop()
 	esp()
 	rcs()
 	//noFlash()
@@ -49,5 +51,10 @@ fun main(args: Array<String>) {
 	
 	Strand.sleep(5000) // wait a bit to catch everything
 	System.gc() // then cleanup
-	Strand.sleep(Long.MAX_VALUE) // prevent exit
+	
+	val scanner = Scanner(System.`in`)
+	while (!Thread.interrupted()) {
+		if (scanner.nextLine().equals("exit", true))
+			System.exit(0)
+	}
 }

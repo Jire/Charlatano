@@ -40,9 +40,9 @@ val robot = Robot()
 
 fun bunnyHop() = onGround {
 	if (keyPressed(KeyEvent.VK_SPACE)) {
+		Strand.sleep(nextLong(2, 5))
 		var amount = nextInt(60) + 10
 		if (nextBoolean()) amount = -amount
-		Strand.sleep(nextLong(10, 70))
 		robot.mouseWheel(amount)
 		//clientDLL[dwForceJump] = 5.toByte()
 		/*robot.keyPress(KeyEvent.VK_MINUS)*/
