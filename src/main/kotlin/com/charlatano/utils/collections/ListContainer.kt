@@ -21,8 +21,8 @@ package com.charlatano.utils.collections
 
 @Suppress("UNCHECKED_CAST")
 class ListContainer<E>(capacity: Int) {
-
-	private val lists = CacheableList<CacheableList<E>>(0, capacity)
+	
+	private val lists = CacheableList<CacheableList<E>>(capacity)
 
 	fun addList(list: CacheableList<E>) = lists.add(list)
 

@@ -19,15 +19,14 @@
 package com.charlatano.utils.collections
 
 @Suppress("UNCHECKED_CAST")
-class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
+class CacheableList<out E>(capacity: Int, val minIndex: Int = 0) {
 	
-	private var arr = arrayOfNulls<Any>(capacity)
+	private val arr = arrayOfNulls<Any>(capacity)
+	private val all = minIndex..capacity - 1
 	
 	private var size = 0
 	private var highest: Int = 0
 	private var dirty = false
-	
-	constructor(capacity: Int) : this(0, capacity)
 	
 	operator fun get(index: Int) = arr[index] as E
 	
@@ -59,7 +58,7 @@ class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
 	
 	fun remove(element: @UnsafeVariance E) {
 		for (i in minIndex..highest) {
-			if (element!!.equals(arr[i])) {
+			if (element == arr[i]) {
 				set(i, null)
 				return
 			}
@@ -68,7 +67,7 @@ class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
 	
 	operator fun contains(element: @UnsafeVariance E): Boolean {
 		for (e in iterator()) {
-			if (element!!.equals(e)) {
+			if (element == e) {
 				return true
 			}
 		}
@@ -84,7 +83,7 @@ class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
 	}
 	
 	fun clear() {
-		for (i in minIndex..arr.size - 1)
+		for (i in all)
 			arr[i] = null
 		size = 0
 		dirty = true
@@ -97,12 +96,12 @@ class CacheableList<out E>(val minIndex: Int, val capacity: Int) {
 	fun clean() = apply { dirty = false }
 	
 	fun nextIndex(): Int {
-		for (i in minIndex..arr.size - 1) {
-			if (null == arr[i]) {
+		for (i in all) {
+			if (arr[i] == null) {
 				return i
 			}
 		}
-		throw IllegalStateException("Out of indices!")
+		return -1
 	}
 	
 	operator fun iterator(): Iterator<E> {
