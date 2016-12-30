@@ -39,7 +39,7 @@ private val lastCleanup = AtomicLong(0L)
 private fun shouldReset() = (System.currentTimeMillis() - lastCleanup.get()) >= 10000
 
 private fun reset() {
-	entities.forEach { i, cacheableList ->
+	entities.forEach { _, cacheableList ->
 		cacheableList.clear()
 		lastCleanup.set(System.currentTimeMillis())
 	}

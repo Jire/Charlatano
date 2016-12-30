@@ -1,6 +1,6 @@
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 - Thomas Nappo, Jonathan Beaudoin
+ * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,6 @@
 package com.charlatano.utils
 
 data class Vector(var x: Double = 0.0, var y: Double = 0.0, var z: Double = 0.0) {
-
-	fun reset() = set(0.0, 0.0, 0.0)
 
 	fun set(x: Double, y: Double, z: Double) = apply {
 		this.x = x

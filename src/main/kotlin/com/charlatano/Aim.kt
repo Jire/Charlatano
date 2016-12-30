@@ -86,7 +86,6 @@ private val angles: ThreadLocal<Angle> = ThreadLocal.withInitial { Vector() }
 
 fun calculateAngle(player: Player, dst: Vector): Angle {
 	val angles = angles.get()
-	angles.reset()
 	
 	val myPunch = player.punch()
 	val myPosition = player.position()
