@@ -61,13 +61,14 @@ fun fovAim() = every(AIM_DURATION) {
 	val position = me.position()
 	if (currentTarget < 0) {
 		currentTarget = findTarget(position, currentAngle, aim)
-		if (currentTarget < 0)
+		if (currentTarget < 0) {
+			Strand.sleep(200 + nextLong(350))
 			return@every
+		}
 		target.set(currentTarget)
 	}
 	
-	if (me.dead() || currentTarget.dead() || currentTarget.dormant()
-			|| !currentTarget.spotted() || currentTarget.team() == me.team()) {
+	if (!canShoot(currentTarget)) {
 		target.set(-1L)
 		Strand.sleep(200 + nextLong(350))
 		return@every
@@ -83,7 +84,7 @@ fun fovAim() = every(AIM_DURATION) {
 	
 	val dest = calculateAngle(me, bonePosition)
 	if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)
-
+	
 	val distance = position.distanceTo(bonePosition)
 	var sensMultiplier = AIM_STRICTNESS
 	
@@ -105,9 +106,7 @@ private fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, loc
 	entities(EntityType.CCSPlayer) {
 		val entity = it.entity
 		if (entity <= 0) return@entities
-		if (entity == me || entity.team() == me.team()) return@entities
-		
-		if (me.dead() || entity.dead() || !entity.spotted() || entity.dormant()) return@entities
+		if (!canShoot(entity)) return@entities
 		
 		val ePos: Angle = Vector(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C))
 		val distance = position.distanceTo(ePos)
@@ -129,7 +128,6 @@ private fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, loc
 	if (closestDelta == Double.MAX_VALUE) return -1
 	
 	if (closetPlayer != null) {
-		
 		if (PERFECT_AIM && allowPerfect && closestFOV <= PERFECT_AIM_FOV &&
 				nextInt(100 + 1) <= PERFECT_AIM_CHANCE)
 			perfect.set(true)
@@ -139,3 +137,6 @@ private fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, loc
 	
 	return -1
 }
+
+private fun canShoot(entity: Entity) = !(me.dead() || entity.dead() || entity.dormant()
+		|| !entity.spotted() || entity.team() == me.team())
