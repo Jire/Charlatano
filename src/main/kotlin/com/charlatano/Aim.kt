@@ -26,16 +26,25 @@ import com.charlatano.game.entity.Player
 import com.charlatano.game.entity.position
 import com.charlatano.game.entity.punch
 import com.charlatano.game.netvars.NetVarOffsets.vecViewOffset
+import com.charlatano.game.offsets.ClientOffsets.dwSensitivity
+import com.charlatano.game.offsets.ClientOffsets.dwSensitivityPtr
 import com.charlatano.game.offsets.ClientOffsets.dwViewMatrix
 import com.charlatano.utils.Angle
 import com.charlatano.utils.Vector
+import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.normalize
 import java.lang.Math.atan
 import java.lang.Math.toDegrees
 
-const val GAME_SENSITIVITY = 2.5
 const val GAME_PITCH = 0.022
 const val GAME_YAW = 0.022
+
+val GAME_SENSITIVITY by lazy {
+	val sens_ptr = clientDLL.address + dwSensitivityPtr
+	val sens_value = clientDLL.uint(dwSensitivity) xor sens_ptr
+	
+	java.lang.Float.intBitsToFloat(sens_value.toInt()).toDouble()
+}
 
 private val viewMatrix = Array(4) { DoubleArray(4) }
 

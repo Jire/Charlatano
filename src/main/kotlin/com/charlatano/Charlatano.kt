@@ -22,8 +22,6 @@ package com.charlatano
 
 import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
-import com.charlatano.game.CSGO.clientDLL
-import com.charlatano.game.offsets.ClientOffsets.dwSensitivity
 import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.bunnyHop
 import com.charlatano.scripts.esp
@@ -48,14 +46,6 @@ fun main(args: Array<String>) {
 	fovAim()
 	// -- END OF SCRIPTS -- //
 	
-	println(dwSensitivity)
-	val sens_ptr = clientDLL.float(0xAAB004)
-	val sens_value_xored = clientDLL.float(0xAAAFD8)
-	val Value = (sens_ptr.toInt() xor sens_value_xored.toInt()).toFloat()
-	
-	println(sens_ptr)
-	println(sens_value_xored)
-	println(Value)
 	if (OPENGL_GUI)
 		Overlay.open()
 	
@@ -67,4 +57,17 @@ fun main(args: Array<String>) {
 		if (scanner.nextLine().equals("exit", true))
 			System.exit(0)
 	}
+}
+
+private fun GetFloat32(Binary: String): Float {
+	val intBits = Integer.parseInt(Binary, 2)
+	val myFloat = java.lang.Float.intBitsToFloat(intBits)
+	return myFloat
+}
+
+// Get 32-bit IEEE 754 format of the decimal value
+private fun GetBinary32(value: Float): String {
+	val intBits = java.lang.Float.floatToIntBits(value)
+	val binary = Integer.toBinaryString(intBits)
+	return binary
 }
