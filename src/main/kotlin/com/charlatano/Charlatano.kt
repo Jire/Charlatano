@@ -23,14 +23,12 @@ package com.charlatano
 import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
 import com.charlatano.overlay.Overlay
-import com.charlatano.scripts.bunnyHop
 import com.charlatano.scripts.esp
 import com.charlatano.scripts.fovAim
 import com.charlatano.scripts.rcs
 import java.util.*
 
 fun main(args: Array<String>) {
-	
 	System.setProperty("co.paralleluniverse.fibers.detectRunawayFibers", "false")
 	System.setProperty("co.paralleluniverse.fibers.verifyInstrumentation", "false")
 	System.setProperty("co.paralleluniverse.fibers.DefaultFiberPool.parallelism", "1")
@@ -38,7 +36,7 @@ fun main(args: Array<String>) {
 	CSGO.initalize()
 	
 	// -- START OF SCRIPTS -- //
-	bunnyHop()
+	//bunnyHop()
 	esp()
 	rcs()
 	//noFlash()
@@ -57,17 +55,4 @@ fun main(args: Array<String>) {
 		if (scanner.nextLine().equals("exit", true))
 			System.exit(0)
 	}
-}
-
-private fun GetFloat32(Binary: String): Float {
-	val intBits = Integer.parseInt(Binary, 2)
-	val myFloat = java.lang.Float.intBitsToFloat(intBits)
-	return myFloat
-}
-
-// Get 32-bit IEEE 754 format of the decimal value
-private fun GetBinary32(value: Float): String {
-	val intBits = java.lang.Float.floatToIntBits(value)
-	val binary = Integer.toBinaryString(intBits)
-	return binary
 }
