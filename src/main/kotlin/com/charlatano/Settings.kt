@@ -25,12 +25,12 @@ package com.charlatano
 const val FORCE_AIM_KEY = 5 // 5 = mouse forward button
 const val AIM_BONE = 8 // 8 = Head
 
-const val AIM_FOV = 200 // field of view, in degrees (0 to 360)
-const val AIM_SPEED_MIN = 10 // higher = slower, minimum = 1
-const val AIM_SPEED_MAX = 12
+const val AIM_FOV = 140 // field of view, in degrees (0 to 360)
+const val AIM_SPEED_MIN = 13 // higher = slower, minimum = 1
+const val AIM_SPEED_MAX = 14
 const val AIM_DURATION = 1 // duration at which fovAim paths are recalculated
 
-const val AIM_STRICTNESS = 2.1 // higher = less strict
+const val AIM_STRICTNESS = 3.6 // higher = less strict
 const val AIM_STRICTNESS_BASELINE_MODIFIER = 0.85 // multiplied by the fovAim strictness when baseline is met
 const val AIM_STRICTNESS_BASELINE_DISTANCE = 900 // the distance at which strictness scales
 const val AIM_VELOCITY_STRICTNESS = 15 // higher = more strict
@@ -39,8 +39,15 @@ const val AIM_ASSIST_MODE = false
 const val AIM_ASSIST_STRICTNESS = 40 // higher = less strict
 
 const val PERFECT_AIM = true
-const val PERFECT_AIM_FOV = 25
+const val PERFECT_AIM_FOV = 22
 const val PERFECT_AIM_CHANCE = 100
+
+/**
+ * Trigger Bot settings
+ */
+const val TRIGGER_FOV = 30
+const val TRIGGER_MIN_DELAY = 2
+const val TRIGGER_MAX_DELAY = 70
 
 /**
  * RCS Settings

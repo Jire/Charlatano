@@ -28,17 +28,24 @@ import com.charlatano.game.entity.*
 import com.charlatano.game.me
 import com.charlatano.game.offsets.ScaleFormOffsets
 import com.charlatano.utils.*
+import com.google.common.util.concurrent.AtomicDouble
 import org.jire.arrowhead.keyPressed
 import java.lang.Math.*
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
-private val target = AtomicLong(-1)
-
+val target = AtomicLong(-1)
 val perfect = AtomicBoolean(false)
-
 val bone = AtomicInteger(AIM_BONE)
+val targetFOV = AtomicDouble(Double.MAX_VALUE)
+
+private fun reset() {
+	target.set(-1L)
+	targetFOV.set(Double.MAX_VALUE)
+	bone.set(AIM_BONE)
+	perfect.set(false)
+}
 
 fun fovAim() = every(AIM_DURATION) {
 	val aim = keyPressed(1)
@@ -47,13 +54,13 @@ fun fovAim() = every(AIM_DURATION) {
 	var currentTarget = target.get()
 	
 	if (!pressed || scaleFormDLL.boolean(ScaleFormOffsets.bCursorEnabled)) {
-		target.set(-1L)
+		reset()
 		return@every
 	}
 	
 	val weapon = me.weapon()
 	if (!weapon.pistol && !weapon.automatic && !weapon.shotgun) {
-		target.set(-1L)
+		reset()
 		return@every
 	}
 	
@@ -70,7 +77,7 @@ fun fovAim() = every(AIM_DURATION) {
 	}
 	
 	if (!canShoot(currentTarget)) {
-		target.set(-1L)
+		reset()
 		Strand.sleep(200 + nextLong(350))
 		return@every
 	}
@@ -126,9 +133,11 @@ private fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, loc
 		}
 	}
 	
-	if (closestDelta == Double.MAX_VALUE) return -1
+	if (closestDelta == Double.MAX_VALUE || closestDelta < 0) return -1
 	
 	if (closetPlayer != null) {
+		targetFOV.set(closestFOV)
+		
 		if (PERFECT_AIM && allowPerfect && closestFOV <= PERFECT_AIM_FOV &&
 				nextInt(100 + 1) <= PERFECT_AIM_CHANCE)
 			perfect.set(true)
