@@ -18,6 +18,27 @@
 
 package com.charlatano
 
+import com.charlatano.game.CSGO.clientDLL
+import com.charlatano.game.offsets.ClientOffsets.dwSensitivity
+import com.charlatano.game.offsets.ClientOffsets.dwSensitivityPtr
+import com.charlatano.utils.extensions.uint
+import java.lang.Float.intBitsToFloat
+
+/**
+ * Global settings
+ */
+const val GAME_PITCH = 0.022
+const val GAME_YAW = 0.022
+
+val GAME_SENSITIVITY by lazy(LazyThreadSafetyMode.NONE) {
+	val sens_ptr = clientDLL.address + dwSensitivityPtr
+	val sens_value = clientDLL.uint(dwSensitivity) xor sens_ptr
+	
+	intBitsToFloat(sens_value.toInt()).toDouble()
+}
+
+const val FIRE_KEY = 1 // Left click
+
 /**
  * Aim Settings
  */
@@ -45,9 +66,7 @@ const val PERFECT_AIM_CHANCE = 100
 /**
  * Trigger Bot settings
  */
-const val TRIGGER_FOV = 30
-const val TRIGGER_MIN_DELAY = 2
-const val TRIGGER_MAX_DELAY = 70
+const val TRIGGER_FOV = 12
 
 /**
  * RCS Settings
@@ -56,7 +75,7 @@ const val RCS_DURATION = 1
 const val RCS_SMOOTHING = 66
 
 /**
-* Bunny Hop Settings
+ * Bunny Hop Settings
  */
 val BUNNY_HOP_KEY = 0x20 // spacebar
 

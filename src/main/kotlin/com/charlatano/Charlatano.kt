@@ -40,7 +40,7 @@ fun main(args: Array<String>) {
 	//noFlash()
 	//bombTimer()
 	fovAim()
-	triggerBot()
+	fovTrigger()
 	// -- END OF SCRIPTS -- //
 	
 	if (OPENGL_GUI)

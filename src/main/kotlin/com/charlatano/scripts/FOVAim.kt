@@ -48,7 +48,7 @@ private fun reset() {
 }
 
 fun fovAim() = every(AIM_DURATION) {
-	val aim = keyPressed(1)
+	val aim = keyPressed(FIRE_KEY)
 	val forceAim = keyPressed(FORCE_AIM_KEY)
 	val pressed = aim or forceAim
 	var currentTarget = target.get()
@@ -105,7 +105,7 @@ fun fovAim() = every(AIM_DURATION) {
 	aim(currentAngle, dest, aimSpeed, sensMultiplier = sensMultiplier, perfect = perfect.getAndSet(false))
 }
 
-private fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, lockFOV: Int = AIM_FOV): Player {
+internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, lockFOV: Int = AIM_FOV): Player {
 	var closestDelta = Double.MAX_VALUE
 	var closetPlayer: Player = -1L
 	
@@ -126,7 +126,7 @@ private fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, loc
 		val delta = abs(sin(toRadians(yawDiff)) * distance)
 		val fovDelta = abs((sin(toRadians(pitchDiff)) + sin(toRadians(yawDiff))) * distance)
 		
-		if (delta <= lockFOV && delta < closestDelta) {
+		if (fovDelta <= lockFOV && delta < closestDelta) {
 			closestDelta = delta
 			closetPlayer = entity
 			closestFOV = fovDelta
@@ -137,8 +137,7 @@ private fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, loc
 	
 	targetFOV.set(closestFOV)
 	
-	if (PERFECT_AIM && allowPerfect && closestFOV <= PERFECT_AIM_FOV &&
-			randInt(100 + 1) <= PERFECT_AIM_CHANCE)
+	if (PERFECT_AIM && allowPerfect && closestFOV <= PERFECT_AIM_FOV && randInt(100 + 1) <= PERFECT_AIM_CHANCE)
 		perfect.set(true)
 	
 	return closetPlayer
