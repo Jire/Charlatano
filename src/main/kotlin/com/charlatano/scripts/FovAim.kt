@@ -70,7 +70,7 @@ fun fovAim() = every(AIM_DURATION) {
 	if (currentTarget < 0) {
 		currentTarget = findTarget(position, currentAngle, aim)
 		if (currentTarget < 0) {
-			Strand.sleep(200 + nextLong(350))
+			Strand.sleep(200 + randLong(350))
 			return@every
 		}
 		target.set(currentTarget)
@@ -78,7 +78,7 @@ fun fovAim() = every(AIM_DURATION) {
 	
 	if (!canShoot(currentTarget)) {
 		reset()
-		Strand.sleep(200 + nextLong(350))
+		Strand.sleep(200 + randLong(350))
 		return@every
 	}
 	
@@ -101,7 +101,7 @@ fun fovAim() = every(AIM_DURATION) {
 		sensMultiplier *= (amountOver * AIM_STRICTNESS_BASELINE_MODIFIER)
 	}
 	
-	val aimSpeed = AIM_SPEED_MIN + nextInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
+	val aimSpeed = AIM_SPEED_MIN + randInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
 	aim(currentAngle, dest, aimSpeed, sensMultiplier = sensMultiplier, perfect = perfect.getAndSet(false))
 }
 
@@ -139,7 +139,7 @@ private fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, loc
 		targetFOV.set(closestFOV)
 		
 		if (PERFECT_AIM && allowPerfect && closestFOV <= PERFECT_AIM_FOV &&
-				nextInt(100 + 1) <= PERFECT_AIM_CHANCE)
+				randInt(100 + 1) <= PERFECT_AIM_CHANCE)
 			perfect.set(true)
 		
 		return closetPlayer!!

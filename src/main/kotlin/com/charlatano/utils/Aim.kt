@@ -82,8 +82,8 @@ fun aim(currentAngle: Angle, dest: Angle, smoothing: Int = 100,
 		
 		val sleepingFactor = smoothing / 100.0
 		val sleepTime = Math.floor(staticSleep.toDouble()
-				+ nextInt(randomSleepMax)
-				+ nextInt(i)) * sleepingFactor
+				+ randInt(randomSleepMax)
+				+ randInt(i)) * sleepingFactor
 		if (sleepTime > 0) Strand.sleep(sleepTime.toLong())
 	}
 }

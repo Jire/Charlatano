@@ -3,7 +3,7 @@ package com.charlatano.scripts
 import co.paralleluniverse.strands.Strand
 import com.charlatano.TRIGGER_FOV
 import com.charlatano.utils.hook
-import com.charlatano.utils.nextLong
+import com.charlatano.utils.randLong
 import org.jire.arrowhead.keyReleased
 import java.awt.event.InputEvent
 
@@ -18,7 +18,7 @@ private val onTarget = hook {
 fun triggerBot() = onTarget {
 	if (keyReleased(1)) {
 		robot.mousePress(InputEvent.BUTTON1_MASK)
-		Strand.sleep(8 + nextLong(16))
+		Strand.sleep(8 + randLong(16))
 		robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
 	}
 }
