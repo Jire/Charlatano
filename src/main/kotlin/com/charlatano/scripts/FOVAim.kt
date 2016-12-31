@@ -107,7 +107,7 @@ fun fovAim() = every(AIM_DURATION) {
 
 private fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, lockFOV: Int = AIM_FOV): Player {
 	var closestDelta = Double.MAX_VALUE
-	var closetPlayer: Player? = null
+	var closetPlayer: Player = -1L
 	
 	var closestFOV = Double.MAX_VALUE
 	
@@ -133,19 +133,15 @@ private fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, loc
 		}
 	}
 	
-	if (closestDelta == Double.MAX_VALUE || closestDelta < 0) return -1
+	if (closestDelta == Double.MAX_VALUE || closestDelta < 0 || closetPlayer < 0) return -1
 	
-	if (closetPlayer != null) {
-		targetFOV.set(closestFOV)
-		
-		if (PERFECT_AIM && allowPerfect && closestFOV <= PERFECT_AIM_FOV &&
-				randInt(100 + 1) <= PERFECT_AIM_CHANCE)
-			perfect.set(true)
-		
-		return closetPlayer!!
-	}
+	targetFOV.set(closestFOV)
 	
-	return -1
+	if (PERFECT_AIM && allowPerfect && closestFOV <= PERFECT_AIM_FOV &&
+			randInt(100 + 1) <= PERFECT_AIM_CHANCE)
+		perfect.set(true)
+	
+	return closetPlayer
 }
 
 private fun canShoot(entity: Entity) = !(me.dead() || entity.dead() || entity.dormant()
