@@ -25,7 +25,7 @@ import com.charlatano.utils.extensions.uint
 import java.lang.Float.intBitsToFloat
 
 /**
- * Global settings
+ * Global Settings
  */
 const val GAME_PITCH = 0.022
 const val GAME_YAW = 0.022
@@ -64,7 +64,7 @@ const val PERFECT_AIM_FOV = 22
 const val PERFECT_AIM_CHANCE = 100
 
 /**
- * Trigger Bot settings
+ * Trigger Bot Settings
  */
 const val TRIGGER_FOV = 12
 
@@ -108,13 +108,13 @@ const val SHOW_EQUIPMENT = false
 const val SHOW_BOMB = true
 
 /**
- * ESP toggles
+ * ESP Toggles
  */
 const val SKELETON_ESP = false
 const val GLOW_ESP = true
 const val BOX_ESP = false
 
 /**
- * Misc toggles
+ * Misc Toggles
  */
 const val OPENGL_GUI = SKELETON_ESP or BOX_ESP
