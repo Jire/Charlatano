@@ -45,7 +45,8 @@ fun aim(currentAngle: Angle, dest: Angle, smoothing: Int = 100,
 	val delta = delta.get()
 	delta.set(currentAngle.y - dest.y, currentAngle.x - dest.x, 0.0)
 	
-	var sens = GAME_SENSITIVITY * sensMultiplier
+	//var sens = GAME_SENSITIVITY * sensMultiplier
+	var sens = GAME_SENSITIVITY
 	if (sens < GAME_SENSITIVITY || perfect) sens = GAME_SENSITIVITY
 	
 	val dx = Math.round(delta.x / (sens * GAME_PITCH))

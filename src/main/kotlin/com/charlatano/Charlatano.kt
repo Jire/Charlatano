@@ -23,7 +23,10 @@ package com.charlatano
 import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
 import com.charlatano.overlay.Overlay
-import com.charlatano.scripts.*
+import com.charlatano.scripts.bunnyHop
+import com.charlatano.scripts.esp
+import com.charlatano.scripts.fovAim
+import com.charlatano.scripts.rcs
 import java.util.*
 
 fun main(args: Array<String>) {
@@ -40,7 +43,7 @@ fun main(args: Array<String>) {
 	//noFlash()
 	//bombTimer()
 	fovAim()
-	fovTrigger()
+	//fovTrigger()
 	// -- END OF SCRIPTS -- //
 	
 	if (OPENGL_GUI)

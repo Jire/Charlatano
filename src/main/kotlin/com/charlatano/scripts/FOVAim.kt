@@ -98,7 +98,7 @@ fun fovAim() = every(AIM_DURATION) {
 	
 	if (distance > AIM_STRICTNESS_BASELINE_DISTANCE) {
 		val amountOver = AIM_STRICTNESS_BASELINE_DISTANCE / distance
-		sensMultiplier *= (amountOver * AIM_STRICTNESS_BASELINE_MODIFIER)
+		//sensMultiplier *= (amountOver * AIM_STRICTNESS_BASELINE_MODIFIER)
 	}
 	
 	val aimSpeed = AIM_SPEED_MIN + randInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
