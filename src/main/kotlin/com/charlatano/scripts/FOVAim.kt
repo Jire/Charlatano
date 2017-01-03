@@ -93,13 +93,13 @@ fun fovAim() = every(AIM_DURATION) {
 	val dest = calculateAngle(me, bonePosition)
 	if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)
 	
-	val distance = position.distanceTo(bonePosition)
+	//val distance = position.distanceTo(bonePosition)
 	var sensMultiplier = AIM_STRICTNESS
 	
-	if (distance > AIM_STRICTNESS_BASELINE_DISTANCE) {
+	/*if (distance > AIM_STRICTNESS_BASELINE_DISTANCE) {
 		val amountOver = AIM_STRICTNESS_BASELINE_DISTANCE / distance
-		//sensMultiplier *= (amountOver * AIM_STRICTNESS_BASELINE_MODIFIER)
-	}
+		sensMultiplier *= (amountOver * AIM_STRICTNESS_BASELINE_MODIFIER)
+	}*/
 	
 	val aimSpeed = AIM_SPEED_MIN + randInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
 	aim(currentAngle, dest, aimSpeed, sensMultiplier = sensMultiplier, perfect = perfect.getAndSet(false))
