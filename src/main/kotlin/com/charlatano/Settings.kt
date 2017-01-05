@@ -115,8 +115,8 @@ const val SHOW_BOMB = true
 /**
  * ESP Toggles
  */
-const val SKELETON_ESP = false
 const val GLOW_ESP = true
+const val SKELETON_ESP = false
 const val BOX_ESP = false
 
 /**

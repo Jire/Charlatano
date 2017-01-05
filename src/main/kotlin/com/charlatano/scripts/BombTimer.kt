@@ -27,7 +27,7 @@ import com.charlatano.game.hooks.bombPlanted
 import com.charlatano.game.hooks.location
 import com.charlatano.overlay.CharlatanoOverlay
 
-var canDefuse = false
+@Volatile var canDefuse = false
 
 fun bombTimer() {
 	bombPlanted {

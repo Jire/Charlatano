@@ -31,8 +31,8 @@ import java.util.*
 var me: Player = 0
 var clientState: ClientState = 0
 
-private typealias EntityContainer = ListContainer<EntityContext>
-private typealias EntityList = Object2ObjectArrayMap<EntityType, CacheableList<EntityContext>>
+typealias EntityContainer = ListContainer<EntityContext>
+typealias EntityList = Object2ObjectArrayMap<EntityType, CacheableList<EntityContext>>
 
 private val cachedResults = Int2ObjectArrayMap<EntityContainer>(EntityType.size)
 

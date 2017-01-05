@@ -37,7 +37,7 @@ private val target = ThreadLocal.withInitial { POINT() }
 private val delta = ThreadLocal.withInitial { Vector() }
 
 @Throws(SuspendExecution::class)
-fun aim(currentAngle: Angle, dest: Angle, smoothing: Int = 100,
+fun aim(currentAngle: Angle, dest: Angle, smoothing: Int,
         randomSleepMax: Int = 10, staticSleep: Int = 2,
         perfect: Boolean = false) {
 	if (!dest.isValid()) return

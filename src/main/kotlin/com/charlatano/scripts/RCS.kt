@@ -37,7 +37,7 @@ import com.charlatano.game.offsets.ScaleFormOffsets.bCursorEnabled
 import com.charlatano.utils.*
 import com.charlatano.utils.extensions.uint
 
-var prevFired = 0
+private @Volatile var prevFired = 0
 private val lastPunch = DoubleArray(2)
 
 @Suspendable private fun work() {
