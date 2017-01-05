@@ -28,7 +28,12 @@ import java.lang.Float.intBitsToFloat
  * Global Settings
  */
 const val GAME_PITCH = 0.022
+
 const val GAME_YAW = 0.022
+
+const val MAX_ENTITIES = 1024
+
+const val CLEANUP_TIME = 10_000 //Interval of recycling cached entities
 
 val GAME_SENSITIVITY by lazy(LazyThreadSafetyMode.NONE) {
 	val sens_ptr = clientDLL.address + dwSensitivityPtr

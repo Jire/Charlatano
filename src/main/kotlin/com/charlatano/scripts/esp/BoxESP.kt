@@ -21,6 +21,7 @@ package com.charlatano.scripts.esp
 import com.badlogic.gdx.graphics.Color
 import com.charlatano.game.entities
 import com.charlatano.game.entity.*
+import com.charlatano.game.entityByType
 import com.charlatano.game.me
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.utils.Vector
@@ -53,8 +54,8 @@ fun boxEsp() {
 
 			val h = vBot.y - vTop.y
 			val w = h / 5F
-
-			val bomb: Entity = -1//entityByType(EntityType.CC4).entity
+			
+			val bomb: Entity = entityByType(EntityType.CC4)?.entity ?: -1
 			val c = if (bomb > -1 && entity == bomb.carrier()) Color.GREEN
 			else if (me.team() == entity.team()) Color.BLUE else Color.RED
 
@@ -81,7 +82,7 @@ fun boxEsp() {
 	}
 }
 
-class Box {
+private class Box {
 	var x = -1
 	var y = -1
 	var w = -1

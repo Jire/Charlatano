@@ -32,8 +32,6 @@ import com.charlatano.utils.extensions.uint
 import com.charlatano.worldToScreen
 import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap
 
-const val MAXSTUDIOBONES = 128
-
 private val bones = Array(2048) { Line() }
 
 private val entityBones = Long2ObjectArrayMap<CacheableList<Pair<Int, Int>>>()
@@ -82,7 +80,7 @@ fun skeletonEsp() {
 	}
 }
 
-fun findStudioModel(pModel: Long): Long {
+private fun findStudioModel(pModel: Long): Long {
 	val type = csgoEXE.uint(pModel + 0x0110)
 	if (type != 3L) return 0 //Type is not Studiomodel
 
@@ -111,7 +109,7 @@ private val endBone = ThreadLocal.withInitial { Vector() }
 private val startDraw = ThreadLocal.withInitial { Vector() }
 private val endDraw = ThreadLocal.withInitial { Vector() }
 
-fun drawBone(target: Player, start: Int, end: Int) {
+private fun drawBone(target: Player, start: Int, end: Int) {
 	val startBone = startBone.get()
 	val endBone = endBone.get()
 
@@ -132,7 +130,7 @@ fun drawBone(target: Player, start: Int, end: Int) {
 	bones[currentIdx++].color = colors[target.health()]
 }
 
-class Line {
+private class Line {
 	var sX = -1
 	var sY = -1
 	var eX = -1
