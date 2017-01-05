@@ -92,7 +92,7 @@ fun fovAim() = every(AIM_DURATION) {
 	
 	
 	val aimSpeed = AIM_SPEED_MIN + randInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
-	aim(currentAngle, dest, aimSpeed, perfect = perfect.getAndSet(false))
+	aim(currentAngle, dest, aimSpeed, sensMultiplier = AIM_STRICTNESS, perfect = perfect.getAndSet(false))
 }
 
 internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, lockFOV: Int = AIM_FOV): Player {

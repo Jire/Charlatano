@@ -39,13 +39,13 @@ private val delta = ThreadLocal.withInitial { Vector() }
 @Throws(SuspendExecution::class)
 fun aim(currentAngle: Angle, dest: Angle, smoothing: Int,
         randomSleepMax: Int = 10, staticSleep: Int = 2,
-        perfect: Boolean = false) {
+        sensMultiplier: Double = 1.0, perfect: Boolean = false) {
 	if (!dest.isValid()) return
 	
 	val delta = delta.get()
 	delta.set(currentAngle.y - dest.y, currentAngle.x - dest.x, 0.0)
 	
-	var sens = GAME_SENSITIVITY
+	var sens = GAME_SENSITIVITY * sensMultiplier
 	if (sens < GAME_SENSITIVITY || perfect) sens = GAME_SENSITIVITY
 	
 	val dx = Math.round(delta.x / (sens * GAME_PITCH))

@@ -57,9 +57,6 @@ const val AIM_SPEED_MAX = 57
 const val AIM_DURATION = 1 // duration at which fovAim paths are recalculated
 
 const val AIM_STRICTNESS = 5.6 // higher = less strict
-const val AIM_STRICTNESS_BASELINE_MODIFIER = 0.85 // multiplied by the fovAim strictness when baseline is met
-const val AIM_STRICTNESS_BASELINE_DISTANCE = 900 // the distance at which strictness scales
-const val AIM_VELOCITY_STRICTNESS = 15 // higher = more strict
 
 const val AIM_ASSIST_MODE = false
 const val AIM_ASSIST_STRICTNESS = 40 // higher = less strict
