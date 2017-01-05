@@ -83,7 +83,7 @@ private val lastPunch = DoubleArray(2)
 
 	if (shotsFired >= 3) {
 		bone.set(if (shotsFired == 3) 7 else 6)
-		perfect.set(true)
+		perfect.set(false)
 	}
 }
 
