@@ -28,21 +28,18 @@ import com.charlatano.game.entity.*
 import com.charlatano.game.me
 import com.charlatano.game.offsets.ScaleFormOffsets
 import com.charlatano.utils.*
-import com.google.common.util.concurrent.AtomicDouble
 import org.jire.arrowhead.keyPressed
 import java.lang.Math.*
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
-val target = AtomicLong(-1)
+private val target = AtomicLong(-1)
 val perfect = AtomicBoolean(false)
 val bone = AtomicInteger(AIM_BONE)
-val targetFOV = AtomicDouble(Double.MAX_VALUE)
 
 private fun reset() {
 	target.set(-1L)
-	targetFOV.set(Double.MAX_VALUE)
 	bone.set(AIM_BONE)
 	perfect.set(false)
 }
@@ -93,16 +90,9 @@ fun fovAim() = every(AIM_DURATION) {
 	val dest = calculateAngle(me, bonePosition)
 	if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)
 	
-	//val distance = position.distanceTo(bonePosition)
-	var sensMultiplier = AIM_STRICTNESS
-	
-	/*if (distance > AIM_STRICTNESS_BASELINE_DISTANCE) {
-		val amountOver = AIM_STRICTNESS_BASELINE_DISTANCE / distance
-		sensMultiplier *= (amountOver * AIM_STRICTNESS_BASELINE_MODIFIER)
-	}*/
 	
 	val aimSpeed = AIM_SPEED_MIN + randInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
-	aim(currentAngle, dest, aimSpeed, sensMultiplier = sensMultiplier, perfect = perfect.getAndSet(false))
+	aim(currentAngle, dest, aimSpeed, perfect = perfect.getAndSet(false))
 }
 
 internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, lockFOV: Int = AIM_FOV): Player {
@@ -134,8 +124,6 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, lo
 	}
 	
 	if (closestDelta == Double.MAX_VALUE || closestDelta < 0 || closestPlayer < 0) return -1
-	
-	targetFOV.set(closestFOV)
 	
 	if (PERFECT_AIM && allowPerfect && closestFOV <= PERFECT_AIM_FOV && randInt(100 + 1) <= PERFECT_AIM_CHANCE)
 		perfect.set(true)

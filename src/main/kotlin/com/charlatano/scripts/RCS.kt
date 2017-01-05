@@ -37,7 +37,7 @@ import com.charlatano.game.offsets.ScaleFormOffsets.bCursorEnabled
 import com.charlatano.utils.*
 import com.charlatano.utils.extensions.uint
 
-private var prevFired = 0
+var prevFired = 0
 private val lastPunch = DoubleArray(2)
 
 @Suspendable private fun work() {
@@ -49,6 +49,7 @@ private val lastPunch = DoubleArray(2)
 		reset()
 		return
 	}
+	
 	val weapon = me.weapon()
 	if (!weapon.pistol && !weapon.automatic && !weapon.shotgun) {
 		reset()
@@ -82,7 +83,7 @@ private val lastPunch = DoubleArray(2)
 
 	if (shotsFired >= 3) {
 		bone.set(if (shotsFired == 3) 7 else 6)
-		perfect.set(false)
+		perfect.set(true)
 	}
 }
 
