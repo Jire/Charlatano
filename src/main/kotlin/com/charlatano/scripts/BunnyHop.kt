@@ -19,13 +19,16 @@
 package com.charlatano.scripts
 
 import co.paralleluniverse.strands.Strand
+import com.charlatano.BUNNY_HOP_KEY
 import com.charlatano.game.hooks.onGround
+import com.charlatano.utils.randBoolean
+import com.charlatano.utils.randInt
 import com.charlatano.utils.randLong
 import org.jire.arrowhead.keyPressed
 import java.awt.event.KeyEvent
 
 fun bunnyHop() = onGround {
-	if (keyPressed(KeyEvent.VK_SPACE)) {
+	if (keyPressed(BUNNY_HOP_KEY)) {
 		randScroll()
 		Strand.sleep(8 + randLong(10))
 		randScroll()
@@ -33,7 +36,7 @@ fun bunnyHop() = onGround {
 }
 
 private fun randScroll() {
-/*	Strand.sleep(randLong(2, 6))
+	Strand.sleep(randLong(2, 6))
 	val amount = randInt(60) + 10
-	robot.mouseWheel(if (randBoolean()) amount else -amount)*/
+	robot.mouseWheel(if (randBoolean()) amount else -amount)
 }
