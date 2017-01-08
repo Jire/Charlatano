@@ -36,10 +36,14 @@ fun main(args: Array<String>) {
 	
 	CSGO.initalize()
 	
+	//thread {
+	//	JavaFXOverlay.start()
+	//}
+	
 	// -- START OF SCRIPTS -- //
 	bunnyHop()
-	esp()
 	rcs()
+	esp()
 	//noFlash()
 	//bombTimer()
 	fovAim()

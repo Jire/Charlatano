@@ -70,16 +70,71 @@ fun boxEsp() {
 		}
 
 		val sr = shapeRenderer.get()
+		sr.begin()
 		for (i in 0..currentIdx - 1) {
 			val box = boxes[i]
-			sr.begin()
 			sr.color = box.color
 			sr.rect(box.x.toFloat(), box.y.toFloat(), box.w.toFloat(), box.h.toFloat())
-			sr.end()
 		}
+		sr.end()
 
 		currentIdx = 0
 	}
+	/*
+		every(17) {
+		try {
+			Platform.runLater {
+				entities(EntityType.CCSPlayer) {
+					val entity = it.entity
+					if (entity == me || entity.dead() || entity.dormant()) return@entities
+					
+					val vHead = vHead.get()
+					val vFeet = vFeet.get()
+					vHead.set(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C) + 9)
+					vFeet.set(vHead.x, vHead.y, vHead.z - 75)
+					
+					val vTop = vTop.get()
+					val vBot = vBot.get()
+					if (!worldToScreen(vHead, vTop) || !worldToScreen(vFeet, vBot)) return@entities
+					
+					val h = vBot.y - vTop.y
+					val w = h / 5F
+					
+					val bomb: Entity = entityByType(EntityType.CC4)?.entity ?: -1
+					val c = if (bomb > -1 && entity == bomb.carrier()) Color.GREEN
+					else if (me.team() == entity.team()) Color.BLUE else Color.RED
+					
+					val sx = (vTop.x - w).toInt()
+					val sy = vTop.y.toInt()
+					
+					boxes[currentIdx].x = sx
+					boxes[currentIdx].y = sy
+					boxes[currentIdx].w = (w * 2).toInt()
+					boxes[currentIdx].h = h.toInt()
+					boxes[currentIdx++].color = c
+				}
+				
+				//val sr = shapeRenderer.get()
+				for (i in 0..currentIdx - 1) {
+					val box = boxes[i]
+					//sr.begin()
+					//sr.color = box.color
+					//sr.rect(box.x.toFloat(), box.y.toFloat(), box.w.toFloat(), box.h.toFloat())
+					//sr.end()
+					val r = JavaFXOverlay.rect(i)
+					r.width = box.w.toDouble()
+					r.height = box.h.toDouble()
+					r.x = box.x.toDouble()
+					r.y = box.y.toDouble()
+				}
+				
+				currentIdx = 0
+			}
+		} catch (t: Throwable) {
+			
+		}
+	}
+	 */
 }
 
 private class Box {

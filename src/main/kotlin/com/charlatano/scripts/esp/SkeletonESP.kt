@@ -68,13 +68,13 @@ fun skeletonEsp() {
 		}
 
 		val sr = shapeRenderer.get()
+		sr.begin()
 		for (i in 0..currentIdx - 1) {
 			val bone = bones[i]
-			sr.begin()
 			sr.color = bone.color
 			sr.line(bone.sX.toFloat(), bone.sY.toFloat(), bone.eX.toFloat(), bone.eY.toFloat())
-			sr.end()
 		}
+		sr.end()
 
 		currentIdx = 0
 	}

@@ -67,12 +67,12 @@ dependencies {
     compile group: "co.paralleluniverse", name: "quasar-core", version: quasar_version
     compile group: "co.paralleluniverse", name: "quasar-kotlin", version: quasar_version
 
-    compile group: "com.badlogicgames.gdx", name: "gdx", version: gdxVersion
-    compile group: "com.badlogicgames.gdx", name: "gdx-box2d", version: gdxVersion
-    compile group: "com.badlogicgames.gdx", name: "gdx-backend-lwjgl", version: gdxVersion
-    
-/*    compile group: "com.badlogicgames.gdx", name: "gdx-platform", version: "$gdxVersion:natives-desktop"
-    compile group: "com.badlogicgames.gdx", name: "gdx-box2d-platform", version: "$gdxVersion:natives-desktop"*/
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 
     compile group: "net.java.dev.jna", name: "jna", version: jnaVersion
     compile group: "net.java.dev.jna", name: "jna-platform", version: jnaVersion
