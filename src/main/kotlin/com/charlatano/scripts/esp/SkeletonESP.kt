@@ -44,14 +44,15 @@ fun skeletonEsp() {
 			val entity = it.entity
 			if (entity <= 0 || entity == me || entity.dead() || entity.dormant()) return@entities
 
-			val studioModel = findStudioModel(entity.model())
-			val numbones = csgoEXE.int(studioModel + 0x9C)
-			val boneIndex = csgoEXE.int(studioModel + 0xA0)
-
 			val list = entityBones.get(entity) ?: CacheableList<Pair<Int, Int>>(20)
 
 			if (list.isEmpty()) {
 				var offset = 0
+				
+				val studioModel = findStudioModel(entity.model())
+				val numbones = csgoEXE.int(studioModel + 0x9C)
+				val boneIndex = csgoEXE.int(studioModel + 0xA0)
+				
 				for (idx in 0..numbones - 1) {
 					val parent = csgoEXE.int(studioModel + boneIndex + 0x4 + offset)
 					val flags = csgoEXE.int(studioModel + boneIndex + 0xA0 + offset) and 0x100
