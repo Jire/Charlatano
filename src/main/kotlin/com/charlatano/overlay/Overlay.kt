@@ -20,6 +20,7 @@ package com.charlatano.overlay
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
+import com.charlatano.OPENGL_GUI_FPS
 import com.charlatano.game.CSGO.gameHeight
 import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.game.CSGO.gameX
@@ -27,14 +28,12 @@ import com.charlatano.game.CSGO.gameY
 import com.charlatano.utils.randLong
 import com.sun.jna.platform.win32.User32
 import com.sun.jna.platform.win32.WinDef
-import java.awt.GraphicsEnvironment
 
 object Overlay {
 	
 	var hwnd: WinDef.HWND? = null
 	
 	fun open() {
-		System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
 		val cfg = LwjglApplicationConfiguration()
 		cfg.width = gameWidth
 		cfg.height = gameHeight
@@ -45,22 +44,17 @@ object Overlay {
 		cfg.fullscreen = false
 		cfg.vSyncEnabled = true
 		cfg.samples = 8
-
-		var fps = 60
-		for (screen in GraphicsEnvironment.getLocalGraphicsEnvironment().screenDevices) {
-			val screenFPS = screen.displayMode.refreshRate
-			if (screenFPS > fps) fps = screenFPS
-		}
-		cfg.foregroundFPS = fps
-		cfg.backgroundFPS = fps
-
+		
+		cfg.foregroundFPS = OPENGL_GUI_FPS
+		cfg.backgroundFPS = OPENGL_GUI_FPS
+		
 		LwjglApplication(CharlatanoOverlay, cfg)
-
+		
 		do {
 			hwnd = User32.INSTANCE.FindWindow(null, cfg.title)
 			Thread.sleep(512)
 		} while (hwnd == null)
 		WindowTools.transparentWindow(hwnd!!)
 	}
-
+	
 }

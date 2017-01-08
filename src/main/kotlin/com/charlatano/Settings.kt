@@ -27,6 +27,8 @@ import java.lang.Float.intBitsToFloat
 /**
  * Global Settings
  */
+const val OPENGL_GUI_FPS = 60
+
 const val GAME_PITCH = 0.022
 
 const val GAME_YAW = 0.022

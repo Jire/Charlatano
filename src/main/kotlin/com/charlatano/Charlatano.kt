@@ -30,15 +30,12 @@ import com.charlatano.scripts.rcs
 import java.util.*
 
 fun main(args: Array<String>) {
+	System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
 	System.setProperty("co.paralleluniverse.fibers.detectRunawayFibers", "false")
 	System.setProperty("co.paralleluniverse.fibers.verifyInstrumentation", "false")
 	System.setProperty("co.paralleluniverse.fibers.DefaultFiberPool.parallelism", "1")
 	
 	CSGO.initalize()
-	
-	//thread {
-	//	JavaFXOverlay.start()
-	//}
 	
 	// -- START OF SCRIPTS -- //
 	bunnyHop()

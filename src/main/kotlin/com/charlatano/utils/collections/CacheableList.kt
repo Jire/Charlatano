@@ -19,50 +19,28 @@
 package com.charlatano.utils.collections
 
 @Suppress("UNCHECKED_CAST")
-class CacheableList<out E>(capacity: Int, val minIndex: Int = 0) {
+class CacheableList<out E>(val capacity: Int, val minIndex: Int = 0) {
 	
 	private val arr = arrayOfNulls<Any>(capacity)
-	private val all = minIndex..capacity - 1
 	
-	private var size = 0
-	private var highest: Int = 0
-	private var dirty = false
+	var size = 0
+		private set
+	
+	var nextIndex = 0
+		private set
 	
 	operator fun get(index: Int) = arr[index] as E
 	
-	operator fun set(index: Int, element: @UnsafeVariance E?): E {
-		val previous = arr[index]
-		if (previous == element) return previous as E
-		
-		arr[index] = element
-		if (previous == null && element != null) {
-			size++
-			if (highest < index) {
-				highest = index
-			}
-		} else if (previous != null && element == null) {
-			size--
-			if (highest == index) {
-				highest--
-			}
-		}
-		dirty = true
-		return previous as E
-	}
-	
 	fun add(element: @UnsafeVariance E): Int {
-		val index = nextIndex()
-		set(index, element)
-		return index
-	}
-	
-	fun remove(element: @UnsafeVariance E) {
-		for (i in minIndex..highest) {
-			if (element == arr[i]) {
-				set(i, null)
-				return
-			}
+		if (nextIndex >= capacity) {
+			println("Overflow $nextIndex, $capacity")
+			Thread.dumpStack()
+			System.exit(5)
+			return -1
 		}
+		arr[nextIndex] = element
+		size++
+		return nextIndex++
 	}
 	
 	operator fun contains(element: @UnsafeVariance E): Boolean {
@@ -71,7 +49,6 @@ class CacheableList<out E>(capacity: Int, val minIndex: Int = 0) {
 				return true
 			}
 		}
-		
 		return false
 	}
 	
@@ -83,26 +60,11 @@ class CacheableList<out E>(capacity: Int, val minIndex: Int = 0) {
 	}
 	
 	fun clear() {
-		for (i in all)
-			arr[i] = null
 		size = 0
-		dirty = true
+		nextIndex = 0
 	}
 	
 	fun size() = size
-	
-	fun isDirty() = dirty
-	
-	fun clean() = apply { dirty = false }
-	
-	fun nextIndex(): Int {
-		for (i in all) {
-			if (arr[i] == null) {
-				return i
-			}
-		}
-		return -1
-	}
 	
 	operator fun iterator(): Iterator<E> {
 		iterator.pointer = minIndex
@@ -115,7 +77,7 @@ class CacheableList<out E>(capacity: Int, val minIndex: Int = 0) {
 		
 		var pointer: Int = 0
 		
-		override fun hasNext() = size > 0 && pointer <= highest
+		override fun hasNext() = size > 0 && pointer < nextIndex
 		
 		override fun next(): E {
 			val o = arr[pointer++]
@@ -124,8 +86,6 @@ class CacheableList<out E>(capacity: Int, val minIndex: Int = 0) {
 			}
 			return o as E
 		}
-		
-		fun remove() = set(pointer, null)
 		
 	}
 	
