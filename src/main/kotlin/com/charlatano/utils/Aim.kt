@@ -64,7 +64,7 @@ fun aim(currentAngle: Angle, dest: Angle, smoothing: Int,
 	
 	if (perfect) {
 		mouseMove(dx.toInt(), dy.toInt())
-		Strand.sleep(20)
+		//Strand.sleep(20)
 		return
 	}
 	
