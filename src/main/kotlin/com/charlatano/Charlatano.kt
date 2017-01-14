@@ -30,10 +30,10 @@ import com.charlatano.scripts.rcs
 import java.util.*
 
 fun main(args: Array<String>) {
-	System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
 	System.setProperty("co.paralleluniverse.fibers.detectRunawayFibers", "false")
 	System.setProperty("co.paralleluniverse.fibers.verifyInstrumentation", "false")
 	System.setProperty("co.paralleluniverse.fibers.DefaultFiberPool.parallelism", "1")
+	System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
 	
 	CSGO.initalize()
 	
@@ -54,8 +54,8 @@ fun main(args: Array<String>) {
 	System.gc() // then cleanup
 	
 	val scanner = Scanner(System.`in`)
-	while (!Thread.interrupted()) {
-		if (scanner.nextLine().equals("exit", true))
+	while (!Strand.interrupted()) {
+		if (scanner.nextLine().equals("exit", ignoreCase = true))
 			System.exit(0)
 	}
 }

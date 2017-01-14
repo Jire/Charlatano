@@ -31,12 +31,10 @@ import java.lang.Float.intBitsToFloat
 const val OPENGL_GUI_FPS = 60
 
 const val GAME_PITCH = 0.022
-
 const val GAME_YAW = 0.022
 
 const val MAX_ENTITIES = 1024
-
-const val CLEANUP_TIME = 10_000 //Interval of recycling cached entities
+const val CLEANUP_TIME = 10_000 // Interval of recycling cached entities
 
 val GAME_SENSITIVITY by lazy(LazyThreadSafetyMode.NONE) {
 	val sens_ptr = clientDLL.address + dwSensitivityPtr
@@ -55,8 +53,8 @@ const val FORCE_AIM_KEY = 5 // 5 = mouse forward button
 const val AIM_BONE = 8 // 8 = Head
 
 const val AIM_FOV = 200 // field of view, in degrees (0 to 360)
-const val AIM_SPEED_MIN = 1 // higher = slower, minimum = 1
-const val AIM_SPEED_MAX = 2
+const val AIM_SPEED_MIN = 37 // higher = slower, minimum = 1
+const val AIM_SPEED_MAX = 53
 const val AIM_DURATION = 1 // duration at which fovAim paths are recalculated
 
 const val AIM_STRICTNESS = 2.4 // higher = less strict
@@ -64,7 +62,7 @@ const val AIM_STRICTNESS = 2.4 // higher = less strict
 const val AIM_ASSIST_MODE = false
 const val AIM_ASSIST_STRICTNESS = 40 // higher = less strict
 
-const val PERFECT_AIM = true
+const val PERFECT_AIM = false
 const val PERFECT_AIM_FOV = 22
 const val PERFECT_AIM_CHANCE = 100
 
