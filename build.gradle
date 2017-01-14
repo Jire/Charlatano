@@ -108,3 +108,9 @@ run {
 sourceSets {
 	main.java.srcDirs += "src/main/kotlin"
 }
+
+task allatori(type: Exec) {
+	commandLine 'java', '-jar', 'config/allatori/allatori.jar', 'config/allatori/config.xml'
+}
+
+build.dependsOn allatori

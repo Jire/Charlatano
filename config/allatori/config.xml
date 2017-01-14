@@ -1,0 +1,96 @@
+<config>
+    <!--<jars basedir="..\" single-jar="application.jar">
+        <jar in="..\abendigo.jar"
+             out="..\obfuscated\client.jar"/>
+    </jars>-->
+
+    <classpath basedir="library-jars">>
+        <jar name="lib/*.jar"/>
+    </classpath>
+
+    <keep-names>
+        <class template="class com.sun.*">
+            <field access="private+"/>
+            <method template="private+ *(**)"/>
+            <field template="static *"/>
+        </class>
+        <class template="class natives.*">
+            <field access="private+"/>
+            <method template="private+ *(**)"/>
+            <field template="static *"/>
+        </class>
+        <class template="class natives.natives.*">
+            <field access="private+"/>
+            <method template="private+ *(**)"/>
+            <field template="static *"/>
+        </class>
+        <class template="class org.abendigo.*">
+            <field access="private+"/>
+            <method template="private+ *(**)"/>
+            <field template="static *"/>
+        </class>
+    </keep-names>
+
+    <ignore-classes>
+        <class template="class com.sun.*">
+            <field access="private+"/>
+            <method template="private+ *(**)"/>
+            <field template="static *"/>
+        </class>
+        <class template="class natives.*">
+            <field access="private+"/>
+            <method template="private+ *(**)"/>
+            <field template="static *"/>
+        </class>
+        <class template="class natives.natives.*">
+            <field access="private+"/>
+            <method template="private+ *(**)"/>
+            <field template="static *"/>
+        </class>
+        <class template="class org.abendigo.*">
+            <field access="private+"/>
+            <method template="private+ *(**)"/>
+            <field template="static *"/>
+        </class>
+    </ignore-classes>
+
+    <!-- Configuration properties, all properties are optional -->
+    <!-- General properties, we recommend to use these two properties -->
+    <property name="log-file" value="renaming-log.xml"/>
+
+    <!-- String encryption -->
+    <property name="string-encryption" value="maximum"/>
+    <property name="string-encryption-type" value="strong"/>
+    <property name="string-encryption-version" value="v4"/>
+
+    <!-- Control flow obfuscation -->
+    <property name="control-flow-obfuscation" value="enable"/>
+    <property name="extensive-flow-obfuscation" value="maximum"/>
+
+    <!-- Renaming -->
+    <property name="default-package" value="sdfggwer23"/>
+    <property name="force-default-package" value="enable"/>
+
+    <property name="classes-naming" value="iii"/>
+    <property name="methods-naming" value="keywords"/>
+    <property name="fields-naming" value="keywords"/>
+    <property name="local-variables-naming" value="optimize"/>
+
+    <property name="update-resource-names" value="disable"/>
+    <property name="update-resource-contents" value="disable"/>
+
+    <property name="random-seed" value="gsalfhwepoiewuhyfp9wqey7r09wqetyf"/>
+    <property name="generics" value="remove"/>
+    <property name="inner-classes" value="remove"/>
+    <property name="member-reorder" value="enable"/>
+    <property name="finalize" value="disable"/>
+    <property name="synthetize-methods" value="all"/>
+    <property name="synthetize-fields" value="all"/>
+    <property name="remove-calls" value="com.package.Logger.debug"/>
+    <property name="remove-calls" value="java.lang.System.out.println"/>
+    <property name="remove-calls" value="java.lang.System.out.print"/>
+    <property name="remove-calls" value="java.lang.System.out.printf"/>
+    <property name="remove-calls" value="java.lang.System.err.println"/>
+    <property name="remove-calls" value="java.lang.System.err.print"/>
+    <property name="remove-calls" value="java.lang.System.err.printf"/>
+</config>
