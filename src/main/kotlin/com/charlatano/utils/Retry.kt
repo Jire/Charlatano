@@ -18,18 +18,14 @@
 
 package com.charlatano.utils
 
-import co.paralleluniverse.strands.Strand
-import java.util.concurrent.TimeUnit
-
-inline fun <R> retry(duration: Long = 1, durationUnit: TimeUnit = TimeUnit.SECONDS,
-                     noinline exceptionHandler: ((Throwable) -> Unit)? = null, body: () -> R) {
-	while (!Strand.interrupted()) {
+inline fun <R> retry(duration: Long = 1000, noinline exceptionHandler: ((Throwable) -> Unit)? = null, body: () -> R) {
+	while (!Thread.interrupted()) {
 		try {
 			body()
 			break
 		} catch (t: Throwable) {
 			exceptionHandler?.invoke(t)
-			Strand.sleep(duration, durationUnit)
+			Thread.sleep(duration)
 		}
 	}
 }

@@ -18,16 +18,13 @@
 
 package com.charlatano.utils
 
-import co.paralleluniverse.kotlin.fiber
-import co.paralleluniverse.strands.Strand
-import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
 
 @Volatile var paused = false
 
-inline fun every(duration: Int, durationUnit: TimeUnit = TimeUnit.MILLISECONDS,
-                 continuous: Boolean = false, crossinline body: () -> Unit) = fiber {
-	while (!Strand.interrupted()) {
+inline fun every(duration: Int, continuous: Boolean = false, crossinline body: () -> Unit) = thread {
+	while (!Thread.interrupted()) {
 		if (continuous || !paused) body()
-		Strand.sleep(duration.toLong(), durationUnit)
+		Thread.sleep(duration.toLong())
 	}
 }

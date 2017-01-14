@@ -20,7 +20,6 @@
 
 package com.charlatano
 
-import co.paralleluniverse.strands.Strand
 import com.charlatano.game.CSGO
 import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.bunnyHop
@@ -30,9 +29,6 @@ import com.charlatano.scripts.rcs
 import java.util.*
 
 fun main(args: Array<String>) {
-	System.setProperty("co.paralleluniverse.fibers.detectRunawayFibers", "false")
-	System.setProperty("co.paralleluniverse.fibers.verifyInstrumentation", "false")
-	System.setProperty("co.paralleluniverse.fibers.DefaultFiberPool.parallelism", "1")
 	System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
 	
 	CSGO.initalize()
@@ -50,11 +46,11 @@ fun main(args: Array<String>) {
 	if (OPENGL_GUI)
 		Overlay.open()
 	
-	Strand.sleep(5000) // wait a bit to catch everything
+	Thread.sleep(5000) // wait a bit to catch everything
 	System.gc() // then cleanup
 	
 	val scanner = Scanner(System.`in`)
-	while (!Strand.interrupted()) {
+	while (!Thread.interrupted()) {
 		if (scanner.nextLine().equals("exit", ignoreCase = true))
 			System.exit(0)
 	}

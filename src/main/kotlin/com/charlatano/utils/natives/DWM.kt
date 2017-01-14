@@ -29,6 +29,7 @@ object DWM {
 		Native.register("Dwmapi")
 	}
 
+	@JvmStatic
 	external fun DwmEnableBlurBehindWindow(hWnd: WinDef.HWND, pBlurBehind: DWM_BLURBEHIND): WinNT.HRESULT
 
 }

@@ -18,7 +18,6 @@
 
 package com.charlatano.scripts
 
-import co.paralleluniverse.fibers.Suspendable
 import com.charlatano.AIM_BONE
 import com.charlatano.RCS_DURATION
 import com.charlatano.RCS_SMOOTHING
@@ -40,7 +39,7 @@ import com.charlatano.utils.extensions.uint
 private @Volatile var prevFired = 0
 private val lastPunch = DoubleArray(2)
 
-@Suspendable private fun work() {
+private fun work() {
 	val myAddress: Player = clientDLL.uint(dwLocalPlayer)
 	if (myAddress <= 0) return
 

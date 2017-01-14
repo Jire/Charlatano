@@ -1,6 +1,5 @@
 package com.charlatano.scripts
 
-import co.paralleluniverse.strands.Strand
 import com.charlatano.FIRE_KEY
 import com.charlatano.TRIGGER_FOV
 import com.charlatano.game.angle
@@ -19,7 +18,7 @@ private val onTriggerTarget = hook(1) {
 fun fovTrigger() = onTriggerTarget {
 	if (keyReleased(FIRE_KEY)) {
 		robot.mousePress(InputEvent.BUTTON1_MASK)
-		Strand.sleep(8 + randLong(16))
+		Thread.sleep(8 + randLong(16))
 		robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
 	}
 }

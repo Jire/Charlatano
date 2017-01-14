@@ -18,8 +18,6 @@
 
 package com.charlatano.utils
 
-import co.paralleluniverse.fibers.SuspendExecution
-import co.paralleluniverse.strands.Strand
 import com.charlatano.GAME_PITCH
 import com.charlatano.GAME_SENSITIVITY
 import com.charlatano.GAME_YAW
@@ -36,7 +34,6 @@ private val target = ThreadLocal.withInitial { POINT() }
 
 private val delta = ThreadLocal.withInitial { Vector() }
 
-@Throws(SuspendExecution::class)
 fun aim(currentAngle: Angle, dest: Angle, smoothing: Int,
         randomSleepMax: Int = 10, staticSleep: Int = 2,
         sensMultiplier: Double = 1.0, perfect: Boolean = false) {
@@ -84,6 +81,6 @@ fun aim(currentAngle: Angle, dest: Angle, smoothing: Int,
 		val sleepTime = Math.floor(staticSleep.toDouble()
 				+ randInt(randomSleepMax)
 				+ randInt(i)) * sleepingFactor
-		if (sleepTime > 0) Strand.sleep(sleepTime.toLong())
+		if (sleepTime > 0) Thread.sleep(sleepTime.toLong())
 	}
 }

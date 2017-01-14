@@ -35,7 +35,6 @@ import com.sun.jna.platform.win32.WinDef
 import org.jire.arrowhead.Module
 import org.jire.arrowhead.Process
 import org.jire.arrowhead.processByName
-import java.util.concurrent.TimeUnit
 
 object CSGO {
 	
@@ -79,7 +78,7 @@ object CSGO {
 		var lastX = 0
 		var lastY = 0
 		
-		every(1, TimeUnit.SECONDS) {
+		every(1000) {
 			if (!CUser32.GetClientRect(hwd, rect)) System.exit(2)
 			gameWidth = rect.right - rect.left
 			gameHeight = rect.bottom - rect.top

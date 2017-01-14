@@ -18,7 +18,6 @@
 
 package com.charlatano.scripts
 
-import co.paralleluniverse.strands.Strand
 import com.charlatano.*
 import com.charlatano.game.CSGO.scaleFormDLL
 import com.charlatano.game.angle
@@ -67,7 +66,7 @@ fun fovAim() = every(AIM_DURATION) {
 	if (currentTarget < 0) {
 		currentTarget = findTarget(position, currentAngle, aim)
 		if (currentTarget < 0) {
-			Strand.sleep(200 + randLong(350))
+			Thread.sleep(200 + randLong(350))
 			return@every
 		}
 		target.set(currentTarget)
@@ -75,7 +74,7 @@ fun fovAim() = every(AIM_DURATION) {
 	
 	if (!canShoot(currentTarget)) {
 		reset()
-		Strand.sleep(200 + randLong(350))
+		Thread.sleep(200 + randLong(350))
 		return@every
 	}
 	
