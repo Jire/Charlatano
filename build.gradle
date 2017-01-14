@@ -41,7 +41,7 @@ apply plugin: "kotlin"
 apply plugin: "application"
 
 group "com.charlatano"
-version "0.7.0"
+version "0.7.1"
 
 mainClassName = "com.charlatano.Charlatano"
 
@@ -89,6 +89,8 @@ task capsule(type: FatCapsule) {
     capsuleManifest {
         systemProperties["co.paralleluniverse.fibers.detectRunawayFibers"] = "false"
         systemProperties["co.paralleluniverse.fibers.DefaultFiberPool.parallelism"] = "1"
+        systemProperties["co.paralleluniverse.fibers.verifyInstrumentation"] = "false"
+        systemProperties["org.lwjgl.opengl.Window.undecorated"] = "true"
         //args = ["-javaagent:${configurations.quasar.iterator().next()}"]
         minJavaVersion = "1.8.0"
         javaAgents = [(++configurations.quasar.iterator()).getName()]
