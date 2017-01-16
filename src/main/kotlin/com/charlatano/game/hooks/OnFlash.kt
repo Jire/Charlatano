@@ -23,12 +23,12 @@ import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.entity.Player
 import com.charlatano.game.entity.dead
 import com.charlatano.game.netvars.NetVarOffsets.flFlashMaxAlpha
-import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
+import com.charlatano.game.offsets.ClientOffsets.localPlayer
 import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.hook
 
 val onFlash = hook(256) {
-	val me: Player = clientDLL.uint(dwLocalPlayer)
+	val me: Player = clientDLL.uint(localPlayer())
 	if (me <= 0x200 || me.dead()) return@hook false
 
 	val flashAlpha = csgoEXE.float(me + flFlashMaxAlpha)

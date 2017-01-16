@@ -54,11 +54,12 @@ fun fovAim() = every(AIM_DURATION) {
 		return@every
 	}
 	
-	val weapon = me.weapon()
+	/*val weapon = me.weapon()
 	if (!weapon.pistol && !weapon.automatic && !weapon.shotgun) {
 		reset()
+		println("ain't twerking.")
 		return@every
-	}
+	}*/
 	
 	val currentAngle = clientState.angle()
 	

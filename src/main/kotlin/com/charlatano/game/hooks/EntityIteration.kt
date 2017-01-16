@@ -30,7 +30,7 @@ import com.charlatano.game.entities
 import com.charlatano.game.entity.EntityType
 import com.charlatano.game.me
 import com.charlatano.game.offsets.ClientOffsets.dwGlowObject
-import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
+import com.charlatano.game.offsets.ClientOffsets.localPlayer
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.utils.every
 import com.charlatano.utils.extensions.uint
@@ -50,7 +50,7 @@ private fun reset() {
 }
 
 fun constructEntities() = every(512) {
-	me = clientDLL.uint(dwLocalPlayer)
+	me = clientDLL.uint(localPlayer())
 	if (me < 0x200) return@every
 
 	clientState = engineDLL.uint(dwClientState)

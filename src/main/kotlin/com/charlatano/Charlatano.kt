@@ -35,13 +35,16 @@ fun main(args: Array<String>) {
 	
 	// -- START OF SCRIPTS -- //
 	bunnyHop()
-	rcs()
+	/*rcs()
 	esp()
 	//noFlash()
 	//bombTimer()
-	fovAim()
+	fovAim()*/
 	//fovTrigger()
 	// -- END OF SCRIPTS -- //
+	fovAim()
+	esp()
+	rcs()
 	
 	if (OPENGL_GUI)
 		Overlay.open()

@@ -27,11 +27,9 @@ import com.charlatano.game.CSGO.scaleFormDLL
 import com.charlatano.game.angle
 import com.charlatano.game.clientState
 import com.charlatano.game.entity.Player
-import com.charlatano.game.entity.weapon
-import com.charlatano.game.me
 import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
-import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
+import com.charlatano.game.offsets.ClientOffsets.localPlayer
 import com.charlatano.game.offsets.ScaleFormOffsets.bCursorEnabled
 import com.charlatano.utils.*
 import com.charlatano.utils.extensions.uint
@@ -40,7 +38,7 @@ private @Volatile var prevFired = 0
 private val lastPunch = DoubleArray(2)
 
 private fun work() {
-	val myAddress: Player = clientDLL.uint(dwLocalPlayer)
+	val myAddress: Player = clientDLL.uint(localPlayer())
 	if (myAddress <= 0) return
 
 	val shotsFired = csgoEXE.int(myAddress + iShotsFired)
@@ -49,11 +47,11 @@ private fun work() {
 		return
 	}
 	
-	val weapon = me.weapon()
+/*	val weapon = me.weapon()
 	if (!weapon.pistol && !weapon.automatic && !weapon.shotgun) {
 		reset()
 		return
-	}
+	}*/
 
 	val punch = Vector(csgoEXE.float(myAddress + vecPunch).toDouble(),
 			csgoEXE.float(myAddress + vecPunch + 4).toDouble(), 0.0)

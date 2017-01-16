@@ -28,6 +28,9 @@ import java.lang.Float.intBitsToFloat
 /**
  * Global Settings
  */
+
+const val CLASSIC_OFFENSIVE = true
+
 const val OPENGL_GUI_FPS = 60
 
 const val GAME_PITCH = 0.022
@@ -52,18 +55,18 @@ const val FIRE_KEY = 1 // Left click
 const val FORCE_AIM_KEY = 5 // 5 = mouse forward button
 const val AIM_BONE = 8 // 8 = Head
 
-const val AIM_FOV = 200 // field of view, in degrees (0 to 360)
-const val AIM_SPEED_MIN = 42 // higher = slower, minimum = 1
-const val AIM_SPEED_MAX = 58
+const val AIM_FOV = 220 // field of view, in degrees (0 to 360)
+const val AIM_SPEED_MIN = 27 // higher = slower, minimum = 1
+const val AIM_SPEED_MAX = 38
 const val AIM_DURATION = 1 // duration at which fovAim paths are recalculated
 
-const val AIM_STRICTNESS = 2.4 // higher = less strict
+const val AIM_STRICTNESS = 1.8 // higher = less strict
 
 const val AIM_ASSIST_MODE = false
 const val AIM_ASSIST_STRICTNESS = 40 // higher = less strict
 
 const val PERFECT_AIM = false
-const val PERFECT_AIM_FOV = 22
+const val PERFECT_AIM_FOV = 30
 const val PERFECT_AIM_CHANCE = 100
 
 /**
