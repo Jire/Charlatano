@@ -53,14 +53,14 @@ const val FIRE_KEY = 1 // Left click
  */
 
 const val FORCE_AIM_KEY = 5 // 5 = mouse forward button
-const val AIM_BONE = 8 // 8 = Head
+val AIM_BONE = if (CLASSIC_OFFENSIVE) 6 else 8 // 8 = Head
 
 const val AIM_FOV = 220 // field of view, in degrees (0 to 360)
-const val AIM_SPEED_MIN = 27 // higher = slower, minimum = 1
-const val AIM_SPEED_MAX = 38
+const val AIM_SPEED_MIN = 24 // higher = slower, minimum = 1
+const val AIM_SPEED_MAX = 29
 const val AIM_DURATION = 1 // duration at which fovAim paths are recalculated
 
-const val AIM_STRICTNESS = 1.8 // higher = less strict
+const val AIM_STRICTNESS = 1.2 // higher = less strict
 
 const val AIM_ASSIST_MODE = false
 const val AIM_ASSIST_STRICTNESS = 40 // higher = less strict
