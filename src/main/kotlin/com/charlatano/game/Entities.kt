@@ -18,7 +18,7 @@
 
 package com.charlatano.game
 
-import com.charlatano.MAX_ENTITIES
+import com.charlatano.settings.MAX_ENTITIES
 import com.charlatano.game.entity.Entity
 import com.charlatano.game.entity.EntityType
 import com.charlatano.game.entity.Player

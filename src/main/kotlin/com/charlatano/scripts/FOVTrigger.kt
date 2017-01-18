@@ -1,11 +1,11 @@
 package com.charlatano.scripts
 
-import com.charlatano.FIRE_KEY
-import com.charlatano.TRIGGER_FOV
 import com.charlatano.game.angle
 import com.charlatano.game.clientState
 import com.charlatano.game.entity.position
 import com.charlatano.game.me
+import com.charlatano.settings.FIRE_KEY
+import com.charlatano.settings.TRIGGER_FOV
 import com.charlatano.utils.hook
 import com.charlatano.utils.randLong
 import org.jire.arrowhead.keyReleased

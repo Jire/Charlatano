@@ -18,13 +18,13 @@
 
 package com.charlatano.utils
 
-import com.charlatano.GAME_PITCH
-import com.charlatano.GAME_SENSITIVITY
-import com.charlatano.GAME_YAW
 import com.charlatano.game.CSGO.gameHeight
 import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.game.CSGO.gameX
 import com.charlatano.game.CSGO.gameY
+import com.charlatano.settings.GAME_PITCH
+import com.charlatano.settings.GAME_SENSITIVITY
+import com.charlatano.settings.GAME_YAW
 import com.charlatano.utils.extensions.refresh
 import com.charlatano.utils.extensions.set
 import com.sun.jna.platform.win32.WinDef.POINT
@@ -61,7 +61,7 @@ fun aim(currentAngle: Angle, dest: Angle, smoothing: Int,
 	
 	if (perfect) {
 		mouseMove(dx.toInt(), dy.toInt())
-		//Strand.sleep(20)
+		Thread.sleep(20)
 		return
 	}
 	

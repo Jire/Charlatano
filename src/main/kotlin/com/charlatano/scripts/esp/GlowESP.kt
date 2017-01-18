@@ -18,25 +18,25 @@
 
 package com.charlatano.scripts.esp
 
-import com.charlatano.*
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.entities
 import com.charlatano.game.entity.*
 import com.charlatano.game.me
+import com.charlatano.settings.*
 import com.charlatano.utils.every
 
 fun glowEsp() = every(4) {
 	entities {
 		val entity = it.entity
 		if (entity <= 0 || me == entity) return@entities
-
+		
 		val glowAddress = it.glowAddress
 		if (glowAddress <= 0) return@entities
-
+		
 		val type = it.type
 		if (EntityType.CCSPlayer == type) {
 			if (entity.dead() || (!SHOW_DORMANT && entity.dormant())) return@entities
-
+			
 			val team = me.team() == entity.team()
 			if (!team) {
 				glowAddress.glow(ENEMY_COLOR_RED, ENEMY_COLOR_GREEN, ENEMY_COLOR_BLUE, ENEMY_COLOR_ALPHA)
@@ -70,8 +70,8 @@ fun Entity.glow(red: Int, green: Int, blue: Int, alpha: Double) {
 }
 
 fun Entity.chams(red: Int, green: Int, blue: Int, alpha: Int = 255) {
-/*	csgoEXE[this + 0x70] = red.toByte()
+	csgoEXE[this + 0x70] = red.toByte()
 	csgoEXE[this + 0x71] = green.toByte()
 	csgoEXE[this + 0x72] = blue.toByte()
-	csgoEXE[this + 0x73] = alpha.toByte()*/
+	csgoEXE[this + 0x73] = alpha.toByte()
 }

@@ -18,7 +18,7 @@
 
 package com.charlatano.game
 
-import com.charlatano.CLASSIC_OFFENSIVE
+import com.charlatano.settings.CLASSIC_OFFENSIVE
 import com.charlatano.game.hooks.constructEntities
 import com.charlatano.game.netvars.NetVars
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer

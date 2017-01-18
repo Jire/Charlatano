@@ -18,8 +18,8 @@
 
 package com.charlatano.scripts
 
-import com.charlatano.BUNNY_HOP_KEY
 import com.charlatano.game.hooks.onGround
+import com.charlatano.settings.BUNNY_HOP_KEY
 import com.charlatano.utils.randBoolean
 import com.charlatano.utils.randInt
 import com.charlatano.utils.randLong

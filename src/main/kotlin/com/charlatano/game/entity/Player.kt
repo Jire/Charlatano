@@ -18,7 +18,7 @@
 
 package com.charlatano.game.entity
 
-import com.charlatano.HEAD_BONE
+import com.charlatano.settings.HEAD_BONE
 import com.charlatano.game.CSGO.ENTITY_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE

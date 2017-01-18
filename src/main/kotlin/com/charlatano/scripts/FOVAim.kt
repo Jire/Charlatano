@@ -26,6 +26,7 @@ import com.charlatano.game.entities
 import com.charlatano.game.entity.*
 import com.charlatano.game.me
 import com.charlatano.game.offsets.ScaleFormOffsets
+import com.charlatano.settings.*
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
 import java.lang.Math.*

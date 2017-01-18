@@ -26,6 +26,8 @@ import com.charlatano.scripts.bunnyHop
 import com.charlatano.scripts.esp
 import com.charlatano.scripts.fovAim
 import com.charlatano.scripts.rcs
+import com.charlatano.settings.BOX_ESP
+import com.charlatano.settings.SKELETON_ESP
 import java.util.*
 
 fun main(args: Array<String>) {
@@ -46,7 +48,7 @@ fun main(args: Array<String>) {
 	esp()
 	rcs()
 	
-	if (OPENGL_GUI)
+	if (SKELETON_ESP or BOX_ESP)
 		Overlay.open()
 	
 	Thread.sleep(5000) // wait a bit to catch everything

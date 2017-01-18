@@ -18,8 +18,8 @@
 
 package com.charlatano.game.hooks
 
-import com.charlatano.CLEANUP_TIME
-import com.charlatano.MAX_ENTITIES
+import com.charlatano.settings.CLEANUP_TIME
+import com.charlatano.settings.MAX_ENTITIES
 import com.charlatano.game.CSGO.GLOW_OBJECT_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
