@@ -30,7 +30,7 @@ import com.charlatano.game.entities
 import com.charlatano.game.entity.EntityType
 import com.charlatano.game.me
 import com.charlatano.game.offsets.ClientOffsets.dwGlowObject
-import com.charlatano.game.offsets.ClientOffsets.localPlayer
+import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.utils.every
 import com.charlatano.utils.extensions.uint
@@ -50,23 +50,23 @@ private fun reset() {
 }
 
 fun constructEntities() = every(512) {
-	me = clientDLL.uint(localPlayer())
+	me = clientDLL.uint(dwLocalPlayer)
 	if (me < 0x200) return@every
-
+	
 	clientState = engineDLL.uint(dwClientState)
-
+	
 	val glowObject = clientDLL.uint(dwGlowObject)
 	val glowObjectCount = clientDLL.int(dwGlowObject + 4)
-
+	
 	if (shouldReset()) reset()
-
+	
 	for (glowIndex in 0..glowObjectCount) {
 		val glowAddress = glowObject + (glowIndex * GLOW_OBJECT_SIZE)
 		val entity = csgoEXE.uint(glowAddress)
 		val type = EntityType.byEntityAddress(entity)
-
+		
 		val context = contexts[glowIndex].set(entity, glowAddress, glowIndex, type)
-
+		
 		with(entities[type]!!) {
 			if (!contains(context)) add(context)
 		}

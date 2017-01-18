@@ -35,11 +35,11 @@ import java.util.concurrent.atomic.AtomicLong
 
 private val target = AtomicLong(-1)
 val perfect = AtomicBoolean(false)
-val bone = AtomicInteger(AIM_BONE)
+val bone = AtomicInteger(HEAD_BONE)
 
 private fun reset() {
 	target.set(-1L)
-	bone.set(AIM_BONE)
+	bone.set(HEAD_BONE)
 	perfect.set(false)
 }
 
@@ -54,12 +54,11 @@ fun fovAim() = every(AIM_DURATION) {
 		return@every
 	}
 	
-	/*val weapon = me.weapon()
-	if (!weapon.pistol && !weapon.automatic && !weapon.shotgun) {
+	val weapon = me.weapon()
+	if (!weapon.pistol && !weapon.automatic && !weapon.shotgun && !weapon.sniper) {
 		reset()
-		println("ain't twerking.")
 		return@every
-	}*/
+	}
 	
 	val currentAngle = clientState.angle()
 	
@@ -90,9 +89,10 @@ fun fovAim() = every(AIM_DURATION) {
 	val dest = calculateAngle(me, bonePosition)
 	if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)
 	
-	
 	val aimSpeed = AIM_SPEED_MIN + randInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
-	aim(currentAngle, dest, aimSpeed, sensMultiplier = AIM_STRICTNESS, perfect = perfect.getAndSet(false))
+	aim(currentAngle, dest, aimSpeed,
+			sensMultiplier = if (me.isScoped()) 1.0 else AIM_STRICTNESS,
+			perfect = perfect.getAndSet(false))
 }
 
 internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, lockFOV: Int = AIM_FOV): Player {

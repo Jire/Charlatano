@@ -17,13 +17,13 @@
  */
 
 buildscript {
-	ext.kotlin_version = "1.1-M04"
-	ext.jnaVersion = "4.3.0-SNAPSHOT"
-	ext.gdxVersion = "1.9.5"
+	ext.kotlin_eap_repo = 'https://dl.bintray.com/kotlin/kotlin-eap-1.1'
+	ext.kotlin_version = '1.1-M04'
+	ext.gdxVersion = '1.9.5'
 	
 	repositories {
 		mavenCentral()
-		maven { url "https://dl.bintray.com/kotlin/kotlin-eap-1.1" }
+		maven { url kotlin_eap_repo }
 	}
 	
 	dependencies {
@@ -35,25 +35,23 @@ plugins {
 	id "us.kirchmeier.capsule" version "1.0.2"
 }
 
-apply plugin: "java"
 apply plugin: "kotlin"
 apply plugin: "application"
 
 group "com.charlatano"
-version "0.8.0"
+version "0.8.1"
 
 mainClassName = "com.charlatano.Charlatano"
-sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
 	mavenCentral()
-	maven { url "https://dl.bintray.com/kotlin/kotlin-eap-1.1" }
+	maven { url kotlin_eap_repo }
 }
 
 dependencies {
 	compile group: "org.jetbrains.kotlin", name: "kotlin-stdlib", version: kotlin_version
 	
-	compile group: "org.jire.arrowhead", name: "arrowhead", version: "1.2.1"
+	compile group: "org.jire.arrowhead", name: "arrowhead", version: "1.2.3"
 	compile group: "it.unimi.dsi", name: "fastutil", version: "7.0.13"
 	
 	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -62,14 +60,14 @@ dependencies {
 	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
 	compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 	compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-	
-	compile group: 'net.java.dev.jna', name: 'jna', version: '4.3.0'
-	compile group: 'net.java.dev.jna', name: 'jna-platform', version: '4.3.0'
-	/*compile group: "net.java.dev.jna", name: "jna", version: jnaVersion
-	compile group: "net.java.dev.jna", name: "jna-platform", version: jnaVersion*/
 }
 
-task capsule(type: MavenCapsule) {
+task mavenCapsule(type: MavenCapsule) {
 	applicationClass mainClassName
 	reallyExecutable
+	capsuleManifest {
+		allowSnapshots = true
+		delegate.repositories = ["https://repo1.maven.org/maven2/",
+		                         "https://dl.bintray.com/kotlin/kotlin-eap-1.1/"]
+	}
 }

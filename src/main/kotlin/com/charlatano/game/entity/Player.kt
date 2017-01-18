@@ -18,7 +18,7 @@
 
 package com.charlatano.game.entity
 
-import com.charlatano.AIM_BONE
+import com.charlatano.HEAD_BONE
 import com.charlatano.game.CSGO.ENTITY_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
@@ -42,7 +42,7 @@ import org.jire.arrowhead.get
 
 typealias Player = Long
 
-internal fun Player.weapon(): Weapons {
+fun Player.weapon(): Weapons {
 	val address: Int = csgoEXE[this + hActiveWeapon]
 	val index = address and 0xFFF
 	val base: Int = clientDLL[dwEntityList + (index - 1) * ENTITY_SIZE]
@@ -81,7 +81,7 @@ internal fun Player.velocity(): Angle
 
 internal fun Player.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
 
-internal fun Player.bone(offset: Int, boneID: Int = AIM_BONE, boneMatrix: Long = boneMatrix())
+internal fun Player.bone(offset: Int, boneID: Int = HEAD_BONE, boneMatrix: Long = boneMatrix())
 		= csgoEXE.float(boneMatrix + ((0x30 * boneID) + offset)).toDouble()
 
 internal fun Player.isScoped(): Boolean = csgoEXE[this + bIsScoped]

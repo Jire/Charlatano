@@ -21,7 +21,7 @@ package com.charlatano.game
 import com.charlatano.CLASSIC_OFFENSIVE
 import com.charlatano.game.hooks.constructEntities
 import com.charlatano.game.netvars.NetVars
-import com.charlatano.game.offsets.ClientOffsets.localPlayer
+import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.game.offsets.EngineOffsets.dwInGame
 import com.charlatano.overlay.CharlatanoOverlay
@@ -72,9 +72,8 @@ object CSGO {
 		}
 		
 		val rect = WinDef.RECT()
-		val hwd = CUser32.FindWindowA(null,
-				if (CLASSIC_OFFENSIVE) "Counter-Strike: Classic Offensive"
-									else "Counter-Strike: Global Offensive")
+		val hwd = CUser32.FindWindowA(null, "Counter-Strike: "
+				+ (if (CLASSIC_OFFENSIVE) "Classic" else "Global") + " Offensive")
 		
 		var lastWidth = 0
 		var lastHeight = 0
@@ -114,7 +113,7 @@ object CSGO {
 		retry(16) {
 			val enginePointer = engineDLL.uint(dwClientState)
 			val inGame = csgoEXE.int(enginePointer + dwInGame) == 6
-			val myAddress = clientDLL.uint(localPlayer())
+			val myAddress = clientDLL.uint(dwLocalPlayer)
 			paused = !inGame || myAddress < 0x200
 		}
 		
