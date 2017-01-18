@@ -1,3 +1,5 @@
+import java.nio.file.Files
+
 /*
  * Charlatano is a premium CS:GO cheat ran on the JVM.
  * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
@@ -71,3 +73,28 @@ task mavenCapsule(type: MavenCapsule) {
 		                         "https://dl.bintray.com/kotlin/kotlin-eap-1.1/"]
 	}
 }
+
+task charlatano {
+	doLast {
+		def name = "Charlatano $version"
+		
+		def dir = file("build/$name/")
+		if (dir.exists()) dir.list().each {
+			file(new File(dir.getPath(), it)).delete()
+		} else dir.mkdirs()
+		
+		def jarName = "${name}.jar"
+		def jar = file(new File(dir, jarName))
+		def capsule = file("build/libs/Charlatano-${version}-capsule.jar")
+		Files.copy(capsule.toPath(), jar.toPath())
+		
+		def bat = file(new File(dir, "Start ${name}.bat"))
+		Files.write(bat.toPath(), """@echo off
+title $name
+java -jar "$jarName"
+pause""".getBytes())
+	}
+}
+
+charlatano.dependsOn mavenCapsule
+charlatano.mustRunAfter mavenCapsule
