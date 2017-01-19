@@ -7,7 +7,8 @@ package com.charlatano.settings
 /**
  * The key code of the force aim button.
  *
- * By default, this uses the mouse forward button (5).
+ * By default, this uses the backward mouse button
+ * (button 5, the button on the bottom left of gaming mice).
  */
 const val FORCE_AIM_KEY = 5
 
