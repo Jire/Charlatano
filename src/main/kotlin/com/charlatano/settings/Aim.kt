@@ -82,7 +82,7 @@ const val AIM_ASSIST_STRICTNESS = 40
 /**
  * The duration in milliseconds at which aimbot paths are recalculated.
  */
-const val AIM_DURATION = 1 // duration at which fovAim paths are recalculated
+const val AIM_DURATION = 1
 
 /**
  * The amount of sprayed shots until the aimbot shifts to aiming at the [SHOULDER_BONE].
