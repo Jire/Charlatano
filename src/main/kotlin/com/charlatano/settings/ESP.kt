@@ -1,26 +1,94 @@
 package com.charlatano.settings
 
+import com.charlatano.scripts.esp.GameColor
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////// --- ESP Types --- ///////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 /**
- * Toggles
+ * Whether or not to use skeleton ESP.
  */
-const val GLOW_ESP = true
 const val SKELETON_ESP = false
+
+/**
+ * Whether or not to use box ESP.
+ */
 const val BOX_ESP = false
 
 /**
- * Glow ESP Settings
+ * Whether or not to use the within-game glow ESP.
+ *
+ * This ESP **CANNOT** be hidden from game capture for streaming.
  */
+const val GLOW_ESP = true
 
-data class GlowColor(val red: Int, val green: Int, val blue: Int, val alpha: Double = 0.6)
 
-val TEAM_COLOR = GlowColor(0, 0, 255)
-val ENEMY_COLOR = GlowColor(255, 0, 0)
 
-val BOMB_COLOR = GlowColor(255, 255, 0, 1.0)
-val EQUIPMENT_COLOR = GlowColor(0, 255, 0, 0.5)
-val GRENADE_COLOR = GlowColor(0, 255, 0, 1.0)
+///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////// --- TOGGLES --- ////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Whether or not to highlight your team mates.
+ */
 const val SHOW_TEAM = true
+
+/**
+ * Whether or not to highlight enemies.
+ */
+const val SHOW_ENEMIES = true
+
+/**
+ * Whether or not to highlight "dormant" (unknown-location) players.
+ *
+ * Enabling this can allow you to see players at a further distance,
+ * but you may see some "ghost" players which are really not there.
+ */
 const val SHOW_DORMANT = false
-const val SHOW_EQUIPMENT = false
+
+/**
+ * Whether or not to highlight the bomb.
+ */
 const val SHOW_BOMB = true
+
+/**
+ * Whether or not to highlight weapons.
+ */
+const val SHOW_WEAPONS = false
+
+/**
+ * Whether or not to highlight grenades.
+ */
+const val SHOW_GRENADES = true
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////// --- COLORS --- ///////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * The color to highlight your team mates.
+ */
+val TEAM_COLOR = GameColor(0, 0, 255)
+
+/**
+ * The color to highlight your enemies.
+ */
+val ENEMY_COLOR = GameColor(255, 0, 0)
+
+/**
+ * The color to highlight the bomb.
+ */
+val BOMB_COLOR = GameColor(255, 255, 0, 1.0)
+
+/**
+ * The color to highlight weapons.
+ */
+val WEAPON_COLOR = GameColor(0, 255, 0, 0.5)
+
+/**
+ * The color to highlight grenades.
+ */
+val GRENADE_COLOR = GameColor(0, 255, 0, 1.0)
