@@ -29,6 +29,11 @@ val GAME_SENSITIVITY by lazy(LazyThreadSafetyMode.NONE) {
 }
 
 /**
+ * The tick ratio of the server.
+ */
+const val SERVER_TICK_RATE = 64
+
+/**
  * The maximum amount of entities that can be managed by the cached list.
  */
 const val MAX_ENTITIES = 1024

@@ -10,7 +10,7 @@ typealias Weapon = Long
 
 internal fun Weapon.bullets(): Int = csgoEXE[this + iClip1]
 
-internal fun Weapon.nextPrimaryAttack(): Float = csgoEXE[this + flNextPrimaryAttack]
+internal fun Weapon.nextPrimaryAttack() = csgoEXE.float(this + flNextPrimaryAttack).toDouble()
 
 internal fun Weapon.canFire(): Boolean {
 	val nextAttack = nextPrimaryAttack()

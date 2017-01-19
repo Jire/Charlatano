@@ -16,6 +16,7 @@ import com.charlatano.game.netvars.NetVarOffsets.vecVelocity
 import com.charlatano.game.netvars.NetVarOffsets.vecViewOffset
 import com.charlatano.game.offsets.ClientOffsets.dwEntityList
 import com.charlatano.settings.HEAD_BONE
+import com.charlatano.settings.SERVER_TICK_RATE
 import com.charlatano.utils.Angle
 import com.charlatano.utils.Vector
 import com.charlatano.utils.Weapons
@@ -68,6 +69,4 @@ internal fun Player.bone(offset: Int, boneID: Int = HEAD_BONE, boneMatrix: Long 
 
 internal fun Player.isScoped(): Boolean = csgoEXE[this + bIsScoped]
 
-const val TICK_RATIO = 1F / 64F
-
-internal fun Player.time(): Float = csgoEXE.int(this + nTickBase) * TICK_RATIO
+internal fun Player.time(): Double = csgoEXE.int(this + nTickBase) * (1.0 / SERVER_TICK_RATE)
