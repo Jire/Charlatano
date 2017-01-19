@@ -6,6 +6,7 @@ import com.charlatano.game.CSGO
 import com.charlatano.overlay.Overlay
 import com.charlatano.settings.BOX_ESP
 import com.charlatano.settings.SKELETON_ESP
+import com.charlatano.settings.scripts
 import java.util.*
 
 fun main(args: Array<String>) {

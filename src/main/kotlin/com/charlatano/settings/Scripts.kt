@@ -1,4 +1,4 @@
-package com.charlatano
+package com.charlatano.settings
 
 import com.charlatano.scripts.bunnyHop
 import com.charlatano.scripts.esp.esp
