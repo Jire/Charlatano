@@ -85,15 +85,6 @@ const val AIM_ASSIST_STRICTNESS = 40
 const val AIM_DURATION = 1 // duration at which fovAim paths are recalculated
 
 /**
- * The bone IDs of the respective bones for a player.
- *
- * The left-side number is for CS:CO, and the right-side number is for CS:GO.
- */
-val HEAD_BONE = if (CLASSIC_OFFENSIVE) 6 else 8
-val SHOULDER_BONE = if (CLASSIC_OFFENSIVE) 5 else 7
-val BODY_BONE = if (CLASSIC_OFFENSIVE) 4 else 6
-
-/**
  * The amount of sprayed shots until the aimbot shifts to aiming at the [SHOULDER_BONE].
  */
 const val SHIFT_TO_SHOULDER_SHOTS = 3

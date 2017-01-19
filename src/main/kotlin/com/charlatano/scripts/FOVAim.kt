@@ -1,6 +1,5 @@
 package com.charlatano.scripts
 
-import com.charlatano.*
 import com.charlatano.game.*
 import com.charlatano.game.CSGO.scaleFormDLL
 import com.charlatano.game.entity.*
@@ -75,7 +74,8 @@ fun fovAim() = every(AIM_DURATION) {
 			perfect = perfect.getAndSet(false))
 }
 
-internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, lockFOV: Int = AIM_FOV): Player {
+internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
+                        lockFOV: Int = AIM_FOV, boneID: Int = HEAD_BONE): Player {
 	var closestDelta = Double.MAX_VALUE
 	var closestPlayer: Player = -1L
 	
@@ -86,7 +86,7 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean, lo
 		if (entity <= 0) return@entities
 		if (!canShoot(entity)) return@entities
 		
-		val ePos: Angle = Vector(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C))
+		val ePos: Angle = Vector(entity.bone(0xC, boneID), entity.bone(0x1C, boneID), entity.bone(0x2C, boneID))
 		val distance = position.distanceTo(ePos)
 		
 		val dest = calculateAngle(me, ePos)

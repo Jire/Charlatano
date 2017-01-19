@@ -1,6 +1,5 @@
 package com.charlatano.game.entity
 
-import com.charlatano.settings.HEAD_BONE
 import com.charlatano.game.CSGO.ENTITY_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
@@ -16,6 +15,7 @@ import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.netvars.NetVarOffsets.vecVelocity
 import com.charlatano.game.netvars.NetVarOffsets.vecViewOffset
 import com.charlatano.game.offsets.ClientOffsets.dwEntityList
+import com.charlatano.settings.HEAD_BONE
 import com.charlatano.utils.Angle
 import com.charlatano.utils.Vector
 import com.charlatano.utils.Weapons
