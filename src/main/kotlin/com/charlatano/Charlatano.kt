@@ -17,10 +17,9 @@ fun main(args: Array<String>) {
 	
 	if (SKELETON_ESP or BOX_ESP) Overlay.open()
 	
-	Thread.sleep(5000) // wait a bit to catch everything
+	Thread.sleep(10_000) // wait a bit to catch everything
 	System.gc() // then cleanup
 	
 	val scanner = Scanner(System.`in`)
-	while (!Thread.interrupted()) if (scanner.nextLine().equals("exit", ignoreCase = true))
-		System.exit(0)
+	while (!Thread.interrupted()) if (scanner.nextLine().equals("exit", true)) System.exit(0)
 }
