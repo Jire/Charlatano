@@ -1,6 +1,5 @@
 package com.charlatano.settings
 
-
 /**
  * Toggles
  */
@@ -8,30 +7,18 @@ const val GLOW_ESP = true
 const val SKELETON_ESP = false
 const val BOX_ESP = false
 
-
 /**
  * Glow ESP Settings
  */
 
-const val TEAM_COLOR_RED = 0
-const val TEAM_COLOR_GREEN = 0
-const val TEAM_COLOR_BLUE = 255
-const val TEAM_COLOR_ALPHA = 0.6
+data class GlowColor(val red: Int, val green: Int, val blue: Int, val alpha: Double = 0.6)
 
-const val ENEMY_COLOR_RED = 255
-const val ENEMY_COLOR_GREEN = 0
-const val ENEMY_COLOR_BLUE = 0
-const val ENEMY_COLOR_ALPHA = 0.6
+val TEAM_COLOR = GlowColor(0, 0, 255)
+val ENEMY_COLOR = GlowColor(255, 0, 0)
 
-const val BOMB_COLOR_RED = 255
-const val BOMB_COLOR_GREEN = 255
-const val BOMB_COLOR_BLUE = 0
-const val BOMB_COLOR_ALPHA = 1.0
-
-const val EQUIPMENT_COLOR_RED = 0
-const val EQUIPMENT_COLOR_GREEN = 255
-const val EQUIPMENT_COLOR_BLUE = 0
-const val EQUIPMENT_COLOR_ALPHA = 0.5
+val BOMB_COLOR = GlowColor(255, 255, 0, 1.0)
+val EQUIPMENT_COLOR = GlowColor(0, 255, 0, 0.5)
+val GRENADE_COLOR = GlowColor(0, 255, 0, 1.0)
 
 const val SHOW_TEAM = true
 const val SHOW_DORMANT = false

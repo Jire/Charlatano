@@ -1,6 +1,7 @@
 package com.charlatano.settings
 
 const val FORCE_AIM_KEY = 5 // 5 = mouse forward button
+
 val HEAD_BONE = if (CLASSIC_OFFENSIVE) 6 else 8
 val SHOULDER_BONE = if (CLASSIC_OFFENSIVE) 5 else 7
 val BODY_BONE = if (CLASSIC_OFFENSIVE) 4 else 6

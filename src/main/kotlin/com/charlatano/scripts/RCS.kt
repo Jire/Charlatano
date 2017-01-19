@@ -1,21 +1,3 @@
-/*
- * Charlatano is a premium CS:GO cheat ran on the JVM.
- * Copyright (C) 2016 Thomas Nappo, Jonathan Beaudoin
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package com.charlatano.scripts
 
 import com.charlatano.game.CSGO.clientDLL
@@ -37,20 +19,20 @@ import com.charlatano.utils.extensions.uint
 private @Volatile var prevFired = 0
 private val lastPunch = DoubleArray(2)
 
-private fun work() {
+fun rcs() = every(RCS_DURATION) {
 	val myAddress: Player = clientDLL.uint(dwLocalPlayer)
-	if (myAddress <= 0) return
+	if (myAddress <= 0) return@every
 	
 	val shotsFired = csgoEXE.int(myAddress + iShotsFired)
 	if (shotsFired <= 2 || shotsFired < prevFired || scaleFormDLL.boolean(bCursorEnabled)) {
 		reset()
-		return
+		return@every
 	}
 	
 	val weapon = me.weapon()
 	if (!weapon.automatic) {
 		reset()
-		return
+		return@every
 	}
 	
 	val punch = Vector(csgoEXE.float(myAddress + vecPunch).toDouble(),
@@ -90,5 +72,3 @@ private fun reset() {
 	lastPunch[1] = 0.0
 	bone.set(HEAD_BONE)
 }
-
-fun rcs() = every(RCS_DURATION) { work() }
