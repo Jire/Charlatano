@@ -19,7 +19,7 @@ private val boxes = Array(128) { Box() }
 
 private var currentIdx = 0
 
-fun boxEsp() = CharlatanoOverlay {
+internal fun boxEsp() = CharlatanoOverlay {
 	entities(EntityType.CCSPlayer) {
 		val entity = it.entity
 		if (entity == me || entity.dead() || entity.dormant()) return@entities

@@ -18,7 +18,7 @@ private val bones = Array(2048) { Line() }
 private val entityBones = Long2ObjectArrayMap<CacheableList<Pair<Int, Int>>>()
 private var currentIdx = 0
 
-fun skeletonEsp() {
+internal fun skeletonEsp() {
 	CharlatanoOverlay {
 		entities(EntityType.CCSPlayer) {
 			val entity = it.entity

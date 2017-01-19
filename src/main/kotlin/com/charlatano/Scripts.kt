@@ -1,7 +1,7 @@
 package com.charlatano
 
 import com.charlatano.scripts.bunnyHop
-import com.charlatano.scripts.esp
+import com.charlatano.scripts.esp.esp
 import com.charlatano.scripts.fovAim
 import com.charlatano.scripts.rcs
 
