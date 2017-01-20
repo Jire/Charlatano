@@ -53,7 +53,7 @@ val SHOW_BOMB = true
 /**
  * Whether or not to highlight weapons.
  */
-val SHOW_WEAPONS = false
+val SHOW_WEAPONS = true
 
 /**
  * Whether or not to highlight grenades.
