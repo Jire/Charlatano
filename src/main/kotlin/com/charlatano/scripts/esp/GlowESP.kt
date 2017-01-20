@@ -48,8 +48,10 @@ private fun Entity.glow(color: GameColor) {
 }
 
 private fun Entity.chams(color: GameColor) {
-/*	csgoEXE[this + 0x70] = color.red.toByte()
-	csgoEXE[this + 0x71] = color.green.toByte()
-	csgoEXE[this + 0x72] = color.blue.toByte()
-	csgoEXE[this + 0x73] = color.alpha.toByte()*/
+	if (COLOR_MODELS) {
+		csgoEXE[this + 0x70] = color.red.toByte()
+		csgoEXE[this + 0x71] = color.green.toByte()
+		csgoEXE[this + 0x72] = color.blue.toByte()
+		csgoEXE[this + 0x73] = color.alpha.toByte()
+	}
 }
