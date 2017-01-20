@@ -9,9 +9,9 @@ var location = ""
 
 val bombPlanted = hook(8) {
 	val bomb = entityByType(EntityType.CPlantedC4)?.entity ?: return@hook false
-
+	
 	val planted = bomb.planted()
 	if (!planted) location = ""
-
+	
 	planted
 }

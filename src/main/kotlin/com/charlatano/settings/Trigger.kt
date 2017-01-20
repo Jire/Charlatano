@@ -1,11 +1,6 @@
 package com.charlatano.settings
 
-/**
- * The field of view (in degrees, 0 to 360) for the trigger.
- */
-const val TRIGGER_FOV = 12
+import com.charlatano.utils.Dojo.Setting
 
-/**
- * The bone to automatically fire at for the trigger.
- */
-val TRIGGER_BONE = HEAD_BONE
+val TRIGGER_FOV: Int by Setting()
+val TRIGGER_BONE: Int by Setting()

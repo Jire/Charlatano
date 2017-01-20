@@ -1,6 +1,5 @@
 package com.charlatano.game
 
-import com.charlatano.settings.CLASSIC_OFFENSIVE
 import com.charlatano.game.hooks.constructEntities
 import com.charlatano.game.netvars.NetVars
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
@@ -8,6 +7,7 @@ import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.game.offsets.EngineOffsets.dwInGame
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.overlay.Overlay
+import com.charlatano.settings.CLASSIC_OFFENSIVE
 import com.charlatano.utils.every
 import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.natives.CUser32

@@ -20,19 +20,19 @@ fun bombTimer() {
 			return@bombPlanted
 		}
 		canDefuse = bomb.timeLeft() >= if (hasKit) 5 else 10
-
+		
 		if (location.isEmpty()) location = bomb.location()
 	}
-
+	
 	CharlatanoOverlay {
 		if (location.isEmpty()) return@CharlatanoOverlay
-
+		
 		val bomb = entityByType(EntityType.CPlantedC4)?.entity
 		if (bomb == null) {
 			location = ""
 			return@CharlatanoOverlay
 		}
-
+		
 		val tr = textRenderer.get()
 		val batch = batch.get()
 		batch.begin()
