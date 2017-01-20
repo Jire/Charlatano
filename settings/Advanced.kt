@@ -15,13 +15,6 @@ val GAME_PITCH = 0.022 // m_pitch
 val GAME_YAW = 0.022 // m_yaw
 
 /**
- * The value of your in-game "sensitivity" value.
- *
- * This should no longer need to be changed, as it is automatically read.
- */
-
-
-/**
  * The tick ratio of the server.
  */
 val SERVER_TICK_RATE = 64
