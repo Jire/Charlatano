@@ -1,5 +1,5 @@
 package com.charlatano.settings
 
-import com.charlatano.utils.Dojo
+import com.charlatano.utils.Dojo.Setting
 
-val BUNNY_HOP_KEY: Int by Dojo.Setting()
+val BUNNY_HOP_KEY: Int by Setting()

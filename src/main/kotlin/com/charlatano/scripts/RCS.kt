@@ -29,10 +29,12 @@ fun rcs() = every(RCS_DURATION) {
 		return@every
 	}
 	
-	val weapon = me.weapon()
-	if (!weapon.automatic) {
-		reset()
-		return@every
+	if (!CLASSIC_OFFENSIVE) {
+		val weapon = me.weapon()
+		if (!weapon.automatic) {
+			reset()
+			return@every
+		}
 	}
 	
 	val punch = Vector(csgoEXE.float(myAddress + vecPunch).toDouble(),
