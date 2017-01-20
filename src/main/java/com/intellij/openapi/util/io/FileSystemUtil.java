@@ -236,7 +236,7 @@ public class FileSystemUtil {
 				return null;
 			} else {
 				int mode = this.getModeFlags(buffer) & '\uffff';
-				boolean isSymlink = (mode & '\uf000') == 'ꀀ';
+				boolean isSymlink = (mode & '\uf000') == 40960;
 				if(isSymlink) {
 					if(!loadFileStatus(path, buffer)) {
 						return FileAttributes.BROKEN_SYMLINK;
@@ -246,7 +246,7 @@ public class FileSystemUtil {
 				}
 				
 				boolean isDirectory = (mode & '\uf000') == 16384;
-				boolean isSpecial = !isDirectory && (mode & '\uf000') != '耀';
+				boolean isSpecial = !isDirectory && (mode & '\uf000') != 32768;
 				long size = buffer.getLong((long)this.myOffsets[1]);
 				long mTime1 = SystemInfo.is32Bit?(long)buffer.getInt((long)this.myOffsets[2]):buffer.getLong((long)this.myOffsets[2]);
 				long mTime2 = this.myCoarseTs?0L:(SystemInfo.is32Bit?(long)buffer.getInt((long)(this.myOffsets[2] + 4)):buffer.getLong((long)(this.myOffsets[2] + 8)));
