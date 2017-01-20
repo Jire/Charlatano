@@ -13,15 +13,15 @@ val FORCE_AIM_KEY = 5
 /**
  * The field of view of the aimbot, in degrees (0 to 360).
  */
-val AIM_FOV = 180
+val AIM_FOV = 190
 
 /**
  * The aimbot's "playback" speed, the higher the value the slower the playback.
  *
  * The minimum value is 1, and max must always be greater than min.
  */
-val AIM_SPEED_MIN = 36
-val AIM_SPEED_MAX = 44
+val AIM_SPEED_MIN = 44
+val AIM_SPEED_MAX = 49
 
 /**
  * The strictness, or "stickiness" of the aimbot; the higher the number, the
@@ -29,7 +29,7 @@ val AIM_SPEED_MAX = 44
  *
  * The minimum value is 1.0
  */
-val AIM_STRICTNESS = 2.4
+val AIM_STRICTNESS = 3.1
 
 
 

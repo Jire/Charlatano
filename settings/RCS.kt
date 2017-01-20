@@ -8,7 +8,7 @@
  *
  * Settings this too low may result in incorrect recoil control.
  */
-val RCS_SMOOTHING = 66
+val RCS_SMOOTHING = 72
 
 /**
  * The duration in milliseconds at which recoil control is checked.
