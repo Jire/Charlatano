@@ -29,7 +29,6 @@ object Dojo {
 		private var value: T? = null
 		
 		operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
-			println("GET: ${property.name}")
 			if (value == null) value = get<T>(property.name)
 			return value!!
 		}
