@@ -36,14 +36,15 @@ fun main(args: Array<String>) {
 	
 	if (Dojo["ENABLE_BUNNY_HOP"]) bunnyHop()
 	if (Dojo["ENABLE_RCS"]) rcs()
-	if (Dojo["ENABLE_ESP"]) esp()
+	val esp: Boolean = Dojo["ENABLE_ESP"]
+	if (esp) esp()
 	if (Dojo["ENABLE_AIM"]) fovAim()
 	if (Dojo["ENABLE_TRIGGER"]) fovTrigger()
 	if (Dojo["ENABLE_NO_FLASH"]) noFlash()
 	val bombTimer: Boolean = Dojo["ENABLE_BOMB_TIMER"]
 	if (bombTimer) bombTimer()
 	
-	if (SKELETON_ESP or BOX_ESP or bombTimer) Overlay.open()
+	if (bombTimer or ((SKELETON_ESP or BOX_ESP) and esp)) Overlay.open()
 	
 	Thread.sleep(10_000) // wait a bit to catch everything
 	System.gc() // then cleanup
