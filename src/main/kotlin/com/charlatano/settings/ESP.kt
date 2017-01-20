@@ -19,3 +19,5 @@ val ENEMY_COLOR: GameColor by Setting()
 val BOMB_COLOR: GameColor by Setting()
 val WEAPON_COLOR: GameColor by Setting()
 val GRENADE_COLOR: GameColor by Setting()
+
+val COLOR_MODELS: Boolean by Setting()

@@ -20,8 +20,8 @@ val AIM_FOV = 190
  *
  * The minimum value is 1, and max must always be greater than min.
  */
-val AIM_SPEED_MIN = 44
-val AIM_SPEED_MAX = 49
+val AIM_SPEED_MIN = 36
+val AIM_SPEED_MAX = 42
 
 /**
  * The strictness, or "stickiness" of the aimbot; the higher the number, the
