@@ -4,10 +4,8 @@ package com.charlatano
 
 import com.charlatano.game.CSGO
 import com.charlatano.overlay.Overlay
-import com.charlatano.scripts.bunnyHop
+import com.charlatano.scripts.*
 import com.charlatano.scripts.esp.esp
-import com.charlatano.scripts.fovAim
-import com.charlatano.scripts.rcs
 import com.charlatano.settings.BOX_ESP
 import com.charlatano.settings.SKELETON_ESP
 import com.charlatano.utils.Dojo
@@ -36,28 +34,20 @@ fun main(args: Array<String>) {
 	
 	CSGO.initalize()
 	
-	//Dojo("scripts")
-	scripts()
-	if (SKELETON_ESP or BOX_ESP) Overlay.open()
+	if (Dojo["ENABLE_BUNNY_HOP"]) bunnyHop()
+	if (Dojo["ENABLE_RCS"]) rcs()
+	if (Dojo["ENABLE_ESP"]) esp()
+	if (Dojo["ENABLE_AIM"]) fovAim()
+	if (Dojo["ENABLE_TRIGGER"]) fovTrigger()
+	if (Dojo["ENABLE_NO_FLASH"]) noFlash()
+	val bombTimer: Boolean = Dojo["ENABLE_BOMB_TIMER"]
+	if (bombTimer) bombTimer()
+	
+	if (SKELETON_ESP or BOX_ESP or bombTimer) Overlay.open()
 	
 	Thread.sleep(10_000) // wait a bit to catch everything
 	System.gc() // then cleanup
 	
 	val scanner = Scanner(System.`in`)
 	while (!Thread.interrupted()) if (scanner.nextLine().equals("exit", true)) System.exit(0)
-}
-
-/**
- * Invoke the scripts you'd like to use below.
- *
- * If a script is commented (has a "//" before it), it is not enabled.
- */
-fun scripts() {
-	bunnyHop()
-	rcs()
-	esp()
-	fovAim()
-	//fovTrigger()
-	//noFlash()
-	//bombTimer()
 }
