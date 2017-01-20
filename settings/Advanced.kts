@@ -1,8 +1,3 @@
-import com.charlatano.game.CSGO.clientDLL
-import com.charlatano.game.offsets.ClientOffsets.dwSensitivity
-import com.charlatano.game.offsets.ClientOffsets.dwSensitivityPtr
-import com.charlatano.utils.extensions.uint
-
 /**
  * The amount of FPS to run the OpenGL overlay at.
  */
