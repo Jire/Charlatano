@@ -25,7 +25,7 @@ object Overlay {
 		cfg.resizable = false
 		cfg.fullscreen = false
 		cfg.vSyncEnabled = true
-		cfg.samples = 8
+		cfg.samples = 4
 		
 		cfg.foregroundFPS = OPENGL_GUI_FPS
 		cfg.backgroundFPS = OPENGL_GUI_FPS

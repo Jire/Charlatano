@@ -1,5 +1,6 @@
 package com.charlatano.scripts.esp
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
@@ -48,14 +49,13 @@ internal fun skeletonEsp() {
 			list.forEach { drawBone(entity, it.first, it.second) }
 		}
 		
-		val sr = shapeRenderer.get()
-		sr.begin()
+		shapeRenderer.begin()
 		for (i in 0..currentIdx - 1) {
 			val bone = bones[i]
-			sr.color = bone.color
-			sr.line(bone.sX.toFloat(), bone.sY.toFloat(), bone.eX.toFloat(), bone.eY.toFloat())
+			shapeRenderer.color = bone.color
+			shapeRenderer.line(bone.sX.toFloat(), bone.sY.toFloat(), bone.eX.toFloat(), bone.eY.toFloat())
 		}
-		sr.end()
+		shapeRenderer.end()
 		
 		currentIdx = 0
 	}
@@ -71,10 +71,10 @@ private fun findStudioModel(pModel: Long): Long {
 	handle = handle shl 4
 	
 	var studioModel = engineDLL.uint(studioModel)
-	studioModel = csgoEXE.uint(studioModel + 0x028)
-	studioModel = csgoEXE.uint(studioModel + handle + 0x0C)
+	studioModel = csgoEXE.uint(studioModel + 0x28)
+	studioModel = csgoEXE.uint(studioModel + handle + 0xC)
 	
-	return csgoEXE.uint(studioModel + 0x0074)
+	return csgoEXE.uint(studioModel + 0x74)
 }
 
 private val colors: Array<Color> = Array(101) {
@@ -84,16 +84,13 @@ private val colors: Array<Color> = Array(101) {
 	Color(red, green, 0f, 1f)
 }
 
-private val startBone = ThreadLocal.withInitial { Vector() }
-private val endBone = ThreadLocal.withInitial { Vector() }
+private val startBone = Vector()
+private val endBone = Vector()
 
-private val startDraw = ThreadLocal.withInitial { Vector() }
-private val endDraw = ThreadLocal.withInitial { Vector() }
+private val startDraw = Vector()
+private val endDraw = Vector()
 
 private fun drawBone(target: Player, start: Int, end: Int) {
-	val startBone = startBone.get()
-	val endBone = endBone.get()
-	
 	val boneMatrix = target.boneMatrix()
 	startBone.set(
 			target.bone(0xC, start, boneMatrix),
@@ -103,9 +100,6 @@ private fun drawBone(target: Player, start: Int, end: Int) {
 			target.bone(0xC, end, boneMatrix),
 			target.bone(0x1C, end, boneMatrix),
 			target.bone(0x2C, end, boneMatrix))
-	
-	val startDraw = startDraw.get()
-	val endDraw = endDraw.get()
 	
 	if (!worldToScreen(startBone, startDraw) || !worldToScreen(endBone, endDraw)) return
 	

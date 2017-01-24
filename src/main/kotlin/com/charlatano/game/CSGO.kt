@@ -6,6 +6,7 @@ import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.game.offsets.EngineOffsets.dwInGame
 import com.charlatano.overlay.CharlatanoOverlay
+import com.charlatano.overlay.CharlatanoOverlay.camera
 import com.charlatano.overlay.Overlay
 import com.charlatano.settings.CLASSIC_OFFENSIVE
 import com.charlatano.utils.every
@@ -71,13 +72,11 @@ object CSGO {
 			gameX = rect.left + (((rect.right - rect.left) - gameWidth) / 2)
 			gameY = rect.top + ((rect.bottom - rect.top) - gameHeight)
 			
-			if ((lastX != gameX || lastY != gameY) && Overlay.hwnd != null) {
+			if ((lastX != gameX || lastY != gameY) && Overlay.hwnd != null)
 				User32.INSTANCE.MoveWindow(Overlay.hwnd, gameX, gameY, gameWidth, gameHeight, false)
-			}
 			
-			if (lastWidth != gameWidth || lastHeight != gameHeight) {
-				CharlatanoOverlay.camera.get()?.setToOrtho(true, gameWidth.toFloat(), gameHeight.toFloat())
-			}
+			if (CharlatanoOverlay.created && (lastWidth != gameWidth || lastHeight != gameHeight))
+				camera.setToOrtho(true, gameWidth.toFloat(), gameHeight.toFloat())
 			
 			lastWidth = gameWidth
 			lastHeight = gameHeight

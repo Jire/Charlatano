@@ -34,17 +34,18 @@ fun main(args: Array<String>) {
 	
 	CSGO.initalize()
 	
+	val esp: Boolean = Dojo["ENABLE_ESP"]
+	val bombTimer: Boolean = Dojo["ENABLE_BOMB_TIMER"]
+	
+	if (bombTimer or (esp and (SKELETON_ESP or BOX_ESP))) Overlay.open()
+	
 	if (Dojo["ENABLE_BUNNY_HOP"]) bunnyHop()
 	if (Dojo["ENABLE_RCS"]) rcs()
-	val esp: Boolean = Dojo["ENABLE_ESP"]
 	if (esp) esp()
 	if (Dojo["ENABLE_AIM"]) fovAim()
 	if (Dojo["ENABLE_TRIGGER"]) fovTrigger()
 	if (Dojo["ENABLE_NO_FLASH"]) noFlash()
-	val bombTimer: Boolean = Dojo["ENABLE_BOMB_TIMER"]
 	if (bombTimer) bombTimer()
-	
-	if (bombTimer or ((SKELETON_ESP or BOX_ESP) and esp)) Overlay.open()
 	
 	Thread.sleep(10_000) // wait a bit to catch everything
 	System.gc() // then cleanup

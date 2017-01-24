@@ -9,11 +9,11 @@ import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.utils.Vector
 import com.charlatano.game.worldToScreen
 
-private val vHead = ThreadLocal.withInitial { Vector() }
-private val vFeet = ThreadLocal.withInitial { Vector() }
+private val vHead = Vector()
+private val vFeet = Vector()
 
-private val vTop = ThreadLocal.withInitial { Vector(0.0, 0.0, 0.0) }
-private val vBot = ThreadLocal.withInitial { Vector(0.0, 0.0, 0.0) }
+private val vTop = Vector(0.0, 0.0, 0.0)
+private val vBot = Vector(0.0, 0.0, 0.0)
 
 private val boxes = Array(128) { Box() }
 
@@ -24,13 +24,8 @@ internal fun boxEsp() = CharlatanoOverlay {
 		val entity = it.entity
 		if (entity == me || entity.dead() || entity.dormant()) return@entities
 		
-		val vHead = vHead.get()
-		val vFeet = vFeet.get()
 		vHead.set(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C) + 9)
 		vFeet.set(vHead.x, vHead.y, vHead.z - 75)
-		
-		val vTop = vTop.get()
-		val vBot = vBot.get()
 		
 		if (!worldToScreen(vHead, vTop) || !worldToScreen(vFeet, vBot)) return@entities
 		
@@ -51,13 +46,12 @@ internal fun boxEsp() = CharlatanoOverlay {
 		boxes[currentIdx++].color = c
 	}
 	
-	val sr = shapeRenderer.get()
-	sr.begin()
+	shapeRenderer.begin()
 	for (i in 0..currentIdx - 1) boxes[i].apply {
-		sr.color = color
-		sr.rect(x.toFloat(), y.toFloat(), w.toFloat(), h.toFloat())
+		shapeRenderer.color = color
+		shapeRenderer.rect(x.toFloat(), y.toFloat(), w.toFloat(), h.toFloat())
 	}
-	sr.end()
+	shapeRenderer.end()
 	
 	currentIdx = 0
 }
