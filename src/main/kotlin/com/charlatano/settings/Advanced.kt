@@ -6,8 +6,6 @@ import com.charlatano.game.offsets.ClientOffsets.dwSensitivityPtr
 import com.charlatano.utils.Dojo.Setting
 import com.charlatano.utils.extensions.uint
 
-val OPENGL_GUI_FPS: Int by Setting()
-
 val GAME_PITCH: Double by Setting()
 val GAME_YAW: Double by Setting()
 
