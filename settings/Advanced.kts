@@ -1,9 +1,4 @@
 /**
- * The amount of FPS to run the OpenGL overlay at.
- */
-val OPENGL_GUI_FPS = 60
-
-/**
  * These should be set the same as your in-game "m_pitch" and "m_yaw" values.
  */
 val GAME_PITCH = 0.022 // m_pitch
