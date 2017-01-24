@@ -15,9 +15,7 @@ import java.util.*
 
 const val SETTINGS_DIRECTORY = "settings"
 
-fun main(args: Array<String>) {
-	System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
-	
+private fun loadSettings() {
 	File(SETTINGS_DIRECTORY).listFiles().forEach {
 		try {
 			FileReader(it).use {
@@ -28,9 +26,14 @@ fun main(args: Array<String>) {
 			}
 		} catch (e: Exception) {
 			e.printStackTrace()
-			return@main
 		}
 	}
+}
+
+fun main(args: Array<String>) {
+	System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
+	
+	loadSettings()
 	
 	CSGO.initalize()
 	
@@ -51,5 +54,12 @@ fun main(args: Array<String>) {
 	System.gc() // then cleanup
 	
 	val scanner = Scanner(System.`in`)
-	while (!Thread.interrupted()) if (scanner.nextLine().equals("exit", true)) System.exit(0)
+	while (!Thread.interrupted()) {
+		when (scanner.nextLine()) {
+			"exit", "quit" -> System.exit(0)
+			"reload" -> {
+				// TODO
+			}
+		}
+	}
 }
