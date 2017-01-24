@@ -47,15 +47,14 @@ fun aim(currentAngle: Angle, dest: Angle, smoothing: Int,
 		return
 	}
 	
-	val points = ZetaMouseGenerator.generate(mousePos, target)
-	for (i in 1..points.lastIndex) {
-		val point = points[points.lastIndex]
+	HumanMouse(mousePos, target) { steps, x, y, i ->
+		val point = target
 		mousePos.refresh()
 		
 		val tx = point.x - mousePos.x
 		val ty = point.y - mousePos.y
 		
-		var halfIndex = points.lastIndex / 2
+		var halfIndex = steps / 2
 		if (halfIndex == 0) halfIndex = 1
 		mouseMove(tx / halfIndex, ty / halfIndex)
 		

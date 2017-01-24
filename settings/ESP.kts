@@ -7,19 +7,19 @@ import com.charlatano.scripts.esp.GameColor
 /**
  * Whether or not to use skeleton ESP.
  */
-val SKELETON_ESP = true
+val SKELETON_ESP = false
 
 /**
  * Whether or not to use box ESP.
  */
-val BOX_ESP = true
+val BOX_ESP = false
 
 /**
  * Whether or not to use the within-game glow ESP.
  *
  * This ESP **CANNOT** be hidden from game capture for streaming.
  */
-val GLOW_ESP = false
+val GLOW_ESP = true
 
 
 

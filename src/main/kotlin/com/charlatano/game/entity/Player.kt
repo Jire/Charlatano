@@ -26,7 +26,7 @@ import org.jire.arrowhead.get
 typealias Player = Long
 
 fun Player.weapon(): Weapons {
-	val address: Int = csgoEXE[this + hActiveWeapon]
+	val address: Long = csgoEXE.uint(this + hActiveWeapon)
 	val index = address and 0xFFF
 	val base: Int = clientDLL[dwEntityList + (index - 1) * ENTITY_SIZE]
 	
@@ -37,11 +37,11 @@ fun Player.weapon(): Weapons {
 	return Weapons[id]
 }
 
-internal fun Player.flags(): Int = csgoEXE[this + fFlags]
+internal fun Player.flags(): Int = csgoEXE.int(this + fFlags)
 
 internal fun Player.onGround() = flags() and 1 == 1
 
-internal fun Player.health(): Int = csgoEXE[this + iHealth]
+internal fun Player.health(): Int = csgoEXE.int(this + iHealth)
 
 internal fun Player.dead() = try {
 	(csgoEXE.byte(this + lifeState) != 0.toByte()) || health() <= 0
