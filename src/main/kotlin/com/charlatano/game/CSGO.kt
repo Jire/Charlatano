@@ -95,7 +95,7 @@ object CSGO {
 			val enginePointer = engineDLL.uint(dwClientState)
 			val inGame = csgoEXE.int(enginePointer + dwInGame) == 6
 			val myAddress = clientDLL.uint(dwLocalPlayer)
-			paused = !inGame || myAddress < 0x200
+			paused = !inGame || myAddress <= 0
 		}
 		
 		constructEntities()

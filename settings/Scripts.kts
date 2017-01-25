@@ -26,7 +26,7 @@ val ENABLE_TRIGGER = false
 /**
  * Enables the reduced flash script.
  */
-val ENABLE_REDUCED_FLASH = false
+val ENABLE_REDUCED_FLASH = true
 
 /**
  * Enables the bomb timer script.

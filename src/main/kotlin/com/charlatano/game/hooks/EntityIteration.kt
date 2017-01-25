@@ -33,7 +33,7 @@ private fun reset() {
 
 fun constructEntities() = every(512) {
 	me = clientDLL.uint(dwLocalPlayer)
-	if (me < 0x200) return@every
+	if (me <= 0) return@every
 	
 	clientState = engineDLL.uint(dwClientState)
 	

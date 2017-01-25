@@ -47,7 +47,7 @@ fun main(args: Array<String>) {
 	if (esp) esp()
 	if (Dojo["ENABLE_AIM"]) fovAim()
 	if (Dojo["ENABLE_TRIGGER"]) fovTrigger()
-	if (Dojo["ENABLE_NO_FLASH"]) reducedFlash()
+	if (Dojo["ENABLE_REDUCED_FLASH"]) reducedFlash()
 	if (bombTimer) bombTimer()
 	
 	Thread.sleep(10_000) // wait a bit to catch everything
