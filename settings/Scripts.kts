@@ -24,9 +24,9 @@ val ENABLE_AIM = true
 val ENABLE_TRIGGER = false
 
 /**
- * Enables the no flash script.
+ * Enables the reduced flash script.
  */
-val ENABLE_NO_FLASH = true
+val ENABLE_REDUCED_FLASH = false
 
 /**
  * Enables the bomb timer script.

@@ -20,8 +20,8 @@ val AIM_FOV = 190
  *
  * The minimum value is 1, and max must always be greater than min.
  */
-val AIM_SPEED_MIN = 36
-val AIM_SPEED_MAX = 42
+val AIM_SPEED_MIN = 40
+val AIM_SPEED_MAX = 48
 
 /**
  * The strictness, or "stickiness" of the aimbot; the higher the number, the
@@ -29,7 +29,7 @@ val AIM_SPEED_MAX = 42
  *
  * The minimum value is 1.0
  */
-val AIM_STRICTNESS = 3.1
+val AIM_STRICTNESS = 2.8
 
 
 
@@ -86,9 +86,9 @@ val AIM_DURATION = 1
 /**
  * The amount of sprayed shots until the aimbot shifts to aiming at the [SHOULDER_BONE].
  */
-val SHIFT_TO_SHOULDER_SHOTS = 3
+val SHIFT_TO_SHOULDER_SHOTS = 4
 
 /**
  * The amount of sprayed shots until the aimbot shifts to aiming at the [BODY_BONE].
  */
-val SHIFT_TO_BODY_SHOTS = 6
+val SHIFT_TO_BODY_SHOTS = 7
