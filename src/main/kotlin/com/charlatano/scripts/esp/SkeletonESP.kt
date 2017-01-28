@@ -1,3 +1,21 @@
+/*
+ *     Charlatano: Free and open-source (FOSS) cheat for CS:GO/CS:CO
+ *     Copyright (C) 2017 - Thomas G. P. Nappo, Jonathan Beaudoin
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Affero General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.charlatano.scripts.esp
 
 import com.badlogic.gdx.Gdx
@@ -23,39 +41,40 @@ internal fun skeletonEsp() {
 	CharlatanoOverlay {
 		entities(EntityType.CCSPlayer) {
 			val entity = it.entity
-			if (entity <= 0 || entity == me || entity.dead() || entity.dormant()) return@entities
-			
-			val list = entityBones.get(entity) ?: CacheableList<Pair<Int, Int>>(20)
-			
-			if (list.isEmpty()) {
-				var offset = 0
-				
-				val studioModel = findStudioModel(entity.model())
-				val numbones = csgoEXE.int(studioModel + 0x9C)
-				val boneIndex = csgoEXE.int(studioModel + 0xA0)
-				
-				for (idx in 0..numbones - 1) {
-					val parent = csgoEXE.int(studioModel + boneIndex + 0x4 + offset)
-					val flags = csgoEXE.int(studioModel + boneIndex + 0xA0 + offset) and 0x100
-					
-					if (flags != 0 && parent != -1) {
-						list.add(Pair(parent, idx))
+			if (entity > 0 && entity != me && !entity.dead() && !entity.dormant())
+				(entityBones.get(entity) ?: CacheableList<Pair<Int, Int>>(20)).apply {
+					if (isEmpty()) {
+						var offset = 0
+						
+						val studioModel = findStudioModel(entity.model())
+						val numbones = csgoEXE.int(studioModel + 0x9C)
+						val boneIndex = csgoEXE.int(studioModel + 0xA0)
+						
+						for (idx in 0..numbones - 1) {
+							val parent = csgoEXE.int(studioModel + boneIndex + 0x4 + offset)
+							val flags = csgoEXE.int(studioModel + boneIndex + 0xA0 + offset) and 0x100
+							
+							if (flags != 0 && parent != -1) add(Pair(parent, idx))
+							
+							offset += 216
+						}
+						
+						entityBones.put(entity, this)
 					}
 					
-					offset += 216
+					forEach { drawBone(entity, it.first, it.second) }
 				}
-				entityBones.put(entity, list)
-			}
-			list.forEach { drawBone(entity, it.first, it.second) }
 		}
 		
-		shapeRenderer.begin()
-		for (i in 0..currentIdx - 1) {
-			val bone = bones[i]
-			shapeRenderer.color = bone.color
-			shapeRenderer.line(bone.sX.toFloat(), bone.sY.toFloat(), bone.eX.toFloat(), bone.eY.toFloat())
+		shapeRenderer.apply {
+			begin()
+			for (i in 0..currentIdx - 1) {
+				val bone = bones[i]
+				color = bone.color
+				line(bone.sX.toFloat(), bone.sY.toFloat(), bone.eX.toFloat(), bone.eY.toFloat())
+			}
+			end()
 		}
-		shapeRenderer.end()
 		
 		currentIdx = 0
 	}
@@ -63,10 +82,10 @@ internal fun skeletonEsp() {
 
 private fun findStudioModel(pModel: Long): Long {
 	val type = csgoEXE.uint(pModel + 0x0110)
-	if (type != 3L) return 0 //Type is not Studiomodel
+	if (type != 3L) return 0 // Type is not Studiomodel
 	
 	var handle = csgoEXE.uint(pModel + 0x0138) and 0xFFFF
-	if (handle == 0xFFFFL) return 0 //Handle is not valid
+	if (handle == 0xFFFFL) return 0 // Handle is not valid
 	
 	handle = handle shl 4
 	
@@ -101,13 +120,16 @@ private fun drawBone(target: Player, start: Int, end: Int) {
 			target.bone(0x1C, end, boneMatrix),
 			target.bone(0x2C, end, boneMatrix))
 	
-	if (!worldToScreen(startBone, startDraw) || !worldToScreen(endBone, endDraw)) return
-	
-	bones[currentIdx].sX = startDraw.x.toInt()
-	bones[currentIdx].sY = startDraw.y.toInt()
-	bones[currentIdx].eX = endDraw.x.toInt()
-	bones[currentIdx].eY = endDraw.y.toInt()
-	bones[currentIdx++].color = colors[target.health()]
+	if (worldToScreen(startBone, startDraw) && worldToScreen(endBone, endDraw)) {
+		bones[currentIdx].apply {
+			sX = startDraw.x.toInt()
+			sY = startDraw.y.toInt()
+			eX = endDraw.x.toInt()
+			eY = endDraw.y.toInt()
+			color = colors[target.health()]
+		}
+		currentIdx++
+	}
 }
 
 private data class Line(var sX: Int = -1, var sY: Int = -1,

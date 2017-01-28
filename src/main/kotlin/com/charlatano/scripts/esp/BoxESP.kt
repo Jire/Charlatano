@@ -1,3 +1,21 @@
+/*
+ *     Charlatano: Free and open-source (FOSS) cheat for CS:GO/CS:CO
+ *     Copyright (C) 2017 - Thomas G. P. Nappo, Jonathan Beaudoin
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Affero General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.charlatano.scripts.esp
 
 import com.badlogic.gdx.graphics.Color
@@ -27,31 +45,37 @@ internal fun boxEsp() = CharlatanoOverlay {
 		vHead.set(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C) + 9)
 		vFeet.set(vHead.x, vHead.y, vHead.z - 75)
 		
-		if (!worldToScreen(vHead, vTop) || !worldToScreen(vFeet, vBot)) return@entities
-		
-		val h = vBot.y - vTop.y
-		val w = h / 5F
-		
-		val bomb: Entity = entityByType(EntityType.CC4)?.entity ?: -1
-		val c = if (bomb > -1 && entity == bomb.carrier()) Color.GREEN
-		else if (me.team() == entity.team()) Color.BLUE else Color.RED
-		
-		val sx = (vTop.x - w).toInt()
-		val sy = vTop.y.toInt()
-		
-		boxes[currentIdx].x = sx
-		boxes[currentIdx].y = sy
-		boxes[currentIdx].w = (w * 2).toInt()
-		boxes[currentIdx].h = h.toInt()
-		boxes[currentIdx++].color = c
+		if (worldToScreen(vHead, vTop) && worldToScreen(vFeet, vBot)) {
+			val boxH = vBot.y - vTop.y
+			val boxW = boxH / 5F
+			
+			val bomb: Entity = entityByType(EntityType.CC4)?.entity ?: -1
+			val c = if (bomb > -1 && entity == bomb.carrier()) Color.GREEN
+			else if (me.team() == entity.team()) Color.BLUE else Color.RED
+			
+			val sx = (vTop.x - boxW).toInt()
+			val sy = vTop.y.toInt()
+			
+			boxes[currentIdx].apply {
+				x = sx
+				y = sy
+				w *= 2
+				h = boxH.toInt()
+				color = c
+			}
+			
+			currentIdx++
+		}
 	}
 	
-	shapeRenderer.begin()
-	for (i in 0..currentIdx - 1) boxes[i].apply {
-		shapeRenderer.color = color
-		shapeRenderer.rect(x.toFloat(), y.toFloat(), w.toFloat(), h.toFloat())
+	shapeRenderer.apply sR@ {
+		begin()
+		for (i in 0..currentIdx - 1) boxes[i].apply {
+			this@sR.color = color
+			rect(x.toFloat(), y.toFloat(), w.toFloat(), h.toFloat())
+		}
+		end()
 	}
-	shapeRenderer.end()
 	
 	currentIdx = 0
 }

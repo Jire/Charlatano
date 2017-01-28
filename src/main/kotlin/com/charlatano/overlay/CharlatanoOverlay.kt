@@ -1,3 +1,21 @@
+/*
+ *     Charlatano: Free and open-source (FOSS) cheat for CS:GO/CS:CO
+ *     Copyright (C) 2017 - Thomas G. P. Nappo, Jonathan Beaudoin
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Affero General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.charlatano.overlay
 
 import com.badlogic.gdx.ApplicationAdapter
@@ -38,21 +56,22 @@ object CharlatanoOverlay : ApplicationAdapter() {
 	}
 	
 	override fun render() {
-		gl.glEnable(GL20.GL_BLEND)
-		gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
-		
-		gl.glClearColor(0F, 0F, 0F, 0F)
-		gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-		
-		if (paused) return
-		
-		camera.setToOrtho(true, gameWidth.toFloat(), gameHeight.toFloat())
-		batch.projectionMatrix = camera.combined
-		shapeRenderer.projectionMatrix = camera.combined
-		
-		for (i in 0..bodies.size - 1) bodies[i]()
-		
-		gl.glDisable(GL20.GL_BLEND)
+		gl.apply {
+			glEnable(GL20.GL_BLEND)
+			glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
+			glClearColor(0F, 0F, 0F, 0F)
+			glClear(GL20.GL_COLOR_BUFFER_BIT)
+			
+			if (paused) return
+			
+			camera.setToOrtho(true, gameWidth.toFloat(), gameHeight.toFloat())
+			batch.projectionMatrix = camera.combined
+			shapeRenderer.projectionMatrix = camera.combined
+			
+			for (i in 0..bodies.size - 1) bodies[i]()
+			
+			glDisable(GL20.GL_BLEND)
+		}
 	}
 	
 	override fun dispose() {

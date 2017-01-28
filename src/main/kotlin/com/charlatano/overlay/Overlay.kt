@@ -1,3 +1,21 @@
+/*
+ *     Charlatano: Free and open-source (FOSS) cheat for CS:GO/CS:CO
+ *     Copyright (C) 2017 - Thomas G. P. Nappo, Jonathan Beaudoin
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Affero General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.charlatano.overlay
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication
@@ -17,26 +35,25 @@ object Overlay {
 	
 	var hwnd: WinDef.HWND? = null
 	
-	fun open() {
-		val cfg = LwjglApplicationConfiguration()
-		cfg.width = gameWidth
-		cfg.height = gameHeight
-		cfg.title = randLong(Long.MAX_VALUE).toString()
-		cfg.x = gameX
-		cfg.y = gameY
-		cfg.resizable = false
-		cfg.fullscreen = false
-		cfg.vSyncEnabled = OPENGL_VSYNC
+	fun open() = LwjglApplicationConfiguration().apply {
+		width = gameWidth
+		height = gameHeight
+		title = randLong(Long.MAX_VALUE).toString()
+		x = gameX
+		y = gameY
+		resizable = false
+		fullscreen = false
+		vSyncEnabled = OPENGL_VSYNC
 		if (OPENGL_MSAA_SAMPLES > 0)
-			cfg.samples = OPENGL_MSAA_SAMPLES
+			samples = OPENGL_MSAA_SAMPLES
 		
-		cfg.foregroundFPS = OPENGL_FPS
-		cfg.backgroundFPS = OPENGL_FPS
+		foregroundFPS = OPENGL_FPS
+		backgroundFPS = OPENGL_FPS
 		
-		LwjglApplication(CharlatanoOverlay, cfg)
+		LwjglApplication(CharlatanoOverlay, this)
 		
 		do {
-			hwnd = User32.INSTANCE.FindWindow(null, cfg.title)
+			hwnd = User32.INSTANCE.FindWindow(null, title)
 			Thread.sleep(512)
 		} while (hwnd == null)
 		WindowTools.transparentWindow(hwnd!!)

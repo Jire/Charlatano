@@ -1,3 +1,21 @@
+/*
+ *     Charlatano: Free and open-source (FOSS) cheat for CS:GO/CS:CO
+ *     Copyright (C) 2017 - Thomas G. P. Nappo, Jonathan Beaudoin
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Affero General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.charlatano.utils
 
 import com.charlatano.game.CSGO.gameHeight
@@ -25,7 +43,8 @@ fun aim(currentAngle: Angle, dest: Angle, smoothing: Int,
 	delta.set(currentAngle.y - dest.y, currentAngle.x - dest.x, 0.0)
 	
 	var sens = GAME_SENSITIVITY * sensMultiplier
-	if (sens < GAME_SENSITIVITY || perfect) sens = GAME_SENSITIVITY
+	if (sens < GAME_SENSITIVITY) sens = GAME_SENSITIVITY
+	if (perfect) sens = 1.0
 	
 	val dx = Math.round(delta.x / (sens * GAME_PITCH))
 	val dy = Math.round(-delta.y / (sens * GAME_YAW))
@@ -36,18 +55,13 @@ fun aim(currentAngle: Angle, dest: Angle, smoothing: Int,
 	val target = target.get()
 	target.set((mousePos.x + (dx / 2)).toInt(), (mousePos.y + (dy / 2)).toInt())
 	
-	if (target.x <= 0) return
-	else if (target.x >= gameX + gameWidth) return
-	if (target.y <= 0) return
-	else if (target.y >= gameY + gameHeight) return
+	if (target.x <= 0 || target.x >= gameX + gameWidth
+			|| target.y <= 0 || target.y >= gameY + gameHeight) return
 	
 	if (perfect) {
 		mouseMove(dx.toInt(), dy.toInt())
 		Thread.sleep(20)
-		return
-	}
-	
-	HumanMouse(mousePos, target) { steps, x, y, i ->
+	} else HumanMouse.fastSteps(mousePos, target) { steps, i ->
 		val point = target
 		mousePos.refresh()
 		
