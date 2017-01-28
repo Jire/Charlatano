@@ -85,9 +85,8 @@ task charlatano {
 		def name = "Charlatano $version"
 		
 		def dir = file("build/$name/")
-		if (dir.exists()) dir.list().each {
-			file(new File(dir.getPath(), it)).delete()
-		} else dir.mkdirs()
+		if (dir.exists()) dir.deleteDir()
+		dir.mkdirs()
 		
 		def jarName = "${name}.jar"
 		def jar = file(new File(dir, jarName))
@@ -106,8 +105,8 @@ pause""".getBytes())
 		def dirSettings = file(new File(dir, "settings"))
 		dirSettings.mkdirs()
 		def settings = file("settings")
-		for (setting in settings.listFiles()) {
-			Files.copy(setting.toPath(), file(new File(dirSettings, setting.getName())).toPath())
+		settings.listFiles().each {
+			Files.copy(it.toPath(), file(new File(dirSettings, it.getName())).toPath())
 		}
 	}
 }
