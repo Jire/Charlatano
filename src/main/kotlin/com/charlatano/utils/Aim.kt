@@ -49,8 +49,7 @@ fun aim(currentAngle: Angle, dest: Angle, smoothing: Int,
 	val dx = Math.round(delta.x / (sens * GAME_PITCH))
 	val dy = Math.round(-delta.y / (sens * GAME_YAW))
 	
-	val mousePos = mousePos.get()
-	mousePos.refresh()
+	val mousePos = mousePos.get().refresh()
 	
 	val target = target.get()
 	target.set((mousePos.x + (dx / 2)).toInt(), (mousePos.y + (dy / 2)).toInt())
