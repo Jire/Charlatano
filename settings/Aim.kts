@@ -59,12 +59,12 @@ val AIM_STRICTNESS = 2.8
  * Whether or not to use perfect aim, which will instantaneously snap
  * to the aim bone once you are within the [PERFECT_AIM_FOV].
  */
-val PERFECT_AIM = false
+val PERFECT_AIM = true
 
 /**
  * The FOV, in degrees (0 to 360) to snap for perfect aim.
  */
-val PERFECT_AIM_FOV = 30
+val PERFECT_AIM_FOV = 27
 
 /**
  * The chance, from 1% to 100% (0 to 100) for perfect aim to activate.
