@@ -30,8 +30,6 @@ import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.hook
 
 val onGround = hook(4) {
-	val me: Player = clientDLL.uint(dwLocalPlayer)
-	if (me <= 0 || me.dead()) return@hook false
-	
-	me.onGround() && !scaleFormDLL.boolean(ScaleFormOffsets.bCursorEnabled)
+	val me = clientDLL.uint(dwLocalPlayer)
+	me > 0 && !me.dead() && me.onGround() && !scaleFormDLL.boolean(ScaleFormOffsets.bCursorEnabled)
 }
