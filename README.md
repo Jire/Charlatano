@@ -32,4 +32,4 @@ free and open-source cheating software!
 Before starting the cheat, you should already be spawned in a game with a weapon in hand!
 
 
-[![Beginner's Video](http://img.youtube.com/vi/xbh3-mVXFOA/0.jpg)](http://www.youtube.com/watch?v=xbh3-mVXFOA "Charlatano")
+[![Beginner's Video](http://i.imgur.com/rjnAfR9.png)](http://www.youtube.com/watch?v=xbh3-mVXFOA "Charlatano")
