@@ -4,7 +4,12 @@ _Cheating is but a lifestyle_
 [![Build Status](https://travis-ci.org/Jire/Charlatano.svg?branch=master)](https://travis-ci.org/Jire/Charlatano)
 [![License](https://img.shields.io/github/license/Jire/Charlatano.svg)](https://github.com/Jire/Charlatano/blob/master/LICENSE.txt)
 
-**From the creators of Abendigo** comes a brand new approach to cheating-- _Charlatano_ can be completely [u]stream-proof[/u], hiding the fact that you're cheating while streaming, and completely bypasses SMAC server-sided anticheat as well as FaceIT's modified SMAC. Turning off visuals or using a screenshot blocker (like hypervisor-powered protection against screenshots in Kaspersky) can potentially allow you to play on leagues like ESEA for weeks or months. _Charlatano_ uses strong humanizing settings that bring the public the next step in free and open-source cheating software!
+**From the creators of Abendigo** comes a brand new approach to cheating-- _Charlatano_ can be completely
+__stream-proof__, hiding the fact that you're cheating while streaming, and completely bypasses SMAC server-sided
+anticheat as well as FaceIT's modified SMAC. Turning off visuals or using a screenshot blocker
+(like hypervisor-powered protection against screenshots in Kaspersky) can potentially allow you to play on leagues
+like ESEA for weeks or months. _Charlatano_ uses strong humanizing settings that bring the public the next step in
+free and open-source cheating software!
 
 **Available Features**
 * Always-on all-weapon smooth recoil control system
