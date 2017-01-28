@@ -30,7 +30,5 @@ import com.charlatano.utils.extensions.uint
 
 fun reducedFlash() = onFlash {
 	val me: Player = clientDLL.uint(dwLocalPlayer)
-	if (me <= 0 || me.dead()) return@onFlash
-	
-	csgoEXE[me + flFlashMaxAlpha] = FLASH_MAX_ALPHA
+	if (me > 0 && !me.dead()) csgoEXE[me + flFlashMaxAlpha] = FLASH_MAX_ALPHA
 }
