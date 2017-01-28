@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import com.charlatano.scripts.esp.GameColor
+import com.charlatano.game.Color
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// --- ESP Types --- ///////////////////////////////////////
@@ -87,27 +87,27 @@ val SHOW_GRENADES = false
 /**
  * The color to highlight your team mates.
  */
-val TEAM_COLOR = GameColor(0, 0, 255)
+val TEAM_COLOR = Color(0, 0, 255)
 
 /**
  * The color to highlight your enemies.
  */
-val ENEMY_COLOR = GameColor(255, 0, 0)
+val ENEMY_COLOR = Color(255, 0, 0)
 
 /**
  * The color to highlight the bomb.
  */
-val BOMB_COLOR = GameColor(255, 255, 0, 1.0)
+val BOMB_COLOR = Color(255, 255, 0, 1.0)
 
 /**
  * The color to highlight weapons.
  */
-val WEAPON_COLOR = GameColor(0, 255, 0, 0.5)
+val WEAPON_COLOR = Color(0, 255, 0, 0.5)
 
 /**
  * The color to highlight grenades.
  */
-val GRENADE_COLOR = GameColor(0, 255, 0, 1.0)
+val GRENADE_COLOR = Color(0, 255, 0, 1.0)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

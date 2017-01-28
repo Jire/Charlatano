@@ -19,6 +19,7 @@
 package com.charlatano.scripts.esp
 
 import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.game.Color
 import com.charlatano.game.entities
 import com.charlatano.game.entity.*
 import com.charlatano.game.me
@@ -57,7 +58,7 @@ internal fun glowEsp() = every(4) {
 	}
 }
 
-private fun Entity.glow(color: GameColor) {
+private fun Entity.glow(color: Color) {
 	csgoEXE[this + 0x4] = color.red / 255F
 	csgoEXE[this + 0x8] = color.green / 255F
 	csgoEXE[this + 0xC] = color.blue / 255F
@@ -65,7 +66,7 @@ private fun Entity.glow(color: GameColor) {
 	csgoEXE[this + 0x24] = true
 }
 
-private fun Entity.chams(color: GameColor) {
+private fun Entity.chams(color: Color) {
 	if (COLOR_MODELS) {
 		csgoEXE[this + 0x70] = color.red.toByte()
 		csgoEXE[this + 0x71] = color.green.toByte()
