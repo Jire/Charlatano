@@ -99,6 +99,15 @@ task charlatano {
 title $name
 java -jar "$jarName"
 pause""".getBytes())
+		
+		Files.copy(file("LICENSE.txt").toPath(), file(new File(dir, "LICENSE.txt")).toPath())
+		
+		def dirSettings = file(new File(dir, "settings"))
+		dirSettings.mkdirs()
+		def settings = file("settings")
+		for (setting in settings.listFiles()) {
+			Files.copy(setting.toPath(), file(new File(dirSettings, setting.getName())).toPath())
+		}
 	}
 }
 
