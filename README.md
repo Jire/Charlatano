@@ -22,6 +22,8 @@ free and open-source cheating software!
 * Glow ESP (not stream-proof)
 * Humanized bunny hop using scroll input[/list]
 
+---
+
 **Beginner's Guide**
 * Visit our [GitHub repository](https://github.com/Jire/Charlatano)
 * Click on the [**Releases**](https://github.com/Jire/Charlatano/releases) tab
@@ -31,5 +33,8 @@ free and open-source cheating software!
 
 Before starting the cheat, you should already be spawned in a game with a weapon in hand!
 
+---
+
+**Beginner's Guide Video**
 
 [![Beginner's Video](http://i.imgur.com/rjnAfR9.png)](http://www.youtube.com/watch?v=xbh3-mVXFOA "Charlatano")
