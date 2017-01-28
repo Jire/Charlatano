@@ -21,6 +21,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * Whether or not to aim when using the [FIRE_KEY] (by default left click).
+ *
+ * You should disable this if you don't want aim to activate when left clicking.
+ */
+val ACTIVATE_FROM_FIRE_KEY = true
+
+/**
  * The key code of the force aim button.
  *
  * By default, this uses the backward mouse button

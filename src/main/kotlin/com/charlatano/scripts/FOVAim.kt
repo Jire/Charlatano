@@ -41,7 +41,7 @@ private fun reset() {
 }
 
 fun fovAim() = every(AIM_DURATION) {
-	val aim = keyPressed(FIRE_KEY)
+	val aim = ACTIVATE_FROM_FIRE_KEY && keyPressed(FIRE_KEY)
 	val forceAim = keyPressed(FORCE_AIM_KEY)
 	val pressed = aim or forceAim
 	var currentTarget = target.get()

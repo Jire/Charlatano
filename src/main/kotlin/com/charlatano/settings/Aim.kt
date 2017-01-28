@@ -20,6 +20,8 @@ package com.charlatano.settings
 
 import com.charlatano.utils.Dojo.Setting
 
+val ACTIVATE_FROM_FIRE_KEY: Boolean by Setting()
+
 val FORCE_AIM_KEY: Int by Setting()
 
 val AIM_FOV: Int by Setting()
