@@ -16,8 +16,8 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.scripts
+package com.charlatano.utils
 
 import java.awt.Robot
 
-internal val robot = Robot()
+val robot = Robot()

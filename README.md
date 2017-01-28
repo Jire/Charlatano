@@ -7,7 +7,7 @@ _Cheating is but a lifestyle_
 ####_What?! What about CheatLife?_
 We are striving to make CheatLife the absolute best CS:GO cheat ever created.. and this means that our engineering
 is state of the art, and eclipses perfection. But perfection takes a long time to achieve. In the mean time, I'd like
-to get out a new, undetected cheat which is a major step up from Charlatano-- and this is what _Charlatano_ is.
+to get out a new, undetected cheat which is a major step up from [Abendigo](https://github.com/Jire/Abendigo)-- and this is what _Charlatano_ is.
 
 ####_What's missing from Charlatano compared to CheatLife?_
 

@@ -23,6 +23,7 @@ import com.charlatano.settings.BUNNY_HOP_KEY
 import com.charlatano.utils.randBoolean
 import com.charlatano.utils.randInt
 import com.charlatano.utils.randLong
+import com.charlatano.utils.robot
 import org.jire.arrowhead.keyPressed
 
 fun bunnyHop() = onGround {

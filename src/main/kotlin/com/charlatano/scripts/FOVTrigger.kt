@@ -27,6 +27,7 @@ import com.charlatano.settings.TRIGGER_BONE
 import com.charlatano.settings.TRIGGER_FOV
 import com.charlatano.utils.hook
 import com.charlatano.utils.randLong
+import com.charlatano.utils.robot
 import org.jire.arrowhead.keyReleased
 import java.awt.event.InputEvent
 
