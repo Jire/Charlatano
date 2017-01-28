@@ -11,6 +11,8 @@ anticheat as well as FaceIT's modified SMAC. Turning off visuals or using a scre
 like ESEA for weeks or months. _Charlatano_ uses strong humanizing settings that bring the public the next step in
 free and open-source cheating software!
 
+---
+
 **Available Features**
 * Always-on all-weapon smooth recoil control system
 * Aim bot with humanized aim paths
