@@ -22,7 +22,7 @@ free and open-source cheating software!
 * Reduced flash
 * Stream-proof OpenGL overlay with box and skeleton ESP
 * Glow ESP (not stream-proof)
-* Humanized bunny hop using scroll input[/list]
+* Humanized bunny hop using scroll input
 
 ---
 
