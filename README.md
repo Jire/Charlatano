@@ -1,6 +1,5 @@
 # Charlatano
-
-**Charlatano** will be publically available January 27th!
+_Cheating is but a lifestyle_
 
 ####_What?! What about CheatLife?_
 We are striving to make CheatLife the absolute best CS:GO cheat ever created.. and this means that our engineering
@@ -19,5 +18,3 @@ Stream-safe OpenGL ESP, all aim flicking / invalid angles fixed, next to zero FP
 SMAC aimbot/bhop/trigger bypass, humanized aim paths, and writing to game memory can be disabled entirely.
 It also will be released with out-of-the-box obfuscation (which will be one build, shared by all "free" users),
 and a premium service which will give you a unique build & full customer support from myself and other devs.
-
-We will have an application page up soon at [www.charlatano.com](https://charlatano.com) -- STAY TUNED!

@@ -101,6 +101,7 @@ java -jar "$jarName"
 pause""".getBytes())
 		
 		Files.copy(file("LICENSE.txt").toPath(), file(new File(dir, "LICENSE.txt")).toPath())
+		Files.copy(file("README.md").toPath(), file(new File(dir, "READNE.md")).toPath())
 		
 		def dirSettings = file(new File(dir, "settings"))
 		dirSettings.mkdirs()
