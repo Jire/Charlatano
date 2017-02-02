@@ -59,7 +59,7 @@ internal fun boxEsp() = CharlatanoOverlay {
 			boxes[currentIdx].apply {
 				x = sx
 				y = sy
-				w *= 2
+				w = Math.ceil(boxW * 2).toInt()
 				h = boxH.toInt()
 				color = c
 			}
