@@ -49,16 +49,16 @@ mainClassName = "com.charlatano.Charlatano"
 
 repositories {
 	mavenCentral()
-	maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+	jcenter()
 	maven { url kotlin_eap_repo }
 }
 
 dependencies {
 	compile group: "org.jetbrains.kotlin", name: "kotlin-stdlib", version: kotlin_version
 	compile group: 'org.jetbrains.kotlin', name: 'kotlin-script-util', version: kotlin_version
-	compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlin_version
 	
-	compile group: "org.jire.arrowhead", name: "arrowhead", version: "1.2.3"
+	compile group: "org.jire.arrowhead", name: "arrowhead", version: "1.2.4"
+	
 	compile group: "it.unimi.dsi", name: "fastutil", version: "7.0.13"
 	
 	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -78,6 +78,7 @@ task mavenCapsule(type: MavenCapsule) {
 	capsuleManifest {
 		allowSnapshots = true
 		delegate.repositories = ["https://repo1.maven.org/maven2/",
+		                         "http://dl.bintray.com/jire/maven/",
 		                         "https://dl.bintray.com/kotlin/kotlin-eap-1.1/"]
 	}
 }

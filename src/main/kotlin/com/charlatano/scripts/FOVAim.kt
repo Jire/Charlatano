@@ -74,24 +74,21 @@ fun fovAim() = every(AIM_DURATION) {
 	if (!canShoot(currentTarget)) {
 		reset()
 		Thread.sleep(200 + randLong(350))
-		return@every
+	} else if (currentTarget.onGround() && me.onGround()) {
+		val boneID = bone.get()
+		val bonePosition = Vector(
+				currentTarget.bone(0xC, boneID),
+				currentTarget.bone(0x1C, boneID),
+				currentTarget.bone(0x2C, boneID))
+		
+		val dest = calculateAngle(me, bonePosition)
+		if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)
+		
+		val aimSpeed = AIM_SPEED_MIN + randInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
+		aim(currentAngle, dest, aimSpeed,
+				sensMultiplier = if (me.isScoped()) 1.0 else AIM_STRICTNESS,
+				perfect = perfect.getAndSet(false))
 	}
-	
-	if (!currentTarget.onGround() || !me.onGround()) return@every
-	
-	val boneID = bone.get()
-	val bonePosition = Vector(
-			currentTarget.bone(0xC, boneID),
-			currentTarget.bone(0x1C, boneID),
-			currentTarget.bone(0x2C, boneID))
-	
-	val dest = calculateAngle(me, bonePosition)
-	if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)
-	
-	val aimSpeed = AIM_SPEED_MIN + randInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
-	aim(currentAngle, dest, aimSpeed,
-			sensMultiplier = if (me.isScoped()) 1.0 else AIM_STRICTNESS,
-			perfect = perfect.getAndSet(false))
 }
 
 internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
