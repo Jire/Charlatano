@@ -16,6 +16,8 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import com.charlatano.settings.*
+
 /**
  * The amount of smoothing for the recoil control aim path.
  *
@@ -26,9 +28,9 @@
  *
  * Settings this too low may result in incorrect recoil control.
  */
-val RCS_SMOOTHING = 72
+RCS_SMOOTHING = 63
 
 /**
  * The duration in milliseconds at which recoil control is checked.
  */
-val RCS_DURATION = 1
+RCS_DURATION = 1

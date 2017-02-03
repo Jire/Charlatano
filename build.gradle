@@ -49,13 +49,14 @@ mainClassName = "com.charlatano.Charlatano"
 
 repositories {
 	mavenCentral()
-	maven { url kotlin_eap_repo }
 	maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+	maven { url kotlin_eap_repo }
 }
 
 dependencies {
 	compile group: "org.jetbrains.kotlin", name: "kotlin-stdlib", version: kotlin_version
 	compile group: 'org.jetbrains.kotlin', name: 'kotlin-script-util', version: kotlin_version
+	compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlin_version
 	
 	compile group: "org.jire.arrowhead", name: "arrowhead", version: "1.2.3"
 	compile group: "it.unimi.dsi", name: "fastutil", version: "7.0.13"

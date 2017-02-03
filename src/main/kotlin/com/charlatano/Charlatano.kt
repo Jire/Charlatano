@@ -24,8 +24,7 @@ import com.charlatano.game.CSGO
 import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.*
 import com.charlatano.scripts.esp.esp
-import com.charlatano.settings.BOX_ESP
-import com.charlatano.settings.SKELETON_ESP
+import com.charlatano.settings.*
 import com.charlatano.utils.Dojo
 import java.io.File
 import java.io.FileReader
@@ -40,18 +39,15 @@ fun main(args: Array<String>) {
 	
 	CSGO.initalize()
 	
-	val esp: Boolean = Dojo["ENABLE_ESP"]
-	val bombTimer: Boolean = Dojo["ENABLE_BOMB_TIMER"]
+	if (ENABLE_BOMB_TIMER or (ENABLE_ESP and (SKELETON_ESP or BOX_ESP))) Overlay.open()
 	
-	if (bombTimer or (esp and (SKELETON_ESP or BOX_ESP))) Overlay.open()
-	
-	if (Dojo["ENABLE_BUNNY_HOP"]) bunnyHop()
-	if (Dojo["ENABLE_RCS"]) rcs()
-	if (esp) esp()
-	if (Dojo["ENABLE_AIM"]) fovAim()
-	if (Dojo["ENABLE_TRIGGER"]) fovTrigger()
-	if (Dojo["ENABLE_REDUCED_FLASH"]) reducedFlash()
-	if (bombTimer) bombTimer()
+	if (ENABLE_BUNNY_HOP) bunnyHop()
+	if (ENABLE_RCS) rcs()
+	if (ENABLE_ESP) esp()
+	if (ENABLE_AIM) fovAim()
+	if (ENABLE_TRIGGER) fovTrigger()
+	if (ENABLE_REDUCED_FLASH) reducedFlash()
+	if (ENABLE_BOMB_TIMER) bombTimer()
 	
 	Thread.sleep(10_000) // wait a bit to catch everything
 	System.gc() // then cleanup

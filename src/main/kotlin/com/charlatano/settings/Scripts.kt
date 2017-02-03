@@ -18,35 +18,37 @@
 
 package com.charlatano.settings
 
-import com.charlatano.game.CSGO.clientDLL
-import com.charlatano.game.offsets.ClientOffsets.dwSensitivity
-import com.charlatano.game.offsets.ClientOffsets.dwSensitivityPtr
-import com.charlatano.utils.extensions.uint
+/**
+ * Enables the bunny hop script.
+ */
+var ENABLE_BUNNY_HOP = true
 
 /**
- * These should be set the same as your in-game "m_pitch" and "m_yaw" varues.
+ * Enables the recoil control system (RCS) script.
  */
-var GAME_PITCH = 0.022 // m_pitch
-var GAME_YAW = 0.022 // m_yaw
-
-val GAME_SENSITIVITY by lazy(LazyThreadSafetyMode.NONE) {
-	val pointer = clientDLL.address + dwSensitivityPtr
-	val value = clientDLL.uint(dwSensitivity) xor pointer
-	
-	java.lang.Float.intBitsToFloat(value.toInt()).toDouble()
-}
+var ENABLE_RCS = true
 
 /**
- * The tick ratio of the server.
+ * Enables the extra sensory perception (ESP) script.
  */
-var SERVER_TICK_RATE = 64
+var ENABLE_ESP = true
 
 /**
- * The maximum amount of entities that can be managed by the cached list.
+ * Enables the aim script.
  */
-var MAX_ENTITIES = 1024
+var ENABLE_AIM = true
 
 /**
- * The intervar in milliseconds to recycle entities in the cached list.
+ * Enables the trigger bot script.
  */
-var CLEANUP_TIME = 10_000
+var ENABLE_TRIGGER = false
+
+/**
+ * Enables the reduced flash script.
+ */
+var ENABLE_REDUCED_FLASH = true
+
+/**
+ * Enables the bomb timer script.
+ */
+var ENABLE_BOMB_TIMER = false

@@ -18,7 +18,19 @@
 
 package com.charlatano.settings
 
-import com.charlatano.utils.Dojo.Setting
+/**
+ * The amount of smoothing for the recoil control aim path.
+ *
+ * This has a minimum varue of 1, and is recommended to stay slightly
+ * above your full ping (which you can see with the "ping" command).
+ *
+ * For example, if you have 55 real ping, 65 is a good varue.
+ *
+ * Settings this too low may result in incorrect recoil control.
+ */
+var RCS_SMOOTHING = 62
 
-val RCS_SMOOTHING: Int by Setting()
-val RCS_DURATION: Int by Setting()
+/**
+ * The duration in milliseconds at which recoil control is checked.
+ */
+var RCS_DURATION = 1

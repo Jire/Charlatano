@@ -16,12 +16,14 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import com.charlatano.settings.*
+
 /**
  * The field of view (in degrees, 0 to 360) for the trigger.
  */
-val TRIGGER_FOV = 12
+TRIGGER_FOV = 12
 
 /**
  * The bone to automatically fire at for the trigger.
  */
-val TRIGGER_BONE = HEAD_BONE
+TRIGGER_BONE = HEAD_BONE

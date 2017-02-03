@@ -16,6 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import com.charlatano.settings.*
 import java.awt.event.KeyEvent
 
 /**
@@ -23,4 +24,4 @@ import java.awt.event.KeyEvent
  *
  * By default, this is the space bar key.
  */
-val BUNNY_HOP_KEY = KeyEvent.VK_SPACE
+BUNNY_HOP_KEY = KeyEvent.VK_SPACE

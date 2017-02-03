@@ -16,9 +16,11 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import com.charlatano.settings.*
+
 /**
  * The maximum alpha for the flashbang effect.
  *
  * This ranges from 0F (absolutely no effect) to 255F.
  */
-val FLASH_MAX_ALPHA = 200F
+FLASH_MAX_ALPHA = 200F

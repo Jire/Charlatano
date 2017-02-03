@@ -18,6 +18,11 @@
 
 package com.charlatano.settings
 
-import com.charlatano.utils.Dojo.Setting
+import java.awt.event.KeyEvent
 
-val BUNNY_HOP_KEY: Int by Setting()
+/**
+ * The hold key which activates bunny hop.
+ *
+ * By default, this is the space bar key.
+ */
+var BUNNY_HOP_KEY = KeyEvent.VK_SPACE
