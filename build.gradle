@@ -43,7 +43,7 @@ apply plugin: "kotlin"
 apply plugin: "application"
 
 group "com.charlatano"
-version "0.9.5"
+version "0.9.6"
 
 mainClassName = "com.charlatano.Charlatano"
 
@@ -80,6 +80,7 @@ task mavenCapsule(type: MavenCapsule) {
 		delegate.repositories = ["https://repo1.maven.org/maven2/",
 		                         "http://dl.bintray.com/jire/maven/",
 		                         "https://dl.bintray.com/kotlin/kotlin-eap-1.1/"]
+		jvmArgs = ["-Xskip-runtime-version-check"]
 	}
 }
 

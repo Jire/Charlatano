@@ -56,9 +56,7 @@ fun main(args: Array<String>) {
 	while (!Thread.interrupted()) {
 		when (scanner.nextLine()) {
 			"exit", "quit" -> System.exit(0)
-			"reload" -> {
-				// TODO
-			}
+			"reload" -> loadSettings()
 		}
 	}
 }
