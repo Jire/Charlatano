@@ -128,5 +128,6 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 	return closestPlayer
 }
 
-private fun canShoot(entity: Entity) = !(me.dead() || entity.dead() || entity.dormant()
+private fun canShoot(entity: Entity)
+		= !(me.dead() || entity.dead() || entity.dormant()
 		|| !entity.spotted() || entity.team() == me.team())
