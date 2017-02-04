@@ -59,4 +59,8 @@ object Overlay {
 		WindowTools.transparentWindow(hwnd!!)
 	}
 	
+	init {
+		System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
+	}
+	
 }

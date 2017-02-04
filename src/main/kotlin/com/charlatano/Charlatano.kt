@@ -33,8 +33,6 @@ import java.util.*
 const val SETTINGS_DIRECTORY = "settings"
 
 fun main(args: Array<String>) {
-	System.setProperty("org.lwjgl.opengl.Window.undecorated", "true")
-	
 	loadSettings()
 	
 	CSGO.initalize()
