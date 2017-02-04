@@ -58,7 +58,7 @@ fun aim(currentAngle: Angle, dest: Angle, smoothing: Int,
 			|| target.y <= 0 || target.y >= gameY + gameHeight) return
 	
 	if (perfect) {
-		mouseMove((dx / 2).toInt(), (dy / 2).toInt() / 2)
+		mouseMove((dx / 2).toInt(), (dy / 2).toInt())
 		Thread.sleep(20)
 	} else HumanMouse.fastSteps(mousePos, target) { steps, i ->
 		val point = target
