@@ -39,8 +39,6 @@ fun main(args: Array<String>) {
 	
 	CSGO.initalize()
 	
-	//if (ENABLE_BOMB_TIMER or (ENABLE_ESP and (SKELETON_ESP or BOX_ESP))) Overlay.open()
-	
 	bunnyHop()
 	rcs()
 	esp()

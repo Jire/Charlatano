@@ -19,7 +19,7 @@
 package com.charlatano.scripts.esp
 
 fun esp() {
-	//glowEsp()
+	glowEsp()
 	boxEsp()
 	skeletonEsp()
 }
