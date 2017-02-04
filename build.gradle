@@ -100,6 +100,7 @@ task charlatano {
 		
 		def bat = file(new File(dir, "Start ${name}.bat"))
 		Files.write(bat.toPath(), """@echo off
+cd /d "%~dp0"
 title $name
 java -jar "$jarName"
 pause""".getBytes())
