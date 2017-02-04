@@ -39,15 +39,15 @@ fun main(args: Array<String>) {
 	
 	CSGO.initalize()
 	
-	if (ENABLE_BOMB_TIMER or (ENABLE_ESP and (SKELETON_ESP or BOX_ESP))) Overlay.open()
+	//if (ENABLE_BOMB_TIMER or (ENABLE_ESP and (SKELETON_ESP or BOX_ESP))) Overlay.open()
 	
-	if (ENABLE_BUNNY_HOP) bunnyHop()
-	if (ENABLE_RCS) rcs()
-	if (ENABLE_ESP) esp()
-	if (ENABLE_AIM) fovAim()
-	if (ENABLE_TRIGGER) fovTrigger()
-	if (ENABLE_REDUCED_FLASH) reducedFlash()
-	if (ENABLE_BOMB_TIMER) bombTimer()
+	bunnyHop()
+	rcs()
+	esp()
+	fovAim()
+	fovTrigger()
+	reducedFlash()
+	bombTimer()
 	
 	Thread.sleep(10_000) // wait a bit to catch everything
 	System.gc() // then cleanup
@@ -69,4 +69,7 @@ private fun loadSettings() {
 					.joinToString("\n"))
 		}
 	}
+	
+	val needsOverlay = ENABLE_BOMB_TIMER or (ENABLE_ESP and (SKELETON_ESP or BOX_ESP))
+	if (Overlay.hwnd == null && needsOverlay) Overlay.open()
 }

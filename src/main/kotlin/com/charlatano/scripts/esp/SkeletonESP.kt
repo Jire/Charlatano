@@ -18,7 +18,6 @@
 
 package com.charlatano.scripts.esp
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
@@ -28,6 +27,7 @@ import com.charlatano.game.me
 import com.charlatano.game.offsets.EngineOffsets.studioModel
 import com.charlatano.game.worldToScreen
 import com.charlatano.overlay.CharlatanoOverlay
+import com.charlatano.settings.SKELETON_ESP
 import com.charlatano.utils.Vector
 import com.charlatano.utils.collections.CacheableList
 import com.charlatano.utils.extensions.uint
@@ -39,6 +39,8 @@ private var currentIdx = 0
 
 internal fun skeletonEsp() {
 	CharlatanoOverlay {
+		if (!SKELETON_ESP) return@CharlatanoOverlay
+		
 		entities(EntityType.CCSPlayer) {
 			val entity = it.entity
 			if (entity > 0 && entity != me && !entity.dead() && !entity.dormant())

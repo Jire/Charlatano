@@ -26,19 +26,19 @@ import com.charlatano.settings.*
 /**
  * Whether or not to use skeleton ESP.
  */
-SKELETON_ESP = false
+SKELETON_ESP = true
 
 /**
  * Whether or not to use box ESP.
  */
-BOX_ESP = false
+BOX_ESP = true
 
 /**
  * Whether or not to use the within-game glow ESP.
  *
  * This ESP **CANNOT** be hidden from game capture for streaming.
  */
-GLOW_ESP = true
+GLOW_ESP = false
 
 
 

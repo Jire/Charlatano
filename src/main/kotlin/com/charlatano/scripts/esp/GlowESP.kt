@@ -27,6 +27,10 @@ import com.charlatano.settings.*
 import com.charlatano.utils.every
 
 internal fun glowEsp() = every(4) {
+	if (!GLOW_ESP) return@every
+	
+	println("HOW?!?!?!?")
+	
 	entities {
 		val entity = it.entity
 		if (entity <= 0 || me == entity) return@entities

@@ -22,6 +22,7 @@ import com.charlatano.game.angle
 import com.charlatano.game.clientState
 import com.charlatano.game.entity.position
 import com.charlatano.game.me
+import com.charlatano.settings.ENABLE_TRIGGER
 import com.charlatano.settings.FIRE_KEY
 import com.charlatano.settings.TRIGGER_BONE
 import com.charlatano.settings.TRIGGER_FOV
@@ -32,7 +33,8 @@ import org.jire.arrowhead.keyReleased
 import java.awt.event.InputEvent
 
 private val onTriggerTarget = hook(1) {
-	findTarget(me.position(), clientState.angle(), false, TRIGGER_FOV, TRIGGER_BONE) >= 0
+	if (ENABLE_TRIGGER) findTarget(me.position(), clientState.angle(), false, TRIGGER_FOV, TRIGGER_BONE) >= 0
+	else false
 }
 
 fun fovTrigger() = onTriggerTarget {

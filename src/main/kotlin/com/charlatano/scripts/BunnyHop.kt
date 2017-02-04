@@ -20,6 +20,7 @@ package com.charlatano.scripts
 
 import com.charlatano.game.hooks.onGround
 import com.charlatano.settings.BUNNY_HOP_KEY
+import com.charlatano.settings.ENABLE_BUNNY_HOP
 import com.charlatano.utils.randBoolean
 import com.charlatano.utils.randInt
 import com.charlatano.utils.randLong
@@ -27,7 +28,7 @@ import com.charlatano.utils.robot
 import org.jire.arrowhead.keyPressed
 
 fun bunnyHop() = onGround {
-	if (keyPressed(BUNNY_HOP_KEY)) {
+	if (ENABLE_BUNNY_HOP && keyPressed(BUNNY_HOP_KEY)) {
 		randScroll()
 		Thread.sleep(8 + randLong(10))
 		randScroll()

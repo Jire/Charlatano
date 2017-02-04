@@ -26,6 +26,7 @@ import com.charlatano.game.entityByType
 import com.charlatano.game.hooks.bombPlanted
 import com.charlatano.game.hooks.location
 import com.charlatano.overlay.CharlatanoOverlay
+import com.charlatano.settings.ENABLE_BOMB_TIMER
 
 @Volatile var canDefuse = false
 
@@ -43,17 +44,21 @@ fun bombTimer() {
 	}
 	
 	CharlatanoOverlay {
-		if (location.isEmpty()) return@CharlatanoOverlay
-		
-		val bomb = entityByType(EntityType.CPlantedC4)?.entity
-		if (bomb == null) {
-			location = ""
-			return@CharlatanoOverlay
+		if (ENABLE_BOMB_TIMER) {
+			if (location.isEmpty()) return@CharlatanoOverlay
+			
+			val bomb = entityByType(EntityType.CPlantedC4)?.entity
+			if (bomb == null) {
+				location = ""
+				return@CharlatanoOverlay
+			}
+			
+			
+			batch.begin()
+			textRenderer.color = Color.ORANGE
+			textRenderer.draw(batch, "Location: $location," +
+					"${bomb.timeLeft()} seconds, can defuse? $canDefuse", 20f, 400f)
+			batch.end()
 		}
-		
-		batch.begin()
-		textRenderer.color = Color.ORANGE
-		textRenderer.draw(batch, "Location: $location, ${bomb.timeLeft()} seconds, can defuse? $canDefuse", 20f, 400f)
-		batch.end()
 	}
 }

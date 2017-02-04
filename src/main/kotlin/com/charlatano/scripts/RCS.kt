@@ -38,6 +38,8 @@ private @Volatile var prevFired = 0
 private val lastPunch = DoubleArray(2)
 
 fun rcs() = every(RCS_DURATION) {
+	if (!ENABLE_RCS) return@every
+	
 	val myAddress: Player = clientDLL.uint(dwLocalPlayer)
 	if (myAddress <= 0) return@every
 	

@@ -26,6 +26,7 @@ import com.charlatano.game.me
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.utils.Vector
 import com.charlatano.game.worldToScreen
+import com.charlatano.settings.BOX_ESP
 
 private val vHead = Vector()
 private val vFeet = Vector()
@@ -38,6 +39,8 @@ private val boxes = Array(128) { Box() }
 private var currentIdx = 0
 
 internal fun boxEsp() = CharlatanoOverlay {
+	if (!BOX_ESP) return@CharlatanoOverlay
+	
 	entities(EntityType.CCSPlayer) {
 		val entity = it.entity
 		if (entity == me || entity.dead() || entity.dormant()) return@entities

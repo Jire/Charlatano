@@ -21,7 +21,7 @@ import com.charlatano.settings.*
 /**
  * Enables the bunny hop script.
  */
-ENABLE_BUNNY_HOP = true
+ENABLE_BUNNY_HOP = false
 
 /**
  * Enables the recoil control system (RCS) script.

@@ -68,7 +68,7 @@ AIM_STRICTNESS = 3.1
  * Whether or not to use perfect aim, which will instantaneously snap
  * to the aim bone once you are within the [PERFECT_AIM_FOV].
  */
-PERFECT_AIM = false
+PERFECT_AIM = true
 
 /**
  * The FOV, in degrees (0 to 360) to snap for perfect aim.
@@ -95,7 +95,7 @@ PERFECT_AIM_CHANCE = 100
 AIM_ASSIST_MODE = false
 
 /**
- * The amount of strictness for the aim assist mode, with a mimimum value of 1.
+ * The amount of strictness for the aim assist mode, with a minimum value of 1.
  */
 AIM_ASSIST_STRICTNESS = 40
 

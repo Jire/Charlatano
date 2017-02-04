@@ -39,4 +39,4 @@ OPENGL_VSYNC = false
  *
  * Valid sample amounts are 0 (disable), 2, 4, and 8.
  */
-OPENGL_MSAA_SAMPLES = 0
+OPENGL_MSAA_SAMPLES = 8
