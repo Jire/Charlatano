@@ -26,9 +26,7 @@ import com.charlatano.settings.ENABLE_TRIGGER
 import com.charlatano.settings.FIRE_KEY
 import com.charlatano.settings.TRIGGER_BONE
 import com.charlatano.settings.TRIGGER_FOV
-import com.charlatano.utils.hook
-import com.charlatano.utils.randLong
-import com.charlatano.utils.robot
+import com.charlatano.utils.*
 import org.jire.arrowhead.keyReleased
 import java.awt.event.InputEvent
 
@@ -39,8 +37,8 @@ private val onTriggerTarget = hook(1) {
 
 fun fovTrigger() = onTriggerTarget {
 	if (keyReleased(FIRE_KEY)) {
-		robot.mousePress(InputEvent.BUTTON1_MASK)
+		mouse(MOUSEEVENTF_LEFTDOWN)
 		Thread.sleep(8 + randLong(16))
-		robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
+		mouse(MOUSEEVENTF_LEFTUP)
 	}
 }
