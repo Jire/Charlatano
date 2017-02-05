@@ -53,7 +53,7 @@ internal fun boxEsp() = CharlatanoOverlay {
 			val boxW = boxH / 5F
 			
 			val bomb: Entity = entityByType(EntityType.CC4)?.entity ?: -1
-			val c = if (bomb > -1 && entity == bomb.carrier()) Color.GREEN
+			val c = if (bomb > 0 && entity == bomb.carrier()) Color.GREEN
 			else if (me.team() == entity.team()) Color.BLUE else Color.RED
 			
 			val sx = (vTop.x - boxW).toInt()
