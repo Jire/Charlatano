@@ -43,7 +43,7 @@ internal fun skeletonEsp() {
 		
 		entities(EntityType.CCSPlayer) {
 			val entity = it.entity
-			if (entity > 0 && entity != me && !entity.dead() && !entity.dormant())
+			if (entity > 0 && entity != me && !entity.dead() && !entity.dormant()) {
 				(entityBones.get(entity) ?: CacheableList<Pair<Int, Int>>(20)).apply {
 					if (isEmpty()) {
 						var offset = 0
@@ -66,6 +66,7 @@ internal fun skeletonEsp() {
 					
 					forEach { drawBone(entity, it.first, it.second) }
 				}
+			}
 		}
 		
 		shapeRenderer.apply {

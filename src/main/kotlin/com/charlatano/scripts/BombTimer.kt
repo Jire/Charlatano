@@ -53,11 +53,10 @@ fun bombTimer() {
 				return@CharlatanoOverlay
 			}
 			
-			
 			batch.begin()
 			textRenderer.color = Color.ORANGE
 			textRenderer.draw(batch, "Location: $location," +
-					"${bomb.timeLeft()} seconds, can defuse? $canDefuse", 20f, 400f)
+					"${bomb.timeLeft()} seconds, can defuse? $canDefuse", 20F, 400F)
 			batch.end()
 		}
 	}

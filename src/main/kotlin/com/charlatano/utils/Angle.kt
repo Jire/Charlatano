@@ -40,8 +40,7 @@ fun Vector.normalize() = apply {
 
 internal fun Angle.distanceTo(target: Angle) = abs(x - target.x) + abs(y - target.y) + abs(z - target.z)
 
-internal fun Angle.isValid() = !(
-		z != 0.0
+internal fun Angle.isValid() = !(z != 0.0
 		|| x < -89 || x > 180
 		|| y < -180 || y > 180
 		|| x.isNaN() || y.isNaN() || z.isNaN())
