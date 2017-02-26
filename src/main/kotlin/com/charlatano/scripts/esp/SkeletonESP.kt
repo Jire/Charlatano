@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.Color
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
 import com.charlatano.game.entities
+import com.charlatano.game.forEntities
 import com.charlatano.game.entity.*
 import com.charlatano.game.me
 import com.charlatano.game.offsets.EngineOffsets.studioModel
@@ -41,7 +42,7 @@ internal fun skeletonEsp() {
 	CharlatanoOverlay {
 		if (!SKELETON_ESP) return@CharlatanoOverlay
 		
-		entities(EntityType.CCSPlayer) {
+		forEntities(EntityType.CCSPlayer) {
 			val entity = it.entity
 			if (entity > 0 && entity != me && !entity.dead() && !entity.dormant()) {
 				(entityBones.get(entity) ?: CacheableList<Pair<Int, Int>>(20)).apply {

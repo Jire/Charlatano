@@ -21,6 +21,7 @@ package com.charlatano.scripts.esp
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.Color
 import com.charlatano.game.entities
+import com.charlatano.game.forEntities
 import com.charlatano.game.entity.*
 import com.charlatano.game.me
 import com.charlatano.settings.*
@@ -29,16 +30,16 @@ import com.charlatano.utils.every
 internal fun glowEsp() = every(4) {
 	if (!GLOW_ESP) return@every
 	
-	entities {
+	forEntities {
 		val entity = it.entity
-		if (entity <= 0 || me == entity) return@entities
+		if (entity <= 0 || me == entity) return@forEntities
 		
 		val glowAddress = it.glowAddress
-		if (glowAddress <= 0) return@entities
+		if (glowAddress <= 0) return@forEntities
 		
 		when (it.type) {
 			EntityType.CCSPlayer -> {
-				if (entity.dead() || (!SHOW_DORMANT && entity.dormant())) return@entities
+				if (entity.dead() || (!SHOW_DORMANT && entity.dormant())) return@forEntities
 				
 				val team = me.team() == entity.team()
 				if (SHOW_ENEMIES && !team) {

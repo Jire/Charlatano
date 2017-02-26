@@ -40,6 +40,9 @@ import org.jire.arrowhead.processByName
 
 object CSGO {
 	
+	const val ENTITY_SIZE = 16
+	const val GLOW_OBJECT_SIZE = 56
+	
 	lateinit var csgoEXE: Process
 		private set
 	
@@ -118,8 +121,5 @@ object CSGO {
 		
 		constructEntities()
 	}
-	
-	const val ENTITY_SIZE = 16
-	const val GLOW_OBJECT_SIZE = 56
 	
 }

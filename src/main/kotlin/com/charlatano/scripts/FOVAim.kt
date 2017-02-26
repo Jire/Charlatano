@@ -73,7 +73,7 @@ fun fovAim() = every(AIM_DURATION) {
 		target.set(currentTarget)
 	}
 	
-	if (!canShoot(currentTarget)) {
+	if (!currentTarget.canShoot()) {
 		reset()
 		Thread.sleep(200 + randLong(350))
 	} else if (currentTarget.onGround() && me.onGround()) {
@@ -100,10 +100,10 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 	
 	var closestFOV = Double.MAX_VALUE
 	
-	entities(EntityType.CCSPlayer) {
+	forEntities(EntityType.CCSPlayer) {
 		val entity = it.entity
-		if (entity <= 0) return@entities
-		if (!canShoot(entity)) return@entities
+		if (entity <= 0) return@forEntities
+		if (!entity.canShoot()) return@forEntities
 		
 		val ePos: Angle = Vector(entity.bone(0xC, boneID), entity.bone(0x1C, boneID), entity.bone(0x2C, boneID))
 		val distance = position.distanceTo(ePos)
@@ -130,6 +130,9 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 	return closestPlayer
 }
 
-private fun canShoot(entity: Entity)
-		= !(me.dead() || entity.dead() || entity.dormant()
-		|| !entity.spotted() || entity.team() == me.team())
+private fun Entity.canShoot()
+		= spotted()
+		&& !dormant()
+		&& !dead()
+		&& me.team() != team()
+		&& !me.dead()
