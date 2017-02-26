@@ -1,4 +1,9 @@
-.gradle
-.idea
 build
 out
+
+.gradle
+
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/libraries
+.idea/gradle.xml
