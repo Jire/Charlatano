@@ -1,9 +1,9 @@
 @echo off
 cd /d "%~dp0"
 
-title Charlatano 0.9.6
+title Charlatano 0.9.7
 
-call set bat="./build/Charlatano 0.9.6/Start Charlatano 0.9.6.bat"
+call set bat="./build/Charlatano 0.9.7/Start Charlatano 0.9.7.bat"
 
 :loop
 if exist %bat% (
