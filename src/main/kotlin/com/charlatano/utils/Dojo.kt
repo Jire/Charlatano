@@ -27,7 +27,7 @@ import kotlin.reflect.KProperty
 object Dojo {
 	
 	val factory = KotlinJsr223JvmLocalScriptEngineFactory()
-	val engine: ScriptEngine = factory.getScriptEngine()
+	val engine: ScriptEngine = factory.scriptEngine
 	
 	fun script(script: String): Any? = engine.eval(script)
 	
@@ -35,6 +35,7 @@ object Dojo {
 	
 	operator fun invoke(function: String): Unit = invoke<Unit>(function)
 	
+	@Suppress("UNCHECKED_CAST")
 	operator fun <T> get(name: String): T = engine.eval(name) as T
 	
 	operator fun <T> set(name: String, value: T) {
