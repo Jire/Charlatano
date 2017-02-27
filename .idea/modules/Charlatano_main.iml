@@ -74,7 +74,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.badlogicgames.gdx:gdx-box2d-platform:natives-desktop:1.9.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: net.java.dev.jna:jna:4.3.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: net.java.dev.jna:jna-platform:4.3.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.jetbrains.kotlin:kotlin-runtime:1.1.0-rc-91" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.jetbrains.kotlin:kotlin-script-runtime:1.1.0-rc-91" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.jetbrains.kotlin:kotlin-compiler:1.1.0-rc-91" level="project" />

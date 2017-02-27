@@ -18,37 +18,10 @@
 
 package com.charlatano.settings
 
-/**
- * Enables the bunny hop script.
- */
 var ENABLE_BUNNY_HOP = true
-
-/**
- * Enables the recoil control system (RCS) script.
- */
 var ENABLE_RCS = true
-
-/**
- * Enables the extra sensory perception (ESP) script.
- */
 var ENABLE_ESP = true
-
-/**
- * Enables the aim script.
- */
 var ENABLE_AIM = true
-
-/**
- * Enables the trigger bot script.
- */
-var ENABLE_TRIGGER = false
-
-/**
- * Enables the reduced flash script.
- */
+var ENABLE_BONE_TRIGGER = false
 var ENABLE_REDUCED_FLASH = true
-
-/**
- * Enables the bomb timer script.
- */
 var ENABLE_BOMB_TIMER = false

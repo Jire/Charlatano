@@ -19,11 +19,11 @@
 import com.charlatano.settings.*
 
 /**
- * The field of view (in degrees, 0 to 360) for the trigger.
+ * The field of view (in degrees, 0 to 360) for the bone trigger.
  */
-TRIGGER_FOV = 12
+BONE_TRIGGER_FOV = 12
 
 /**
- * The bone to automatically fire at for the trigger.
+ * The bone to automatically fire at for the bone trigger.
  */
-TRIGGER_BONE = HEAD_BONE
+BONE_TRIGGER_BONE = HEAD_BONE

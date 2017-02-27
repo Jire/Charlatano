@@ -18,12 +18,5 @@
 
 package com.charlatano.settings
 
-/**
- * The field of view (in degrees, 0 to 360) for the trigger.
- */
-var TRIGGER_FOV = 12
-
-/**
- * The bone to automatically fire at for the trigger.
- */
-var TRIGGER_BONE = HEAD_BONE
+var BONE_TRIGGER_FOV = 12
+var BONE_TRIGGER_BONE = HEAD_BONE

@@ -41,7 +41,7 @@ fun main(args: Array<String>) {
 	rcs()
 	esp()
 	fovAim()
-	fovTrigger()
+	boneTrigger()
 	reducedFlash()
 	bombTimer()
 	

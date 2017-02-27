@@ -22,20 +22,20 @@ import com.charlatano.game.angle
 import com.charlatano.game.clientState
 import com.charlatano.game.entity.position
 import com.charlatano.game.me
-import com.charlatano.settings.ENABLE_TRIGGER
+import com.charlatano.settings.BONE_TRIGGER_BONE
+import com.charlatano.settings.BONE_TRIGGER_FOV
+import com.charlatano.settings.ENABLE_BONE_TRIGGER
 import com.charlatano.settings.FIRE_KEY
-import com.charlatano.settings.TRIGGER_BONE
-import com.charlatano.settings.TRIGGER_FOV
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyReleased
-import java.awt.event.InputEvent
 
-private val onTriggerTarget = hook(1) {
-	if (ENABLE_TRIGGER) findTarget(me.position(), clientState.angle(), false, TRIGGER_FOV, TRIGGER_BONE) >= 0
+private val onBoneTriggerTarget = hook(1) {
+	if (ENABLE_BONE_TRIGGER) findTarget(me.position(), clientState.angle(), false,
+			BONE_TRIGGER_FOV, BONE_TRIGGER_BONE) >= 0
 	else false
 }
 
-fun fovTrigger() = onTriggerTarget {
+fun boneTrigger() = onBoneTriggerTarget {
 	if (keyReleased(FIRE_KEY)) {
 		mouse(MOUSEEVENTF_LEFTDOWN)
 		Thread.sleep(8 + randLong(16))

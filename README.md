@@ -18,7 +18,7 @@ free and open-source cheating software!
 * Aim bot with humanized aim paths
 * Low-FOV "perfect aim" (non-silent)
 * Aim assistance mode for professional and high-level players
-* FOV bone trigger bot
+* Bone trigger
 * Reduced flash
 * Stream-proof OpenGL overlay with box and skeleton ESP
 * Glow ESP (not stream-proof)

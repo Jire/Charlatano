@@ -47,9 +47,9 @@ ENABLE_ESP = true
 ENABLE_AIM = true
 
 /**
- * Enables the trigger bot script.
+ * Enables the bone trigger bot script.
  */
-ENABLE_TRIGGER = false
+ENABLE_BONE_TRIGGER = false
 
 /**
  * Enables the reduced flash script.
