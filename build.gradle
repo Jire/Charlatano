@@ -75,8 +75,7 @@ task mavenCapsule(type: MavenCapsule) {
 	capsuleManifest {
 		allowSnapshots = true
 		delegate.repositories = ["https://repo1.maven.org/maven2/",
-		                         "http://dl.bintray.com/jire/maven/",
-		                         "https://dl.bintray.com/kotlin/kotlin-eap-1.1/"]
+		                         "http://dl.bintray.com/jire/maven/"]
 	}
 }
 
