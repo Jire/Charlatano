@@ -33,10 +33,6 @@ buildscript {
 	}
 }
 
-plugins {
-	id "us.kirchmeier.capsule" version "1.0.2"
-}
-
 apply plugin: "idea"
 apply plugin: "java"
 apply plugin: "kotlin"
@@ -71,13 +67,15 @@ dependencies {
 	compile group: 'net.java.dev.jna', name: 'jna-platform', version: '4.3.0'
 }
 
-task mavenCapsule(type: MavenCapsule) {
-	applicationClass mainClassName
-	reallyExecutable
-	capsuleManifest {
-		allowSnapshots = true
-		delegate.repositories = ["https://repo1.maven.org/maven2/"]
+jar {
+	manifest {
+		attributes 'Main-Class': mainClassName
 	}
+}
+
+shadowJar {
+	baseName = 'Charlatano'
+	classifier = null
 }
 
 task charlatano {
@@ -90,8 +88,8 @@ task charlatano {
 		
 		def jarName = "${name}.jar"
 		def jar = file(new File(dir, jarName))
-		def capsule = file("build/libs/Charlatano-${version}-capsule.jar")
-		Files.copy(capsule.toPath(), jar.toPath())
+		def allJar = file("build/libs/Charlatano-${version}.jar")
+		Files.copy(allJar.toPath(), jar.toPath())
 		
 		def bat = file(new File(dir, "Start ${name}.bat"))
 		Files.write(bat.toPath(), """@echo off
@@ -109,11 +107,15 @@ pause""".getBytes())
 		settings.listFiles().each {
 			Files.copy(it.toPath(), file(new File(dirSettings, it.getName())).toPath())
 		}
+		
+		Files.copy(file(project.configurations.compile.find {
+			it.name.startsWith("kotlin-compiler-${kotlin_version}.jar")
+		}).toPath(), file(new File(dir, "kotlin-compiler.jar")).toPath())
 	}
 }
 
-charlatano.dependsOn mavenCapsule
-charlatano.mustRunAfter mavenCapsule
+charlatano.dependsOn shadowJar
+charlatano.mustRunAfter shadowJar
 
 sourceSets {
 	main.java.srcDirs += 'src/main/java'
