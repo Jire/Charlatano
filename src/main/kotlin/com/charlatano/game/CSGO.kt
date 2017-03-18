@@ -113,9 +113,14 @@ object CSGO {
 		NetVars.load()
 		
 		retry(16) {
+			var myAddress = clientDLL.uint(dwLocalPlayer)
+			if (myAddress <= 0) {
+				dwLocalPlayer = dwLocalPlayer + 0x1C // can't do dwLocalPlayer += 0x1C because of compiler bug...
+				myAddress = clientDLL.uint(dwLocalPlayer)
+			}
+			
 			val enginePointer = engineDLL.uint(dwClientState)
 			val inGame = csgoEXE.int(enginePointer + dwInGame) == 6
-			val myAddress = clientDLL.uint(dwLocalPlayer)
 			paused = !inGame || myAddress <= 0
 		}
 		

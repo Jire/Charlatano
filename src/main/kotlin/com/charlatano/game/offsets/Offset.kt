@@ -61,7 +61,17 @@ class Offset(val module: Module, val patternOffset: Long, val addressOffset: Lon
 		throw IllegalStateException("Failed to resolve offset")
 	}
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = address
+	private var value = -1L
+	
+	operator fun getValue(thisRef: Any?, property: KProperty<*>): Long {
+		if (value == -1L)
+			value = address
+		return value
+	}
+	
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Long) {
+		this.value = value
+	}
 	
 	private fun mask(memory: Memory, offset: Long, mask: ByteArray): Boolean {
 		for (i in mask.indices) {

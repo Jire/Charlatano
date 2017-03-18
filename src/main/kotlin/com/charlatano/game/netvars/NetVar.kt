@@ -32,6 +32,10 @@ class NetVar(val className: String, var varName: String?, val offset: Int, val i
 		return value
 	}
 	
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Long) {
+		this.value = value
+	}
+	
 }
 
 fun netVar(className: String, varName: String? = null, offset: Int = 0, index: Int = -1)
