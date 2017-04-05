@@ -23,6 +23,8 @@ package com.charlatano
 import com.charlatano.game.CSGO
 import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.*
+import com.charlatano.scripts.aim.safeAim
+import com.charlatano.scripts.aim.writeAim
 import com.charlatano.scripts.esp.esp
 import com.charlatano.settings.*
 import com.charlatano.utils.Dojo
@@ -42,7 +44,8 @@ fun main(args: Array<String>) {
 	bunnyHop()
 	rcs()
 	esp()
-	fovAim()
+	writeAim()
+	safeAim()
 	boneTrigger()
 	reducedFlash()
 	bombTimer()

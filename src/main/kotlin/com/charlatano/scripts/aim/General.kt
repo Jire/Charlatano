@@ -16,39 +16,84 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.scripts
+package com.charlatano.scripts.aim
 
 import com.charlatano.game.*
-import com.charlatano.game.CSGO.scaleFormDLL
 import com.charlatano.game.entity.*
 import com.charlatano.game.offsets.ScaleFormOffsets
 import com.charlatano.settings.*
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
-import java.lang.Math.*
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
-private val target = AtomicLong(-1)
-val perfect = AtomicBoolean(false)
+val target = AtomicLong(-1)
 val bone = AtomicInteger(HEAD_BONE)
+val perfect = AtomicBoolean() // only applicable for safe aim
 
-private fun reset() {
+internal fun reset() {
 	target.set(-1L)
 	bone.set(HEAD_BONE)
 	perfect.set(false)
 }
 
-fun fovAim() = every(AIM_DURATION) {
-	if (!ENABLE_AIM) return@every
+internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
+                        lockFOV: Int = AIM_FOV, boneID: Int = HEAD_BONE): Player {
+	var closestDelta = Double.MAX_VALUE
+	var closestPlayer: Player = -1L
+	
+	var closestFOV = Double.MAX_VALUE
+	
+	forEntities(EntityType.CCSPlayer) {
+		val entity = it.entity
+		if (entity <= 0) return@forEntities
+		if (!entity.canShoot()) return@forEntities
+		
+		val ePos: Angle = Vector(entity.bone(0xC, boneID), entity.bone(0x1C, boneID), entity.bone(0x2C, boneID))
+		val distance = position.distanceTo(ePos)
+		
+		val dest = calculateAngle(me, ePos)
+		
+		val pitchDiff = Math.abs(angle.x - dest.x)
+		val yawDiff = Math.abs(angle.y - dest.y)
+		val delta = Math.abs(Math.sin(Math.toRadians(yawDiff)) * distance)
+		val fovDelta = Math.abs((Math.sin(Math.toRadians(pitchDiff)) + Math.sin(Math.toRadians(yawDiff))) * distance)
+		
+		if (fovDelta <= lockFOV && delta < closestDelta) {
+			closestDelta = delta
+			closestPlayer = entity
+			closestFOV = fovDelta
+		}
+	}
+	
+	if (closestDelta == Double.MAX_VALUE || closestDelta < 0 || closestPlayer < 0) return -1
+	
+	if (PERFECT_AIM && allowPerfect && closestFOV <= PERFECT_AIM_FOV && randInt(100 + 1) <= PERFECT_AIM_CHANCE)
+		perfect.set(true)
+	
+	return closestPlayer
+}
+
+internal fun Entity.canShoot()
+		= spotted()
+		&& !dormant()
+		&& !dead()
+		&& me.team() != team()
+		&& !me.dead()
+
+internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boolean,
+                                  crossinline doAim: (destinationAngle: Angle,
+                                                      currentAngle: Angle, aimSpeed: Int) -> R)
+		= every(duration) {
+	if (!precheck()) return@every
 	
 	val aim = ACTIVATE_FROM_FIRE_KEY && keyPressed(FIRE_KEY)
 	val forceAim = keyPressed(FORCE_AIM_KEY)
 	val pressed = aim or forceAim
 	var currentTarget = target.get()
 	
-	if (!pressed || scaleFormDLL.boolean(ScaleFormOffsets.bCursorEnabled)) {
+	if (!pressed || CSGO.scaleFormDLL.boolean(ScaleFormOffsets.bCursorEnabled)) {
 		reset()
 		return@every
 	}
@@ -83,56 +128,10 @@ fun fovAim() = every(AIM_DURATION) {
 				currentTarget.bone(0x1C, boneID),
 				currentTarget.bone(0x2C, boneID))
 		
-		val dest = calculateAngle(me, bonePosition)
-		if (AIM_ASSIST_MODE) dest.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)
+		val destinationAngle = calculateAngle(me, bonePosition)
+		if (AIM_ASSIST_MODE) destinationAngle.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)
 		
 		val aimSpeed = AIM_SPEED_MIN + randInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
-		aim(currentAngle, dest, aimSpeed,
-				sensMultiplier = if (me.isScoped()) 1.0 else AIM_STRICTNESS,
-				perfect = perfect.getAndSet(false))
+		doAim(destinationAngle, currentAngle, aimSpeed)
 	}
 }
-
-internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
-                        lockFOV: Int = AIM_FOV, boneID: Int = HEAD_BONE): Player {
-	var closestDelta = Double.MAX_VALUE
-	var closestPlayer: Player = -1L
-	
-	var closestFOV = Double.MAX_VALUE
-	
-	forEntities(EntityType.CCSPlayer) {
-		val entity = it.entity
-		if (entity <= 0) return@forEntities
-		if (!entity.canShoot()) return@forEntities
-		
-		val ePos: Angle = Vector(entity.bone(0xC, boneID), entity.bone(0x1C, boneID), entity.bone(0x2C, boneID))
-		val distance = position.distanceTo(ePos)
-		
-		val dest = calculateAngle(me, ePos)
-		
-		val pitchDiff = abs(angle.x - dest.x)
-		val yawDiff = abs(angle.y - dest.y)
-		val delta = abs(sin(toRadians(yawDiff)) * distance)
-		val fovDelta = abs((sin(toRadians(pitchDiff)) + sin(toRadians(yawDiff))) * distance)
-		
-		if (fovDelta <= lockFOV && delta < closestDelta) {
-			closestDelta = delta
-			closestPlayer = entity
-			closestFOV = fovDelta
-		}
-	}
-	
-	if (closestDelta == Double.MAX_VALUE || closestDelta < 0 || closestPlayer < 0) return -1
-	
-	if (PERFECT_AIM && allowPerfect && closestFOV <= PERFECT_AIM_FOV && randInt(100 + 1) <= PERFECT_AIM_CHANCE)
-		perfect.set(true)
-	
-	return closestPlayer
-}
-
-private fun Entity.canShoot()
-		= spotted()
-		&& !dormant()
-		&& !dead()
-		&& me.team() != team()
-		&& !me.dead()

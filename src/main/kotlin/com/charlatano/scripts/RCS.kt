@@ -30,6 +30,8 @@ import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.ScaleFormOffsets.bCursorEnabled
+import com.charlatano.scripts.aim.bone
+import com.charlatano.scripts.aim.perfect
 import com.charlatano.settings.*
 import com.charlatano.utils.*
 import com.charlatano.utils.extensions.uint
@@ -79,7 +81,7 @@ fun rcs() = every(RCS_DURATION) {
 		normalize()
 	}
 	
-	aim(clientState.angle(), view, RCS_SMOOTHING)
+	safeAim(clientState.angle(), view, RCS_SMOOTHING)
 	
 	lastPunch[0] = punch.x
 	lastPunch[1] = punch.y

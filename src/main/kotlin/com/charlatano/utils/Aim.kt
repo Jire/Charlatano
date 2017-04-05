@@ -22,6 +22,9 @@ import com.charlatano.game.CSGO.gameHeight
 import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.game.CSGO.gameX
 import com.charlatano.game.CSGO.gameY
+import com.charlatano.game.angle
+import com.charlatano.game.clientState
+import com.charlatano.game.setAngle
 import com.charlatano.settings.GAME_PITCH
 import com.charlatano.settings.GAME_SENSITIVITY
 import com.charlatano.settings.GAME_YAW
@@ -34,9 +37,23 @@ private val target = ThreadLocal.withInitial { POINT() }
 
 private val delta = ThreadLocal.withInitial { Vector() }
 
-fun aim(currentAngle: Angle, dest: Angle, smoothing: Int,
-        randomSleepMax: Int = 10, staticSleep: Int = 2,
-        sensMultiplier: Double = 1.0, perfect: Boolean = false) {
+fun writeAim(dest: Vector, orig: Vector, smoothing: Double) {
+	dest.x -= orig.x
+	dest.y -= orig.y
+	dest.z = 0.0
+	dest.normalize()
+	
+	dest.x = orig.x + dest.x / 100 * (100 / smoothing)
+	dest.y = orig.y + dest.y / 100 * (100 / smoothing)
+	
+	dest.normalize()
+	
+	clientState.setAngle(dest)
+}
+
+fun safeAim(currentAngle: Angle, dest: Angle, smoothing: Int,
+            randomSleepMax: Int = 10, staticSleep: Int = 2,
+            sensMultiplier: Double = 1.0, perfect: Boolean = false) {
 	if (!dest.isValid()) return
 	
 	val delta = delta.get()

@@ -16,13 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.settings
+package com.charlatano.scripts.aim
 
-var ENABLE_BUNNY_HOP = true
-var ENABLE_RCS = true
-var ENABLE_ESP = true
-var ENABLE_SAFE_AIM = false
-var ENABLE_WRITE_AIM = true
-var ENABLE_BONE_TRIGGER = false
-var ENABLE_REDUCED_FLASH = true
-var ENABLE_BOMB_TIMER = false
+import com.charlatano.settings.AIM_DURATION
+import com.charlatano.settings.ENABLE_WRITE_AIM
+import com.charlatano.utils.writeAim
+
+fun writeAim() = aimScript(AIM_DURATION, { ENABLE_WRITE_AIM }) { dest, current, aimSpeed ->
+	writeAim(dest, current, aimSpeed.toDouble())
+}

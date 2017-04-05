@@ -47,8 +47,8 @@ AIM_FOV = 190
  *
  * The minimum value is 1, and max must always be greater than min.
  */
-AIM_SPEED_MIN = 42
-AIM_SPEED_MAX = 52
+AIM_SPEED_MIN = 30
+AIM_SPEED_MAX = 40
 
 /**
  * The strictness, or "stickiness" of the aimbot; the higher the number, the

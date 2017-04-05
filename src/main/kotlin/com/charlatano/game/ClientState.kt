@@ -29,3 +29,12 @@ fun ClientState.angle(): Angle
 		= Vector(csgoEXE.float(this + dwViewAngles).toDouble(),
 		csgoEXE.float(this + dwViewAngles + 4).toDouble(),
 		csgoEXE.float(this + dwViewAngles + 8).toDouble())
+
+fun ClientState.setAngle(angle: Angle) {
+	if (angle.z != 0.0 || angle.x < -89 || angle.x > 180 || angle.y < -180 || angle.y > 180
+			|| angle.x.isNaN() || angle.y.isNaN() || angle.z.isNaN()) return
+	
+	csgoEXE[this + dwViewAngles] = angle.x.toFloat() // pitch (up and down)
+	csgoEXE[this + dwViewAngles + 4] = angle.y.toFloat() // yaw (side to side)
+	// csgo[address + m_dwViewAngles + 8] = angle.z.toFloat() // roll (twist)
+}
