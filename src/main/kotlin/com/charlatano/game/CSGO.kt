@@ -34,6 +34,7 @@ import com.charlatano.utils.paused
 import com.charlatano.utils.retry
 import com.sun.jna.platform.win32.User32
 import com.sun.jna.platform.win32.WinDef
+import com.sun.jna.platform.win32.WinNT
 import org.jire.arrowhead.Module
 import org.jire.arrowhead.Process
 import org.jire.arrowhead.processByName
@@ -66,10 +67,15 @@ object CSGO {
 		private set
 	
 	fun initalize() {
-		retry(128) { csgoEXE = processByName("csgo.exe")!! }
+		retry(128) {
+			csgoEXE = processByName("csgo.exe",
+							WinNT.PROCESS_VM_READ
+							or WinNT.PROCESS_VM_WRITE
+							or WinNT.PROCESS_QUERY_INFORMATION)!!
+		}
+		
 		retry(128) {
 			csgoEXE.loadModules()
-			
 			clientDLL = csgoEXE.modules["client.dll"]!!
 			engineDLL = csgoEXE.modules["engine.dll"]!!
 			scaleFormDLL = csgoEXE.modules["scaleformui.dll"]!!
