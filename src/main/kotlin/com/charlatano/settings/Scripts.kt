@@ -21,8 +21,8 @@ package com.charlatano.settings
 var ENABLE_BUNNY_HOP = true
 var ENABLE_RCS = true
 var ENABLE_ESP = true
-var ENABLE_SAFE_AIM = false
-var ENABLE_WRITE_AIM = true
+var ENABLE_FLAT_AIM = true
+var ENABLE_PATH_AIM = false
 var ENABLE_BONE_TRIGGER = false
 var ENABLE_REDUCED_FLASH = true
 var ENABLE_BOMB_TIMER = false

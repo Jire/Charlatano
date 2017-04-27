@@ -25,10 +25,8 @@ import com.charlatano.game.entity.Player
 import com.charlatano.utils.collections.CacheableList
 import com.charlatano.utils.collections.ListContainer
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap
-import it.unimi.dsi.fastutil.ints.Int2ObjectMaps
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap
-import it.unimi.dsi.fastutil.objects.Object2ObjectMaps
 import java.util.*
 
 var me: Player = 0
@@ -37,10 +35,10 @@ var clientState: ClientState = 0
 typealias EntityContainer = ListContainer<EntityContext>
 typealias EntityList = Object2ObjectArrayMap<EntityType, CacheableList<EntityContext>>
 
-private val cachedResults = Int2ObjectMaps.synchronize(Int2ObjectArrayMap<EntityContainer>(EntityType.size))
+private val cachedResults = Int2ObjectArrayMap<EntityContainer>(EntityType.size)
 
 val entities: Object2ObjectMap<EntityType, CacheableList<EntityContext>>
-		= Object2ObjectMaps.synchronize(EntityList(EntityType.size)).apply {
+		= EntityList(EntityType.size).apply {
 	for (type in EntityType.cachedValues) put(type, CacheableList<EntityContext>(MAX_ENTITIES))
 }
 

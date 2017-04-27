@@ -29,7 +29,7 @@ import com.charlatano.settings.*
  * bind "mwheelup" "+jump"
  * bind "mwheeldown" "+jump"
  */
-ENABLE_BUNNY_HOP = true
+ENABLE_BUNNY_HOP = false
 
 /**
  * Enables the recoil control system (RCS) script.
@@ -42,18 +42,18 @@ ENABLE_RCS = true
 ENABLE_ESP = true
 
 /**
- * Enables the safe aim script.
+ * Enables the flat aim script.
  *
- * This aim script is safe to use on FaceIT.
+ * This script uses traditional flat linear-regression smoothing.
  */
-ENABLE_SAFE_AIM = false
+ENABLE_FLAT_AIM = true
 
 /**
- * Enables the write aim script.
+ * Enables the path aim script.
  *
- * This aim script is NOT safe to use on FaceIT.
+ * This script uses an advanced path generation smoothing.
  */
-ENABLE_WRITE_AIM = true
+ENABLE_PATH_AIM = false
 
 /**
  * Enables the bone trigger bot script.

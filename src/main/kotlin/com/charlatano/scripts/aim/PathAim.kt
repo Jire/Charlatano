@@ -18,10 +18,13 @@
 
 package com.charlatano.scripts.aim
 
-import com.charlatano.settings.AIM_DURATION
-import com.charlatano.settings.ENABLE_WRITE_AIM
-import com.charlatano.utils.writeAim
+import com.charlatano.game.entity.isScoped
+import com.charlatano.game.me
+import com.charlatano.settings.*
+import com.charlatano.utils.pathAim
 
-fun writeAim() = aimScript(AIM_DURATION, { ENABLE_WRITE_AIM }) { dest, current, aimSpeed ->
-	writeAim(dest, current, aimSpeed.toDouble())
+fun pathAim() = aimScript(AIM_DURATION, { ENABLE_PATH_AIM }) { dest, current, aimSpeed ->
+	pathAim(current, dest, aimSpeed,
+			sensMultiplier = if (me.isScoped()) 1.0 else AIM_STRICTNESS,
+			perfect = perfect.getAndSet(false))
 }

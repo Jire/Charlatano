@@ -66,13 +66,9 @@ object CSGO {
 	var gameY: Int = 0
 		private set
 	
-	fun initalize() {
-		retry(128) {
-			csgoEXE = processByName("csgo.exe",
-							WinNT.PROCESS_VM_READ
-							or WinNT.PROCESS_VM_WRITE
-							or WinNT.PROCESS_QUERY_INFORMATION)!!
-		}
+	fun initialize() {
+		retry(128) { csgoEXE = processByName("csgo.exe", WinNT.PROCESS_QUERY_INFORMATION
+				or WinNT.PROCESS_VM_READ or WinNT.PROCESS_VM_WRITE)!! }
 		
 		retry(128) {
 			csgoEXE.loadModules()

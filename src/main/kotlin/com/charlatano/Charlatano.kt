@@ -23,8 +23,8 @@ package com.charlatano
 import com.charlatano.game.CSGO
 import com.charlatano.overlay.Overlay
 import com.charlatano.scripts.*
-import com.charlatano.scripts.aim.safeAim
-import com.charlatano.scripts.aim.writeAim
+import com.charlatano.scripts.aim.flatAim
+import com.charlatano.scripts.aim.pathAim
 import com.charlatano.scripts.esp.esp
 import com.charlatano.settings.*
 import com.charlatano.utils.Dojo
@@ -39,13 +39,13 @@ fun main(args: Array<String>) {
 	
 	loadSettings()
 	
-	CSGO.initalize()
+	CSGO.initialize()
 	
 	bunnyHop()
 	rcs()
 	esp()
-	writeAim()
-	safeAim()
+	flatAim()
+	pathAim()
 	boneTrigger()
 	reducedFlash()
 	bombTimer()

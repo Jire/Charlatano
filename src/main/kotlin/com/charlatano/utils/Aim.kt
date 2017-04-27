@@ -37,27 +37,44 @@ private val target = ThreadLocal.withInitial { POINT() }
 
 private val delta = ThreadLocal.withInitial { Vector() }
 
-fun writeAim(dest: Vector, orig: Vector, smoothing: Double) {
-	dest.x -= orig.x
-	dest.y -= orig.y
-	dest.z = 0.0
-	dest.normalize()
+fun applyFlatSmoothing(currentAngle: Angle, destinationAngle: Angle, smoothing: Double) = destinationAngle.apply {
+	x -= currentAngle.x
+	y -= currentAngle.y
+	z = 0.0
+	normalize()
 	
-	dest.x = orig.x + dest.x / 100 * (100 / smoothing)
-	dest.y = orig.y + dest.y / 100 * (100 / smoothing)
+	x = currentAngle.x + x / 100 * (100 / smoothing)
+	y = currentAngle.y + y / 100 * (100 / smoothing)
 	
-	dest.normalize()
-	
-	clientState.setAngle(dest)
+	normalize()
 }
 
-fun safeAim(currentAngle: Angle, dest: Angle, smoothing: Int,
-            randomSleepMax: Int = 10, staticSleep: Int = 2,
-            sensMultiplier: Double = 1.0, perfect: Boolean = false) {
-	if (!dest.isValid()) return
+fun writeAim(currentAngle: Angle, destinationAngle: Angle, smoothing: Double)
+		= clientState.setAngle(applyFlatSmoothing(currentAngle, destinationAngle, smoothing))
+
+fun flatAim(currentAngle: Angle, destinationAngle: Angle, smoothing: Double, sensMultiplier: Double = 1.0) {
+	applyFlatSmoothing(currentAngle, destinationAngle, smoothing)
+	if (!destinationAngle.isValid()) return
 	
 	val delta = delta.get()
-	delta.set(currentAngle.y - dest.y, currentAngle.x - dest.x, 0.0)
+	delta.set(currentAngle.y - destinationAngle.y, currentAngle.x - destinationAngle.x, 0.0)
+	
+	var sens = GAME_SENSITIVITY * sensMultiplier
+	if (sens < GAME_SENSITIVITY) sens = GAME_SENSITIVITY
+	
+	val dx = Math.round(delta.x / (sens * GAME_PITCH))
+	val dy = Math.round(-delta.y / (sens * GAME_YAW))
+	
+	mouseMove((dx / 2).toInt(), (dy / 2).toInt())
+}
+
+fun pathAim(currentAngle: Angle, destinationAngle: Angle, smoothing: Int,
+            randomSleepMax: Int = 10, staticSleep: Int = 2,
+            sensMultiplier: Double = 1.0, perfect: Boolean = false) {
+	if (!destinationAngle.isValid()) return
+	
+	val delta = delta.get()
+	delta.set(currentAngle.y - destinationAngle.y, currentAngle.x - destinationAngle.x, 0.0)
 	
 	var sens = GAME_SENSITIVITY * sensMultiplier
 	if (sens < GAME_SENSITIVITY) sens = GAME_SENSITIVITY

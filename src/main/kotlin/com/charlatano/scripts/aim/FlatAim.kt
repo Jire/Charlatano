@@ -18,13 +18,10 @@
 
 package com.charlatano.scripts.aim
 
-import com.charlatano.game.entity.isScoped
-import com.charlatano.game.me
-import com.charlatano.settings.*
-import com.charlatano.utils.safeAim
+import com.charlatano.settings.AIM_DURATION
+import com.charlatano.settings.ENABLE_FLAT_AIM
+import com.charlatano.utils.writeAim
 
-fun safeAim() = aimScript(AIM_DURATION, { ENABLE_SAFE_AIM }) { dest, current, aimSpeed ->
-	safeAim(current, dest, aimSpeed,
-			sensMultiplier = if (me.isScoped()) 1.0 else AIM_STRICTNESS,
-			perfect = perfect.getAndSet(false))
+fun flatAim() = aimScript(AIM_DURATION, { ENABLE_FLAT_AIM }) { dest, current, aimSpeed ->
+	writeAim(current, dest, aimSpeed.toDouble())
 }
