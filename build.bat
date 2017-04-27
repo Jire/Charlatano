@@ -1,4 +1,4 @@
 @echo off
 title Charlatano Builder
-gradlew charlatano
+call gradlew charlatano
 pause
