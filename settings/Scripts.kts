@@ -29,7 +29,7 @@ import com.charlatano.settings.*
  * bind "mwheelup" "+jump"
  * bind "mwheeldown" "+jump"
  */
-ENABLE_BUNNY_HOP = false
+ENABLE_BUNNY_HOP = true
 
 /**
  * Enables the recoil control system (RCS) script.
