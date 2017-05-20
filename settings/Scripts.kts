@@ -29,7 +29,7 @@ import com.charlatano.settings.*
  * bind "mwheelup" "+jump"
  * bind "mwheeldown" "+jump"
  */
-ENABLE_BUNNY_HOP = true
+ENABLE_BUNNY_HOP = false
 
 /**
  * Enables the recoil control system (RCS) script.
@@ -63,7 +63,7 @@ ENABLE_BONE_TRIGGER = false
 /**
  * Enables the reduced flash script.
  */
-ENABLE_REDUCED_FLASH = true
+ENABLE_REDUCED_FLASH = false
 
 /**
  * Enables the bomb timer script.
