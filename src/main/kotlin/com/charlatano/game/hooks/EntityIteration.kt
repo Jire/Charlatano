@@ -27,7 +27,6 @@ import com.charlatano.game.CSGO.engineDLL
 import com.charlatano.game.EntityContext
 import com.charlatano.game.clientState
 import com.charlatano.game.entities
-import com.charlatano.game.forEntities
 import com.charlatano.game.entity.EntityType
 import com.charlatano.game.me
 import com.charlatano.game.offsets.ClientOffsets.dwGlowObject

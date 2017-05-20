@@ -63,7 +63,7 @@ ENABLE_BONE_TRIGGER = false
 /**
  * Enables the reduced flash script.
  */
-ENABLE_REDUCED_FLASH = true
+ENABLE_REDUCED_FLASH = false
 
 /**
  * Enables the bomb timer script.

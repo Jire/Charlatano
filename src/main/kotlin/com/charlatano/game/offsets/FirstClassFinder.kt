@@ -18,19 +18,32 @@
 
 package com.charlatano.game.offsets
 
-import com.charlatano.game.CSGO.engineDLL
-import com.charlatano.utils.extensions.invoke
-import com.charlatano.utils.get
+import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.game.CSGO.clientDLL
+import com.charlatano.game.offsets.ClientOffsets.decalname
+import com.charlatano.utils.extensions.uint
 
-object EngineOffsets {
+fun findDecal(): Long {
+	val mask = ByteArray(4)
+	for (i in 0..3) mask[i] = (((decalname shr 8 * i)) and 0xFF).toByte()
 	
-	val dwClientState by engineDLL(1)(0xA1, 0[4], 0x33, 0xD2, 0x6A, 0,
-			0x6A, 0, 0x33, 0xC9, 0x89, 0xB0, 0x08, 0x4E, 0, 0, 0xA1)
-	val dwInGame by engineDLL(2, subtract = false)(131, 185, 0[4], 6, 15, 148, 192, 195)
-	val dwGlobalVars by engineDLL(1)(0x68, 0[4], 0x68, 0[4], 0xFF, 0x50, 0x08, 0x85, 0xC0)
-	val dwViewAngles by engineDLL(4, subtract = false)(0xF3, 0x0F, 0x11, 0x80, 0[4], 0xD9, 0x46, 0x04, 0xD9, 0x05)
+	val memory = Offset.memoryByModule[clientDLL]!!
 	
-	val studioModel by engineDLL(0x2)(0x8B, 0x0D, 0x00, 0x00, 0x00, 0x00, 0x0F, 0xB7, 0x80,
-			0x00, 0x00, 0x00, 0x00, 0x8B, 0x11, 0x89, 0x45, 0x08, 0x5D, 0xFF, 0x62, 0x38, 0x33, 0xC0)
+	var skipped = 0
+	var currentAddress = 0L
+	while (currentAddress < clientDLL.size - mask.size) {
+		if (memory.mask(currentAddress, mask, false)) {
+			if (skipped < 5) { // skips
+				currentAddress += 0xA // skipSize
+				skipped++
+				continue
+			}
+			return currentAddress + clientDLL.address
+		}
+		currentAddress++
+	}
 	
+	return -1L
 }
+
+fun findFirstClass() = csgoEXE.uint(findDecal() + 0x3B)

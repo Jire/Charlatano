@@ -20,6 +20,7 @@ package com.charlatano.game.offsets
 
 import com.charlatano.utils.extensions.uint
 import com.sun.jna.Memory
+import com.sun.jna.Pointer
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap
 import org.jire.arrowhead.Addressed
 import org.jire.arrowhead.Module
@@ -49,7 +50,7 @@ class Offset(val module: Module, val patternOffset: Long, val addressOffset: Lon
 		
 		var currentAddress = 0L
 		while (currentAddress < offset) {
-			if (mask(memory, currentAddress, mask)) {
+			if (memory.mask(currentAddress, mask)) {
 				currentAddress += module.address + patternOffset
 				if (read) currentAddress = module.process.uint(currentAddress)
 				if (subtract) currentAddress -= module.address
@@ -73,13 +74,14 @@ class Offset(val module: Module, val patternOffset: Long, val addressOffset: Lon
 		this.value = value
 	}
 	
-	private fun mask(memory: Memory, offset: Long, mask: ByteArray): Boolean {
-		for (i in mask.indices) {
-			val value = mask[i]
-			if (0.toByte() != value && value != memory.getByte(offset + i))
-				return false
-		}
-		return true
+}
+
+fun Pointer.mask(offset: Long, mask: ByteArray, skipZero: Boolean = true): Boolean {
+	for (i in 0..mask.lastIndex) {
+		val value = mask[i]
+		if (skipZero && 0 == value.toInt()) continue
+		if (value != getByte(offset + i))
+			return false
 	}
-	
+	return true
 }
