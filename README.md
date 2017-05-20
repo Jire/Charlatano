@@ -51,7 +51,7 @@ Before starting the cheat, you should already be spawned in a game with a weapon
 
 **Beginner's Guide Video**
 
-[![Beginner's Video](http://i.imgur.com/Xz7W2oe.png)](https://www.youtube.com/watch?v=PapjDtR0OMY "Charlatano")
+[![Beginner's Video](http://i.imgur.com/pVLW5Yr.png)](https://www.youtube.com/watch?v=PapjDtR0OMY "Charlatano")
 
 ---
 
