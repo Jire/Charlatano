@@ -22,6 +22,7 @@ free and open-source cheating software!
 * Reduced flash
 * Stream-proof OpenGL overlay with box and skeleton ESP
 * Glow ESP (not stream-proof)
+* Enemies ESP on/off toggle 
 * Humanized bunny hop using scroll input
 * "Flat" aim bot with traditional linear-regression paths (not safe for use on leagues! use "PathAim" instead)
 
