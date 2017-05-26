@@ -30,7 +30,7 @@ buildscript {
 	
 	dependencies {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-		classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+		classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.0'
 	}
 }
 
@@ -41,7 +41,7 @@ apply plugin: "application"
 apply plugin: "com.github.johnrengelman.shadow"
 
 group "com.charlatano"
-version "1.0.2"
+version "1.0.3"
 
 mainClassName = "com.charlatano.Charlatano"
 
