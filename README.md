@@ -14,7 +14,7 @@ free and open-source cheating software!
 ---
 
 **Available Features**
-* Always-on all-weapon smooth recoil control system
+* Always-on all-weapon smooth dynamic recoil control system
 * Aim bot with humanized aim paths
 * Low-FOV "perfect aim" (non-silent)
 * Aim assistance mode for professional and high-level players
@@ -41,10 +41,10 @@ The first step is to compile the source code into a usable cheat program.
 * Double click on the "_build_" (_build.bat_) script and wait for it to complete
 
 Once those steps are complete, the usable cheat program can be found within the _build_
-directory, and will in a directory called **Charlatano 1.0.2**.
+directory, and will in a directory called **Charlatano 1.0.3**.
 
-From within the **Charlatano 1.0.2** directory, you can start the cheat by running
-the _"Start Charlatano 1.0.2"_ script.
+From within the **Charlatano 1.0.3** directory, you can start the cheat by running
+the _"Start Charlatano 1.0.3"_ script.
 
 Before starting the cheat, you should already be spawned in a game with a weapon in hand!
 
