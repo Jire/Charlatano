@@ -43,9 +43,9 @@ var FORCE_AIM_KEY = 5
 var AIM_FOV = 190
 
 /**
- * The aimbot's "playback" speed, the higher the varue the slower the playback.
+ * The aimbot's "playback" speed, the higher the value the slower the playback.
  *
- * The minimum varue is 1, and max must always be greater than min.
+ * The minimum value is 1, and max must always be greater than min.
  */
 var AIM_SPEED_MIN = 34
 var AIM_SPEED_MAX = 37
@@ -54,7 +54,7 @@ var AIM_SPEED_MAX = 37
  * The strictness, or "stickiness" of the aimbot; the higher the number, the
  * less strict the aimbot will stick to targets.
  *
- * The minimum varue is 1.0
+ * The minimum value is 1.0
  */
 var AIM_STRICTNESS = 2.4
 
@@ -93,7 +93,7 @@ var PERFECT_AIM_CHANCE = 100
 var AIM_ASSIST_MODE = false
 
 /**
- * The amount of strictness for the aim assist mode, with a mimimum varue of 1.
+ * The amount of strictness for the aim assist mode, with a mimimum value of 1.
  */
 var AIM_ASSIST_STRICTNESS = 40
 

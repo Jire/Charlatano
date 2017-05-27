@@ -24,7 +24,7 @@ import com.charlatano.game.offsets.ClientOffsets.dwSensitivityPtr
 import com.charlatano.utils.extensions.uint
 
 /**
- * These should be set the same as your in-game "m_pitch" and "m_yaw" varues.
+ * These should be set the same as your in-game "m_pitch" and "m_yaw" values.
  */
 var GAME_PITCH = 0.022 // m_pitch
 var GAME_YAW = 0.022 // m_yaw

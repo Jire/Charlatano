@@ -19,6 +19,16 @@
 import com.charlatano.settings.*
 
 /**
+ * The range of recoil control you want to have applied.
+ *
+ * If both values are equal, there will be no randomization.
+ *
+ * Having imperfect RCS will greatly lower league ban rate.
+ */
+RCS_MIN = 1.88
+RCS_MAX = 1.98
+
+/**
  * The amount of smoothing for the recoil control aim path.
  *
  * This has a minimum value of 1, and is recommended to stay slightly
