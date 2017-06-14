@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.settings
+import com.charlatano.settings.*
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////// --- GENERAL --- ///////////////////////////////////////
@@ -27,7 +27,7 @@ package com.charlatano.settings
  *
  * You should disable this if you don't want aim to activate when left clicking.
  */
-var ACTIVATE_FROM_FIRE_KEY = true
+ACTIVATE_FROM_FIRE_KEY = true
 
 /**
  * The key code of the force aim button.
@@ -35,20 +35,20 @@ var ACTIVATE_FROM_FIRE_KEY = true
  * By default, this uses the backward mouse button
  * (button 5, the button on the bottom left of gaming mice).
  */
-var FORCE_AIM_KEY = 5
+FORCE_AIM_KEY = 5
 
 /**
  * The field of view of the aimbot, in degrees (0 to 360).
  */
-var AIM_FOV = 190
+AIM_FOV = 30
 
 /**
  * The aimbot's "playback" speed, the higher the value the slower the playback.
  *
  * The minimum value is 1, and max must always be greater than min.
  */
-var AIM_SPEED_MIN = 34
-var AIM_SPEED_MAX = 37
+AIM_SPEED_MIN = 28
+AIM_SPEED_MAX = 38
 
 /**
  * The strictness, or "stickiness" of the aimbot; the higher the number, the
@@ -56,7 +56,8 @@ var AIM_SPEED_MAX = 37
  *
  * The minimum value is 1.0
  */
-var AIM_STRICTNESS = 2.4
+AIM_STRICTNESS = 1.0
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,17 +68,18 @@ var AIM_STRICTNESS = 2.4
  * Whether or not to use perfect aim, which will instantaneously snap
  * to the aim bone once you are within the [PERFECT_AIM_FOV].
  */
-var PERFECT_AIM = false
+PERFECT_AIM = false
 
 /**
  * The FOV, in degrees (0 to 360) to snap for perfect aim.
  */
-var PERFECT_AIM_FOV = 27
+PERFECT_AIM_FOV = 27
 
 /**
  * The chance, from 1% to 100% (0 to 100) for perfect aim to activate.
  */
-var PERFECT_AIM_CHANCE = 100
+PERFECT_AIM_CHANCE = 100
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,12 +92,13 @@ var PERFECT_AIM_CHANCE = 100
  *
  * This setting should be used by high-level players who are experienced aimers.
  */
-var AIM_ASSIST_MODE = false
+AIM_ASSIST_MODE = true
 
 /**
- * The amount of strictness for the aim assist mode, with a mimimum value of 1.
+ * The amount of strictness for the aim assist mode, with a minimum value of 1.
  */
-var AIM_ASSIST_STRICTNESS = 40
+AIM_ASSIST_STRICTNESS = 30
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,14 +108,14 @@ var AIM_ASSIST_STRICTNESS = 40
 /**
  * The duration in milliseconds at which aimbot paths are recalculated.
  */
-var AIM_DURATION = 1
+AIM_DURATION = 1
 
 /**
  * The amount of sprayed shots until the aimbot shifts to aiming at the [SHOULDER_BONE].
  */
-var SHIFT_TO_SHOULDER_SHOTS = 4
+SHIFT_TO_SHOULDER_SHOTS = 7
 
 /**
  * The amount of sprayed shots until the aimbot shifts to aiming at the [BODY_BONE].
  */
-var SHIFT_TO_BODY_SHOTS = 7
+SHIFT_TO_BODY_SHOTS = 5
