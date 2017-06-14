@@ -16,17 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.settings
+import com.charlatano.settings.*
 
 /**
  * The range of recoil control you want to have applied.
  *
  * If both values are equal, there will be no randomization.
- * 
+ *
  * Having imperfect RCS will greatly lower league ban rate.
  */
-var RCS_MIN = 1.88
-var RCS_MAX = 1.98
+RCS_MIN = 1.88
+RCS_MAX = 1.98
 
 /**
  * The amount of smoothing for the recoil control aim path.
@@ -38,9 +38,9 @@ var RCS_MAX = 1.98
  *
  * Settings this too low may result in incorrect recoil control.
  */
-var RCS_SMOOTHING = 62
+RCS_SMOOTHING = 25
 
 /**
  * The duration in milliseconds at which recoil control is checked.
  */
-var RCS_DURATION = 1
+RCS_DURATION = 1
