@@ -38,7 +38,7 @@ RCS_MAX = 1.98
  *
  * Settings this too low may result in incorrect recoil control.
  */
-RCS_SMOOTHING = 63
+RCS_SMOOTHING = 25
 
 /**
  * The duration in milliseconds at which recoil control is checked.
