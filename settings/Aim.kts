@@ -40,7 +40,7 @@ FORCE_AIM_KEY = 5
 /**
  * The field of view of the aimbot, in degrees (0 to 360).
  */
-AIM_FOV = 30
+AIM_FOV = 190
 
 /**
  * The aimbot's "playback" speed, the higher the value the slower the playback.
@@ -92,12 +92,12 @@ PERFECT_AIM_CHANCE = 100
  *
  * This setting should be used by high-level players who are experienced aimers.
  */
-AIM_ASSIST_MODE = true
+AIM_ASSIST_MODE = false
 
 /**
  * The amount of strictness for the aim assist mode, with a minimum value of 1.
  */
-AIM_ASSIST_STRICTNESS = 30
+AIM_ASSIST_STRICTNESS = 40
 
 
 
@@ -113,9 +113,9 @@ AIM_DURATION = 1
 /**
  * The amount of sprayed shots until the aimbot shifts to aiming at the [SHOULDER_BONE].
  */
-SHIFT_TO_SHOULDER_SHOTS = 7
+SHIFT_TO_SHOULDER_SHOTS = 4
 
 /**
  * The amount of sprayed shots until the aimbot shifts to aiming at the [BODY_BONE].
  */
-SHIFT_TO_BODY_SHOTS = 5
+SHIFT_TO_BODY_SHOTS = 7
