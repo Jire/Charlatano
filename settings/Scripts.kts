@@ -46,14 +46,14 @@ ENABLE_ESP = true
  *
  * This script uses traditional flat linear-regression smoothing.
  */
-ENABLE_FLAT_AIM = true
+ENABLE_FLAT_AIM = false
 
 /**
  * Enables the path aim script.
  *
  * This script uses an advanced path generation smoothing.
  */
-ENABLE_PATH_AIM = false
+ENABLE_PATH_AIM = true
 
 /**
  * Enables the bone trigger bot script.
