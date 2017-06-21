@@ -95,10 +95,10 @@ object CSGO {
 			gameX = rect.left + (((rect.right - rect.left) - gameWidth) / 2)
 			gameY = rect.top + ((rect.bottom - rect.top) - gameHeight)
 			
-			if ((lastX != gameX || lastY != gameY) && Overlay.hwnd != null)
+			if (Overlay.opened && (lastX != gameX || lastY != gameY))
 				User32.INSTANCE.MoveWindow(Overlay.hwnd, gameX, gameY, gameWidth, gameHeight, false)
 			
-			if (CharlatanoOverlay.created && (lastWidth != gameWidth || lastHeight != gameHeight))
+			if (Overlay.opened && CharlatanoOverlay.created && (lastWidth != gameWidth || lastHeight != gameHeight))
 				camera.setToOrtho(true, gameWidth.toFloat(), gameHeight.toFloat())
 			
 			lastWidth = gameWidth

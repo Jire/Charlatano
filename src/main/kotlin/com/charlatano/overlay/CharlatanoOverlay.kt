@@ -35,7 +35,7 @@ import java.util.concurrent.atomic.AtomicReference
 
 object CharlatanoOverlay : ApplicationAdapter() {
 	
-	var created: Boolean = false
+	@Volatile var created: Boolean = false
 	
 	lateinit var batch: SpriteBatch
 	lateinit var camera: OrthographicCamera
