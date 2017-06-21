@@ -94,7 +94,7 @@ task charlatano {
 		Files.write(bat.toPath(), """@echo off
 cd /d "%~dp0"
 title $name
-java -jar "$jarName"
+java -Xmx1g -Xms1g -server -jar "$jarName"
 pause""".getBytes())
 		
 		Files.copy(file("LICENSE.txt").toPath(), file(new File(dir, "LICENSE.txt")).toPath())
