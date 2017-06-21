@@ -28,10 +28,4 @@ class DWM_BLURBEHIND : Struct() {
 	@JvmField var hRgnBlur: WinDef.HRGN? = null
 	@JvmField var fTransitionOnMaximized = false
 	
-	companion object {
-	
-	
-	
-	}
-	
 }
