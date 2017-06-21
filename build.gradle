@@ -41,7 +41,7 @@ apply plugin: "application"
 apply plugin: "com.github.johnrengelman.shadow"
 
 group "com.charlatano"
-version "1.0.4"
+version "1.0.5"
 
 mainClassName = "com.charlatano.Charlatano"
 

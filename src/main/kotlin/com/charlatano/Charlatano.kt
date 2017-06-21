@@ -72,5 +72,5 @@ private fun loadSettings() {
 	}
 	
 	val needsOverlay = ENABLE_BOMB_TIMER or (ENABLE_ESP and (SKELETON_ESP or BOX_ESP))
-	if (Overlay.hwnd == null && needsOverlay) Overlay.open()
+	if (!Overlay.opened && needsOverlay) Overlay.open()
 }

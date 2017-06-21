@@ -24,6 +24,7 @@ import com.charlatano.game.CSGO.gameHeight
 import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.game.CSGO.gameX
 import com.charlatano.game.CSGO.gameY
+import com.charlatano.overlay.transparency.win10.Win10TransparencyApplier
 import com.charlatano.settings.OPENGL_FPS
 import com.charlatano.settings.OPENGL_MSAA_SAMPLES
 import com.charlatano.settings.OPENGL_VSYNC
@@ -33,7 +34,9 @@ import com.sun.jna.platform.win32.WinDef
 
 object Overlay {
 	
-	var hwnd: WinDef.HWND? = null
+	@Volatile var opened = false
+	
+	lateinit var hwnd: WinDef.HWND
 	
 	fun open() = LwjglApplicationConfiguration().apply {
 		width = gameWidth
@@ -53,10 +56,18 @@ object Overlay {
 		LwjglApplication(CharlatanoOverlay, this)
 		
 		do {
-			hwnd = User32.INSTANCE.FindWindow(null, title)
-			Thread.sleep(512)
-		} while (hwnd == null)
-		WindowTools.transparentWindow(hwnd!!)
+			val hwnd = User32.INSTANCE.FindWindow(null, title)
+			if (hwnd != null) {
+				Overlay.hwnd = hwnd
+				break
+			}
+			Thread.sleep(64) // decreased so it won't go black as long
+		} while (!Thread.interrupted())
+		
+		WindowCorrector.setupWindow(hwnd)
+		Win10TransparencyApplier.applyTransparency(hwnd)
+		
+		opened = true
 	}
 	
 	init {

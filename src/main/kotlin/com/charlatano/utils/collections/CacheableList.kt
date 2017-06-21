@@ -33,7 +33,6 @@ class CacheableList<out E>(val capacity: Int, val minIndex: Int = 0) {
 	
 	fun add(element: @UnsafeVariance E): Int {
 		if (nextIndex >= capacity) {
-			println("Overflow $nextIndex, $capacity")
 			Thread.dumpStack()
 			System.exit(5)
 			return -1

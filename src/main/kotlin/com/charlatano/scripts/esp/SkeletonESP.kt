@@ -21,10 +21,10 @@ package com.charlatano.scripts.esp
 import com.badlogic.gdx.graphics.Color
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
-import com.charlatano.game.forEntities
 import com.charlatano.game.entity.*
+import com.charlatano.game.forEntities
 import com.charlatano.game.me
-import com.charlatano.game.offsets.EngineOffsets.m_pStudioHdr
+import com.charlatano.game.offsets.EngineOffsets.pStudioModel
 import com.charlatano.game.worldToScreen
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.settings.SKELETON_ESP
@@ -46,17 +46,18 @@ internal fun skeletonEsp() {
 			if (entity > 0 && entity != me && !entity.dead() && !entity.dormant()) {
 				(entityBones.get(entity) ?: CacheableList<Pair<Int, Int>>(20)).apply {
 					if (isEmpty()) {
+						val entityModel = entity.model()
+						val studioModel = findStudioModel(entityModel)
+						val numbones = csgoEXE.uint(studioModel + 0x9C).toInt()
+						val boneIndex = csgoEXE.uint(studioModel + 0xA0)
+						
 						var offset = 0
-						
-						val studioModel = findStudioModel(entity.model())
-						val numbones = csgoEXE.int(studioModel + 0x9C)
-						val boneIndex = csgoEXE.int(studioModel + 0xA0)
-						
 						for (idx in 0..numbones - 1) {
 							val parent = csgoEXE.int(studioModel + boneIndex + 0x4 + offset)
-							val flags = csgoEXE.int(studioModel + boneIndex + 0xA0 + offset) and 0x100
-							
-							if (flags != 0 && parent != -1) add(Pair(parent, idx))
+							if (parent != -1) {
+								val flags = csgoEXE.uint(studioModel + boneIndex + 0xA0 + offset) and 0x100
+								if (flags != 0L) add(parent to idx)
+							}
 							
 							offset += 216
 						}
@@ -89,10 +90,9 @@ private fun findStudioModel(pModel: Long): Long {
 	
 	var handle = csgoEXE.uint(pModel + 0x0138) and 0xFFFF
 	if (handle == 0xFFFFL) return 0 // Handle is not valid
-	
 	handle = handle shl 4
 	
-	var studioModel = engineDLL.uint(m_pStudioHdr)
+	var studioModel = engineDLL.uint(pStudioModel)
 	studioModel = csgoEXE.uint(studioModel + 0x28)
 	studioModel = csgoEXE.uint(studioModel + handle + 0xC)
 	

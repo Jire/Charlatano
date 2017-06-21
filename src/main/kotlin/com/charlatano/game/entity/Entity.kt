@@ -47,7 +47,7 @@ internal fun Entity.dormant(): Boolean = try {
 	false
 }
 
-internal fun Entity.team(): Int = csgoEXE[this + iTeamNum]
+internal fun Entity.team() = csgoEXE.uint(this + iTeamNum)
 
 internal fun Entity.model(): Long = csgoEXE.uint(this + dwModel)
 
