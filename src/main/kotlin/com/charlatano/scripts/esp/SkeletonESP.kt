@@ -21,11 +21,10 @@ package com.charlatano.scripts.esp
 import com.badlogic.gdx.graphics.Color
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
-import com.charlatano.game.entities
 import com.charlatano.game.forEntities
 import com.charlatano.game.entity.*
 import com.charlatano.game.me
-import com.charlatano.game.offsets.EngineOffsets.studioModel
+import com.charlatano.game.offsets.EngineOffsets.m_pStudioHdr
 import com.charlatano.game.worldToScreen
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.settings.SKELETON_ESP
@@ -93,7 +92,7 @@ private fun findStudioModel(pModel: Long): Long {
 	
 	handle = handle shl 4
 	
-	var studioModel = engineDLL.uint(studioModel)
+	var studioModel = engineDLL.uint(m_pStudioHdr)
 	studioModel = csgoEXE.uint(studioModel + 0x28)
 	studioModel = csgoEXE.uint(studioModel + handle + 0xC)
 	
