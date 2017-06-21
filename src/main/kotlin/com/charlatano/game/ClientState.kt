@@ -21,14 +21,19 @@ package com.charlatano.game
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.offsets.EngineOffsets.dwViewAngles
 import com.charlatano.utils.Angle
-import com.charlatano.utils.Vector
+import com.charlatano.utils.readCached
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
 
 typealias ClientState = Long
 
-fun ClientState.angle(): Angle
-		= Vector(csgoEXE.float(this + dwViewAngles).toDouble(),
-		csgoEXE.float(this + dwViewAngles + 4).toDouble(),
-		csgoEXE.float(this + dwViewAngles + 8).toDouble())
+private val clientState2Angle: Long2ObjectMap<Angle> = Long2ObjectOpenHashMap()
+
+fun ClientState.angle(): Angle = readCached(clientState2Angle) {
+	x = csgoEXE.float(it + dwViewAngles).toDouble()
+	y = csgoEXE.float(it + dwViewAngles + 4).toDouble()
+	z = csgoEXE.float(it + dwViewAngles + 8).toDouble()
+}
 
 fun ClientState.setAngle(angle: Angle) {
 	if (angle.z != 0.0 || angle.x < -89 || angle.x > 180 || angle.y < -180 || angle.y > 180

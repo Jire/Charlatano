@@ -21,6 +21,7 @@ package com.charlatano.game.entity
 import com.charlatano.game.CSGO.ENTITY_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.game.Weapons
 import com.charlatano.game.netvars.NetVarOffsets.bIsScoped
 import com.charlatano.game.netvars.NetVarOffsets.dwBoneMatrix
 import com.charlatano.game.netvars.NetVarOffsets.fFlags
@@ -37,9 +38,10 @@ import com.charlatano.settings.HEAD_BONE
 import com.charlatano.settings.SERVER_TICK_RATE
 import com.charlatano.utils.Angle
 import com.charlatano.utils.Vector
-import com.charlatano.game.Weapons
 import com.charlatano.utils.extensions.uint
-import org.jire.arrowhead.get
+import com.charlatano.utils.readCached
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
 
 typealias Player = Long
 
@@ -67,8 +69,13 @@ internal fun Player.dead() = try {
 	false
 }
 
-internal fun Player.punch(): Angle
-		= Vector(csgoEXE.float(this + vecPunch).toDouble(), csgoEXE.float(this + vecPunch + 4).toDouble(), 0.0)
+private val player2Punch: Long2ObjectMap<Angle> = Long2ObjectOpenHashMap(255)
+
+internal fun Player.punch(): Angle = readCached(player2Punch) {
+	x = csgoEXE.float(it + vecPunch).toDouble()
+	y = csgoEXE.float(it + vecPunch + 4).toDouble()
+	z = 0.0
+}
 
 internal fun Player.viewOffset(): Angle
 		= Vector(csgoEXE.float(this + vecViewOffset).toDouble(),
