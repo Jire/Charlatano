@@ -29,11 +29,10 @@ import com.charlatano.game.netvars.NetVarOffsets.szLastPlaceName
 import com.charlatano.game.offsets.ClientOffsets.dwEntityList
 import com.charlatano.game.offsets.EngineOffsets.dwGlobalVars
 import com.charlatano.utils.extensions.uint
-import org.jire.arrowhead.get
 
 typealias Bomb = Long
 
-internal fun Bomb.defused(): Boolean = csgoEXE[this + bBombDefused]
+internal fun Bomb.defused(): Boolean = csgoEXE.boolean(this + bBombDefused)
 
 internal fun Bomb.timeLeft(): Int = (-(engineDLL.float(dwGlobalVars + 16) - csgoEXE.float(this + flC4Blow))).toInt()
 

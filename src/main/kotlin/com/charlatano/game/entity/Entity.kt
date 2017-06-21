@@ -42,7 +42,7 @@ internal fun Entity.spotted(): Boolean {
 }
 
 internal fun Entity.dormant(): Boolean = try {
-	csgoEXE[this + bDormant]
+	csgoEXE.boolean(this + bDormant)
 } catch (t: Throwable) {
 	false
 }

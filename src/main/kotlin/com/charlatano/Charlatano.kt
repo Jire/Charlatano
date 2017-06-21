@@ -26,7 +26,10 @@ import com.charlatano.scripts.*
 import com.charlatano.scripts.aim.flatAim
 import com.charlatano.scripts.aim.pathAim
 import com.charlatano.scripts.esp.esp
-import com.charlatano.settings.*
+import com.charlatano.settings.BOX_ESP
+import com.charlatano.settings.ENABLE_BOMB_TIMER
+import com.charlatano.settings.ENABLE_ESP
+import com.charlatano.settings.SKELETON_ESP
 import com.charlatano.utils.Dojo
 import java.io.File
 import java.io.FileReader

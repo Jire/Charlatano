@@ -22,11 +22,11 @@ import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.me
 import com.charlatano.game.netvars.NetVarOffsets.flNextPrimaryAttack
 import com.charlatano.game.netvars.NetVarOffsets.iClip1
-import org.jire.arrowhead.get
+import com.charlatano.utils.extensions.uint
 
 typealias Weapon = Long
 
-internal fun Weapon.bullets(): Int = csgoEXE[this + iClip1]
+internal fun Weapon.bullets() = csgoEXE.uint(this + iClip1)
 
 internal fun Weapon.nextPrimaryAttack() = csgoEXE.float(this + flNextPrimaryAttack).toDouble()
 

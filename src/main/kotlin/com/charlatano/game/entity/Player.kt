@@ -46,11 +46,11 @@ typealias Player = Long
 fun Player.weapon(): Weapons {
 	val address: Long = csgoEXE.uint(this + hActiveWeapon)
 	val index = address and 0xFFF
-	val base: Int = clientDLL[dwEntityList + (index - 1) * ENTITY_SIZE]
+	val base = clientDLL.uint(dwEntityList + (index - 1) * ENTITY_SIZE)
 	
 	var id = 42
 	if (base > 0)
-		id = csgoEXE[base + iWeaponID]
+		id = csgoEXE.uint(base + iWeaponID).toInt()
 	
 	return Weapons[id]
 }
@@ -85,6 +85,6 @@ internal fun Player.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
 internal fun Player.bone(offset: Int, boneID: Int = HEAD_BONE, boneMatrix: Long = boneMatrix())
 		= csgoEXE.float(boneMatrix + ((0x30 * boneID) + offset)).toDouble()
 
-internal fun Player.isScoped(): Boolean = csgoEXE[this + bIsScoped]
+internal fun Player.isScoped(): Boolean = csgoEXE.boolean(this + bIsScoped)
 
 internal fun Player.time(): Double = csgoEXE.int(this + nTickBase) * (1.0 / SERVER_TICK_RATE)
