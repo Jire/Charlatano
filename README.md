@@ -29,7 +29,10 @@ free and open-source cheating software!
 
 **Beginner's Guide**
 
-Before doing anything, make sure you have Java Development Kit (JDK) 8 or later installed.
+Before doing anything, make sure you have
+[Java Development Kit (JDK) 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+or later installed. This is NOT the same thing as the regular Java Runtime (JRE), and you MUST install the JDK
+in order to build Charlatano, as well as any other Java software.
 
 The first step is to compile the source code into a usable cheat program.
 
