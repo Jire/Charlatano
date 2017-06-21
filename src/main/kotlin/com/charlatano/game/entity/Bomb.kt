@@ -47,4 +47,4 @@ internal fun Bomb.carrier(): Player {
 
 internal fun Bomb.planter(): Player = clientDLL.uint(dwEntityList + (carrier() * ENTITY_SIZE))
 
-internal fun Bomb.location(): String = csgoEXE.read(planter() + szLastPlaceName, 32, true)!!.getString(0)
+internal fun Bomb.location(): String = csgoEXE.read(planter() + szLastPlaceName, 32, true)?.getString(0) ?: ""
