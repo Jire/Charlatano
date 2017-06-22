@@ -23,9 +23,10 @@ import com.charlatano.settings.BUNNY_HOP_KEY
 import com.charlatano.settings.ENABLE_BUNNY_HOP
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
+import com.charlatano.scripts.*
 
 fun bunnyHop() = onGround {
-	if (ENABLE_BUNNY_HOP && keyPressed(BUNNY_HOP_KEY)) {
+	if (ENABLE_BUNNY_HOP && keyPressed(BUNNY_HOP_KEY) && toggleBunnyHop) {
 		randScroll()
 		Thread.sleep(8 + randLong(10))
 		randScroll()
@@ -35,5 +36,5 @@ fun bunnyHop() = onGround {
 private fun randScroll() {
 	Thread.sleep(randLong(1, 4))
 	val amount = randInt(60) + 10
-	mouseWheel(if (randBoolean()) amount else -amount)
+	mouseWheel(-amount)
 }

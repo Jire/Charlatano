@@ -27,9 +27,8 @@ import com.charlatano.settings.*
  * To do this, type the following commands into the in-game developer console:
  * unbind "space"
  * bind "mwheelup" "+jump"
- * bind "mwheeldown" "+jump"
  */
-ENABLE_BUNNY_HOP = false
+ENABLE_BUNNY_HOP = true
 
 /**
  * Enables the recoil control system (RCS) script.
@@ -58,7 +57,7 @@ ENABLE_PATH_AIM = false
 /**
  * Enables the bone trigger bot script.
  */
-ENABLE_BONE_TRIGGER = false
+ENABLE_BONE_TRIGGER = true
 
 /**
  * Enables the reduced flash script.

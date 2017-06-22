@@ -33,6 +33,7 @@ import com.charlatano.utils.Vector
 import com.charlatano.utils.collections.CacheableList
 import com.charlatano.utils.extensions.uint
 import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap
+import com.charlatano.scripts.*
 
 private val bones = Array(2048) { Line() }
 private val entityBones = Long2ObjectArrayMap<CacheableList<Pair<Int, Int>>>()
@@ -40,7 +41,7 @@ private var currentIdx = 0
 
 internal fun skeletonEsp() {
 	CharlatanoOverlay {
-		if (!SKELETON_ESP) return@CharlatanoOverlay
+		if (!SKELETON_ESP || !toggleESP) return@CharlatanoOverlay
 		
 		forEntities(ccsPlayer) {
 			val entity = it.entity

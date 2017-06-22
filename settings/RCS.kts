@@ -25,8 +25,8 @@ import com.charlatano.settings.*
  *
  * Having imperfect RCS will greatly lower league ban rate.
  */
-RCS_MIN = 1.88
-RCS_MAX = 1.98
+RCS_MIN = 1.96
+RCS_MAX = 2.02
 
 /**
  * The amount of smoothing for the recoil control aim path.
@@ -38,7 +38,7 @@ RCS_MAX = 1.98
  *
  * Settings this too low may result in incorrect recoil control.
  */
-RCS_SMOOTHING = 63
+RCS_SMOOTHING = 36
 
 /**
  * The duration in milliseconds at which recoil control is checked.

@@ -47,8 +47,8 @@ AIM_FOV = 190
  *
  * The minimum value is 1, and max must always be greater than min.
  */
-AIM_SPEED_MIN = 28
-AIM_SPEED_MAX = 38
+AIM_SPEED_MIN = 18
+AIM_SPEED_MAX = 22
 
 /**
  * The strictness, or "stickiness" of the aimbot; the higher the number, the
@@ -68,7 +68,7 @@ AIM_STRICTNESS = 1.0
  * Whether or not to use perfect aim, which will instantaneously snap
  * to the aim bone once you are within the [PERFECT_AIM_FOV].
  */
-PERFECT_AIM = false
+PERFECT_AIM = true
 
 /**
  * The FOV, in degrees (0 to 360) to snap for perfect aim.
@@ -113,9 +113,9 @@ AIM_DURATION = 1
 /**
  * The amount of sprayed shots until the aimbot shifts to aiming at the [SHOULDER_BONE].
  */
-SHIFT_TO_SHOULDER_SHOTS = 4
+SHIFT_TO_SHOULDER_SHOTS = 2
 
 /**
  * The amount of sprayed shots until the aimbot shifts to aiming at the [BODY_BONE].
  */
-SHIFT_TO_BODY_SHOTS = 7
+SHIFT_TO_BODY_SHOTS = 9
