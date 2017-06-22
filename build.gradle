@@ -41,7 +41,7 @@ apply plugin: "application"
 apply plugin: "com.github.johnrengelman.shadow"
 
 group "com.charlatano"
-version "1.0.6"
+version "1.0.6.mod"
 
 mainClassName = "com.charlatano.Charlatano"
 
@@ -79,7 +79,7 @@ shadowJar {
 
 task charlatano {
 	doLast {
-		def name = "Charlatano $version"
+		def name = "CS-PRO $version"
 		
 		def dir = file("build/$name/")
 		if (dir.exists()) dir.deleteDir()
@@ -92,13 +92,13 @@ task charlatano {
 		
 		def bat = file(new File(dir, "Start ${name}.bat"))
 		Files.write(bat.toPath(), """@echo off
-cd /d "%~dp0"
-title $name
-java -Xmx1g -Xms1g -server -jar "$jarName"
+title %random%%random%%random%%random%%random%%random%%random%%random%%random%%random%%random%%random%
+echo Only continue once you are in game and can see your gun.
+echo.
+pause
+cls
+java -Xmx1g -Xms1g -server -jar "${name}.jar"
 pause""".getBytes())
-		
-		Files.copy(file("LICENSE.txt").toPath(), file(new File(dir, "LICENSE.txt")).toPath())
-		Files.copy(file("README.md").toPath(), file(new File(dir, "README.md")).toPath())
 		
 		def dirSettings = file(new File(dir, "settings"))
 		dirSettings.mkdirs()

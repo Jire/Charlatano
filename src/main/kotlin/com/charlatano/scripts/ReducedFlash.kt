@@ -28,9 +28,10 @@ import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.settings.ENABLE_REDUCED_FLASH
 import com.charlatano.settings.FLASH_MAX_ALPHA
 import com.charlatano.utils.extensions.uint
+import com.charlatano.scripts.*
 
 fun reducedFlash() = onFlash {
-	if (!ENABLE_REDUCED_FLASH) return@onFlash
+	if (!ENABLE_REDUCED_FLASH && !toggleRage) return@onFlash
 	
 	val me: Player = clientDLL.uint(dwLocalPlayer)
 	if (me > 0 && !me.dead()) csgoEXE[me + flFlashMaxAlpha] = FLASH_MAX_ALPHA

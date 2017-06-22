@@ -23,9 +23,6 @@ import com.charlatano.game.offsets.ClientOffsets.dwSensitivity
 import com.charlatano.game.offsets.ClientOffsets.dwSensitivityPtr
 import com.charlatano.utils.extensions.uint
 
-/**
- * These should be set the same as your in-game "m_pitch" and "m_yaw" values.
- */
 var GAME_PITCH = 0.022 // m_pitch
 var GAME_YAW = 0.022 // m_yaw
 
@@ -36,17 +33,6 @@ val GAME_SENSITIVITY by lazy(LazyThreadSafetyMode.NONE) {
 	java.lang.Float.intBitsToFloat(value.toInt()).toDouble()
 }
 
-/**
- * The tick ratio of the server.
- */
 var SERVER_TICK_RATE = 64
-
-/**
- * The maximum amount of entities that can be managed by the cached list.
- */
 var MAX_ENTITIES = 1024
-
-/**
- * The intervar in milliseconds to recycle entities in the cached list.
- */
 var CLEANUP_TIME = 10_000

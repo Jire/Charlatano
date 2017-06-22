@@ -18,29 +18,7 @@
 
 package com.charlatano.settings
 
-/**
- * The range of recoil control you want to have applied.
- *
- * If both values are equal, there will be no randomization.
- * 
- * Having imperfect RCS will greatly lower league ban rate.
- */
 var RCS_MIN = 1.88
 var RCS_MAX = 1.98
-
-/**
- * The amount of smoothing for the recoil control aim path.
- *
- * This has a minimum value of 1, and is recommended to stay slightly
- * above your full ping (which you can see with the "ping" command).
- *
- * For example, if you have 55 real ping, 65 is a good value.
- *
- * Settings this too low may result in incorrect recoil control.
- */
 var RCS_SMOOTHING = 62
-
-/**
- * The duration in milliseconds at which recoil control is checked.
- */
 var RCS_DURATION = 1

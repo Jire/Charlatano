@@ -53,14 +53,28 @@ fun main(args: Array<String>) {
 	reducedFlash()
 	bombTimer()
 	
+	Toggles_AIM()
+	Toggles_BUNNYHOP()
+	Toggles_ESP()
+	Toggles_RAGE()
+	Toggles_RCS()
+	Toggles_TRIGGER()
+	
 	Thread.sleep(10_000) // wait a bit to catch everything
 	System.gc() // then cleanup
 	
+	clearScreen()
+	
 	val scanner = Scanner(System.`in`)
 	while (!Thread.interrupted()) {
+		System.out.println()
+		System.out.print("> ")
 		when (scanner.nextLine()) {
-			"exit", "quit" -> System.exit(0)
-			"reload" -> loadSettings()
+			"exit", "quit", "e", "q" -> System.exit(0)
+			"reload", "r" -> loadSettings()
+			"reset" -> resetToggles()
+			"toggles", "t" -> printToggles()
+			"cls", "clear", "c" -> clearScreen()
 		}
 	}
 }
@@ -74,6 +88,43 @@ private fun loadSettings() {
 		}
 	}
 	
+	System.out.println("Loaded settings.")
+	
 	val needsOverlay = ENABLE_BOMB_TIMER or (ENABLE_ESP and (SKELETON_ESP or BOX_ESP))
 	if (!Overlay.opened && needsOverlay) Overlay.open()
+}
+
+private fun resetToggles() {
+	toggleAIM = true
+	toggleRCS = true
+	toggleESP = true
+	toggleBunnyHop = true
+	toggleTrigger = true
+	
+	toggleRage = false
+	System.out.println("All togglables enabled, Rage disabled.")
+}
+
+private fun printToggles(){
+	System.out.println("AIM      = " + toggleAIM)
+	System.out.println("BunnyHop = " + toggleBunnyHop)
+	System.out.println("ESP      = " + toggleESP)
+	System.out.println("Rage     = " + toggleRage)
+	System.out.println("RCS      = " + toggleRCS)
+	System.out.println("Trigger  = " + toggleTrigger)
+}
+
+private fun clearScreen() {
+	repeat(512) { _ ->
+		System.out.print("\n")
+	}
+	System.out.println("   Command     | Alias  | Function");
+	System.out.println("  =============+========+=========================")
+	System.out.println(" | clear       | cls, c | clears console screen   |")
+	System.out.println(" | exit / quit | e, q   | stop CS:PRO             |")
+	System.out.println(" | reload      | r      | reloads /settings       |")
+	System.out.println(" | reset       |        | sets toggles to default |")
+	System.out.println(" | toggles     | t      | show what is toggled    |")
+	System.out.println("  =============+========+=========================")
+	System.out.println()
 }

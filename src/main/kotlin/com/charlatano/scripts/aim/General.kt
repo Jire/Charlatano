@@ -28,6 +28,7 @@ import org.jire.arrowhead.keyPressed
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
+import com.charlatano.scripts.*
 
 val target = AtomicLong(-1)
 val bone = AtomicInteger(HEAD_BONE)
@@ -94,9 +95,12 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 	val pressed = aim or forceAim
 	var currentTarget = target.get()
 	
-	if (!pressed || CSGO.scaleFormDLL.boolean(ScaleFormOffsets.bCursorEnabled)) {
-		reset()
-		return@every
+	if (!toggleAIM || !pressed || CSGO.scaleFormDLL.boolean(ScaleFormOffsets.bCursorEnabled)) {
+		if (!toggleRage)
+		{
+			reset()
+			return@every
+		}
 	}
 	
 	if (!CLASSIC_OFFENSIVE) {
@@ -113,7 +117,8 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 	if (currentTarget < 0) {
 		currentTarget = findTarget(position, currentAngle, aim)
 		if (currentTarget < 0) {
-			Thread.sleep(200 + randLong(350))
+			if (!toggleRage)
+				Thread.sleep(16 + randLong(16))
 			return@every
 		}
 		target.set(currentTarget)
@@ -121,15 +126,26 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 	
 	if (!currentTarget.canShoot()) {
 		reset()
-		Thread.sleep(200 + randLong(350))
-	} else if (currentTarget.onGround() && me.onGround()) {
+		if (!toggleRage)
+			Thread.sleep(16 + randLong(16))
+	} else {
 		val boneID = bone.get()
 		val bonePosition = currentTarget.bones(boneID)
+		
+		val weapon = me.weapon()
 		
 		val destinationAngle = calculateAngle(me, bonePosition)
 		if (AIM_ASSIST_MODE) destinationAngle.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)
 		
 		val aimSpeed = AIM_SPEED_MIN + randInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
-		doAim(destinationAngle, currentAngle, aimSpeed)
+		
+		if (!toggleRage)
+			doAim(destinationAngle, currentAngle, aimSpeed)
+		else {
+			if (weapon.sniper && !me.isScoped())
+				return@every
+			doAim(destinationAngle, currentAngle, 1)
+			doClick()
+		}
 	}
 }

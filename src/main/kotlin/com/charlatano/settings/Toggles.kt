@@ -15,12 +15,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+package com.charlatano.settings
 
-import com.charlatano.settings.*
 
-/**
- * The maximum alpha for the flashbang effect.
- *
- * This ranges from 0F (absolutely no effect) to 255F.
- */
-FLASH_MAX_ALPHA = 255F
+var TOGGLE_KEY_AIM = 0x61
+var TOGGLE_KEY_RCS = 0x62
+var TOGGLE_KEY_ESP = 0x60
+var TOGGLE_KEY_BUNNYHOP = 0x63
+var TOGGLE_KEY_TRIGGER = 0x64
+var TOGGLE_KEY_RAGE = 0x69

@@ -35,12 +35,13 @@ import com.charlatano.scripts.aim.perfect
 import com.charlatano.settings.*
 import com.charlatano.utils.*
 import com.charlatano.utils.extensions.uint
+import com.charlatano.scripts.*
 
 private @Volatile var prevFired = 0
 private val lastPunch = DoubleArray(2)
 
 fun rcs() = every(RCS_DURATION) {
-	if (!ENABLE_RCS) return@every
+	if (!ENABLE_RCS || !toggleRCS) return@every
 	
 	val myAddress: Player = clientDLL.uint(dwLocalPlayer)
 	if (myAddress <= 0) return@every
@@ -53,7 +54,7 @@ fun rcs() = every(RCS_DURATION) {
 	
 	if (!CLASSIC_OFFENSIVE) {
 		val weapon = me.weapon()
-		if (!weapon.automatic) {
+		if (!weapon.automatic && !toggleRage) {
 			reset()
 			return@every
 		}
@@ -81,8 +82,11 @@ fun rcs() = every(RCS_DURATION) {
 		normalize()
 	}
 	
-	// maybe swap with flat aim for better accuracy
-	// but really you'd only need it in LEM+
+	/* Doesn't work and I don't care enough to fix it.
+	if (ENABLE_FLAT_AIM)
+		flatAim(clientState.angle(), view, RCS_SMOOTHING * 1.0)
+	else if (ENABLE_PATH_AIM)
+	*/
 	pathAim(clientState.angle(), view, RCS_SMOOTHING)
 	
 	lastPunch[0] = punch.x
