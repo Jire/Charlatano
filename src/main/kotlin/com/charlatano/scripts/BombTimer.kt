@@ -31,13 +31,17 @@ import com.charlatano.settings.ENABLE_BOMB_TIMER
 @Volatile var canDefuse = false
 
 fun bombTimer() {
+	if (!ENABLE_BOMB_TIMER) return
+	
 	bombPlanted {
 		val hasKit = false
-		val bomb = entityByType(EntityType.CPlantedC4)?.entity
-		if (bomb == null) {
+		val entityByType = entityByType(EntityType.CPlantedC4)
+		if (entityByType == null) {
 			location = ""
 			return@bombPlanted
 		}
+		
+		val bomb = entityByType.entity
 		canDefuse = bomb.timeLeft() >= if (hasKit) 5 else 10
 		
 		if (location.isEmpty()) location = bomb.location()
