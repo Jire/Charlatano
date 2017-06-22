@@ -18,7 +18,6 @@
 
 package com.charlatano.utils.collections
 
-
 @Suppress("UNCHECKED_CAST")
 class ListContainer<E>(capacity: Int) {
 	
@@ -42,5 +41,4 @@ class ListContainer<E>(capacity: Int) {
 	
 }
 
-internal inline operator fun <E> ListContainer<E>.invoke(crossinline action: (E) -> Unit)
-		= this.forEach { action(it) }
+internal inline operator fun <E> ListContainer<E>.invoke(crossinline action: (E) -> Unit) = forEach { action(it) }

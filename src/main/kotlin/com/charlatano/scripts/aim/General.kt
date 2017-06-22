@@ -20,6 +20,7 @@ package com.charlatano.scripts.aim
 
 import com.charlatano.game.*
 import com.charlatano.game.entity.*
+import com.charlatano.game.entity.EntityType.Companion.ccsPlayer
 import com.charlatano.game.offsets.ScaleFormOffsets
 import com.charlatano.settings.*
 import com.charlatano.utils.*
@@ -41,16 +42,16 @@ internal fun reset() {
 internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
                         lockFOV: Int = AIM_FOV, boneID: Int = HEAD_BONE): Player {
 	var closestDelta = Double.MAX_VALUE
-	var closestPlayer: Player = -1L
+	var closestPlayer = -1L
 	
 	var closestFOV = Double.MAX_VALUE
 	
-	forEntities(EntityType.CCSPlayer) {
+	forEntities(ccsPlayer) {
 		val entity = it.entity
 		if (entity <= 0) return@forEntities
 		if (!entity.canShoot()) return@forEntities
 		
-		val ePos: Angle = Vector(entity.bone(0xC, boneID), entity.bone(0x1C, boneID), entity.bone(0x2C, boneID))
+		val ePos: Angle = entity.bones(boneID)
 		val distance = position.distanceTo(ePos)
 		
 		val dest = calculateAngle(me, ePos)
@@ -123,10 +124,7 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 		Thread.sleep(200 + randLong(350))
 	} else if (currentTarget.onGround() && me.onGround()) {
 		val boneID = bone.get()
-		val bonePosition = Vector(
-				currentTarget.bone(0xC, boneID),
-				currentTarget.bone(0x1C, boneID),
-				currentTarget.bone(0x2C, boneID))
+		val bonePosition = currentTarget.bones(boneID)
 		
 		val destinationAngle = calculateAngle(me, bonePosition)
 		if (AIM_ASSIST_MODE) destinationAngle.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)

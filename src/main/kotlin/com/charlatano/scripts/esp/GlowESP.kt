@@ -20,9 +20,8 @@ package com.charlatano.scripts.esp
 
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.Color
-import com.charlatano.game.entities
-import com.charlatano.game.forEntities
 import com.charlatano.game.entity.*
+import com.charlatano.game.forEntities
 import com.charlatano.game.me
 import com.charlatano.settings.*
 import com.charlatano.utils.every

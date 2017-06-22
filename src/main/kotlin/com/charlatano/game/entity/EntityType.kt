@@ -294,6 +294,8 @@ enum class EntityType(val id: Long, val weapon: Boolean = false, val grenade: Bo
 			return byID(clsid) ?: NULL
 		}
 		
+		val ccsPlayer = arrayOf(EntityType.CCSPlayer)
+		
 	}
 	
 }

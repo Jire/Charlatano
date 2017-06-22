@@ -18,17 +18,14 @@
 
 package com.charlatano.game.hooks
 
+import com.charlatano.game.*
 import com.charlatano.settings.CLEANUP_TIME
 import com.charlatano.settings.MAX_ENTITIES
 import com.charlatano.game.CSGO.GLOW_OBJECT_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
-import com.charlatano.game.EntityContext
-import com.charlatano.game.clientState
-import com.charlatano.game.entities
 import com.charlatano.game.entity.EntityType
-import com.charlatano.game.me
 import com.charlatano.game.offsets.ClientOffsets.dwGlowObject
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
@@ -43,8 +40,8 @@ private val contexts = Array(MAX_ENTITIES) { EntityContext() }
 private fun shouldReset() = System.currentTimeMillis() - lastCleanup.get() >= CLEANUP_TIME
 
 private fun reset() {
-	for (cacheableList in entities.values)
-		cacheableList.clear()
+	for (cacheableList in entitiesValues)
+		cacheableList?.clear()
 	lastCleanup.set(System.currentTimeMillis())
 }
 

@@ -16,20 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.utils
+package com.charlatano.game
 
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap
+import com.charlatano.game.entity.Entity
+import com.charlatano.game.entity.EntityType
 
-inline fun <T, R> Long.readCached(cache: Long2ObjectMap<T>, crossinline construct: () -> T,
-                                  crossinline read: T.(Long) -> R): T {
-	val t: T =
-			if (cache.containsKey(this))
-				cache.get(this)
-			else {
-				val t_ = construct()
-				cache.put(this, t_)
-				t_
-			}
-	t.read(this)
-	return t
+data class EntityContext(var entity: Entity = -1, var glowAddress: Entity = -1,
+                         var glowIndex: Int = -1, var type: EntityType = EntityType.NULL) {
+	
+	fun set(entity: Entity, glowAddress: Entity, glowIndex: Int, type: EntityType) = apply {
+		this.entity = entity
+		this.glowAddress = glowAddress
+		this.glowIndex = glowIndex
+		this.type = type
+	}
+	
 }

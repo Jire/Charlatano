@@ -19,15 +19,15 @@
 package com.charlatano.scripts.esp
 
 import com.badlogic.gdx.graphics.Color
-import com.charlatano.game.entities
-import com.charlatano.game.forEntities
 import com.charlatano.game.entity.*
+import com.charlatano.game.entity.EntityType.Companion.ccsPlayer
 import com.charlatano.game.entityByType
+import com.charlatano.game.forEntities
 import com.charlatano.game.me
-import com.charlatano.overlay.CharlatanoOverlay
-import com.charlatano.utils.Vector
 import com.charlatano.game.worldToScreen
+import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.settings.BOX_ESP
+import com.charlatano.utils.Vector
 
 private val vHead = Vector()
 private val vFeet = Vector()
@@ -42,7 +42,7 @@ private var currentIdx = 0
 internal fun boxEsp() = CharlatanoOverlay {
 	if (!BOX_ESP) return@CharlatanoOverlay
 	
-	forEntities(EntityType.CCSPlayer) {
+	forEntities(ccsPlayer) {
 		val entity = it.entity
 		if (entity == me || entity.dead() || entity.dormant()) return@forEntities
 		
