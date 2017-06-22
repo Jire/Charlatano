@@ -27,7 +27,7 @@ fun WinDef.POINT.set(x: Int, y: Int) = apply {
 	this.y = y
 }
 
-fun WinDef.POINT.refresh() = apply { CUser32.GetCursorPos(this) }
+fun WinDef.POINT.refresh() = apply { CUser32.GetCursorPos(this.pointer) }
 
 fun WinDef.POINT.distance(b: WinDef.POINT): Double {
 	val px = (b.x - this.x).toDouble()

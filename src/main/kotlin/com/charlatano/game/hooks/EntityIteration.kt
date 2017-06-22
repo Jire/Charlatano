@@ -42,8 +42,9 @@ private val contexts = Array(MAX_ENTITIES) { EntityContext() }
 
 private fun shouldReset() = System.currentTimeMillis() - lastCleanup.get() >= CLEANUP_TIME
 
-private fun reset() = entities.forEach { _, cacheableList ->
-	cacheableList.clear()
+private fun reset() {
+	for (cacheableList in entities.values)
+		cacheableList.clear()
 	lastCleanup.set(System.currentTimeMillis())
 }
 
