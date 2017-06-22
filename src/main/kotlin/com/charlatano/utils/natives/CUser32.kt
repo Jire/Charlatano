@@ -29,19 +29,19 @@ object CUser32 {
 	}
 	
 	@JvmStatic
-	external fun GetClientRect(hWnd: WinDef.HWND, rect: WinDef.RECT): Boolean
+	external fun GetClientRect(hWnd: Pointer, rect: Pointer): Int
 	
 	@JvmStatic
-	external fun GetCursorPos(p: Pointer): Boolean
+	external fun GetCursorPos(p: Pointer): Int
 	
 	@JvmStatic
 	external fun FindWindowA(lpClassName: String?, lpWindowName: String): WinDef.HWND
 	
 	@JvmStatic
-	external fun GetForegroundWindow(): WinDef.HWND
+	external fun GetForegroundWindow(): Long
 	
 	@JvmStatic
-	external fun GetWindowRect(hWnd: WinDef.HWND, rect: WinDef.RECT): Boolean
+	external fun GetWindowRect(hWnd: Pointer, rect: Pointer): Int
 	
 	@JvmStatic
 	external fun mouse_event(dwFlags: Int, dx: Int, dy: Int, dwData: Int, dwExtraInfo: Long)

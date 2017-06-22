@@ -30,7 +30,7 @@ class ListContainer<E>(capacity: Int) {
 	
 	fun empty() = lists.size() == 0
 	
-	internal inline fun forEach(action: (E) -> Unit): Unit {
+	internal inline fun forEach(crossinline action: (E) -> Unit): Unit {
 		lists.forEach {
 			it.forEach {
 				action(it)
@@ -42,4 +42,5 @@ class ListContainer<E>(capacity: Int) {
 	
 }
 
-internal inline operator fun <E> ListContainer<E>.invoke(action: (E) -> Unit) = this.forEach { action(it) }
+internal inline operator fun <E> ListContainer<E>.invoke(crossinline action: (E) -> Unit)
+		= this.forEach { action(it) }

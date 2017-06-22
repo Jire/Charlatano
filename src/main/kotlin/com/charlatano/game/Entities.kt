@@ -44,7 +44,8 @@ val entities: Object2ObjectMap<EntityType, CacheableList<EntityContext>>
 
 fun entityByType(type: EntityType): EntityContext? = entities[type]?.firstOrNull()
 
-internal inline fun forEntities(vararg types: EntityType = EntityType.cachedValues, body: (EntityContext) -> Unit) {
+internal inline fun forEntities(vararg types: EntityType = EntityType.cachedValues,
+                                crossinline body: (EntityContext) -> Unit) {
 	val hashcode = Arrays.hashCode(types)
 	val container = cachedResults.get(hashcode) ?: EntityContainer(EntityType.size)
 	
