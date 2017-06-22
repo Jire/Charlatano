@@ -43,7 +43,7 @@ fun main(args: Array<String>) {
 	loadSettings()
 	
 	CSGO.initialize()
-	
+	toggesp()
 	bunnyHop()
 	rcs()
 	esp()
