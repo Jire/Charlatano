@@ -19,7 +19,7 @@
 import java.nio.file.Files
 
 buildscript {
-	ext.kotlin_version = '1.1.2-5'
+	ext.kotlin_version = '1.1.3-2'
 	ext.jnaVersion = '4.4.0'
 	ext.gdxVersion = '1.9.6'
 	
@@ -94,7 +94,7 @@ task charlatano {
 		Files.write(bat.toPath(), """@echo off
 cd /d "%~dp0"
 title $name
-java -Xmx1g -Xms1g -server -jar "$jarName"
+java -Xmx1g -Xms1g -jar "$jarName"
 pause""".getBytes())
 		
 		Files.copy(file("LICENSE.txt").toPath(), file(new File(dir, "LICENSE.txt")).toPath())

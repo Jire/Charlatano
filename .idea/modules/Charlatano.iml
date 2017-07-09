@@ -13,13 +13,13 @@
           <option name="loadBuiltInsFromDependencies" value="true" />
           <option name="languageVersion" value="1.1" />
           <option name="apiVersion" value="1.1" />
+          <option name="pluginOptions">
+            <array />
+          </option>
           <option name="pluginClasspaths">
             <array />
           </option>
           <option name="coroutinesWarn" value="true" />
-          <option name="pluginOptions">
-            <array />
-          </option>
         </compilerArguments>
       </configuration>
     </facet>

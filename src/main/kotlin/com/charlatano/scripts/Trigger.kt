@@ -16,6 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.settings
+package com.charlatano.scripts
 
-var TRIGGER_DURATION = 1
+import com.charlatano.game.entity.EntityType
+import com.charlatano.game.forEntities
+import com.charlatano.game.me
+import com.charlatano.settings.TRIGGER_DURATION
+import com.charlatano.utils.every
+
+fun trigger() = every(TRIGGER_DURATION) {
+	forEntities {
+		val entity = it.entity
+		if (entity <= 0 || me == entity || it.type != EntityType.CCSPlayer) return@forEntities
+		
+		
+	}
+}
