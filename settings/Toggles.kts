@@ -15,25 +15,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+import com.charlatano.settings.*
 
-package com.charlatano.scripts
+/* Key codes can be found @ https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
+   In order to toggle something you need to hold ALT + the Toggle Key.
+*/
+ 
+// Aim toggle key.
+TOGGLE_KEY_AIM = 0x61
 
-import com.charlatano.game.hooks.onGround
-import com.charlatano.settings.BUNNY_HOP_KEY
-import com.charlatano.settings.ENABLE_BUNNY_HOP
-import com.charlatano.utils.*
-import org.jire.arrowhead.keyPressed
 
-fun bunnyHop() = onGround {
-	if (ENABLE_BUNNY_HOP && keyPressed(BUNNY_HOP_KEY)) {
-		randScroll()
-		Thread.sleep(8 + randLong(10))
-		randScroll()
-	}
-}
+// RCS toggle key
+TOGGLE_KEY_RCS = 0x62
 
-private fun randScroll() {
-	Thread.sleep(randLong(1, 4))
-	val amount = randInt(60) + 10
-	mouseWheel(-amount)
-}
+
+// ESP toggle key
+TOGGLE_KEY_ESP = 0x60
+
+
+// Bunnyhop toggle key.
+TOGGLE_KEY_BUNNYHOP = 0x63
+
+
+// BoneTrigger toggle key.
+TOGGLE_KEY_TRIGGER = 0x64
+
+
+// Rage toggle key.
+TOGGLE_KEY_RAGE = 0x69

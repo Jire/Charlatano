@@ -27,7 +27,9 @@ import com.charlatano.settings.BONE_TRIGGER_BONE
 import com.charlatano.settings.BONE_TRIGGER_FOV
 import com.charlatano.settings.ENABLE_BONE_TRIGGER
 import com.charlatano.settings.FIRE_KEY
+import com.charlatano.settings.FORCE_AIM_KEY
 import com.charlatano.utils.*
+import org.jire.arrowhead.keyPressed
 import org.jire.arrowhead.keyReleased
 
 private val onBoneTriggerTarget = hook(1) {
@@ -37,9 +39,13 @@ private val onBoneTriggerTarget = hook(1) {
 }
 
 fun boneTrigger() = onBoneTriggerTarget {
-	if (keyReleased(FIRE_KEY)) {
-		mouse(MOUSEEVENTF_LEFTDOWN)
-		Thread.sleep(8 + randLong(16))
-		mouse(MOUSEEVENTF_LEFTUP)
-	}
+	if (keyReleased(FIRE_KEY) && keyPressed(FORCE_AIM_KEY))
+		click()
 }
+
+fun click() {
+	mouse(MOUSEEVENTF_LEFTDOWN)
+	Thread.sleep(12 + randLong(4))
+	mouse(MOUSEEVENTF_LEFTUP)
+	Thread.sleep(4 + randLong(4))
+} 

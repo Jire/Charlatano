@@ -22,6 +22,7 @@ import com.charlatano.game.*
 import com.charlatano.game.entity.*
 import com.charlatano.game.entity.EntityType.Companion.ccsPlayer
 import com.charlatano.game.offsets.ScaleFormOffsets
+import com.charlatano.scripts.*
 import com.charlatano.settings.*
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
@@ -91,7 +92,7 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 	
 	val aim = ACTIVATE_FROM_FIRE_KEY && keyPressed(FIRE_KEY)
 	val forceAim = keyPressed(FORCE_AIM_KEY)
-	val pressed = aim or forceAim
+	val pressed = aim or forceAim or ENABLE_RAGE
 	var currentTarget = target.get()
 	
 	if (!pressed || CSGO.scaleFormDLL.boolean(ScaleFormOffsets.bCursorEnabled)) {
@@ -113,7 +114,7 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 	if (currentTarget < 0) {
 		currentTarget = findTarget(position, currentAngle, aim)
 		if (currentTarget < 0) {
-			Thread.sleep(200 + randLong(350))
+			Thread.sleep(16 + randLong(16))
 			return@every
 		}
 		target.set(currentTarget)
@@ -121,8 +122,9 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 	
 	if (!currentTarget.canShoot()) {
 		reset()
-		Thread.sleep(200 + randLong(350))
+		Thread.sleep(16 + randLong(16))
 	} else if (currentTarget.onGround() && me.onGround()) {
+		val weapon = me.weapon()
 		val boneID = bone.get()
 		val bonePosition = currentTarget.bones(boneID)
 		
@@ -130,6 +132,13 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 		if (AIM_ASSIST_MODE) destinationAngle.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)
 		
 		val aimSpeed = AIM_SPEED_MIN + randInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
-		doAim(destinationAngle, currentAngle, aimSpeed)
+		if (!ENABLE_RAGE)
+			doAim(destinationAngle, currentAngle, aimSpeed)
+		else{
+			if (weapon.sniper && !me.isScoped())
+				return@every
+			doAim(destinationAngle, currentAngle, 1)
+			click()
+		}
 	}
 }

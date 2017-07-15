@@ -92,8 +92,12 @@ task charlatano {
 		
 		def bat = file(new File(dir, "Start ${name}.bat"))
 		Files.write(bat.toPath(), """@echo off
+title %random%%random%%random%%random%%random%%random%%random%%random%%random%%random%%random%%random%
+echo Only continue once you are in game and can see your gun.
+echo.
+pause
+cls
 cd /d "%~dp0"
-title $name
 java -Xmx1g -Xms1g -jar "$jarName"
 pause""".getBytes())
 		

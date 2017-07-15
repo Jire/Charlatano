@@ -15,25 +15,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+ 
+package com.charlatano.settings
 
-package com.charlatano.scripts
 
-import com.charlatano.game.hooks.onGround
-import com.charlatano.settings.BUNNY_HOP_KEY
-import com.charlatano.settings.ENABLE_BUNNY_HOP
-import com.charlatano.utils.*
-import org.jire.arrowhead.keyPressed
-
-fun bunnyHop() = onGround {
-	if (ENABLE_BUNNY_HOP && keyPressed(BUNNY_HOP_KEY)) {
-		randScroll()
-		Thread.sleep(8 + randLong(10))
-		randScroll()
-	}
-}
-
-private fun randScroll() {
-	Thread.sleep(randLong(1, 4))
-	val amount = randInt(60) + 10
-	mouseWheel(-amount)
-}
+var TOGGLE_KEY_AIM = 0x61
+var TOGGLE_KEY_RCS = 0x62
+var TOGGLE_KEY_ESP = 0x60
+var TOGGLE_KEY_BUNNYHOP = 0x63
+var TOGGLE_KEY_TRIGGER = 0x64
+var TOGGLE_KEY_RAGE = 0x69
