@@ -123,7 +123,7 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 	if (!currentTarget.canShoot()) {
 		reset()
 		Thread.sleep(16 + randLong(16))
-	} else if (currentTarget.onGround() && me.onGround()) {
+	} else if (ENABLE_AIM) {
 		val weapon = me.weapon()
 		val boneID = bone.get()
 		val bonePosition = currentTarget.bones(boneID)
