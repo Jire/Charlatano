@@ -27,3 +27,8 @@ BONE_TRIGGER_FOV = 12
  * The bone to automatically fire at for the bone trigger.
  */
 BONE_TRIGGER_BONE = HEAD_BONE
+
+/**
+ * The amount of time to take between clicks
+ */
+DELAY_BETWEEN_SHOTS = 200

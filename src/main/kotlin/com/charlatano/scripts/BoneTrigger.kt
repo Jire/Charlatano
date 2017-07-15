@@ -25,7 +25,9 @@ import com.charlatano.game.me
 import com.charlatano.scripts.aim.findTarget
 import com.charlatano.settings.BONE_TRIGGER_BONE
 import com.charlatano.settings.BONE_TRIGGER_FOV
+import com.charlatano.settings.DELAY_BETWEEN_SHOTS
 import com.charlatano.settings.ENABLE_BONE_TRIGGER
+import com.charlatano.settings.ENABLE_RAGE
 import com.charlatano.settings.FIRE_KEY
 import com.charlatano.settings.FORCE_AIM_KEY
 import com.charlatano.utils.*
@@ -47,5 +49,6 @@ fun click() {
 	mouse(MOUSEEVENTF_LEFTDOWN)
 	Thread.sleep(12 + randLong(4))
 	mouse(MOUSEEVENTF_LEFTUP)
-	Thread.sleep(4 + randLong(4))
+	if (!ENABLE_RAGE)
+		Thread.sleep(DELAY_BETWEEN_SHOTS + randLong(4))
 } 
