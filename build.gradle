@@ -94,7 +94,7 @@ task charlatano {
 		Files.write(bat.toPath(), """@echo off
 cd /d "%~dp0"
 title $name
-java -Xmx1g -Xms1g -XX:+UseFastAccessorMethods -XX:+UseFastEmptyMethods -XX:+UseConcMarkSweepGC -XX:+UseStringCache -XX:+EliminateLocks -XX:+AggressiveOpts -XX:+DoEscapeAnalysis -XX:+UseCompressedOops -jar "$jarName"
+java -Xmx1g -Xms1g -XX:+UseFastAccessorMethods -XX:+UseFastEmptyMethods -XX:+UseConcMarkSweepGC -XX:+EliminateLocks -XX:+AggressiveOpts -XX:+DoEscapeAnalysis -XX:+UseCompressedOops -jar "$jarName"
 pause""".getBytes())
 		
 		Files.copy(file("LICENSE.txt").toPath(), file(new File(dir, "LICENSE.txt")).toPath())
