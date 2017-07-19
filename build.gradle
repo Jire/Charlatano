@@ -98,7 +98,7 @@ echo.
 pause
 cls
 cd /d "%~dp0"
-java -Xmx1g -Xms1g -XX:+UseFastAccessorMethods -XX:+UseFastEmptyMethods -XX:+UseConcMarkSweepGC -XX:+EliminateLocks -XX:+AggressiveOpts -XX:+DoEscapeAnalysis -XX:+UseCompressedOops -jar "$jarName"
+java -Xmx1g -Xms1g -XX:+UseStringDeduplication -XX:+UseFastAccessorMethods -XX:+UseFastEmptyMethods -XX:+UseConcMarkSweepGC -XX:+EliminateLocks -XX:+AggressiveOpts -XX:+DoEscapeAnalysis -XX:+UseCompressedOops -jar "$jarName"
 pause""".getBytes())
 		
 		Files.copy(file("LICENSE.txt").toPath(), file(new File(dir, "LICENSE.txt")).toPath())
