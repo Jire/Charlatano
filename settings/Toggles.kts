@@ -17,30 +17,32 @@
  */
  
 import com.charlatano.settings.*
+import java.awt.event.KeyEvent
 
-/* Key codes can be found @ https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
-   In order to toggle something you need to hold ALT + the Toggle Key.
+/*
+ * Key codes can be found @ https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
+ * In order to toggle something you need to hold ALT + the Toggle Key.
 */
  
 // Aim toggle key.
-TOGGLE_KEY_AIM = 0x61
+TOGGLE_KEY_AIM = KeyEvent.VK_NUMPAD1
 
 
 // RCS toggle key
-TOGGLE_KEY_RCS = 0x62
+TOGGLE_KEY_RCS = KeyEvent.VK_NUMPAD2
 
 
 // ESP toggle key
-TOGGLE_KEY_ESP = 0x60
+TOGGLE_KEY_ESP = KeyEvent.VK_NUMPAD0
 
 
 // Bunnyhop toggle key.
-TOGGLE_KEY_BUNNYHOP = 0x63
+TOGGLE_KEY_BUNNYHOP = KeyEvent.VK_NUMPAD3
 
 
 // BoneTrigger toggle key.
-TOGGLE_KEY_TRIGGER = 0x64
+TOGGLE_KEY_TRIGGER = KeyEvent.VK_NUMPAD4
 
 
 // Rage toggle key.
-TOGGLE_KEY_RAGE = 0x69
+TOGGLE_KEY_RAGE = KeyEvent.VK_NUMPAD9
