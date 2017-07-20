@@ -97,10 +97,14 @@ echo Only continue once you are in game and can see your gun.
 echo.
 pause
 cd /d "%~dp0"
+<<<<<<< HEAD
 set name=Char%random%%random%
 ren "Char*.jar" "%name%.jar"
 cls
 java -Xmx1g -Xms1g -XX:+UseStringDeduplication -XX:+UseFastAccessorMethods -XX:+UseFastEmptyMethods -XX:+UseConcMarkSweepGC -XX:+EliminateLocks -XX:+AggressiveOpts -XX:+DoEscapeAnalysis -XX:+UseCompressedOops -jar "%name%.jar"
+=======
+java -Xmx1g -Xms1g -XX:+UseStringDeduplication -XX:+UseFastAccessorMethods -XX:+UseFastEmptyMethods -XX:+UseConcMarkSweepGC -XX:+EliminateLocks -XX:+AggressiveOpts -XX:+DoEscapeAnalysis -XX:+UseCompressedOops -jar "$jarName"
+>>>>>>> origin/master
 pause""".getBytes())
 		
 		Files.copy(file("LICENSE.txt").toPath(), file(new File(dir, "LICENSE.txt")).toPath())
