@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 import com.charlatano.settings.*
 import java.awt.event.KeyEvent
 
@@ -23,7 +23,7 @@ import java.awt.event.KeyEvent
  * Key codes can be found @ https://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
  * In order to toggle something you need to hold ALT + the Toggle Key.
 */
- 
+
 // Aim toggle key.
 TOGGLE_KEY_AIM = KeyEvent.VK_NUMPAD1
 
@@ -41,7 +41,7 @@ TOGGLE_KEY_BUNNYHOP = KeyEvent.VK_NUMPAD3
 
 
 // BoneTrigger toggle key.
-TOGGLE_KEY_TRIGGER = KeyEvent.VK_NUMPAD4
+TOGGLE_KEY_BONETRIGGER = KeyEvent.VK_NUMPAD4
 
 
 // Rage toggle key.
