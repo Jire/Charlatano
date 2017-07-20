@@ -90,15 +90,17 @@ task charlatano {
 		def allJar = file("build/libs/Charlatano-${version}.jar")
 		Files.copy(allJar.toPath(), jar.toPath())
 		
-		def bat = file(new File(dir, "Start ${name}.bat"))
+		def bat = file(new File(dir, "@start.bat"))
 		Files.write(bat.toPath(), """@echo off
 title %random%%random%%random%%random%%random%%random%%random%%random%%random%%random%%random%%random%
 echo Only continue once you are in game and can see your gun.
 echo.
 pause
-cls
 cd /d "%~dp0"
-java -Xmx1g -Xms1g -XX:+UseFastAccessorMethods -XX:+UseFastEmptyMethods -XX:+UseConcMarkSweepGC -XX:+EliminateLocks -XX:+AggressiveOpts -XX:+DoEscapeAnalysis -XX:+UseCompressedOops -jar "$jarName"
+set name=Char%random%%random%
+ren "Char*.jar" "%name%.jar"
+cls
+java -Xmx1g -Xms1g -XX:+UseStringDeduplication -XX:+UseFastAccessorMethods -XX:+UseFastEmptyMethods -XX:+UseConcMarkSweepGC -XX:+EliminateLocks -XX:+AggressiveOpts -XX:+DoEscapeAnalysis -XX:+UseCompressedOops -jar "%name%.jar"
 pause""".getBytes())
 		
 		Files.copy(file("LICENSE.txt").toPath(), file(new File(dir, "LICENSE.txt")).toPath())

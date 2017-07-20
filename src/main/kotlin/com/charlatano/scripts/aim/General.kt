@@ -44,13 +44,15 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
                         lockFOV: Int = AIM_FOV, boneID: Int = HEAD_BONE): Player {
 	var closestDelta = Double.MAX_VALUE
 	var closestPlayer = -1L
+	var FOV = lockFOV
 	
 	var closestFOV = Double.MAX_VALUE
 	
 	forEntities(ccsPlayer) {
 		val entity = it.entity
 		if (entity <= 0) return@forEntities
-		if (!entity.canShoot()) return@forEntities
+		if (ENABLE_RAGE && keyPressed(FORCE_AIM_KEY) && entity.canShootWall()) FOV = 360
+		else if (!entity.canShoot()) return@forEntities
 		
 		val ePos: Angle = entity.bones(boneID)
 		val distance = position.distanceTo(ePos)
@@ -62,10 +64,13 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 		val delta = Math.abs(Math.sin(Math.toRadians(yawDiff)) * distance)
 		val fovDelta = Math.abs((Math.sin(Math.toRadians(pitchDiff)) + Math.sin(Math.toRadians(yawDiff))) * distance)
 		
-		if (fovDelta <= lockFOV && delta < closestDelta) {
-			closestDelta = delta
-			closestPlayer = entity
-			closestFOV = fovDelta
+		if (fovDelta <= FOV || ENABLE_RAGE) {
+			if (delta < closestDelta)
+			{
+				closestDelta = delta
+				closestPlayer = entity
+				closestFOV = fovDelta
+			}
 		}
 	}
 	
@@ -80,6 +85,12 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 internal fun Entity.canShoot()
 		= spotted()
 		&& !dormant()
+		&& !dead()
+		&& me.team() != team()
+		&& !me.dead()
+		
+internal fun Entity.canShootWall()
+		= !dormant()
 		&& !dead()
 		&& me.team() != team()
 		&& !me.dead()
@@ -120,7 +131,7 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 		target.set(currentTarget)
 	}
 	
-	if (!currentTarget.canShoot()) {
+	if (!currentTarget.canShootWall()) {
 		reset()
 		Thread.sleep(16 + randLong(16))
 	} else if (ENABLE_AIM) {
@@ -138,7 +149,10 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 			if (weapon.sniper && !me.isScoped())
 				return@every
 			doAim(destinationAngle, currentAngle, 1)
-			click()
+			if (currentTarget.canShoot())
+				click()
+			else 
+				reset()
 		}
 	}
 }
