@@ -45,6 +45,8 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 	var closestDelta = Double.MAX_VALUE
 	var closestPlayer = -1L
 	var FOV = lockFOV
+	if (keyPressed(FORCE_AIM_KEY))
+		FOV = FORCE_AIM_FOV
 	
 	var closestFOV = Double.MAX_VALUE
 	

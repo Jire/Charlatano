@@ -41,6 +41,7 @@ var FORCE_AIM_KEY = 5
  * The field of view of the aimbot, in degrees (0 to 360).
  */
 var AIM_FOV = 190
+var FORCE_AIM_FOV = 360
 
 /**
  * The aimbot's "playback" speed, the higher the value the slower the playback.
