@@ -70,10 +70,10 @@ fun Toggles_RCS() = every(10) {
 }
 
 fun Toggles_TRIGGER() = every(10) {
-	if (keyPressed(0x12) && keyPressed(TOGGLE_KEY_TRIGGER)) {
+	if (keyPressed(0x12) && keyPressed(TOGGLE_KEY_BONETRIGGER)) {
 		ENABLE_BONE_TRIGGER = !ENABLE_BONE_TRIGGER
 		do {
 			Thread.sleep(25)
-		} while (keyPressed(TOGGLE_KEY_TRIGGER))
+		} while (keyPressed(TOGGLE_KEY_BONETRIGGER))
 	}
 }
