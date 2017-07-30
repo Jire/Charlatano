@@ -123,13 +123,14 @@ private fun clearScreen() {
 	repeat(512) { _ ->
 		System.out.print("\n")
 	}
-	System.out.println("   Command     | Alias  | Function");
 	System.out.println("  =============+========+=========================")
-	System.out.println(" | clear       | cls, c | clears console screen   |")
-	System.out.println(" | exit / quit | e, q   | stop CS:PRO             |")
-	System.out.println(" | reload      | r      | reloads /settings       |")
-	System.out.println(" | reset       |        | disables all toggles    |")
-	System.out.println(" | toggles     | t      | show what is toggled    |")
+	System.out.println(" | Command     | Alias  | Function                |");
+	System.out.println("  =============+========+=========================")
+	System.out.println(" | clear       | cls, c | Clears console screen   |")
+	System.out.println(" | exit / quit | e, q   | Stops Charlatano        |")
+	System.out.println(" | reload      | r      | Reloads /settings       |")
+	System.out.println(" | reset       |        | Disables all toggles    |")
+	System.out.println(" | toggles     | t      | Show what is toggled    |")
 	System.out.println("  =============+========+=========================")
 	System.out.println()
 }
