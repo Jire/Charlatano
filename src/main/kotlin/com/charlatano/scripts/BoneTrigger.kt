@@ -51,4 +51,6 @@ fun click() {
 	mouse(MOUSEEVENTF_LEFTUP)
 	if (!ENABLE_RAGE)
 		Thread.sleep(DELAY_BETWEEN_SHOTS + randLong(4))
+	else
+		Thread.sleep(4 + randLong(4))
 } 
