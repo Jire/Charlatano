@@ -16,9 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.settings
-
 import com.charlatano.game.Color
+import com.charlatano.settings.*
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// --- ESP Types --- ///////////////////////////////////////
@@ -27,19 +26,20 @@ import com.charlatano.game.Color
 /**
  * Whether or not to use skeleton ESP.
  */
-var SKELETON_ESP = false
+SKELETON_ESP = false
 
 /**
  * Whether or not to use box ESP.
  */
-var BOX_ESP = false
+BOX_ESP = false
 
 /**
  * Whether or not to use the within-game glow ESP.
  *
  * This ESP **CANNOT** be hidden from game capture for streaming.
  */
-var GLOW_ESP = true
+GLOW_ESP = true
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,12 +49,12 @@ var GLOW_ESP = true
 /**
  * Whether or not to highlight your team mates.
  */
-var SHOW_TEAM = true
+SHOW_TEAM = true
 
 /**
  * Whether or not to highlight enemies.
  */
-var SHOW_ENEMIES = true
+SHOW_ENEMIES = true
 
 /**
  * Whether or not to highlight "dormant" (unknown-location) players.
@@ -62,32 +62,34 @@ var SHOW_ENEMIES = true
  * Enabling this can allow you to see players at a further distance,
  * but you may see some "ghost" players which are really not there.
  */
-var SHOW_DORMANT = false
+SHOW_DORMANT = false
 
 /**
  * Whether or not to highlight the bomb.
  */
-var SHOW_BOMB = true
+SHOW_BOMB = true
 
 /**
  * Whether or not to highlight weapons.
  */
-var SHOW_WEAPONS = false
+SHOW_WEAPONS = false
 
 /**
  * Whether or not to highlight grenades.
  */
-var SHOW_GRENADES = false
-
+SHOW_GRENADES = false
 /**
  * Use a Glow toogle
  */
-var USE_GLOW_KEY = true
+USE_GLOW_KEY = false
 
 /**
  * Set VirtualKeyCode for the toggle
  */
-var GLOW_KEY = 18
+GLOW_KEY = 18
+
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////// --- COLORS --- ///////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,27 +97,27 @@ var GLOW_KEY = 18
 /**
  * The color to highlight your team mates.
  */
-var TEAM_COLOR = Color(0, 0, 255)
+TEAM_COLOR = Color(0, 0, 255)
 
 /**
  * The color to highlight your enemies.
  */
-var ENEMY_COLOR = Color(255, 0, 0)
+ENEMY_COLOR = Color(255, 0, 0)
 
 /**
  * The color to highlight the bomb.
  */
-var BOMB_COLOR = Color(255, 255, 0, 1.0)
+BOMB_COLOR = Color(255, 255, 0, 1.0)
 
 /**
  * The color to highlight weapons.
  */
-var WEAPON_COLOR = Color(0, 255, 0, 0.5)
+WEAPON_COLOR = Color(0, 255, 0, 0.5)
 
 /**
  * The color to highlight grenades.
  */
-var GRENADE_COLOR = Color(0, 255, 0, 1.0)
+GRENADE_COLOR = Color(0, 255, 0, 1.0)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,4 +129,4 @@ var GRENADE_COLOR = Color(0, 255, 0, 1.0)
  *
  * WARNING: This may cause random game crashes if you enable it.
  */
-var COLOR_MODELS = false
+COLOR_MODELS = false
