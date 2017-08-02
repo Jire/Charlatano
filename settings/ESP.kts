@@ -78,6 +78,15 @@ SHOW_WEAPONS = false
  * Whether or not to highlight grenades.
  */
 SHOW_GRENADES = false
+/**
+ * Use a Glow toogle
+ */
+USE_GLOW_KEY = false
+
+/**
+ * Set VirtualKeyCode for the toggle
+ */
+GLOW_KEY = 18
 
 
 

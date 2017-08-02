@@ -25,6 +25,7 @@ import com.charlatano.game.forEntities
 import com.charlatano.game.me
 import com.charlatano.settings.*
 import com.charlatano.utils.every
+import org.jire.arrowhead.keyPressed
 
 internal fun glowEsp() = every(4) {
 	if (!GLOW_ESP) return@every
@@ -40,13 +41,26 @@ internal fun glowEsp() = every(4) {
 			EntityType.CCSPlayer -> {
 				if (entity.dead() || (!SHOW_DORMANT && entity.dormant())) return@forEntities
 				
-				val team = me.team() == entity.team()
-				if (SHOW_ENEMIES && !team) {
-					glowAddress.glow(ENEMY_COLOR)
-					entity.chams(ENEMY_COLOR)
-				} else if (SHOW_TEAM && team) {
-					glowAddress.glow(TEAM_COLOR)
-					entity.chams(TEAM_COLOR)
+				if(USE_GLOW_KEY) {
+					if(keyPressed(GLOW_KEY)){
+						val team = me.team() == entity.team()
+						if (SHOW_ENEMIES && !team) {
+							glowAddress.glow(ENEMY_COLOR)
+							entity.chams(ENEMY_COLOR)
+						} else if (SHOW_TEAM && team) {
+							glowAddress.glow(TEAM_COLOR)
+							entity.chams(TEAM_COLOR)
+						}
+					}
+				} else {
+					val team = me.team() == entity.team()
+					if (SHOW_ENEMIES && !team) {
+						glowAddress.glow(ENEMY_COLOR)
+						entity.chams(ENEMY_COLOR)
+					} else if (SHOW_TEAM && team) {
+						glowAddress.glow(TEAM_COLOR)
+						entity.chams(TEAM_COLOR)
+					}
 				}
 			}
 			EntityType.CPlantedC4, EntityType.CC4 -> if (SHOW_BOMB) {
@@ -57,6 +71,7 @@ internal fun glowEsp() = every(4) {
 				if (SHOW_WEAPONS && it.type.weapon) glowAddress.glow(WEAPON_COLOR)
 				else if (SHOW_GRENADES && it.type.grenade) glowAddress.glow(GRENADE_COLOR)
 		}
+		
 	}
 }
 
