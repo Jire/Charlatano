@@ -63,7 +63,7 @@ fun main(args: Array<String>) {
 	Toggles_ESP()
 	Toggles_RAGE()
 	Toggles_RCS()
-	Toggles_TRIGGER()
+	Toggles_BONETRIGGER()
 	
 	Thread.sleep(10_000) // wait a bit to catch everything
 	System.gc() // then cleanup
