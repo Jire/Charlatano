@@ -103,7 +103,21 @@ fun Toggles_BONETRIGGER() = every(10) {
 			Thread.sleep(25) 
 		} while (keyPressed(TOGGLE_KEY_BONETRIGGER))
 			
-		if (HOLD_TOGGLE_RCS) 
+		if (HOLD_TOGGLE_BONETRIGGER) 
 			ENABLE_BONE_TRIGGER = false
+	}
+}
+
+fun Toggles_BONETARGET() = every(10) {
+	if ((keyPressed(0x12) && keyPressed(TOGGLE_KEY_AIM_AT_HEAD)) 
+		|| (HOLD_TOGGLE_AIM_AT_HEAD && keyPressed(TOGGLE_KEY_AIM_AT_HEAD))) {
+		AIM_AT_HEAD = !AIM_AT_HEAD
+		
+		do { 
+			Thread.sleep(25) 
+		} while (keyPressed(TOGGLE_KEY_AIM_AT_HEAD))
+			
+		if (HOLD_TOGGLE_AIM_AT_HEAD) 
+			AIM_AT_HEAD = true
 	}
 }

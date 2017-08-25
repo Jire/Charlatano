@@ -36,7 +36,10 @@ val perfect = AtomicBoolean() // only applicable for safe aim
 
 internal fun reset() {
 	target.set(-1L)
-	bone.set(HEAD_BONE)
+	if (AIM_AT_HEAD)
+		bone.set(HEAD_BONE)
+	else
+		bone.set(BODY_BONE)
 	perfect.set(false)
 }
 

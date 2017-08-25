@@ -48,3 +48,7 @@ HOLD_TOGGLE_BONETRIGGER = false
 // Rage toggle key.
 TOGGLE_KEY_RAGE = KeyEvent.VK_NUMPAD9
 HOLD_TOGGLE_RAGE = false
+
+// Head or Body aim toggle (toggle between head and body)
+TOGGLE_KEY_AIM_AT_HEAD = KeyEvent.VK_SHIFT
+HOLD_TOGGLE_AIM_AT_HEAD = true
