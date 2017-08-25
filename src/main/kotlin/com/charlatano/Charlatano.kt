@@ -30,6 +30,7 @@ import com.charlatano.settings.BOX_ESP
 import com.charlatano.settings.ENABLE_BOMB_TIMER
 import com.charlatano.settings.ENABLE_ESP
 import com.charlatano.settings.SKELETON_ESP
+import com.charlatano.settings.START_KEY
 import com.charlatano.settings.ENABLE_AIM
 import com.charlatano.settings.ENABLE_BUNNY_HOP
 import com.charlatano.settings.ENABLE_RCS
@@ -44,6 +45,17 @@ const val SETTINGS_DIRECTORY = "settings"
 
 fun main(args: Array<String>) {
 	System.setProperty("kotlin.compiler.jar", "kotlin-compiler.jar")
+	
+	var holdtime = 0
+	System.out.println("Hold " + START_KEY + " for 3 seconds to begin.")
+	while (holdtime < 3000) {
+		Thread.sleep(25)
+		if (keyPressed(START_KEY))
+			holdtime += 25
+		else
+			holdtime = 0
+	}
+	System.out.println("Starting...")
 	
 	loadSettings()
 	

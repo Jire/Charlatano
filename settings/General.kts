@@ -19,6 +19,12 @@
 import com.charlatano.settings.*
 
 /**
+ * Start key - hold it to start the cheat
+ * Default F12
+ */
+START_KEY = 0x7B 
+
+/**
  * Set this to true if you're playing CS:CO (Counter-Strike: Classic Offensive).
  */
 CLASSIC_OFFENSIVE = false
