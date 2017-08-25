@@ -95,7 +95,6 @@ task charlatano {
 title %random%%random%%random%%random%%random%%random%%random%%random%%random%%random%%random%%random%
 echo Only continue once you are in game and can see your gun.
 echo.
-pause
 cd /d "%~dp0"
 set name=Char%random%%random%
 ren "Char*.jar" "%name%.jar"
