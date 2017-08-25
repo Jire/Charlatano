@@ -40,6 +40,7 @@ import com.charlatano.utils.Dojo
 import java.io.File
 import java.io.FileReader
 import java.util.*
+import org.jire.arrowhead.keyPressed
 
 const val SETTINGS_DIRECTORY = "settings"
 
