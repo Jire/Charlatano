@@ -51,13 +51,13 @@ fun rcs() = every(RCS_DURATION) {
 		return@every
 	}
 	
-	/*if (!CLASSIC_OFFENSIVE) {
+	if (!CLASSIC_OFFENSIVE) {
 		val weapon = me.weapon()
 		if (!weapon.automatic) {
 			reset()
 			return@every
 		}
-	}*/ // another meme
+	}
 	
 	val punch = Vector(csgoEXE.float(myAddress + vecPunch).toDouble(),
 			csgoEXE.float(myAddress + vecPunch + 4).toDouble(), 0.0).apply {
@@ -88,8 +88,9 @@ fun rcs() = every(RCS_DURATION) {
 	lastPunch[0] = punch.x
 	lastPunch[1] = punch.y
 	prevFired = shotsFired
-	
-	if (shotsFired >= SHIFT_TO_SHOULDER_SHOTS) {
+	if (!AIM_AT_HEAD)
+		bone.set(BODY_BONE)
+	else if (shotsFired >= SHIFT_TO_SHOULDER_SHOTS) {
 		bone.set(if (shotsFired < SHIFT_TO_BODY_SHOTS) SHOULDER_BONE else BODY_BONE)
 		perfect.set(false)
 	}
@@ -99,5 +100,5 @@ private fun reset() {
 	prevFired = 0
 	lastPunch[0] = 0.0
 	lastPunch[1] = 0.0
-	bone.set(HEAD_BONE)
+	bone.set(if (AIM_AT_HEAD) HEAD_BONE else BODY_BONE)
 }

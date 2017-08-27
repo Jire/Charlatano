@@ -48,18 +48,20 @@ const val SETTINGS_DIRECTORY = "settings"
 fun main(args: Array<String>) {
 	System.setProperty("kotlin.compiler.jar", "kotlin-compiler.jar")
 	
-	var holdtime = 0
+	loadSettings()
+	
+	var holdtime = -25
 	System.out.println("Hold " + KeyEvent.getKeyText(START_KEY) + " for 3 seconds to begin.")
 	while (holdtime < 3000) {
 		Thread.sleep(25)
 		if (keyPressed(START_KEY))
 			holdtime += 25
 		else
-			holdtime = 0
+			holdtime = -25
+		if (holdtime % 1000 == 0)
+			System.out.println("Time held: " + holdtime/1000 + "/3")
 	}
 	System.out.println("Starting...")
-	
-	loadSettings()
 	
 	CSGO.initialize()
 	
@@ -78,6 +80,7 @@ fun main(args: Array<String>) {
 	Toggles_RAGE()
 	Toggles_RCS()
 	Toggles_BONETRIGGER()
+	Toggles_BONETARGET()
 	
 	Thread.sleep(10_000) // wait a bit to catch everything
 	System.gc() // then cleanup

@@ -36,10 +36,7 @@ val perfect = AtomicBoolean() // only applicable for safe aim
 
 internal fun reset() {
 	target.set(-1L)
-	if (AIM_AT_HEAD)
-		bone.set(HEAD_BONE)
-	else
-		bone.set(BODY_BONE)
+	bone.set(if (AIM_AT_HEAD) HEAD_BONE else BODY_BONE)
 	perfect.set(false)
 }
 
@@ -116,13 +113,13 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 		return@every
 	}
 	
-	/*if (!CLASSIC_OFFENSIVE) {
+	if (!CLASSIC_OFFENSIVE) {
 		val weapon = me.weapon()
 		if (!weapon.pistol && !weapon.automatic && !weapon.shotgun && !weapon.sniper) {
 			reset()
 			return@every
 		}
-	}*/ // good meme
+	}
 	
 	val currentAngle = clientState.angle()
 	
