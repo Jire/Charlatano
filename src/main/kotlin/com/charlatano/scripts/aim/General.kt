@@ -113,13 +113,13 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 		return@every
 	}
 	
-	/*if (!CLASSIC_OFFENSIVE) {
+	if (!CLASSIC_OFFENSIVE) {
 		val weapon = me.weapon()
 		if (!weapon.pistol && !weapon.automatic && !weapon.shotgun && !weapon.sniper) {
 			reset()
 			return@every
 		}
-	}*/ // good meme
+	}
 	
 	val currentAngle = clientState.angle()
 	
