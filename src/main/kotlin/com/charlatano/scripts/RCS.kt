@@ -51,13 +51,13 @@ fun rcs() = every(RCS_DURATION) {
 		return@every
 	}
 	
-	/*if (!CLASSIC_OFFENSIVE) {
+	if (!CLASSIC_OFFENSIVE) {
 		val weapon = me.weapon()
 		if (!weapon.automatic) {
 			reset()
 			return@every
 		}
-	}*/ // another meme
+	}
 	
 	val punch = Vector(csgoEXE.float(myAddress + vecPunch).toDouble(),
 			csgoEXE.float(myAddress + vecPunch + 4).toDouble(), 0.0).apply {
