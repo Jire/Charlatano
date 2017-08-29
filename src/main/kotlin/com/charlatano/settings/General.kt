@@ -35,7 +35,8 @@ var FIRE_KEY = 1
  *
  * The left-side number is for CS:CO, and the right-side number is for CS:GO.
  */
-var START_KEY = 0x7B
+var START_KEY = 8
+var HOLD_TIME = 2000
 var HEAD_BONE = if (CLASSIC_OFFENSIVE) 6 else 8
 var SHOULDER_BONE = if (CLASSIC_OFFENSIVE) 5 else 7
 var BODY_BONE = if (CLASSIC_OFFENSIVE) 4 else 6

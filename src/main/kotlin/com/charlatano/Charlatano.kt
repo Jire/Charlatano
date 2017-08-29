@@ -29,6 +29,7 @@ import com.charlatano.scripts.esp.esp
 import com.charlatano.settings.BOX_ESP
 import com.charlatano.settings.ENABLE_BOMB_TIMER
 import com.charlatano.settings.ENABLE_ESP
+import com.charlatano.settings.HOLD_TIME
 import com.charlatano.settings.SKELETON_ESP
 import com.charlatano.settings.START_KEY
 import com.charlatano.settings.ENABLE_AIM
@@ -50,16 +51,16 @@ fun main(args: Array<String>) {
 	
 	loadSettings()
 	
-	var holdtime = -25
-	System.out.println("Hold " + KeyEvent.getKeyText(START_KEY) + " for 3 seconds to begin.")
-	while (holdtime < 3000) {
+	var heldtime = -25
+	System.out.println("Hold " + KeyEvent.getKeyText(START_KEY) + " for " + HOLD_TIME + " milliseconds to begin.")
+	while (heldtime < HOLD_TIME) {
 		Thread.sleep(25)
 		if (keyPressed(START_KEY))
-			holdtime += 25
+			heldtime += 25
 		else
-			holdtime = -25
-		if (holdtime % 1000 == 0)
-			System.out.println("Time held: " + holdtime/1000 + "/3")
+			heldtime = -25
+		if (heldtime % (HOLD_TIME / 4) == 0)
+			System.out.println("Time held: " + heldtime + "/" + HOLD_TIME)
 	}
 	System.out.println("Starting...")
 	
