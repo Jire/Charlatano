@@ -52,6 +52,7 @@ fun main(args: Array<String>) {
 	loadSettings()
 	
 	var heldtime = -25
+	HOLD_TIME = (HOLD_TIME / 100).toInt() * 100
 	System.out.println("Hold " + KeyEvent.getKeyText(START_KEY) + " for " + HOLD_TIME + " milliseconds to begin.")
 	while (heldtime < HOLD_TIME) {
 		Thread.sleep(25)
