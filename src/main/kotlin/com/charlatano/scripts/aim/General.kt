@@ -54,7 +54,8 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 		val entity = it.entity
 		if (entity <= 0) return@forEntities
 		if (ENABLE_RAGE && keyPressed(FORCE_AIM_KEY) && entity.canShootWall()) FOV = 360
-		else if (!entity.canShoot()) return@forEntities
+		else if (!entity.canShoot() && !IGNORE_WALLS) return@forEntities
+		else if (!entity.canShootWall()) return@forEntities
 		
 		val ePos: Angle = entity.bones(boneID)
 		val distance = position.distanceTo(ePos)

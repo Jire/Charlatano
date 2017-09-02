@@ -60,7 +60,7 @@ fun main(args: Array<String>) {
 			heldtime += 25
 		else
 			heldtime = -25
-		if (heldtime % (HOLD_TIME / 4) == 0)
+		if (HOLD_TIME != 0 && heldtime % (HOLD_TIME / 4) == 0)
 			System.out.println("Time held: " + heldtime + "/" + HOLD_TIME)
 	}
 	System.out.println("Starting...")

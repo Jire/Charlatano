@@ -104,6 +104,11 @@ var AIM_ASSIST_STRICTNESS = 40
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * Whether or not to ignore walls when aiming.
+ */
+var IGNORE_WALLS = false
+ 
+/**
  * The duration in milliseconds at which aimbot paths are recalculated.
  */
 var AIM_DURATION = 1

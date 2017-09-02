@@ -107,6 +107,11 @@ AIM_ASSIST_STRICTNESS = 40
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * Whether or not to ignore walls when aiming.
+ */
+IGNORE_WALLS = false
+ 
+/**
  * The duration in milliseconds at which aimbot paths are recalculated.
  */
 AIM_DURATION = 1
