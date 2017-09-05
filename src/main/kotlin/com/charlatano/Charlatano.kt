@@ -42,12 +42,13 @@ import java.awt.event.KeyEvent
 import java.io.File
 import java.io.FileReader
 import java.util.*
+import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
 import org.jire.arrowhead.keyPressed
 
 const val SETTINGS_DIRECTORY = "settings"
 
 fun main(args: Array<String>) {
-	System.setProperty("kotlin.compiler.jar", "kotlin-compiler.jar")
+	System.setProperty("kotlin.compiler.jar", K2JVMCompiler::class.java.protectionDomain.codeSource.location.toURI().path)
 	
 	loadSettings()
 	

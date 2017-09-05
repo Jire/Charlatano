@@ -123,10 +123,6 @@ pause""".getBytes())
 		settings.listFiles().each {
 			Files.copy(it.toPath(), file(new File(dirSettings, it.getName())).toPath())
 		}
-		
-		Files.copy(file(project.configurations.compile.find {
-			it.name.startsWith("kotlin-compiler-${kotlin_version}.jar")
-		}).toPath(), file(new File(dir, "kotlin-compiler.jar")).toPath())
 	}
 }
 
