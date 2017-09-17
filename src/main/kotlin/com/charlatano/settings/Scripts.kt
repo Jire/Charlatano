@@ -18,6 +18,8 @@
 
 package com.charlatano.settings
 
+var ENABLE_AIM = true
+var ENABLE_RAGE = false
 var ENABLE_BUNNY_HOP = true
 var ENABLE_RCS = true
 var ENABLE_ESP = true

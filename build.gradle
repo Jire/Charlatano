@@ -19,7 +19,7 @@
 import java.nio.file.Files
 
 buildscript {
-	ext.kotlin_version = '1.1.3-2'
+	ext.kotlin_version = '1.1.4-2'
 	ext.jnaVersion = '4.4.0'
 	ext.gdxVersion = '1.9.6'
 	
@@ -90,11 +90,28 @@ task charlatano {
 		def allJar = file("build/libs/Charlatano-${version}.jar")
 		Files.copy(allJar.toPath(), jar.toPath())
 		
-		def bat = file(new File(dir, "Start ${name}.bat"))
+		def bat = file(new File(dir, "@start.bat"))
 		Files.write(bat.toPath(), """@echo off
+title %random%%random%%random%%random%%random%%random%%random%%random%%random%%random%%random%%random%
+echo Only continue once you are in game and can see your gun.
 cd /d "%~dp0"
-title $name
-java -Xmx1g -Xms1g -jar "$jarName"
+set name=Char%random%%random%
+ren "Char*.jar" "%name%.jar"
+set args=-server -Xmn128M -Xms256M -Xmx512M
+
+:: If you are having trouble remove any lines below that are causing problems
+set args=%args% -XX:+UseStringDeduplication
+set args=%args% -XX:+UseFastAccessorMethods
+set args=%args% -XX:+UseG1GC
+set args=%args% -XX:+OptimizeFill
+set args=%args% -XX:+UseFastEmptyMethods
+set args=%args% -XX:+EliminateLocks
+set args=%args% -XX:+AggressiveOpts
+set args=%args% -XX:+DoEscapeAnalysis
+set args=%args% -XX:+UseCompressedOops
+:: If you are having trouble remove any lines above that are causing problems
+
+java %args% -jar "%name%.jar"
 pause""".getBytes())
 		
 		Files.copy(file("LICENSE.txt").toPath(), file(new File(dir, "LICENSE.txt")).toPath())
@@ -106,10 +123,6 @@ pause""".getBytes())
 		settings.listFiles().each {
 			Files.copy(it.toPath(), file(new File(dirSettings, it.getName())).toPath())
 		}
-		
-		Files.copy(file(project.configurations.compile.find {
-			it.name.startsWith("kotlin-compiler-${kotlin_version}.jar")
-		}).toPath(), file(new File(dir, "kotlin-compiler.jar")).toPath())
 	}
 }
 
