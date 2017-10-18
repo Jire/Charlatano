@@ -40,6 +40,14 @@ BOX_ESP = false
  */
 GLOW_ESP = true
 
+/**
+ * @@ Overrides ENEMY_COLOR @@
+ * Health at 100% is represented with red.
+ * 0% Health is represented with blue.
+ * The damage the enemy has taken determines how blue they will be. 
+ */
+HEALTH_BASED_GLOW = true
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,7 +96,7 @@ SHOW_GRENADES = false
 /**
  * The color to highlight your team mates.
  */
-TEAM_COLOR = Color(0, 0, 255)
+TEAM_COLOR = Color(0, 255, 0)
 
 /**
  * The color to highlight your enemies.

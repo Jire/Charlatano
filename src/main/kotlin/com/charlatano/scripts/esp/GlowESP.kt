@@ -27,7 +27,7 @@ import com.charlatano.settings.*
 import com.charlatano.utils.every
 
 internal fun glowEsp() = every(4) {
-	if (!GLOW_ESP) return@every
+	if (!GLOW_ESP || !ENABLE_ESP) return@every
 	
 	forEntities {
 		val entity = it.entity
@@ -41,9 +41,17 @@ internal fun glowEsp() = every(4) {
 				if (entity.dead() || (!SHOW_DORMANT && entity.dormant())) return@forEntities
 				
 				val team = me.team() == entity.team()
+				var health = (entity.health() * 2 + 5).toInt()
+				
 				if (SHOW_ENEMIES && !team) {
-					glowAddress.glow(ENEMY_COLOR)
-					entity.chams(ENEMY_COLOR)
+					if (!HEALTH_BASED_GLOW) {
+						glowAddress.glow(ENEMY_COLOR)
+ 						entity.chams(ENEMY_COLOR)
+ 					}
+ 					else {
+ 						glowAddress.glow(Color(health, 0, 255-health))
+ 						entity.chams(Color(health, 0, 255-health))
+ 					}
 				} else if (SHOW_TEAM && team) {
 					glowAddress.glow(TEAM_COLOR)
 					entity.chams(TEAM_COLOR)

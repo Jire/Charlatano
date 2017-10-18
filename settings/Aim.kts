@@ -41,6 +41,7 @@ FORCE_AIM_KEY = 5
  * The field of view of the aimbot, in degrees (0 to 360).
  */
 AIM_FOV = 190
+FORCE_AIM_FOV = 360
 
 /**
  * The aimbot's "playback" speed, the higher the value the slower the playback.
@@ -105,6 +106,11 @@ AIM_ASSIST_STRICTNESS = 40
 //////////////////////////////////// --- MISCELLANEOUS --- ////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Whether or not to ignore walls when aiming.
+ */
+IGNORE_WALLS = false
+ 
 /**
  * The duration in milliseconds at which aimbot paths are recalculated.
  */

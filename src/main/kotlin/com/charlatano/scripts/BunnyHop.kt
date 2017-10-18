@@ -35,5 +35,5 @@ fun bunnyHop() = onGround {
 private fun randScroll() {
 	Thread.sleep(randLong(1, 4))
 	val amount = randInt(60) + 10
-	mouseWheel(if (randBoolean()) amount else -amount)
+	mouseWheel(-amount)
 }

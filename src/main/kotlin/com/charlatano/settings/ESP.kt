@@ -41,6 +41,14 @@ var BOX_ESP = false
  */
 var GLOW_ESP = true
 
+/**
+ * @@ Overrides ENEMY_COLOR @@
+ * Health at 100% is represented with red.
+ * 0% Health is represented with blue.
+ * The damage the enemy has taken determines how blue they will be. 
+ */
+var HEALTH_BASED_GLOW = true
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////// --- TOGGLES --- ////////////////////////////////////////

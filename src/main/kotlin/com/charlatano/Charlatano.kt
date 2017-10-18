@@ -29,18 +29,42 @@ import com.charlatano.scripts.esp.esp
 import com.charlatano.settings.BOX_ESP
 import com.charlatano.settings.ENABLE_BOMB_TIMER
 import com.charlatano.settings.ENABLE_ESP
+import com.charlatano.settings.HOLD_TIME
 import com.charlatano.settings.SKELETON_ESP
+import com.charlatano.settings.START_KEY
+import com.charlatano.settings.ENABLE_AIM
+import com.charlatano.settings.ENABLE_BUNNY_HOP
+import com.charlatano.settings.ENABLE_RCS
+import com.charlatano.settings.ENABLE_BONE_TRIGGER
+import com.charlatano.settings.ENABLE_RAGE
 import com.charlatano.utils.Dojo
+import java.awt.event.KeyEvent
 import java.io.File
 import java.io.FileReader
 import java.util.*
+import org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
+import org.jire.arrowhead.keyPressed
 
 const val SETTINGS_DIRECTORY = "settings"
 
 fun main(args: Array<String>) {
-	System.setProperty("kotlin.compiler.jar", "kotlin-compiler.jar")
+	System.setProperty("kotlin.compiler.jar", K2JVMCompiler::class.java.protectionDomain.codeSource.location.toURI().path)
 	
 	loadSettings()
+	
+	var heldtime = -25
+	HOLD_TIME = (HOLD_TIME / 100).toInt() * 100
+	System.out.println("Hold " + KeyEvent.getKeyText(START_KEY) + " for " + HOLD_TIME + " milliseconds to begin.")
+	while (heldtime < HOLD_TIME) {
+		Thread.sleep(25)
+		if (keyPressed(START_KEY))
+			heldtime += 25
+		else
+			heldtime = -25
+		if (HOLD_TIME != 0 && heldtime % (HOLD_TIME / 4) == 0)
+			System.out.println("Time held: " + heldtime + "/" + HOLD_TIME)
+	}
+	System.out.println("Starting...")
 	
 	CSGO.initialize()
 	
@@ -53,14 +77,29 @@ fun main(args: Array<String>) {
 	reducedFlash()
 	bombTimer()
 	
+	Toggles_AIM()
+	Toggles_BUNNYHOP()
+	Toggles_ESP()
+	Toggles_RAGE()
+	Toggles_RCS()
+	Toggles_BONETRIGGER()
+	Toggles_BONETARGET()
+	
 	Thread.sleep(10_000) // wait a bit to catch everything
 	System.gc() // then cleanup
 	
+	clearScreen()
+	
 	val scanner = Scanner(System.`in`)
 	while (!Thread.interrupted()) {
+		System.out.println()
+		System.out.print("> ")
 		when (scanner.nextLine()) {
-			"exit", "quit" -> System.exit(0)
-			"reload" -> loadSettings()
+			"exit", "quit", "e", "q" -> System.exit(0)
+			"reload", "r" -> loadSettings()
+			"reset" -> resetToggles()
+			"toggles", "t" -> printToggles()
+			"cls", "clear", "c" -> clearScreen()
 		}
 	}
 }
@@ -74,6 +113,44 @@ private fun loadSettings() {
 		}
 	}
 	
+	System.out.println("Loaded settings.")
+	
 	val needsOverlay = ENABLE_BOMB_TIMER or (ENABLE_ESP and (SKELETON_ESP or BOX_ESP))
 	if (!Overlay.opened && needsOverlay) Overlay.open()
+}
+
+private fun resetToggles() {
+	ENABLE_AIM = false
+	ENABLE_BUNNY_HOP = false
+	ENABLE_ESP = false
+	ENABLE_RCS = false
+	ENABLE_BONE_TRIGGER = false
+	
+	ENABLE_RAGE = false
+	System.out.println("All togglables disabled.")
+}
+
+private fun printToggles(){
+	System.out.println("AIM      = " + ENABLE_AIM)
+	System.out.println("BunnyHop = " + ENABLE_BUNNY_HOP)
+	System.out.println("ESP      = " + ENABLE_ESP)
+	System.out.println("Rage     = " + ENABLE_RAGE)
+	System.out.println("RCS      = " + ENABLE_RCS)
+	System.out.println("Trigger  = " + ENABLE_BONE_TRIGGER)
+}
+
+private fun clearScreen() {
+	repeat(512) { _ ->
+		System.out.print("\n")
+	}
+	System.out.println("  =============+========+=========================")
+	System.out.println(" | Command     | Alias  | Function                |");
+	System.out.println("  =============+========+=========================")
+	System.out.println(" | clear       | cls, c | Clears console screen   |")
+	System.out.println(" | exit / quit | e, q   | Stops Charlatano        |")
+	System.out.println(" | reload      | r      | Reloads /settings       |")
+	System.out.println(" | reset       |        | Disables all toggles    |")
+	System.out.println(" | toggles     | t      | Show what is toggled    |")
+	System.out.println("  =============+========+=========================")
+	System.out.println()
 }

@@ -19,6 +19,17 @@
 import com.charlatano.settings.*
 
 /**
+ * Start key - hold it to start the cheat
+ * Default [Backspace]
+ */
+START_KEY = 8 
+
+/**
+ * Time in milliseconds START_KEY has to be held
+ */
+HOLD_TIME = 2000
+
+/**
  * Set this to true if you're playing CS:CO (Counter-Strike: Classic Offensive).
  */
 CLASSIC_OFFENSIVE = false
