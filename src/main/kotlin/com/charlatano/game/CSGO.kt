@@ -83,8 +83,6 @@ object CSGO {
 		val rect = WinDef.RECT()
 		val hwd = CUser32.FindWindowA(null, "Counter-Strike: "
 				+ (if (CLASSIC_OFFENSIVE) "Classic" else "Global") + " Offensive")
-		val hwndPointer = hwd.pointer
-		val rectPointer = rect.pointer
 		
 		var lastWidth = 0
 		var lastHeight = 0
@@ -92,11 +90,11 @@ object CSGO {
 		var lastY = 0
 		
 		every(1000) {
-			if (CUser32.GetClientRect(hwndPointer, rectPointer) == 0) System.exit(2)
+			if (!CUser32.GetClientRect(hwd, rect)) System.exit(2)
 			gameWidth = rect.right - rect.left
 			gameHeight = rect.bottom - rect.top
 			
-			if (CUser32.GetWindowRect(hwd.pointer, rect.pointer) == 0) System.exit(3)
+			if (!CUser32.GetWindowRect(hwd, rect)) System.exit(3)
 			gameX = rect.left + (((rect.right - rect.left) - gameWidth) / 2)
 			gameY = rect.top + ((rect.bottom - rect.top) - gameHeight)
 			
@@ -111,10 +109,8 @@ object CSGO {
 			lastX = gameX
 			lastY = gameY
 		}
-		val hwdPointer = hwd.pointer
-		val hwdPointerValue = Pointer.nativeValue(hwdPointer)
 		every(1024, continuous = true) {
-			paused = hwdPointerValue != CUser32.GetForegroundWindow()
+			paused = hwd != CUser32.GetForegroundWindow()
 			if (paused) return@every
 		}
 		

@@ -22,7 +22,6 @@ import com.charlatano.game.CSGO.gameHeight
 import com.charlatano.game.CSGO.gameWidth
 import com.charlatano.game.CSGO.gameX
 import com.charlatano.game.CSGO.gameY
-import com.charlatano.game.angle
 import com.charlatano.game.clientState
 import com.charlatano.game.setAngle
 import com.charlatano.settings.GAME_PITCH
@@ -95,11 +94,10 @@ fun pathAim(currentAngle: Angle, destinationAngle: Angle, smoothing: Int,
 		mouseMove((dx / 2).toInt(), (dy / 2).toInt())
 		Thread.sleep(20)
 	} else HumanMouse.fastSteps(mousePos, target) { steps, i ->
-		val point = target
 		mousePos.refresh()
 		
-		val tx = point.x - mousePos.x
-		val ty = point.y - mousePos.y
+		val tx = target.x - mousePos.x
+		val ty = target.y - mousePos.y
 		
 		var halfIndex = steps / 2
 		if (halfIndex == 0) halfIndex = 1
