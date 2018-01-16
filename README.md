@@ -1,5 +1,5 @@
 ## Need help? Want to chat with Jire and Jonatino? Join our Discord
-**Join our Discord: ** https://discord.gg/Kej7DEq
+**Join our Discord:** https://discord.gg/Kej7DEq
 
 # Charlatano
 _Cheating is but a lifestyle_
