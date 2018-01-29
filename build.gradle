@@ -19,9 +19,9 @@
 import java.nio.file.Files
 
 buildscript {
-	ext.kotlin_version = '1.1.51'
-	ext.jnaVersion = '4.5.0'
-	ext.gdxVersion = '1.9.7'
+	ext.kotlin_version = '1.2.21'
+	ext.jnaVersion = '4.5.1'
+	ext.gdxVersion = '1.9.8'
 	
 	repositories {
 		mavenCentral()
@@ -41,7 +41,7 @@ apply plugin: "application"
 apply plugin: "com.github.johnrengelman.shadow"
 
 group "com.charlatano"
-version "1.0.6"
+version "1.0.7"
 
 mainClassName = "com.charlatano.Charlatano"
 
@@ -51,7 +51,9 @@ repositories {
 
 dependencies {
 	compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
+	compile group: 'org.jetbrains.kotlin', name: 'kotlin-script-runtime', version: kotlin_version
 	compile group: 'org.jetbrains.kotlin', name: 'kotlin-script-util', version: kotlin_version
+	compile group: 'org.jetbrains.kotlin', name: 'kotlin-compiler-embeddable', version: kotlin_version
 	
 	compile group: "org.jire.arrowhead", name: "arrowhead", version: "1.3.3"
 	
@@ -107,9 +109,9 @@ pause""".getBytes())
 			Files.copy(it.toPath(), file(new File(dirSettings, it.getName())).toPath())
 		}
 		
-		Files.copy(file(project.configurations.compile.find {
+		/*Files.copy(file(project.configurations.compile.find {
 			it.name.startsWith("kotlin-compiler-${kotlin_version}.jar")
-		}).toPath(), file(new File(dir, "kotlin-compiler.jar")).toPath())
+		}).toPath(), file(new File(dir, "kotlin-compiler.jar")).toPath())*/
 	}
 }
 

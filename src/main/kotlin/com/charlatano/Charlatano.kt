@@ -38,8 +38,6 @@ import java.util.*
 const val SETTINGS_DIRECTORY = "settings"
 
 fun main(args: Array<String>) {
-	System.setProperty("kotlin.compiler.jar", "kotlin-compiler.jar")
-	
 	loadSettings()
 	
 	CSGO.initialize()
