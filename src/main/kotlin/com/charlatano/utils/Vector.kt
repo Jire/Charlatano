@@ -26,4 +26,8 @@ data class Vector(var x: Double = 0.0, var y: Double = 0.0, var z: Double = 0.0)
 		this.z = z
 	}
 	
+	fun invalid() = x == 0.0 && y == 0.0 && z == 0.0
+	
+	fun valid() = !invalid()
+	
 }

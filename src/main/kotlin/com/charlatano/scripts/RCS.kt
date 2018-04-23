@@ -30,13 +30,15 @@ import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.ScaleFormOffsets.bCursorEnabled
+import com.charlatano.game.setAngle
 import com.charlatano.scripts.aim.bone
 import com.charlatano.scripts.aim.perfect
 import com.charlatano.settings.*
 import com.charlatano.utils.*
 import com.charlatano.utils.extensions.uint
+import org.jire.arrowhead.keyReleased
 
-private @Volatile var prevFired = 0
+@Volatile private var prevFired = 0
 private val lastPunch = DoubleArray(2)
 
 fun rcs() = every(RCS_DURATION) {
@@ -47,8 +49,10 @@ fun rcs() = every(RCS_DURATION) {
 	
 	val shotsFired = csgoEXE.int(myAddress + iShotsFired)
 	if (shotsFired <= 2 || shotsFired < prevFired || scaleFormDLL.boolean(bCursorEnabled)) {
-		reset()
-		return@every
+		if (keyReleased(1)) { // prevent aim flick down cheaphax
+			reset()
+			return@every
+		}
 	}
 	
 	/*if (!CLASSIC_OFFENSIVE) {
@@ -60,12 +64,17 @@ fun rcs() = every(RCS_DURATION) {
 	}*/ // another meme
 	
 	val punch = Vector(csgoEXE.float(myAddress + vecPunch).toDouble(),
-			csgoEXE.float(myAddress + vecPunch + 4).toDouble(), 0.0).apply {
+			csgoEXE.float(myAddress + vecPunch + 4).toDouble(), 0.0)
+	if (punch.invalid()) return@every
+	punch.apply {
 		x *= if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN
 		y *= if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN
 		z = 0.0
 		normalize()
 	}
+	
+	val view = clientState.angle()
+	if (view.invalid()) return@every
 	
 	val newView = Vector(punch.x, punch.y, punch.z).apply {
 		x -= lastPunch[0]
@@ -73,17 +82,16 @@ fun rcs() = every(RCS_DURATION) {
 		z = 0.0
 		normalize()
 	}
+	if (newView.invalid()) return@every
 	
-	val view = clientState.angle().apply {
+	view.apply {
 		x -= newView.x
 		y -= newView.y
 		z = 0.0
 		normalize()
 	}
 	
-	// maybe swap with flat aim for better accuracy
-	// but really you'd only need it in LEM+
-	pathAim(clientState.angle(), view, RCS_SMOOTHING)
+	clientState.setAngle(view)
 	
 	lastPunch[0] = punch.x
 	lastPunch[1] = punch.y

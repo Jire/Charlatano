@@ -43,4 +43,4 @@ var RCS_SMOOTHING = 62
 /**
  * The duration in milliseconds at which recoil control is checked.
  */
-var RCS_DURATION = 1
+var RCS_DURATION = 32
