@@ -76,8 +76,7 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 	return closestPlayer
 }
 
-internal fun Entity.canShoot()
-		= spotted()
+internal fun Entity.canShoot() = spotted()
 		&& !dormant()
 		&& !dead()
 		&& me.team() != team()
@@ -85,8 +84,7 @@ internal fun Entity.canShoot()
 
 internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boolean,
                                   crossinline doAim: (destinationAngle: Angle,
-                                                      currentAngle: Angle, aimSpeed: Int) -> R)
-		= every(duration) {
+                                                      currentAngle: Angle, aimSpeed: Int) -> R) = every(duration) {
 	if (!precheck()) return@every
 	
 	val aim = ACTIVATE_FROM_FIRE_KEY && keyPressed(FIRE_KEY)

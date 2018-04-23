@@ -19,7 +19,7 @@
 import java.nio.file.Files
 
 buildscript {
-	ext.kotlin_version = '1.2.21'
+	ext.kotlin_version = '1.2.40'
 	ext.jnaVersion = '4.5.1'
 	ext.gdxVersion = '1.9.8'
 	
@@ -41,7 +41,7 @@ apply plugin: "application"
 apply plugin: "com.github.johnrengelman.shadow"
 
 group "com.charlatano"
-version "1.0.7"
+version "1.0.8"
 
 mainClassName = "com.charlatano.Charlatano"
 
@@ -50,11 +50,6 @@ repositories {
 }
 
 dependencies {
-	compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
-	compile group: 'org.jetbrains.kotlin', name: 'kotlin-script-runtime', version: kotlin_version
-	compile group: 'org.jetbrains.kotlin', name: 'kotlin-script-util', version: kotlin_version
-	compile group: 'org.jetbrains.kotlin', name: 'kotlin-compiler-embeddable', version: kotlin_version
-	
 	compile group: "org.jire.arrowhead", name: "arrowhead", version: "1.3.3"
 	
 	compile "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -66,6 +61,12 @@ dependencies {
 	
 	compile group: 'net.java.dev.jna', name: 'jna', version: jnaVersion
 	compile group: 'net.java.dev.jna', name: 'jna-platform', version: jnaVersion
+	
+	compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
+	compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlin_version
+	compile group: 'org.jetbrains.kotlin', name: 'kotlin-script-runtime', version: kotlin_version
+	compile group: 'org.jetbrains.kotlin', name: 'kotlin-script-util', version: kotlin_version
+	compile group: 'org.jetbrains.kotlin', name: 'kotlin-compiler-embeddable', version: kotlin_version
 }
 
 jar {

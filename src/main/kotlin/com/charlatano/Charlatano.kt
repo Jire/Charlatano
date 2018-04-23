@@ -31,6 +31,7 @@ import com.charlatano.settings.ENABLE_BOMB_TIMER
 import com.charlatano.settings.ENABLE_ESP
 import com.charlatano.settings.SKELETON_ESP
 import com.charlatano.utils.Dojo
+import org.jetbrains.kotlin.cli.common.environment.setIdeaIoUseFallback
 import java.io.File
 import java.io.FileReader
 import java.util.*
@@ -64,6 +65,8 @@ fun main(args: Array<String>) {
 }
 
 private fun loadSettings() {
+	setIdeaIoUseFallback()
+	
 	File(SETTINGS_DIRECTORY).listFiles().forEach {
 		FileReader(it).use {
 			Dojo.script(it
