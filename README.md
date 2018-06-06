@@ -7,6 +7,10 @@ _Cheating is but a lifestyle_
 [![Build Status](https://travis-ci.org/Jire/Charlatano.svg?branch=master)](https://travis-ci.org/Jire/Charlatano)
 [![License](https://img.shields.io/github/license/Jire/Charlatano.svg)](https://github.com/Jire/Charlatano/blob/master/LICENSE.txt)
 
+[![YourKit](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/java/profiler/index.jsp)
+
+We use YourKit Java Profiler to ensure the performance of Charlatano. We highly recommend you check it out, and trial it for yourself!
+
 **From the creators of Abendigo** comes a brand new approach to cheating-- _Charlatano_ can be completely
 __stream-proof__, hiding the fact that you're cheating while streaming, and completely bypasses SMAC server-sided
 anticheat as well as FaceIT's modified SMAC. Turning off visuals or using a screenshot blocker
