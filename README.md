@@ -11,7 +11,8 @@ _Cheating is but a lifestyle_
 
 [![YourKit](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/java/profiler/index.jsp)
 
-We use YourKit Java Profiler to ensure the performance of Charlatano.  
+YourKit supports open source projects with its full-featured Java Profiler.
+We use YourKit Java Profiler to great extent to ensure the performance characteristics of Charlatano.  
 We highly recommend you check it out, and trial it for yourself! Just click the logo above.
 
 ---
