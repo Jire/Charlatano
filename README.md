@@ -7,6 +7,8 @@ _Cheating is but a lifestyle_
 [![Build Status](https://travis-ci.org/Jire/Charlatano.svg?branch=master)](https://travis-ci.org/Jire/Charlatano)
 [![License](https://img.shields.io/github/license/Jire/Charlatano.svg)](https://github.com/Jire/Charlatano/blob/master/LICENSE.txt)
 
+[![Excelsior JET](https://www.excelsiorjet.com)
+
 ## Check out YourKit!
 
 [![YourKit](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/java/profiler/index.jsp)
