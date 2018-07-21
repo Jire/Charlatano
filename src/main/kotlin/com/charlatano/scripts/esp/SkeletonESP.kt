@@ -47,8 +47,8 @@ internal fun skeletonEsp() {
 			if (entity > 0 && entity != me && !entity.dead() && !entity.dormant()) {
 				(entityBones.get(entity) ?: CacheableList<Pair<Int, Int>>(20)).apply {
 					if (isEmpty()) {
-						val entityModel = entity.model()
-						val studioModel = findStudioModel(entityModel)
+						//val entityModel = entity.model() //no longer needed since we bypass the findStudioModel call for updated pointer method
+						val studioModel = csgoEXE.uint(entity.studioHdr())
 						val numbones = csgoEXE.uint(studioModel + 0x9C).toInt()
 						val boneIndex = csgoEXE.uint(studioModel + 0xA0)
 						

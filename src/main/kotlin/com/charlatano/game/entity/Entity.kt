@@ -52,6 +52,8 @@ internal fun Entity.team() = csgoEXE.uint(this + iTeamNum)
 
 internal fun Entity.model(): Long = csgoEXE.uint(this + dwModel)
 
+internal fun Entity.studioHdr(): Long = csgoEXE.uint(this + 0x293C)
+
 private val entity2Angle: Long2ObjectMap<Angle> = Long2ObjectOpenHashMap(255)
 
 internal fun Entity.position(): Angle = readCached(entity2Angle) {
