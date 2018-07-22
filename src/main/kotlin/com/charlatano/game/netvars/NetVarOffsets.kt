@@ -26,6 +26,8 @@ object NetVarOffsets {
 	val bSpottedByMask by netVar("DT_BaseEntity")
 	val vecOrigin by netVar("DT_BaseEntity")
 	
+	val iCompetitiveRanking by netVar("DT_CSPlayerResource")
+	
 	val fFlags by netVar("DT_BasePlayer")
 	val lifeState by netVar("DT_BasePlayer")
 	val vecPunch by netVar("DT_BasePlayer", "m_aimPunchAngle")
