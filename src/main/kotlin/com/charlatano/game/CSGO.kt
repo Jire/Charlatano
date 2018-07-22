@@ -75,7 +75,7 @@ object CSGO {
 		
 		retry(128) {
 			csgoEXE.loadModules()
-			clientDLL = csgoEXE.modules["client.dll"]!!
+			clientDLL = csgoEXE.modules["client_panorama.dll"]!!
 			engineDLL = csgoEXE.modules["engine.dll"]!!
 			scaleFormDLL = csgoEXE.modules["scaleformui.dll"]!!
 		}
