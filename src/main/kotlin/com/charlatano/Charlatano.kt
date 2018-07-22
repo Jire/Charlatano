@@ -61,6 +61,7 @@ fun main(args: Array<String>) {
 		when (scanner.nextLine()) {
 			"exit", "quit" -> System.exit(0)
 			"reload" -> loadSettings()
+			"ranks" -> getRanks()
 		}
 	}
 }
