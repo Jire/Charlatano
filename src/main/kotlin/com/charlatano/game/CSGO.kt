@@ -52,8 +52,6 @@ object CSGO {
 		private set
 	lateinit var engineDLL: Module
 		private set
-	lateinit var scaleFormDLL: Module
-		private set
 	
 	var gameHeight: Int = 0
 		private set
