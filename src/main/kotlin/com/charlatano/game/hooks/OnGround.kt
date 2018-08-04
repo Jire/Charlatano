@@ -23,7 +23,6 @@ import com.charlatano.game.entity.Player
 import com.charlatano.game.entity.dead
 import com.charlatano.game.entity.onGround
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
-import com.charlatano.game.offsets.ScaleFormOffsets
 import com.charlatano.settings.BUNNY_HOP_KEY
 import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.hook

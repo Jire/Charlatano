@@ -30,7 +30,6 @@ import com.charlatano.game.me
 import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
-import com.charlatano.game.offsets.ScaleFormOffsets.bCursorEnabled
 import com.charlatano.game.setAngle
 import com.charlatano.scripts.aim.bone
 import com.charlatano.scripts.aim.perfect

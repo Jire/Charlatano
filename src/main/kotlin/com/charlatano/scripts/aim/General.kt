@@ -21,7 +21,6 @@ package com.charlatano.scripts.aim
 import com.charlatano.game.*
 import com.charlatano.game.entity.*
 import com.charlatano.game.entity.EntityType.Companion.ccsPlayer
-import com.charlatano.game.offsets.ScaleFormOffsets
 import com.charlatano.settings.*
 import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
