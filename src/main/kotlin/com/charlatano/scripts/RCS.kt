@@ -16,11 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+//does this even work lmao
+
 package com.charlatano.scripts
 
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.CSGO.scaleFormDLL
 import com.charlatano.game.angle
 import com.charlatano.game.clientState
 import com.charlatano.game.entity.Player
@@ -48,7 +49,7 @@ fun rcs() = every(RCS_DURATION) {
 	if (myAddress <= 0) return@every
 	
 	val shotsFired = csgoEXE.int(myAddress + iShotsFired)
-	if (shotsFired <= 2 || shotsFired < prevFired || scaleFormDLL.boolean(bCursorEnabled)) {
+	if (shotsFired <= 2 || shotsFired < prevFired) {
 		if (keyReleased(1)) { // prevent aim flick down cheaphax
 			reset()
 			return@every

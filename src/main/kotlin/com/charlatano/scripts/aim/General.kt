@@ -92,7 +92,7 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 	val pressed = aim or forceAim
 	var currentTarget = target.get()
 	
-	if (!pressed || CSGO.scaleFormDLL.boolean(ScaleFormOffsets.bCursorEnabled)) {
+	if (!pressed) {
 		reset()
 		return@every
 	}
