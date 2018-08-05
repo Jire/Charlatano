@@ -16,8 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//does this even work lmao
-
 package com.charlatano.scripts
 
 import com.charlatano.game.CSGO.clientDLL

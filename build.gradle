@@ -19,18 +19,17 @@
 import java.nio.file.Files
 
 buildscript {
-	ext.kotlin_version = '1.2.40'
-	ext.jnaVersion = '4.5.1'
+	ext.kotlin_version = '1.2.60'
+	ext.jnaVersion = '4.5.2'
 	ext.gdxVersion = '1.9.8'
 	
 	repositories {
-		mavenCentral()
 		jcenter()
 	}
 	
 	dependencies {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-		classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.0'
+		classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
 	}
 }
 
@@ -46,7 +45,7 @@ version "1.0.8"
 mainClassName = "com.charlatano.Charlatano"
 
 repositories {
-	mavenCentral()
+	jcenter()
 }
 
 dependencies {

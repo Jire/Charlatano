@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="Charlatano:main" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="com.charlatano" external.system.module.type="sourceSet" external.system.module.version="1.0.7" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="Charlatano:main" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="com.charlatano" external.system.module.type="sourceSet" external.system.module.version="1.0.8" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="kotlin-language" name="Kotlin">
       <configuration version="3" platform="JVM 1.6" useProjectSettings="false">
         <compilerSettings />
         <compilerArguments>
-          <option name="destination" value="$MODULE_DIR$/../../build/kotlin-classes/main" />
+          <option name="destination" value="$MODULE_DIR$/../../build/classes/kotlin/main" />
           <option name="noStdlib" value="true" />
           <option name="noReflect" value="true" />
           <option name="moduleName" value="Charlatano" />
@@ -36,26 +36,27 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.21" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-script-runtime:1.2.21" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-script-util:1.2.21" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.21" level="project" />
     <orderEntry type="library" name="Gradle: org.jire.arrowhead:arrowhead:1.3.3" level="project" />
-    <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx:1.9.8" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx-box2d:1.9.8" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.8" level="project" />
+    <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx:1.9.8" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx-platform:natives-desktop:1.9.8" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx-box2d-platform:natives-desktop:1.9.8" level="project" />
-    <orderEntry type="library" name="Gradle: net.java.dev.jna:jna:4.5.1" level="project" />
-    <orderEntry type="library" name="Gradle: net.java.dev.jna:jna-platform:4.5.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-daemon-client:1.2.21" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.2.21" level="project" />
+    <orderEntry type="library" name="Gradle: net.java.dev.jna:jna-platform:4.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: net.java.dev.jna:jna:4.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-compiler-embeddable:1.2.60" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.2.60" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-script-util:1.2.60" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.60" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-script-runtime:1.2.60" level="project" />
     <orderEntry type="library" name="Gradle: it.unimi.dsi:fastutil:7.1.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl:2.9.2" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl_util:2.9.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl:2.9.2" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.jlayer:jlayer:1.0.1-gdx" level="project" />
     <orderEntry type="library" name="Gradle: org.jcraft:jorbis:0.0.17" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.2.60" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-daemon-client:1.2.60" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-windows:2.9.2" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-linux:2.9.2" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-osx:2.9.2" level="project" />

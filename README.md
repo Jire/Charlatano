@@ -1,22 +1,11 @@
-## Need help? Want to chat with Jire and Jonatino? Join our Discord
+## Need help? Want to chat? Join our Discord
 **Join our Discord:** https://discord.gg/Kej7DEq
 
 # Charlatano
 _Cheating is but a lifestyle_
-__Updated for Panorama__
-
-updated by Denizdeni + SnazzyMan
 
 [![Build Status](https://travis-ci.org/Jire/Charlatano.svg?branch=master)](https://travis-ci.org/Jire/Charlatano)
 [![License](https://img.shields.io/github/license/Jire/Charlatano.svg)](https://github.com/Jire/Charlatano/blob/master/LICENSE.txt)
-
-## Check out YourKit!
-
-[![YourKit](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/java/profiler/index.jsp)
-
-YourKit supports open source projects with its full-featured Java Profiler.  
-We use YourKit Java Profiler to great extent to ensure the performance characteristics of Charlatano.  
-We highly recommend you check it out, and trial it for yourself! Just click the logo above.
 
 ---
 
@@ -30,6 +19,7 @@ free and open-source cheating software!
 ---
 
 **Available Features**
+* Works on Panorama thanks to [Denizdeni](https://github.com/denizdeni) and [Snazzy Man](https://github.com/SnazzyMan-cpp)
 * Always-on all-weapon smooth dynamic recoil control system
 * Aim bot with humanized aim paths
 * Low-FOV "perfect aim" (non-silent)
@@ -60,10 +50,10 @@ The first step is to compile the source code into a usable cheat program.
 * Double click on the "_build_" (_build.bat_) script and wait for it to complete
 
 Once those steps are complete, the usable cheat program can be found within the _build_
-directory, and will in a directory called **Charlatano 1.0.5**.
+directory, and will in a directory called **Charlatano 1.0.8**.
 
-From within the **Charlatano 1.0.5** directory, you can start the cheat by running
-the _"Start Charlatano 1.0.5"_ script.
+From within the **Charlatano 1.0.8** directory, you can start the cheat by running
+the _"Start Charlatano 1.0.8"_ script.
 
 Before starting the cheat, you should already be spawned in a game with a weapon in hand!
 
@@ -94,3 +84,11 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ```
+
+## Check out YourKit!
+
+[![YourKit](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/java/profiler/index.jsp)
+
+YourKit supports open source projects with its full-featured Java Profiler.  
+We use YourKit Java Profiler to great extent to ensure the performance characteristics of Charlatano.  
+We highly recommend you check it out, and trial it for yourself! Just click the logo above.
