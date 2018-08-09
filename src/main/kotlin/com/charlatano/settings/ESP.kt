@@ -87,12 +87,12 @@ var SHOW_GRENADES = false
 /**
  * The color to highlight your team mates.
  */
-var TEAM_COLOR = Color(0, 0, 255)
+var TEAM_COLOR = Color(0, 0, 255, 1.0)
 
 /**
  * The color to highlight your enemies.
  */
-var ENEMY_COLOR = Color(255, 0, 0)
+var ENEMY_COLOR = Color(255, 0, 0, 1.0)
 
 /**
  * The color to highlight the bomb.
