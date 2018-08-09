@@ -88,12 +88,12 @@ SHOW_GRENADES = false
 /**
  * The color to highlight your team mates.
  */
-TEAM_COLOR = Color(0, 0, 255)
+TEAM_COLOR = Color(0, 0, 255, 1.0)
 
 /**
  * The color to highlight your enemies.
  */
-ENEMY_COLOR = Color(255, 0, 0)
+ENEMY_COLOR = Color(255, 0, 0, 1.0)
 
 /**
  * The color to highlight the bomb.
