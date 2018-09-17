@@ -46,8 +46,11 @@ object NetVarOffsets {
 	
 	val flC4Blow by netVar("DT_PlantedC4")
 	val bBombDefused by netVar("DT_PlantedC4")
-	val hOwnerEntity by netVar("DT_PlantedC4")
-	
+	val hBombDefuser by netVar("DT_PlantedC4")
+	val flDefuseCountDown by netVar("DT_PlantedC4")
+
+	val hOwnerEntity by netVar("DT_BaseEntity")
+
 	val dwBoneMatrix by netVar("DT_BaseAnimating", "m_nForceBone", 0x1C)
 	
 	val flNextPrimaryAttack by netVar("DT_BaseCombatWeapon")
