@@ -34,7 +34,7 @@ typealias Bomb = Long
 
 internal fun Bomb.defused(): Boolean = csgoEXE.boolean(this + bBombDefused)
 
-internal fun Bomb.timeLeft(): Int = (-(engineDLL.float(dwGlobalVars + 16) - csgoEXE.float(this + flC4Blow))).toInt()
+internal fun Bomb.timeLeft(): Float = -(engineDLL.float(dwGlobalVars + 16) - csgoEXE.float(this + flC4Blow))
 
 internal fun Bomb.planted() = this != -1L && !defused() && timeLeft() > 0
 
