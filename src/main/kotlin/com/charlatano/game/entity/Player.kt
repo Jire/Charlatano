@@ -23,6 +23,7 @@ import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.Weapons
 import com.charlatano.game.netvars.NetVarOffsets.bIsScoped
+import com.charlatano.game.netvars.NetVarOffsets.bHasDefuser
 import com.charlatano.game.netvars.NetVarOffsets.dwBoneMatrix
 import com.charlatano.game.netvars.NetVarOffsets.fFlags
 import com.charlatano.game.netvars.NetVarOffsets.hActiveWeapon
@@ -93,5 +94,7 @@ internal fun Player.bone(offset: Int, boneID: Int = HEAD_BONE, boneMatrix: Long 
 		= csgoEXE.float(boneMatrix + ((0x30 * boneID) + offset)).toDouble()
 
 internal fun Player.isScoped(): Boolean = csgoEXE.boolean(this + bIsScoped)
+
+internal fun Player.hasDefuser(): Boolean = csgoEXE.boolean(this + bHasDefuser)
 
 internal fun Player.time(): Double = csgoEXE.int(this + nTickBase) * (1.0 / SERVER_TICK_RATE)
