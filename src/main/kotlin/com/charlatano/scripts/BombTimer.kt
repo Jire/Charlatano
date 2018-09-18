@@ -19,52 +19,86 @@
 package com.charlatano.scripts
 
 import com.badlogic.gdx.graphics.Color
-import com.charlatano.game.me
-import com.charlatano.game.entity.EntityType
-import com.charlatano.game.entity.hasDefuser
-import com.charlatano.game.entity.location
-import com.charlatano.game.entity.timeLeft
+import com.charlatano.game.CSGO
+import com.charlatano.game.entity.*
 import com.charlatano.game.entityByType
-import com.charlatano.game.hooks.bombPlanted
-import com.charlatano.game.hooks.location
+import com.charlatano.game.offsets.EngineOffsets
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.settings.ENABLE_BOMB_TIMER
+import com.charlatano.utils.every
 
-@Volatile var canDefuse = false
+private var bombState = BombState()
 
 fun bombTimer() {
-	if (!ENABLE_BOMB_TIMER) return
+    bombUpdater()
 
-	bombPlanted {
-		val hasKit = me.hasDefuser()
-		val entityByType = entityByType(EntityType.CPlantedC4)
-		if (entityByType == null) {
-			location = ""
-			return@bombPlanted
-		}
+    CharlatanoOverlay {
+        bombState.apply {
+            if (ENABLE_BOMB_TIMER && this.planted) {
+                batch.begin()
+                textRenderer.color = Color.ORANGE
+                textRenderer.draw(batch, bombState.toString(), 20F, 500F)
+                batch.end()
+            }
+        }
+    }
+}
 
-		val bomb = entityByType.entity
-		canDefuse = bomb.timeLeft() >= if (hasKit) 5 else 10
+fun currentGameTicks(): Float = CSGO.engineDLL.float(EngineOffsets.dwGlobalVars + 16)
 
-		if (location.isEmpty()) location = bomb.location()
-	}
-	
-	CharlatanoOverlay {
-		if (ENABLE_BOMB_TIMER) {
-			if (location.isEmpty()) return@CharlatanoOverlay
-			
-			val bomb = entityByType(EntityType.CPlantedC4)?.entity
-			if (bomb == null) {
-				location = ""
-				return@CharlatanoOverlay
-			}
-			
-			batch.begin()
-			textRenderer.color = Color.ORANGE
-			textRenderer.draw(batch, "Location: $location\n" +
-					"${"%.3f".format(bomb.timeLeft())} seconds\ncan defuse? $canDefuse",
-					20F, 500F)
-			batch.end()
-		}
-	}
+fun bombUpdater() = every(8, true) {
+    if (ENABLE_BOMB_TIMER) {
+        val time = currentGameTicks()
+        val bomb: Entity = entityByType(EntityType.CPlantedC4)?.entity ?: -1L
+        bombState.apply {
+            timeLeftToExplode = bomb.blowTime() - time
+            hasBomb = bomb > 0 && !bomb.dormant()
+            planted = hasBomb && !bomb.defused() && timeLeftToExplode > 0
+            if (planted) {
+                if (location.isEmpty()) {
+                    location = bomb.plantLocation()
+                }
+                val defuser = bomb.defuser()
+                timeLeftToDefuse = bomb.defuseTime() - time
+                gettingDefused = defuser > 0 && timeLeftToDefuse > 0
+                canDefuse = gettingDefused && (timeLeftToExplode > timeLeftToDefuse)
+            } else {
+                location = ""
+                canDefuse = false
+                gettingDefused = false
+            }
+        }
+    }
+}
+
+private data class BombState(var hasBomb: Boolean = false,
+                             var planted: Boolean = false,
+                             var canDefuse: Boolean = false,
+                             var gettingDefused: Boolean = false,
+                             var timeLeftToExplode: Float = -1f,
+                             var timeLeftToDefuse: Float = -1f,
+                             var location: String = "") {
+
+    private val sb = StringBuilder()
+
+    override fun toString(): String {
+        sb.setLength(0)
+        sb.append("Bomb Planted!\n")
+
+        sb.append("TimeToExplode : ${formatFloat(timeLeftToExplode)} \n")
+
+        if (location.isNotBlank())
+            sb.append("Location : $location \n")
+        if (gettingDefused) {
+//            sb.append("GettingDefused : $gettingDefused \n")
+            sb.append("CanDefuse : $canDefuse \n")
+            sb.append("TimeToDefuse : ${formatFloat(timeLeftToDefuse)} ")
+        }
+        return sb.toString()
+    }
+
+
+    private fun formatFloat(f: Float): String {
+        return "%.2f".format(f)
+    }
 }
