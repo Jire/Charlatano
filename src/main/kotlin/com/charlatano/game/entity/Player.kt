@@ -22,6 +22,7 @@ import com.charlatano.game.CSGO.ENTITY_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.Weapons
+import com.charlatano.game.netvars.NetVarOffsets
 import com.charlatano.game.netvars.NetVarOffsets.bIsScoped
 import com.charlatano.game.netvars.NetVarOffsets.bHasDefuser
 import com.charlatano.game.netvars.NetVarOffsets.dwBoneMatrix
@@ -98,3 +99,6 @@ internal fun Player.isScoped(): Boolean = csgoEXE.boolean(this + bIsScoped)
 internal fun Player.hasDefuser(): Boolean = csgoEXE.boolean(this + bHasDefuser)
 
 internal fun Player.time(): Double = csgoEXE.int(this + nTickBase) * (1.0 / SERVER_TICK_RATE)
+
+internal fun Player.location(): String = csgoEXE.read(this + NetVarOffsets.szLastPlaceName, 32, true)?.getString(0)
+		?: ""
