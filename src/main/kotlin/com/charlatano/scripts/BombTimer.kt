@@ -24,6 +24,8 @@ import com.charlatano.game.entity.EntityType
 import com.charlatano.game.entity.hasDefuser
 import com.charlatano.game.entity.location
 import com.charlatano.game.entity.timeLeft
+import com.charlatano.game.entity.planted
+import com.charlatano.game.entity.defused
 import com.charlatano.game.entityByType
 import com.charlatano.game.hooks.bombPlanted
 import com.charlatano.game.hooks.location
@@ -51,13 +53,18 @@ fun bombTimer() {
 	
 	CharlatanoOverlay {
 		if (ENABLE_BOMB_TIMER) {
-			if (location.isEmpty()) return@CharlatanoOverlay
+			// TODO: Bomb timer sometimes carries over into next round.
+			// TODO: Location can be "unknown." Not sure why.
 			
 			val bomb = entityByType(EntityType.CPlantedC4)?.entity
 			if (bomb == null) {
 				location = ""
 				return@CharlatanoOverlay
 			}
+
+			if (!bomb.planted() || bomb.defused()) return@CharlatanoOverlay
+
+			if (location.isEmpty()) location = "unknown"
 			
 			batch.begin()
 			textRenderer.color = Color.ORANGE
