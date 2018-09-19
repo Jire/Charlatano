@@ -44,29 +44,30 @@ fun bombTimer() {
     }
 }
 
-fun currentGameTicks(): Float = CSGO.engineDLL.float(EngineOffsets.dwGlobalVars + 16)
+private fun currentGameTicks(): Float = CSGO.engineDLL.float(EngineOffsets.dwGlobalVars + 16)
 
 fun bombUpdater() = every(8, true) {
-    if (ENABLE_BOMB_TIMER) {
-        val time = currentGameTicks()
-        val bomb: Entity = entityByType(EntityType.CPlantedC4)?.entity ?: -1L
-        bombState.apply {
-            timeLeftToExplode = bomb.blowTime() - time
-            hasBomb = bomb > 0 && !bomb.dormant()
-            planted = hasBomb && !bomb.defused() && timeLeftToExplode > 0
-            if (planted) {
-                if (location.isEmpty()) {
-                    location = bomb.plantLocation()
-                }
-                val defuser = bomb.defuser()
-                timeLeftToDefuse = bomb.defuseTime() - time
-                gettingDefused = defuser > 0 && timeLeftToDefuse > 0
-                canDefuse = gettingDefused && (timeLeftToExplode > timeLeftToDefuse)
-            } else {
-                location = ""
-                canDefuse = false
-                gettingDefused = false
-            }
+    if (!ENABLE_BOMB_TIMER) return@every
+
+    val time = currentGameTicks()
+    val bomb: Entity = entityByType(EntityType.CPlantedC4)?.entity ?: -1L
+
+    bombState.apply {
+        timeLeftToExplode = bomb.blowTime() - time
+        hasBomb = bomb > 0 && !bomb.dormant()
+        planted = hasBomb && !bomb.defused() && timeLeftToExplode > 0
+
+        if (planted) {
+            if (location.isEmpty()) location = bomb.plantLocation()
+
+            val defuser = bomb.defuser()
+            timeLeftToDefuse = bomb.defuseTime() - time
+            gettingDefused = defuser > 0 && timeLeftToDefuse > 0
+            canDefuse = gettingDefused && (timeLeftToExplode > timeLeftToDefuse)
+        } else {
+            location = ""
+            canDefuse = false
+            gettingDefused = false
         }
     }
 }
@@ -92,6 +93,7 @@ private data class BombState(var hasBomb: Boolean = false,
         if (gettingDefused) {
 //            sb.append("GettingDefused : $gettingDefused \n")
             sb.append("CanDefuse : $canDefuse \n")
+            // Redundant as the UI already shows this, but may have a use case I'm missing
             sb.append("TimeToDefuse : ${formatFloat(timeLeftToDefuse)} ")
         }
         return sb.toString()
@@ -99,6 +101,6 @@ private data class BombState(var hasBomb: Boolean = false,
 
 
     private fun formatFloat(f: Float): String {
-        return "%.2f".format(f)
+        return "%.3f".format(f)
     }
 }
