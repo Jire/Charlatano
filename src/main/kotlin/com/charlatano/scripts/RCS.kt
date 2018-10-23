@@ -18,92 +18,57 @@
 
 package com.charlatano.scripts
 
-import com.charlatano.game.CSGO.clientDLL
-import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.angle
-import com.charlatano.game.clientState
-import com.charlatano.game.entity.Player
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.math.Vector3
+import com.charlatano.game.*
+import com.charlatano.game.entity.punch
+import com.charlatano.game.entity.shotsFired
 import com.charlatano.game.entity.weapon
-import com.charlatano.game.me
-import com.charlatano.game.netvars.NetVarOffsets.iShotsFired
-import com.charlatano.game.netvars.NetVarOffsets.vecPunch
-import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
-import com.charlatano.game.setAngle
 import com.charlatano.scripts.aim.bone
 import com.charlatano.scripts.aim.perfect
 import com.charlatano.settings.*
-import com.charlatano.utils.*
-import com.charlatano.utils.extensions.uint
-import org.jire.arrowhead.keyReleased
+import com.charlatano.utils.every
+import com.charlatano.utils.normalize
+import com.charlatano.utils.randDouble
 
-@Volatile private var prevFired = 0
-private val lastPunch = DoubleArray(2)
+/**
+ * Affects the shakiness of the screen,
+ * higher value = low shake, high inaccuracy
+ */
+private const val rcsDelay = 75
+private val lastPunch = Vector2()
+private val newPunch = Vector2()
+private val playerPunch = Vector3()
+private var lastApplied = System.currentTimeMillis()
+private var time = lastApplied
 
 fun rcs() = every(RCS_DURATION) {
-	if (!ENABLE_RCS) return@every
-	
-	val myAddress: Player = clientDLL.uint(dwLocalPlayer)
-	if (myAddress <= 0) return@every
-	
-	val shotsFired = csgoEXE.int(myAddress + iShotsFired)
-	if (shotsFired <= 2 || shotsFired < prevFired) {
-		if (keyReleased(1)) { // prevent aim flick down cheaphax
-			reset()
-			return@every
-		}
-	}
-	
-	/*if (!CLASSIC_OFFENSIVE) {
-		val weapon = me.weapon()
-		if (!weapon.automatic) {
-			reset()
-			return@every
-		}
-	}*/ // another meme
-	
-	val punch = Vector(csgoEXE.float(myAddress + vecPunch).toDouble(),
-			csgoEXE.float(myAddress + vecPunch + 4).toDouble(), 0.0)
-	if (punch.invalid()) return@every
-	punch.apply {
-		x *= if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN
-		y *= if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN
-		z = 0.0
-		normalize()
-	}
-	
-	val view = clientState.angle()
-	if (view.invalid()) return@every
-	
-	val newView = Vector(punch.x, punch.y, punch.z).apply {
-		x -= lastPunch[0]
-		y -= lastPunch[1]
-		z = 0.0
-		normalize()
-	}
-	if (newView.invalid()) return@every
-	
-	view.apply {
-		x -= newView.x
-		y -= newView.y
-		z = 0.0
-		normalize()
-	}
-	
-	clientState.setAngle(view)
-	
-	lastPunch[0] = punch.x
-	lastPunch[1] = punch.y
-	prevFired = shotsFired
-	
-	if (shotsFired >= SHIFT_TO_SHOULDER_SHOTS) {
-		bone.set(if (shotsFired < SHIFT_TO_BODY_SHOTS) SHOULDER_BONE else BODY_BONE)
-		perfect.set(false)
-	}
-}
+    if (me <= 0 || !ENABLE_RCS) return@every
+    val weapon = me.weapon()
+    if (weapon == Weapons.DESERT_EAGLE || weapon == Weapons.AWP || weapon == Weapons.SSG08) return@every
+    val shotsFired = me.shotsFired()
+    time = System.currentTimeMillis()
+    if ((time - lastApplied > rcsDelay && shotsFired > 0) || (shotsFired < 1 && !lastPunch.isZero)) {
+        lastApplied = time
+        val p = me.punch()
+        playerPunch.set(p.x.toFloat(), p.y.toFloat(), p.z.toFloat())
+        newPunch.set(playerPunch.x - lastPunch.x, playerPunch.y - lastPunch.y)
+        newPunch.scl((if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN).toFloat(),
+                (if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN).toFloat())
 
-private fun reset() {
-	prevFired = 0
-	lastPunch[0] = 0.0
-	lastPunch[1] = 0.0
-	bone.set(HEAD_BONE)
+        val angle = clientState.angle()
+        angle.apply {
+            x -= newPunch.x
+            y -= newPunch.y
+            normalize()
+        }
+        clientState.setAngle(angle)
+        lastPunch.x = playerPunch.x
+        lastPunch.y = playerPunch.y
+    }
+
+    if (shotsFired >= SHIFT_TO_SHOULDER_SHOTS) {
+        bone.set(if (shotsFired < SHIFT_TO_BODY_SHOTS) SHOULDER_BONE else BODY_BONE)
+        perfect.set(false)
+    }
 }
