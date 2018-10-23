@@ -63,12 +63,12 @@ fun rcs() = every(RCS_DURATION) {
             normalize()
         }
         clientState.setAngle(angle)
-        lastPunch.x = playerPunch.x
-        lastPunch.y = playerPunch.y
+        lastPunch.set(playerPunch.x, playerPunch.y) 
     }
 
-    if (shotsFired >= SHIFT_TO_SHOULDER_SHOTS) {
-        bone.set(if (shotsFired < SHIFT_TO_BODY_SHOTS) SHOULDER_BONE else BODY_BONE)
-        perfect.set(false)
-    }
+    bone.set(when {
+        shotsFired >= SHIFT_TO_BODY_SHOTS -> BODY_BONE
+        shotsFired >= SHIFT_TO_SHOULDER_SHOTS -> SHOULDER_BONE
+        else -> HEAD_BONE
+    })
 }
