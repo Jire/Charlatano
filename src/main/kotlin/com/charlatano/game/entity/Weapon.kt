@@ -40,7 +40,7 @@ internal fun Weapon.canFire(): Boolean = if (bullets() > 0) {
 internal fun Weapon.type(): Weapons {
 	var id = 42
 	if (this > 0)
-		id = csgoEXE.short(this + NetVarOffsets.iWeaponID).toInt()
+		id = csgoEXE.short(this + NetVarOffsets.iItemDefinitionIndex).toInt()
 
 	return Weapons[id]
 }

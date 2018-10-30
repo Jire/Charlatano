@@ -57,5 +57,5 @@ object NetVarOffsets {
 	val iClip1 by netVar("DT_BaseCombatWeapon")
 	val iClip2 by netVar("DT_BaseCombatWeapon")
 
-	val iWeaponID by netVar("DT_BaseCombatWeapon", "m_iItemDefinitionIndex")
+	val iItemDefinitionIndex by netVar("DT_BaseCombatWeapon")
 }
