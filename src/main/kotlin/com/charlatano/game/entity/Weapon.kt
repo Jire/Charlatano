@@ -32,10 +32,10 @@ internal fun Weapon.bullets() = csgoEXE.uint(this + iClip1)
 
 internal fun Weapon.nextPrimaryAttack() = csgoEXE.float(this + flNextPrimaryAttack).toDouble()
 
-internal fun Weapon.canFire(): Boolean {
+internal fun Weapon.canFire(): Boolean = if (bullets() > 0) {
 	val nextAttack = nextPrimaryAttack()
-	return nextAttack <= 0 || nextAttack < me.time()
-}
+	nextAttack <= 0 || nextAttack < me.time()
+} else false
 
 internal fun Weapon.type(): Weapons {
 	var id = 42

@@ -87,6 +87,11 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 	if (!precheck()) return@every
 	
 	if (!precheck() || !me.weaponEntity().canFire()) return@every
+	if (!me.weaponEntity().canFire()){
+		reset()
+		return@every
+	}
+
 	val aim = ACTIVATE_FROM_FIRE_KEY && keyPressed(FIRE_KEY)
 	val forceAim = keyPressed(FORCE_AIM_KEY)
 	val pressed = aim or forceAim
