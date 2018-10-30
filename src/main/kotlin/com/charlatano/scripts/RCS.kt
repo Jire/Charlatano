@@ -20,14 +20,8 @@ package com.charlatano.scripts
 
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
-import com.charlatano.game.angle
-import com.charlatano.game.clientState
-import com.charlatano.game.entity.canFire
-import com.charlatano.game.entity.punch
-import com.charlatano.game.entity.shotsFired
-import com.charlatano.game.entity.weaponEntity
-import com.charlatano.game.me
-import com.charlatano.game.setAngle
+import com.charlatano.game.*
+import com.charlatano.game.entity.*
 import com.charlatano.scripts.aim.bone
 import com.charlatano.settings.*
 import com.charlatano.utils.every
@@ -47,11 +41,12 @@ private var time = lastApplied
 
 fun rcs() = every(RCS_DURATION) {
 	if (me <= 0 || !ENABLE_RCS) return@every
-	val weapon = me.weaponEntity()
-	if (!weapon.canFire()) return@every
+	val weaponEntity = me.weaponEntity()
+	val weapon = me.weapon(weaponEntity)
+	if (weapon.boltAction || weapon == Weapons.DESERT_EAGLE) return@every
 	val shotsFired = me.shotsFired()
 	time = System.currentTimeMillis()
-	if ((time - lastApplied > rcsDelay && shotsFired > 0) || (shotsFired < 1 && !lastPunch.isZero)) {
+	if ((time - lastApplied > rcsDelay && shotsFired > 0) || (shotsFired < 1 && !lastPunch.isZero) || weaponEntity.bullets() < 1) {
 		lastApplied = time
 		val p = me.punch()
 		playerPunch.set(p.x.toFloat(), p.y.toFloat(), p.z.toFloat())
