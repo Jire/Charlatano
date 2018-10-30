@@ -23,13 +23,12 @@ import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.Weapons
 import com.charlatano.game.netvars.NetVarOffsets
-import com.charlatano.game.netvars.NetVarOffsets.bIsScoped
 import com.charlatano.game.netvars.NetVarOffsets.bHasDefuser
+import com.charlatano.game.netvars.NetVarOffsets.bIsScoped
 import com.charlatano.game.netvars.NetVarOffsets.dwBoneMatrix
 import com.charlatano.game.netvars.NetVarOffsets.fFlags
 import com.charlatano.game.netvars.NetVarOffsets.hActiveWeapon
 import com.charlatano.game.netvars.NetVarOffsets.iHealth
-import com.charlatano.game.netvars.NetVarOffsets.iWeaponID
 import com.charlatano.game.netvars.NetVarOffsets.lifeState
 import com.charlatano.game.netvars.NetVarOffsets.nTickBase
 import com.charlatano.game.netvars.NetVarOffsets.vecPunch
@@ -47,16 +46,16 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
 
 typealias Player = Long
 
-fun Player.weapon(): Weapons {
-    val address: Long = csgoEXE.uint(this + hActiveWeapon)
-    val index = address and 0xFFF
-    val base = clientDLL.uint(dwEntityList + (index - 1) * ENTITY_SIZE)
+fun Player.weaponIndex(): Int {
+	return ((csgoEXE.uint(this + hActiveWeapon) and 0xFFF) - 1).toInt()
+}
 
-    var id = 42
-    if (base > 0)
-        id = csgoEXE.uint(base + iWeaponID).toInt()
+fun Player.weaponEntity(): Weapon {
+	return clientDLL.uint(dwEntityList + weaponIndex() * ENTITY_SIZE)
+}
 
-    return Weapons[id]
+fun Player.weapon(weaponEntity: Weapon = weaponEntity()): Weapons {
+	return weaponEntity.type()
 }
 
 internal fun Player.flags(): Int = csgoEXE.int(this + fFlags)

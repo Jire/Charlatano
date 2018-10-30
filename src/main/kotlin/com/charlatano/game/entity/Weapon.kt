@@ -19,7 +19,9 @@
 package com.charlatano.game.entity
 
 import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.game.Weapons
 import com.charlatano.game.me
+import com.charlatano.game.netvars.NetVarOffsets
 import com.charlatano.game.netvars.NetVarOffsets.flNextPrimaryAttack
 import com.charlatano.game.netvars.NetVarOffsets.iClip1
 import com.charlatano.utils.extensions.uint
@@ -33,4 +35,12 @@ internal fun Weapon.nextPrimaryAttack() = csgoEXE.float(this + flNextPrimaryAtta
 internal fun Weapon.canFire(): Boolean {
 	val nextAttack = nextPrimaryAttack()
 	return nextAttack <= 0 || nextAttack < me.time()
+}
+
+internal fun Weapon.type(): Weapons {
+	var id = 42
+	if (this > 0)
+		id = csgoEXE.short(this + NetVarOffsets.iWeaponID).toInt()
+
+	return Weapons[id]
 }
