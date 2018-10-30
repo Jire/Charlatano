@@ -85,8 +85,6 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
                                   crossinline doAim: (destinationAngle: Angle,
                                                       currentAngle: Angle, aimSpeed: Int) -> R) = every(duration) {
 	if (!precheck()) return@every
-	
-	if (!precheck() || !me.weaponEntity().canFire()) return@every
 	if (!me.weaponEntity().canFire()){
 		reset()
 		return@every
