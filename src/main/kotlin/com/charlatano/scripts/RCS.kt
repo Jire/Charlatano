@@ -21,11 +21,8 @@ package com.charlatano.scripts
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.charlatano.game.*
-import com.charlatano.game.entity.punch
-import com.charlatano.game.entity.shotsFired
-import com.charlatano.game.entity.weapon
+import com.charlatano.game.entity.*
 import com.charlatano.scripts.aim.bone
-import com.charlatano.scripts.aim.perfect
 import com.charlatano.settings.*
 import com.charlatano.utils.every
 import com.charlatano.utils.normalize
@@ -43,32 +40,34 @@ private var lastApplied = System.currentTimeMillis()
 private var time = lastApplied
 
 fun rcs() = every(RCS_DURATION) {
-    if (me <= 0 || !ENABLE_RCS) return@every
-    val weapon = me.weapon()
-    if (weapon == Weapons.DESERT_EAGLE || weapon == Weapons.AWP || weapon == Weapons.SSG08) return@every
-    val shotsFired = me.shotsFired()
-    time = System.currentTimeMillis()
-    if ((time - lastApplied > rcsDelay && shotsFired > 0) || (shotsFired < 1 && !lastPunch.isZero)) {
-        lastApplied = time
-        val p = me.punch()
-        playerPunch.set(p.x.toFloat(), p.y.toFloat(), p.z.toFloat())
-        newPunch.set(playerPunch.x - lastPunch.x, playerPunch.y - lastPunch.y)
-        newPunch.scl((if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN).toFloat(),
-                (if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN).toFloat())
+	if (me <= 0 || !ENABLE_RCS) return@every
+	val weaponEntity = me.weaponEntity()
+	val weapon = me.weapon(weaponEntity)
+	if (weapon.boltAction || weapon == Weapons.DESERT_EAGLE) return@every
+	val shotsFired = me.shotsFired()
+	time = System.currentTimeMillis()
+	if ((time - lastApplied > rcsDelay && shotsFired > 0) || (shotsFired < 1 && !lastPunch.isZero) || weaponEntity.bullets() < 1) {
+		lastApplied = time
+		val p = me.punch()
+		playerPunch.set(p.x.toFloat(), p.y.toFloat(), p.z.toFloat())
+		newPunch.set(playerPunch.x - lastPunch.x, playerPunch.y - lastPunch.y)
+		newPunch.scl((if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN).toFloat(),
+				(if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN).toFloat())
 
-        val angle = clientState.angle()
-        angle.apply {
-            x -= newPunch.x
-            y -= newPunch.y
-            normalize()
-        }
-        clientState.setAngle(angle)
-        lastPunch.x = playerPunch.x
-        lastPunch.y = playerPunch.y
-    }
+		val angle = clientState.angle()
+		angle.apply {
+			x -= newPunch.x
+			y -= newPunch.y
+			normalize()
+		}
+		clientState.setAngle(angle)
+		lastPunch.x = playerPunch.x
+		lastPunch.y = playerPunch.y
+	}
 
-    if (shotsFired >= SHIFT_TO_SHOULDER_SHOTS) {
-        bone.set(if (shotsFired < SHIFT_TO_BODY_SHOTS) SHOULDER_BONE else BODY_BONE)
-        perfect.set(false)
-    }
+	bone.set(when {
+		shotsFired >= SHIFT_TO_BODY_SHOTS -> BODY_BONE
+		shotsFired >= SHIFT_TO_SHOULDER_SHOTS -> SHOULDER_BONE
+		else -> HEAD_BONE
+	})
 }

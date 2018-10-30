@@ -56,6 +56,6 @@ object NetVarOffsets {
 	val flNextPrimaryAttack by netVar("DT_BaseCombatWeapon")
 	val iClip1 by netVar("DT_BaseCombatWeapon")
 	val iClip2 by netVar("DT_BaseCombatWeapon")
-	
-	val iWeaponID by netVar("DT_WeaponCSBase", "m_fAccuracyPenalty", 0x30)
+
+	val iItemDefinitionIndex by netVar("DT_BaseCombatWeapon")
 }
