@@ -38,7 +38,7 @@ object CUser32 {
 	external fun FindWindowA(lpClassName: String?, lpWindowName: String): WinDef.HWND
 	
 	@JvmStatic
-	external fun GetForegroundWindow(): WinDef.HWND
+	external fun GetForegroundWindow(): Long
 	
 	@JvmStatic
 	external fun GetWindowRect(hWnd: WinDef.HWND, rect: WinDef.RECT): Boolean
