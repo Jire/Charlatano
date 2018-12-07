@@ -75,7 +75,14 @@ enum class Weapons(val id: Int, val automatic: Boolean = false, val grenade: Boo
 	KNIFE_TALCHION(512, knife = true),
 	KNIFE_BOWIE(514, knife = true),
 	KNIFE_BUTTERFLY(515, knife = true),
-	KNIFE_PUSH(516, knife = true);
+	KNIFE_PUSH(516, knife = true),
+	FISTS(69, knife = true),
+	MEDISHOT(57, knife = true),
+	TABLET(72, knife = true),
+	DIVERSION_DEVICE(82, knife = true),
+	FIRE_BOMB(81, knife = true),
+	CHARGE(70, knife = true),
+	HAMMER(76, knife = true);
 	
 	companion object {
 		
