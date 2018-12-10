@@ -19,7 +19,7 @@ free and open-source cheating software!
 ---
 
 **Available Features**
-* Works on Panorama thanks to [Denizdeni](https://github.com/denizdeni) and [Snazzy Man](https://github.com/SnazzyMan-cpp)
+* Works on Danger Zone (battle royale)
 * Always-on all-weapon smooth dynamic recoil control system
 * Aim bot with humanized aim paths
 * Low-FOV "perfect aim" (non-silent)
