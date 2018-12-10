@@ -44,7 +44,7 @@ var SERVER_TICK_RATE = 64
 /**
  * The maximum amount of entities that can be managed by the cached list.
  */
-var MAX_ENTITIES = 1024
+var MAX_ENTITIES = 4096
 
 /**
  * The intervar in milliseconds to recycle entities in the cached list.

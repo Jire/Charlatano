@@ -32,7 +32,7 @@ SERVER_TICK_RATE = 64
 /**
  * The maximum amount of entities that can be managed by the cached list.
  */
-MAX_ENTITIES = 1024
+MAX_ENTITIES = 4096
 
 /**
  * The interin milliseconds to recycle entities in the cached list.
