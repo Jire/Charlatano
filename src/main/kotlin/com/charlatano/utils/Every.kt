@@ -18,14 +18,22 @@
 
 package com.charlatano.utils
 
+import java.util.concurrent.ThreadLocalRandom
 import kotlin.concurrent.thread
 
-@Volatile var paused = false
+@Volatile
+var paused = false
 
 inline fun every(duration: Int, continuous: Boolean = false,
+                 crossinline body: () -> Unit) = every(duration, duration, continuous, body)
+
+inline fun every(minDuration: Int, maxDuration: Int,
+                 continuous: Boolean = false,
                  crossinline body: () -> Unit) = thread {
 	while (!Thread.interrupted()) {
 		if (continuous || !paused) body()
-		Thread.sleep(duration.toLong())
+		Thread.sleep((if (maxDuration > minDuration)
+			ThreadLocalRandom.current().nextInt(maxDuration - minDuration + 1) + minDuration
+		else minDuration).toLong())
 	}
 }
