@@ -32,6 +32,15 @@ internal class ModuleScan(private val module: Module, private val patternOffset:
 		for (flag in mask) when (flag) {
 			is Number -> bytes.add(flag.toByte())
 			is RepeatedInt -> repeat(flag.repeats) { bytes.add(flag.value.toByte()) }
+			is String -> {
+			    flag.split(" ").forEach {
+			    if (it.trim() == "?") {
+				bytes.add(0.toByte())
+			    } else {
+				bytes.add(it.toInt(16).toByte())
+			    }
+			}
+		    }
 		}
 		
 		return Offset(module, patternOffset, addressOffset, read, subtract, bytes.toByteArray())
