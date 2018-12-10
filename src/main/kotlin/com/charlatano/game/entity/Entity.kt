@@ -50,7 +50,9 @@ internal fun Entity.dormant(): Boolean = try {
 	false
 }
 
-internal fun Entity.team() = csgoEXE.uint(this + (if (DANGER_ZONE) nSurvivalTeam else iTeamNum))
+internal fun Entity.team() =
+		if (DANGER_ZONE) csgoEXE.uint(this + nSurvivalTeam)
+		else csgoEXE.uint(this + iTeamNum)
 
 internal fun Entity.model(): Long = csgoEXE.uint(this + dwModel)
 

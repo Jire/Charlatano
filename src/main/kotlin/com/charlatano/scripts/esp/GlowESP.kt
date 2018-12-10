@@ -29,6 +29,8 @@ import com.charlatano.utils.every
 internal fun glowEsp() = every(4) {
 	if (!GLOW_ESP) return@every
 	
+	val myTeam = me.team()
+	
 	forEntities {
 		val entity = it.entity
 		if (entity <= 0 || me == entity) return@forEntities
@@ -40,7 +42,8 @@ internal fun glowEsp() = every(4) {
 			EntityType.CCSPlayer -> {
 				if (entity.dead() || (!SHOW_DORMANT && entity.dormant())) return@forEntities
 				
-				val team = me.team() == entity.team()
+				val entityTeam = entity.team()
+				val team = !DANGER_ZONE && myTeam == entityTeam
 				if (SHOW_ENEMIES && !team) {
 					glowAddress.glow(ENEMY_COLOR)
 					entity.chams(ENEMY_COLOR)

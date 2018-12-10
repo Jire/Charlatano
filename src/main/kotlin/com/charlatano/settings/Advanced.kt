@@ -22,6 +22,7 @@ import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.offsets.ClientOffsets.dwSensitivity
 import com.charlatano.game.offsets.ClientOffsets.dwSensitivityPtr
 import com.charlatano.utils.extensions.uint
+import com.sun.jna.platform.win32.WinNT
 
 /**
  * These should be set the same as your in-game "m_pitch" and "m_yaw" values.
@@ -58,3 +59,23 @@ var CLEANUP_TIME = 10_000
  * at the cost of using a higher amount of memory.
  */
 var GARBAGE_COLLECT_ON_START = true
+
+/**
+ * The process name of CS:GO
+ */
+var PROCESS_NAME = "csgo.exe"
+
+/**
+ * The process flags to open the handle to CS:GO with.
+ */
+var PROCESS_ACCESS_FLAGS = WinNT.PROCESS_QUERY_INFORMATION or WinNT.PROCESS_VM_READ or WinNT.PROCESS_VM_WRITE
+
+/**
+ * The module name of the client module.
+ */
+var CLIENT_MODULE_NAME = "client_panorama.dll"
+
+/**
+ * The module name of the engine module.
+ */
+var ENGINE_MODULE_NAME = "engine.dll"

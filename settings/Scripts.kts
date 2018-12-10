@@ -21,9 +21,9 @@ import com.charlatano.settings.*
 /**
  * Enables the bunny hop script.
  *
- * !!! IMPORTANT NOTE !!!
+ * When using "LEAGUE_MODE" you need to unbind the bunnyhop key,
+ * and bind mwheelup and mwheeldown to jump.
  *
- * You need to unbind the bunnyhop key, and bind mwheelup and mwheeldown to jump.
  * To do this, type the following commands into the in-game developer console:
  * unbind "space"
  * bind "mwheelup" "+jump"

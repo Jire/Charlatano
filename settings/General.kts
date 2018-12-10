@@ -19,6 +19,12 @@
 import com.charlatano.settings.*
 
 /**
+ * Set this to true if you're playing on a league like ESEA, FaceIT, etc.
+ * This will disable writing to the game and disable all visuals.
+ */
+LEAGUE_MODE = false
+
+/**
  * Set this to true if you're playing Danger Zone (battle royale).
  */
 DANGER_ZONE = false

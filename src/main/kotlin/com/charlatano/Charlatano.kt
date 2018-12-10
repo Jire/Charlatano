@@ -28,6 +28,7 @@ import com.charlatano.scripts.aim.pathAim
 import com.charlatano.scripts.esp.esp
 import com.charlatano.settings.*
 import com.charlatano.utils.Dojo
+import com.sun.jna.platform.win32.WinNT
 import org.jetbrains.kotlin.cli.common.environment.setIdeaIoUseFallback
 import java.io.File
 import java.io.FileReader
@@ -48,6 +49,21 @@ fun main(args: Array<String>) {
 	boneTrigger()
 	reducedFlash()
 	bombTimer()
+	
+	if (LEAGUE_MODE) {
+		GLOW_ESP = false
+		BOX_ESP = false
+		SKELETON_ESP = false
+		ENABLE_ESP = false
+		
+		ENABLE_BOMB_TIMER = false
+		ENABLE_REDUCED_FLASH = false
+		ENABLE_FLAT_AIM = false
+		
+		SERVER_TICK_RATE = 128 // most leagues are 128-tick
+		PROCESS_ACCESS_FLAGS = WinNT.PROCESS_QUERY_INFORMATION or WinNT.PROCESS_VM_READ // all we need
+		GARBAGE_COLLECT_ON_START = true // get rid of traces
+	}
 	
 	if (GARBAGE_COLLECT_ON_START) {
 		Thread.sleep(10_000) // wait a bit to catch everything
