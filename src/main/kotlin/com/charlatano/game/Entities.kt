@@ -34,7 +34,9 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap
 import java.util.*
 
+@Volatile
 var me: Player = 0
+@Volatile
 var clientState: ClientState = 0
 
 typealias EntityContainer = ListContainer<EntityContext>

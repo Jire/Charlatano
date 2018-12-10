@@ -47,8 +47,7 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 	
 	forEntities(ccsPlayer) {
 		val entity = it.entity
-		if (entity <= 0) return@forEntities
-		if (!entity.canShoot()) return@forEntities
+		if (entity <= 0 || entity == me || !entity.canShoot()) return@forEntities
 		
 		val ePos: Angle = entity.bones(boneID)
 		val distance = position.distanceTo(ePos)
@@ -78,18 +77,18 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 internal fun Entity.canShoot() = spotted()
 		&& !dormant()
 		&& !dead()
-		&& me.team() != team()
+		&& (DANGER_ZONE || me.team() != team())
 		&& !me.dead()
 
 internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boolean,
                                   crossinline doAim: (destinationAngle: Angle,
                                                       currentAngle: Angle, aimSpeed: Int) -> R) = every(duration) {
 	if (!precheck()) return@every
-	if (!me.weaponEntity().canFire()){
+	if (!me.weaponEntity().canFire()) {
 		reset()
 		return@every
 	}
-
+	
 	val aim = ACTIVATE_FROM_FIRE_KEY && keyPressed(FIRE_KEY)
 	val forceAim = keyPressed(FORCE_AIM_KEY)
 	val pressed = aim or forceAim
@@ -120,7 +119,7 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 		target.set(currentTarget)
 	}
 	
-	if (!currentTarget.canShoot()) {
+	if (currentTarget == me || !currentTarget.canShoot()) {
 		reset()
 		Thread.sleep(200 + randLong(350))
 	} else if (currentTarget.onGround() && me.onGround()) {

@@ -43,19 +43,21 @@ object NetVarOffsets {
 	val iShotsFired by netVar("DT_CSPlayer")
 	val bIsScoped by netVar("DT_CSPlayer")
 	val bHasDefuser by netVar("DT_CSPlayer", "m_bHasDefuser")
+	val nSurvivalTeam by netVar("DT_CSPlayer")
 	
 	val flC4Blow by netVar("DT_PlantedC4")
 	val bBombDefused by netVar("DT_PlantedC4")
 	val hBombDefuser by netVar("DT_PlantedC4")
 	val flDefuseCountDown by netVar("DT_PlantedC4")
-
+	
 	val hOwnerEntity by netVar("DT_BaseEntity")
-
+	
 	val dwBoneMatrix by netVar("DT_BaseAnimating", "m_nForceBone", 0x1C)
 	
 	val flNextPrimaryAttack by netVar("DT_BaseCombatWeapon")
 	val iClip1 by netVar("DT_BaseCombatWeapon")
 	val iClip2 by netVar("DT_BaseCombatWeapon")
-
+	
 	val iItemDefinitionIndex by netVar("DT_BaseCombatWeapon")
+	
 }

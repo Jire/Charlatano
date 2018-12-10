@@ -26,7 +26,7 @@ import com.charlatano.game.offsets.EngineOffsets.dwInGame
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.overlay.CharlatanoOverlay.camera
 import com.charlatano.overlay.Overlay
-import com.charlatano.settings.CLASSIC_OFFENSIVE
+import com.charlatano.settings.*
 import com.charlatano.utils.every
 import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.natives.CUser32
@@ -67,14 +67,13 @@ object CSGO {
 	
 	fun initialize() {
 		retry(128) {
-			csgoEXE = processByName("csgo.exe", WinNT.PROCESS_QUERY_INFORMATION
-					or WinNT.PROCESS_VM_READ or WinNT.PROCESS_VM_WRITE)!!
+			csgoEXE = processByName(PROCESS_NAME, PROCESS_ACCESS_FLAGS)!!
 		}
 		
 		retry(128) {
 			csgoEXE.loadModules()
-			clientDLL = csgoEXE.modules["client_panorama.dll"]!!
-			engineDLL = csgoEXE.modules["engine.dll"]!!
+			clientDLL = csgoEXE.modules[CLIENT_MODULE_NAME]!!
+			engineDLL = csgoEXE.modules[ENGINE_MODULE_NAME]!!
 		}
 		
 		val rect = WinDef.RECT()
@@ -107,7 +106,7 @@ object CSGO {
 			lastY = gameY
 		}
 		every(1024, continuous = true) {
-			paused = hwd != CUser32.GetForegroundWindow()
+			paused = Pointer.nativeValue(hwd.pointer) != CUser32.GetForegroundWindow()
 			if (paused) return@every
 		}
 		

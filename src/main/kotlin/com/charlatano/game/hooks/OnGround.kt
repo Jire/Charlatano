@@ -19,11 +19,9 @@
 package com.charlatano.game.hooks
 
 import com.charlatano.game.CSGO.clientDLL
-import com.charlatano.game.entity.Player
 import com.charlatano.game.entity.dead
 import com.charlatano.game.entity.onGround
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
-import com.charlatano.settings.BUNNY_HOP_KEY
 import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.hook
 

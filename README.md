@@ -19,7 +19,7 @@ free and open-source cheating software!
 ---
 
 **Available Features**
-* Works on Panorama thanks to [Denizdeni](https://github.com/denizdeni) and [Snazzy Man](https://github.com/SnazzyMan-cpp)
+* Works on Danger Zone (battle royale)
 * Always-on all-weapon smooth dynamic recoil control system
 * Aim bot with humanized aim paths
 * Low-FOV "perfect aim" (non-silent)
@@ -50,10 +50,10 @@ The first step is to compile the source code into a usable cheat program.
 * Double click on the "_build_" (_build.bat_) script and wait for it to complete
 
 Once those steps are complete, the usable cheat program can be found within the _build_
-directory, and will in a directory called **Charlatano 1.0.8**.
+directory, and will in a directory called **Charlatano 1.0.9**.
 
-From within the **Charlatano 1.0.8** directory, you can start the cheat by running
-the _"Start Charlatano 1.0.8"_ script.
+From within the **Charlatano 1.0.9** directory, you can start the cheat by running
+the _"Start Charlatano 1.0.9"_ script.
 
 Before starting the cheat, you should already be spawned in a game with a weapon in hand!
 

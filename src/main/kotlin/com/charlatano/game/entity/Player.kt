@@ -64,29 +64,31 @@ internal fun Player.onGround() = flags() and 1 == 1
 
 internal fun Player.health(): Int = csgoEXE.int(this + iHealth)
 
+internal fun Player.lifeState(): Int = csgoEXE.byte(this + lifeState).toInt()
+
 internal fun Player.dead() = try {
-    (csgoEXE.byte(this + lifeState) != 0.toByte()) || health() <= 0
+	lifeState() != 0 || health() <= 0
 } catch (t: Throwable) {
-    false
+	false
 }
 
 private val player2Punch: Long2ObjectMap<Angle> = Long2ObjectOpenHashMap(255)
 
 internal fun Player.punch(): Angle = readCached(player2Punch) {
-    x = csgoEXE.float(it + vecPunch).toDouble()
-    y = csgoEXE.float(it + vecPunch + 4).toDouble()
-    z = 0.0
+	x = csgoEXE.float(it + vecPunch).toDouble()
+	y = csgoEXE.float(it + vecPunch + 4).toDouble()
+	z = 0.0
 }
 
 internal fun Player.shotsFired(): Int = csgoEXE.int(this + NetVarOffsets.iShotsFired)
 
 internal fun Player.viewOffset(): Angle = Vector(csgoEXE.float(this + vecViewOffset).toDouble(),
-        csgoEXE.float(this + vecViewOffset + 4).toDouble(),
-        csgoEXE.float(this + vecViewOffset + 8).toDouble())
+		csgoEXE.float(this + vecViewOffset + 4).toDouble(),
+		csgoEXE.float(this + vecViewOffset + 8).toDouble())
 
 internal fun Player.velocity(): Angle = Vector(csgoEXE.float(this + vecVelocity).toDouble(),
-        csgoEXE.float(this + vecVelocity + 4).toDouble(),
-        csgoEXE.float(this + vecVelocity + 8).toDouble())
+		csgoEXE.float(this + vecVelocity + 4).toDouble(),
+		csgoEXE.float(this + vecVelocity + 8).toDouble())
 
 internal fun Player.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
 
@@ -99,4 +101,4 @@ internal fun Player.hasDefuser(): Boolean = csgoEXE.boolean(this + bHasDefuser)
 internal fun Player.time(): Double = csgoEXE.int(this + nTickBase) * (1.0 / SERVER_TICK_RATE)
 
 internal fun Player.location(): String = csgoEXE.read(this + NetVarOffsets.szLastPlaceName, 32, true)?.getString(0)
-        ?: ""
+		?: ""
