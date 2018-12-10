@@ -62,12 +62,7 @@ fun main(args: Array<String>) {
 		
 		SERVER_TICK_RATE = 128 // most leagues are 128-tick
 		PROCESS_ACCESS_FLAGS = WinNT.PROCESS_QUERY_INFORMATION or WinNT.PROCESS_VM_READ // all we need
-		GARBAGE_COLLECT_ON_START = true // get rid of traces
-	}
-	
-	if (GARBAGE_COLLECT_ON_START) {
-		Thread.sleep(10_000) // wait a bit to catch everything
-		System.gc() // then cleanup
+		GARBAGE_COLLECT_ON_MAP_START = true // get rid of traces
 	}
 	
 	val scanner = Scanner(System.`in`)

@@ -53,12 +53,10 @@ var MAX_ENTITIES = 4096
 var CLEANUP_TIME = 10_000
 
 /**
- * Whether or not garbage collect after startup.
- *
- * Setting this to false will allow the cheat to "inject" faster,
- * at the cost of using a higher amount of memory.
+ * Whether or not garbage collect
+ * after every map load startup.
  */
-var GARBAGE_COLLECT_ON_START = true
+var GARBAGE_COLLECT_ON_MAP_START = true
 
 /**
  * The process name of CS:GO

@@ -72,4 +72,7 @@ object ClientOffsets {
 			0xA1, 0[4], 0x85, 0xC0, 0x0F, 0x84, 0[4], 0x80, 0xB8, 0[5], 0x0F, 0x84, 0[4], 0x0F, 0x10, 0x05
 	)
 	
+    val pStudioHdr by clientDLL(2, subtract = false)(
+            "8B B6 ? ? ? ? 85 F6 74 05 83 3E ? 75 02 33 F6 F3 0F 10 44 24"
+    )
 }

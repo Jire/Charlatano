@@ -74,11 +74,16 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 	return closestPlayer
 }
 
+internal fun Entity.inMyTeam() =
+        !TEAMMATES_ARE_ENEMIES && if (DANGER_ZONE) {
+            me.survivalTeam().let { it > -1 && it == this.survivalTeam() }
+        } else me.team() == team()
+
 internal fun Entity.canShoot() = spotted()
-		&& !dormant()
-		&& !dead()
-		&& (DANGER_ZONE || me.team() != team())
-		&& !me.dead()
+        && !dormant()
+        && !dead()
+        && !inMyTeam()
+        && !me.dead()
 
 internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boolean,
                                   crossinline doAim: (destinationAngle: Angle,

@@ -59,5 +59,6 @@ object NetVarOffsets {
 	val iClip2 by netVar("DT_BaseCombatWeapon")
 	
 	val iItemDefinitionIndex by netVar("DT_BaseCombatWeapon")
-	
+
+	val SurvivalGameRuleDecisionTypes by netVar("DT_CSGameRulesProxy")
 }
