@@ -36,7 +36,7 @@ fun rcs() = every(RCS_MIN_DURATION, RCS_MAX_DURATION) {
 	if (me <= 0 || !ENABLE_RCS) return@every
 	val weaponEntity = me.weaponEntity()
 	val weapon = me.weapon(weaponEntity)
-	if (weapon.boltAction || weapon == Weapons.DESERT_EAGLE) return@every
+	if (!weapon.automatic) return@every
 	val shotsFired = me.shotsFired()
 	val forceSet = shotsFired == 0 && !lastPunch.isZero
 	if (forceSet || shotsFired > 0 || weaponEntity.bullets() < 1) {
