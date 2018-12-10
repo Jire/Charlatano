@@ -25,7 +25,7 @@ package com.charlatano.settings
 var LEAGUE_MODE = false
 
 /**
- * Set this to true if you're playing Danger Zone (battle royale).
+ * This will be set by constructEntities hook
  */
 var DANGER_ZONE = false
 

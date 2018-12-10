@@ -26,18 +26,42 @@ import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.game.CSGO.engineDLL
 import com.charlatano.game.entity.EntityType
+import com.charlatano.game.netvars.NetVarOffsets
+import com.charlatano.game.offsets.ClientOffsets
 import com.charlatano.game.offsets.ClientOffsets.dwGlowObject
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
+import com.charlatano.game.offsets.EngineOffsets
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
+import com.charlatano.settings.DANGER_ZONE
+import com.charlatano.settings.GARBAGE_COLLECT_ON_MAP_START
 import com.charlatano.utils.every
 import com.charlatano.utils.extensions.uint
+import com.charlatano.utils.notInGame
 import java.util.concurrent.atomic.AtomicLong
+import kotlin.properties.Delegates
 
 private val lastCleanup = AtomicLong(0L)
 
 private val contexts = Array(MAX_ENTITIES) { EntityContext() }
 
 private fun shouldReset() = System.currentTimeMillis() - lastCleanup.get() >= CLEANUP_TIME
+
+private var state by Delegates.observable(SignOnState.MAIN_MENU) { _, old, new ->
+    if (old != new) {
+//        println("state change from : $old to $new")
+        if (new == SignOnState.IN_GAME) {
+            val gameRulesProxy = CSGO.clientDLL.long(ClientOffsets.dwGameRulesProxy)
+            val survivalDecisionType = CSGO.csgoEXE.int(gameRulesProxy + NetVarOffsets.SurvivalGameRuleDecisionTypes)
+            DANGER_ZONE = survivalDecisionType != 0
+            if (GARBAGE_COLLECT_ON_MAP_START) {
+                System.gc()
+            }
+            notInGame = false
+        } else {
+            notInGame = true
+        }
+    }
+}
 
 private fun reset() {
 	for (cacheableList in entitiesValues)
@@ -67,4 +91,5 @@ fun constructEntities() = every(512) {
 			if (!contains(context)) add(context)
 		}
 	}
+    state = SignOnState[CSGO.csgoEXE.int(clientState + EngineOffsets.dwSignOnState)]
 }

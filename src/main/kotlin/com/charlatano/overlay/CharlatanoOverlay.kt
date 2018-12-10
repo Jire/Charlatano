@@ -19,7 +19,6 @@
 package com.charlatano.overlay
 
 import com.badlogic.gdx.ApplicationAdapter
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Gdx.gl
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
@@ -29,9 +28,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.charlatano.game.CSGO.gameHeight
 import com.charlatano.game.CSGO.gameWidth
-import com.charlatano.utils.paused
+import com.charlatano.utils.inBackground
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
-import java.util.concurrent.atomic.AtomicReference
 
 object CharlatanoOverlay : ApplicationAdapter() {
 	
@@ -62,7 +60,7 @@ object CharlatanoOverlay : ApplicationAdapter() {
 			glClearColor(0F, 0F, 0F, 0F)
 			glClear(GL20.GL_COLOR_BUFFER_BIT)
 			
-			if (paused) return
+			if (inBackground) return
 			
 			camera.setToOrtho(true, gameWidth.toFloat(), gameHeight.toFloat())
 			batch.projectionMatrix = camera.combined

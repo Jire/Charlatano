@@ -16,26 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.utils
+package com.charlatano.game
 
-import java.util.concurrent.ThreadLocalRandom
-import kotlin.concurrent.thread
+import com.charlatano.utils.extensions.EnumLookUpWithDefault
 
-@Volatile
-var inBackground = false
-@Volatile
-var notInGame = false
+enum class SignOnState {
+    MAIN_MENU,
+    CHALLENGE,
+    CONNECTED,
+    NEW,
+    PRE_SPAWN,
+    SPAWN,
+    IN_GAME,
+    CHANGE_LEVEL;
 
-inline fun every(duration: Int, continuous: Boolean = false,
-                 crossinline body: () -> Unit) = every(duration, duration, continuous, body)
-
-inline fun every(minDuration: Int, maxDuration: Int,
-                 continuous: Boolean = false,
-                 crossinline body: () -> Unit) = thread {
-    while (!Thread.interrupted()) {
-        if (continuous || !(inBackground && notInGame)) body()
-        Thread.sleep((if (maxDuration > minDuration)
-            ThreadLocalRandom.current().nextInt(maxDuration - minDuration + 1) + minDuration
-        else minDuration).toLong())
-    }
+    companion object : EnumLookUpWithDefault<SignOnState>(values().associateBy(SignOnState::ordinal), MAIN_MENU)
 }

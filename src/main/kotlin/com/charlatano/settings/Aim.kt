@@ -30,6 +30,11 @@ package com.charlatano.settings
 var ACTIVATE_FROM_FIRE_KEY = true
 
 /**
+ * This will allow you to shoot teammates with aimbot when turned on.
+ */
+var TEAMMATES_ARE_ENEMIES = false
+
+/**
  * The key code of the force aim button.
  *
  * By default, this uses the backward mouse button

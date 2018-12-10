@@ -30,12 +30,11 @@ import com.charlatano.settings.*
 import com.charlatano.utils.every
 import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.natives.CUser32
-import com.charlatano.utils.paused
+import com.charlatano.utils.inBackground
 import com.charlatano.utils.retry
 import com.sun.jna.Pointer
 import com.sun.jna.platform.win32.User32
 import com.sun.jna.platform.win32.WinDef
-import com.sun.jna.platform.win32.WinNT
 import org.jire.arrowhead.Module
 import org.jire.arrowhead.Process
 import org.jire.arrowhead.processByName
@@ -106,8 +105,8 @@ object CSGO {
 			lastY = gameY
 		}
 		every(1024, continuous = true) {
-			paused = Pointer.nativeValue(hwd.pointer) != CUser32.GetForegroundWindow()
-			if (paused) return@every
+			inBackground = Pointer.nativeValue(hwd.pointer) != CUser32.GetForegroundWindow()
+			if (inBackground) return@every
 		}
 		
 		NetVars.load()
@@ -121,7 +120,7 @@ object CSGO {
 			
 			val enginePointer = engineDLL.uint(dwClientState)
 			val inGame = csgoEXE.int(enginePointer + dwInGame) == 6
-			paused = !inGame || myAddress <= 0
+			inBackground = !inGame || myAddress <= 0
 		}
 		
 		constructEntities()
