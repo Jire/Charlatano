@@ -19,6 +19,11 @@
 import com.charlatano.settings.*
 
 /**
+ * Set this to true if you're playing Danger Zone (battle royale).
+ */
+DANGER_ZONE = false
+
+/**
  * Set this to true if you're playing CS:CO (Counter-Strike: Classic Offensive).
  */
 CLASSIC_OFFENSIVE = false

@@ -23,10 +23,12 @@ import com.charlatano.game.me
 import com.charlatano.game.netvars.NetVarOffsets.bSpottedByMask
 import com.charlatano.game.netvars.NetVarOffsets.dwModel
 import com.charlatano.game.netvars.NetVarOffsets.iTeamNum
+import com.charlatano.game.netvars.NetVarOffsets.nSurvivalTeam
 import com.charlatano.game.netvars.NetVarOffsets.vecOrigin
 import com.charlatano.game.netvars.NetVarOffsets.vecViewOffset
 import com.charlatano.game.offsets.ClientOffsets.bDormant
 import com.charlatano.game.offsets.ClientOffsets.dwIndex
+import com.charlatano.settings.DANGER_ZONE
 import com.charlatano.utils.Angle
 import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.readCached
@@ -48,11 +50,11 @@ internal fun Entity.dormant(): Boolean = try {
 	false
 }
 
-internal fun Entity.team() = csgoEXE.uint(this + iTeamNum)
+internal fun Entity.team() = csgoEXE.uint(this + (if (DANGER_ZONE) nSurvivalTeam else iTeamNum))
 
 internal fun Entity.model(): Long = csgoEXE.uint(this + dwModel)
 
-internal fun Entity.studioHdr(): Long = csgoEXE.uint(this + 0x293C) // https://github.com/frk1/hazedumper/blob/master/csgo.hpp#L108
+internal fun Entity.studioHdr(): Long = csgoEXE.uint(this + 0x294C) // https://github.com/frk1/hazedumper/blob/master/csgo.hpp#L108
 
 private val entity2Angle: Long2ObjectMap<Angle> = Long2ObjectOpenHashMap(255)
 
