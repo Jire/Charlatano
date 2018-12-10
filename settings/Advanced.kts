@@ -38,3 +38,11 @@ MAX_ENTITIES = 4096
  * The interin milliseconds to recycle entities in the cached list.
  */
 CLEANUP_TIME = 10_000
+
+/**
+ * Whether or not garbage collect after startup.
+ *
+ * Setting this to false will allow the cheat to "inject" faster,
+ * at the cost of using a higher amount of memory.
+ */
+GARBAGE_COLLECT_ON_START = true

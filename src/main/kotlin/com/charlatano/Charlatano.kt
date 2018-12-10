@@ -26,10 +26,7 @@ import com.charlatano.scripts.*
 import com.charlatano.scripts.aim.flatAim
 import com.charlatano.scripts.aim.pathAim
 import com.charlatano.scripts.esp.esp
-import com.charlatano.settings.BOX_ESP
-import com.charlatano.settings.ENABLE_BOMB_TIMER
-import com.charlatano.settings.ENABLE_ESP
-import com.charlatano.settings.SKELETON_ESP
+import com.charlatano.settings.*
 import com.charlatano.utils.Dojo
 import org.jetbrains.kotlin.cli.common.environment.setIdeaIoUseFallback
 import java.io.File
@@ -52,8 +49,10 @@ fun main(args: Array<String>) {
 	reducedFlash()
 	bombTimer()
 	
-	Thread.sleep(10_000) // wait a bit to catch everything
-	System.gc() // then cleanup
+	if (GARBAGE_COLLECT_ON_START) {
+		Thread.sleep(10_000) // wait a bit to catch everything
+		System.gc() // then cleanup
+	}
 	
 	val scanner = Scanner(System.`in`)
 	while (!Thread.interrupted()) {

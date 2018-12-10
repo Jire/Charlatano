@@ -47,6 +47,14 @@ var SERVER_TICK_RATE = 64
 var MAX_ENTITIES = 4096
 
 /**
- * The intervar in milliseconds to recycle entities in the cached list.
+ * The interval in milliseconds to recycle entities in the cached list.
  */
 var CLEANUP_TIME = 10_000
+
+/**
+ * Whether or not garbage collect after startup.
+ *
+ * Setting this to false will allow the cheat to "inject" faster,
+ * at the cost of using a higher amount of memory.
+ */
+var GARBAGE_COLLECT_ON_START = true
