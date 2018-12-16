@@ -26,6 +26,7 @@ import com.charlatano.scripts.aim.findTarget
 import com.charlatano.settings.BONE_TRIGGER_BONE
 import com.charlatano.settings.BONE_TRIGGER_FOV
 import com.charlatano.settings.ENABLE_BONE_TRIGGER
+import com.charlatano.settings.TRIGGER_ALWAYS_ON
 import com.charlatano.settings.BONE_TRIGGER_KEY
 import com.charlatano.settings.FIRE_KEY
 import com.charlatano.utils.*
@@ -33,7 +34,7 @@ import org.jire.arrowhead.keyPressed
 import org.jire.arrowhead.keyReleased
 
 private val onBoneTriggerTarget = hook(1) {
-	if (ENABLE_BONE_TRIGGER && keyPressed(BONE_TRIGGER_KEY)) findTarget(me.position(), clientState.angle(), false,
+	if (ENABLE_BONE_TRIGGER && (TRIGGER_ALWAYS_ON || keyPressed(BONE_TRIGGER_KEY))) findTarget(me.position(), clientState.angle(), false,
 			BONE_TRIGGER_FOV, BONE_TRIGGER_BONE) >= 0
 	else false
 }
