@@ -34,7 +34,6 @@ import org.jire.arrowhead.keyReleased
 
 private val onBoneTriggerTarget = hook(1) {
 	if (ENABLE_BONE_TRIGGER && keyPressed(BONE_TRIGGER_KEY)) findTarget(me.position(), clientState.angle(), false,
-
 			BONE_TRIGGER_FOV, BONE_TRIGGER_BONE) >= 0
 	else false
 }
