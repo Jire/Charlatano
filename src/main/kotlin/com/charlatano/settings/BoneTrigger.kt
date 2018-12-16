@@ -17,6 +17,9 @@
  */
 
 package com.charlatano.settings
+import java.awt.event.KeyEvent
 
 var BONE_TRIGGER_FOV = 12
 var BONE_TRIGGER_BONE = HEAD_BONE
+
+var BONE_TRIGGER_KEY = KeyEvent.VK_ALT
