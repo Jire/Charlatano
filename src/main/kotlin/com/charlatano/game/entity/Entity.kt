@@ -29,7 +29,6 @@ import com.charlatano.game.netvars.NetVarOffsets.vecViewOffset
 import com.charlatano.game.offsets.ClientOffsets.bDormant
 import com.charlatano.game.offsets.ClientOffsets.dwIndex
 import com.charlatano.game.offsets.ClientOffsets.pStudioHdr
-import com.charlatano.settings.DANGER_ZONE
 import com.charlatano.utils.Angle
 import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.readCached
