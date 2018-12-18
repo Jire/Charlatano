@@ -39,7 +39,8 @@ internal fun reset() {
 }
 
 internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
-                        lockFOV: Int = AIM_FOV, boneID: Int = HEAD_BONE): Player {
+                        lockFOV: Int = AIM_FOV, boneID: Int = HEAD_BONE,
+                        yawOnly: Boolean): Player {
 	var closestFOV = Double.MAX_VALUE
 	var closestDelta = Double.MAX_VALUE
 	var closestPlayer = -1L
@@ -60,7 +61,7 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 		val fov = Math.abs(Math.sin(Math.toRadians(yawDiff)) * distance)
 		val delta = Math.abs((Math.sin(Math.toRadians(pitchDiff)) + Math.sin(Math.toRadians(yawDiff))) * distance)
 		
-		if (fov <= lockFOV && delta < closestDelta) {
+		if (if (yawOnly) fov <= lockFOV && delta < closestDelta else delta <= lockFOV && delta <= closestDelta) {
 			closestFOV = fov
 			closestDelta = delta
 			closestPlayer = entity
@@ -121,7 +122,7 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 	
 	val position = me.position()
 	if (currentTarget < 0) {
-		currentTarget = findTarget(position, currentAngle, aim)
+		currentTarget = findTarget(position, currentAngle, aim, yawOnly = true)
 		if (currentTarget < 0) {
 			Thread.sleep(200 + randLong(350))
 			return@every
