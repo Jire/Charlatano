@@ -66,9 +66,11 @@ internal fun skeletonEsp() {
 						entityBones.put(entity, this)
 					}
 					
-					forEach { drawBone(entity, it.first, it.second) }
+					forEach { drawBone(entity, it.first, it.second); false }
 				}
 			}
+			
+			false
 		}
 		
 		shapeRenderer.apply {

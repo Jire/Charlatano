@@ -16,19 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.scripts
+package com.charlatano.game
 
-import com.charlatano.game.entity.EntityType
-import com.charlatano.game.forEntities
-import com.charlatano.game.me
-import com.charlatano.settings.TRIGGER_DURATION
-import com.charlatano.utils.every
+import com.charlatano.game.CSGO.clientDLL
+import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.game.offsets.ClientOffsets.dwMouseEnable
+import com.charlatano.game.offsets.ClientOffsets.dwMouseEnablePtr
+import com.sun.jna.Memory
 
-fun trigger() = every(TRIGGER_DURATION) {
-	forEntities {
-		val entity = it.entity
-		if (entity <= 0 || me == entity || it.type != EntityType.CCSPlayer) return@forEntities
-		
-		
+// Credits to insp1r3hk.
+
+private val cursorEnableMemory = Memory(4)
+private val cursorEnableAddress by lazy(LazyThreadSafetyMode.NONE) { clientDLL.address + dwMouseEnable }
+private val cursorEnablePtr by lazy(LazyThreadSafetyMode.NONE) { clientDLL.address + dwMouseEnablePtr }
+
+fun isCursorEnabled(): Boolean {
+	synchronized(cursorEnableMemory) {
+		csgoEXE.read(cursorEnableAddress, cursorEnableMemory)
+		return cursorEnableMemory.getInt(0) xor cursorEnablePtr.toInt() != 1
 	}
 }

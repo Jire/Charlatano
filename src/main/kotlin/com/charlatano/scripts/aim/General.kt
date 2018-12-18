@@ -39,15 +39,17 @@ internal fun reset() {
 }
 
 internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
-                        lockFOV: Int = AIM_FOV, boneID: Int = HEAD_BONE): Player {
+                        lockFOV: Int = AIM_FOV, boneID: Int = HEAD_BONE,
+                        yawOnly: Boolean): Player {
+	var closestFOV = Double.MAX_VALUE
 	var closestDelta = Double.MAX_VALUE
 	var closestPlayer = -1L
 	
-	var closestFOV = Double.MAX_VALUE
-	
-	forEntities(ccsPlayer) {
+	forEntities(ccsPlayer) result@{
 		val entity = it.entity
-		if (entity <= 0 || entity == me || !entity.canShoot()) return@forEntities
+		if (entity <= 0 || entity == me || !entity.canShoot()) {
+			return@result false
+		}
 		
 		val ePos: Angle = entity.bones(boneID)
 		val distance = position.distanceTo(ePos)
@@ -56,13 +58,17 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 		
 		val pitchDiff = Math.abs(angle.x - dest.x)
 		val yawDiff = Math.abs(angle.y - dest.y)
-		val delta = Math.abs(Math.sin(Math.toRadians(yawDiff)) * distance)
-		val fovDelta = Math.abs((Math.sin(Math.toRadians(pitchDiff)) + Math.sin(Math.toRadians(yawDiff))) * distance)
+		val fov = Math.abs(Math.sin(Math.toRadians(yawDiff)) * distance)
+		val delta = Math.abs((Math.sin(Math.toRadians(pitchDiff)) + Math.sin(Math.toRadians(yawDiff))) * distance)
 		
-		if (fovDelta <= lockFOV && delta < closestDelta) {
+		if (if (yawOnly) fov <= lockFOV && delta < closestDelta else delta <= lockFOV && delta <= closestDelta) {
+			closestFOV = fov
 			closestDelta = delta
 			closestPlayer = entity
-			closestFOV = fovDelta
+			
+			return@result true
+		} else {
+			return@result false
 		}
 	}
 	
@@ -75,15 +81,15 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 }
 
 internal fun Entity.inMyTeam() =
-        !TEAMMATES_ARE_ENEMIES && if (DANGER_ZONE) {
-            me.survivalTeam().let { it > -1 && it == this.survivalTeam() }
-        } else me.team() == team()
+		!TEAMMATES_ARE_ENEMIES && if (DANGER_ZONE) {
+			me.survivalTeam().let { it > -1 && it == this.survivalTeam() }
+		} else me.team() == team()
 
 internal fun Entity.canShoot() = spotted()
-        && !dormant()
-        && !dead()
-        && !inMyTeam()
-        && !me.dead()
+		&& !dormant()
+		&& !dead()
+		&& !inMyTeam()
+		&& !me.dead()
 
 internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boolean,
                                   crossinline doAim: (destinationAngle: Angle,
@@ -104,21 +110,18 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 		return@every
 	}
 	
-	/*if (!CLASSIC_OFFENSIVE) {
-		val weapon = me.weapon()
-		if (!weapon.pistol && !weapon.automatic && !weapon.shotgun && !weapon.sniper) {
-			reset()
-			return@every
-		}
-	}*/ // good meme
+	val weapon = me.weapon()
+	if (!weapon.pistol && !weapon.automatic && !weapon.shotgun && !weapon.sniper) {
+		reset()
+		return@every
+	}
 	
 	val currentAngle = clientState.angle()
 	
 	val position = me.position()
 	if (currentTarget < 0) {
-		currentTarget = findTarget(position, currentAngle, aim)
+		currentTarget = findTarget(position, currentAngle, aim, yawOnly = true)
 		if (currentTarget < 0) {
-			Thread.sleep(200 + randLong(350))
 			return@every
 		}
 		target.set(currentTarget)
@@ -126,7 +129,10 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 	
 	if (currentTarget == me || !currentTarget.canShoot()) {
 		reset()
-		Thread.sleep(200 + randLong(350))
+		
+		if (TARGET_SWAP_MAX_DELAY > 0) {
+			Thread.sleep(randLong(TARGET_SWAP_MIN_DELAY, TARGET_SWAP_MAX_DELAY))
+		}
 	} else if (currentTarget.onGround() && me.onGround()) {
 		val boneID = bone.get()
 		val bonePosition = currentTarget.bones(boneID)

@@ -18,7 +18,11 @@
 
 package com.charlatano.scripts.esp
 
+import com.charlatano.settings.ENABLE_ESP
+
 fun esp() {
+	if (!ENABLE_ESP) return
+
 	glowEsp()
 	boxEsp()
 	skeletonEsp()

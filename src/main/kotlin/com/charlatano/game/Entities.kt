@@ -59,7 +59,7 @@ val entities: Object2ObjectMap<EntityType, CacheableList<EntityContext>>
 fun entityByType(type: EntityType): EntityContext? = entities[type]?.firstOrNull()
 
 internal inline fun forEntities(types: Array<EntityType> = EntityType.cachedValues,
-                                crossinline body: (EntityContext) -> Unit) {
+                                crossinline body: (EntityContext) -> Boolean): Boolean {
 	val hash = Arrays.hashCode(types)
 	val container = cachedResults.get(hash) ?: EntityContainer(EntityType.size)
 	
@@ -71,7 +71,7 @@ internal inline fun forEntities(types: Array<EntityType> = EntityType.cachedValu
 		}
 	}
 	
-	container.forEach(body)
+	return container.forEach(body)
 }
 
 val entityToBones: Long2ObjectMap<Angle> = Long2ObjectOpenHashMap()

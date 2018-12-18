@@ -45,7 +45,7 @@ FORCE_AIM_KEY = 5
 /**
  * The field of view of the aimbot, in degrees (0 to 360).
  */
-AIM_FOV = 190
+AIM_FOV = 50
 
 /**
  * The aimbot's "playback" speed, the higher the value the slower the playback.
@@ -63,6 +63,14 @@ AIM_SPEED_MAX = 36
  */
 AIM_STRICTNESS = 1.0
 
+/**
+ * The minimum and maximum time in milliseconds to delay the aimbot after
+ * targets have been swapped.
+ *
+ * Set these both to 0L for there to be no delay.
+ */
+TARGET_SWAP_MIN_DELAY = 200L
+TARGET_SWAP_MAX_DELAY = 350L
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -78,7 +86,7 @@ PERFECT_AIM = false
 /**
  * The FOV, in degrees (0 to 360) to snap for perfect aim.
  */
-PERFECT_AIM_FOV = 27
+PERFECT_AIM_FOV = 4
 
 /**
  * The chance, from 1% to 100% (0 to 100) for perfect aim to activate.

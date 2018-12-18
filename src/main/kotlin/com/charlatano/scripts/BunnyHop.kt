@@ -20,6 +20,7 @@ package com.charlatano.scripts
 
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.hooks.onGround
+import com.charlatano.game.isCursorEnabled
 import com.charlatano.game.offsets.ClientOffsets.dwForceJump
 import com.charlatano.settings.BUNNY_HOP_KEY
 import com.charlatano.settings.ENABLE_BUNNY_HOP
@@ -28,21 +29,21 @@ import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
 
 fun bunnyHop() = onGround {
-	if (ENABLE_BUNNY_HOP && keyPressed(BUNNY_HOP_KEY)) {
-		randScroll()
-		Thread.sleep(8 + randLong(10))
-		randScroll()
+	if (ENABLE_BUNNY_HOP && keyPressed(BUNNY_HOP_KEY) && !isCursorEnabled()) {
+		if (LEAGUE_MODE) {
+			randScroll()
+			Thread.sleep(8 + randLong(10))
+			randScroll()
+		} else {
+			clientDLL[dwForceJump] = 5.toByte()
+			Thread.sleep(randLong(20, 30))
+			clientDLL[dwForceJump] = 4.toByte()
+		}
 	}
 }
 
 private fun randScroll() {
 	Thread.sleep(randLong(1, 4))
-	if (LEAGUE_MODE) {
-		val amount = randInt(60) + 10
-		mouseWheel(if (randBoolean()) amount else -amount)
-	} else {
-		clientDLL[dwForceJump] = 5.toByte()
-		Thread.sleep(randLong(20, 30))
-		clientDLL[dwForceJump] = 4.toByte()
-	}
+	val amount = randInt(60) + 10
+	mouseWheel(if (randBoolean()) amount else -amount)
 }
