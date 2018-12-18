@@ -51,12 +51,15 @@ class CacheableList<out E>(val capacity: Int, val minIndex: Int = 0) {
 		return false
 	}
 	
-	inline fun forEach(crossinline action: (E) -> Unit): Unit {
+	inline fun forEach(crossinline action: (E) -> Boolean): Boolean {
 		for (e in iterator()) {
 			if (e !== null) {
-				action(e)
+				if (action(e)) {
+					return true
+				}
 			}
 		}
+		return false
 	}
 	
 	fun clear() {

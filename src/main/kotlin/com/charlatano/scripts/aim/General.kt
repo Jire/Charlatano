@@ -40,14 +40,15 @@ internal fun reset() {
 
 internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
                         lockFOV: Int = AIM_FOV, boneID: Int = HEAD_BONE): Player {
+	var closestFOV = Double.MAX_VALUE
 	var closestDelta = Double.MAX_VALUE
 	var closestPlayer = -1L
 	
-	var closestFOV = Double.MAX_VALUE
-	
-	forEntities(ccsPlayer) {
+	forEntities(ccsPlayer) result@{
 		val entity = it.entity
-		if (entity <= 0 || entity == me || !entity.canShoot()) return@forEntities
+		if (entity <= 0 || entity == me || !entity.canShoot()) {
+			return@result false
+		}
 		
 		val ePos: Angle = entity.bones(boneID)
 		val distance = position.distanceTo(ePos)
@@ -63,6 +64,10 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 			closestFOV = fov
 			closestDelta = delta
 			closestPlayer = entity
+			
+			return@result true
+		} else {
+			return@result false
 		}
 	}
 	
@@ -75,15 +80,15 @@ internal fun findTarget(position: Angle, angle: Angle, allowPerfect: Boolean,
 }
 
 internal fun Entity.inMyTeam() =
-        !TEAMMATES_ARE_ENEMIES && if (DANGER_ZONE) {
-            me.survivalTeam().let { it > -1 && it == this.survivalTeam() }
-        } else me.team() == team()
+		!TEAMMATES_ARE_ENEMIES && if (DANGER_ZONE) {
+			me.survivalTeam().let { it > -1 && it == this.survivalTeam() }
+		} else me.team() == team()
 
 internal fun Entity.canShoot() = spotted()
-        && !dormant()
-        && !dead()
-        && !inMyTeam()
-        && !me.dead()
+		&& !dormant()
+		&& !dead()
+		&& !inMyTeam()
+		&& !me.dead()
 
 internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boolean,
                                   crossinline doAim: (destinationAngle: Angle,

@@ -44,7 +44,7 @@ internal fun boxEsp() = CharlatanoOverlay {
 	
 	forEntities(ccsPlayer) {
 		val entity = it.entity
-		if (entity == me || entity.dead() || entity.dormant()) return@forEntities
+		if (entity == me || entity.dead() || entity.dormant()) return@forEntities false
 		
 		vHead.set(entity.bone(0xC), entity.bone(0x1C), entity.bone(0x2C) + 9)
 		vFeet.set(vHead.x, vHead.y, vHead.z - 75)
@@ -70,6 +70,8 @@ internal fun boxEsp() = CharlatanoOverlay {
 			
 			currentIdx++
 		}
+		
+		false
 	}
 	
 	shapeRenderer.apply sR@ {
