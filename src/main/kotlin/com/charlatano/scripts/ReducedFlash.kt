@@ -18,20 +18,16 @@
 
 package com.charlatano.scripts
 
-import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.entity.Player
 import com.charlatano.game.entity.dead
 import com.charlatano.game.hooks.onFlash
+import com.charlatano.game.me
 import com.charlatano.game.netvars.NetVarOffsets.flFlashMaxAlpha
-import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.settings.ENABLE_REDUCED_FLASH
 import com.charlatano.settings.FLASH_MAX_ALPHA
-import com.charlatano.utils.extensions.uint
 
 fun reducedFlash() = onFlash {
 	if (!ENABLE_REDUCED_FLASH) return@onFlash
 	
-	val me: Player = clientDLL.uint(dwLocalPlayer)
 	if (me > 0 && !me.dead()) csgoEXE[me + flFlashMaxAlpha] = FLASH_MAX_ALPHA
 }
