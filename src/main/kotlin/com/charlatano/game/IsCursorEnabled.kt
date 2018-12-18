@@ -16,34 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.scripts
+package com.charlatano.game
 
 import com.charlatano.game.CSGO.clientDLL
-import com.charlatano.game.hooks.onGround
-import com.charlatano.game.isCursorEnabled
-import com.charlatano.game.offsets.ClientOffsets.dwForceJump
-import com.charlatano.settings.BUNNY_HOP_KEY
-import com.charlatano.settings.ENABLE_BUNNY_HOP
-import com.charlatano.settings.LEAGUE_MODE
-import com.charlatano.utils.*
-import org.jire.arrowhead.keyPressed
+import com.charlatano.game.CSGO.csgoEXE
+import com.charlatano.game.offsets.ClientOffsets.dwMouseEnable
+import com.charlatano.game.offsets.ClientOffsets.dwMouseEnablePtr
+import com.sun.jna.Memory
 
-fun bunnyHop() = onGround {
-	if (ENABLE_BUNNY_HOP && keyPressed(BUNNY_HOP_KEY) && isCursorEnabled()) {
-		if (LEAGUE_MODE) {
-			randScroll()
-			Thread.sleep(8 + randLong(10))
-			randScroll()
-		} else {
-			clientDLL[dwForceJump] = 5.toByte()
-			Thread.sleep(randLong(20, 30))
-			clientDLL[dwForceJump] = 4.toByte()
-		}
+// Credits to insp1r3hk.
+
+private val cursorEnableMemory = Memory(4)
+private val cursorEnableAddress by lazy(LazyThreadSafetyMode.NONE) { clientDLL.address + dwMouseEnable }
+private val cursorEnablePtr by lazy(LazyThreadSafetyMode.NONE) { clientDLL.address + dwMouseEnablePtr }
+
+fun isCursorEnabled(): Boolean {
+	synchronized(cursorEnableMemory) {
+		csgoEXE.read(cursorEnableAddress, cursorEnableMemory)
+		return cursorEnableMemory.getInt(0) xor cursorEnablePtr.toInt() != 1
 	}
-}
-
-private fun randScroll() {
-	Thread.sleep(randLong(1, 4))
-	val amount = randInt(60) + 10
-	mouseWheel(if (randBoolean()) amount else -amount)
 }
