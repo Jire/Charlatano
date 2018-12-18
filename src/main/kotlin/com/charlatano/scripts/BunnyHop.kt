@@ -29,7 +29,7 @@ import com.charlatano.utils.*
 import org.jire.arrowhead.keyPressed
 
 fun bunnyHop() = onGround {
-	if (ENABLE_BUNNY_HOP && keyPressed(BUNNY_HOP_KEY) && isCursorEnabled()) {
+	if (ENABLE_BUNNY_HOP && keyPressed(BUNNY_HOP_KEY) && !isCursorEnabled()) {
 		if (LEAGUE_MODE) {
 			randScroll()
 			Thread.sleep(8 + randLong(10))
