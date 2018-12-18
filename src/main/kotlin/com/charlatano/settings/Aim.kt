@@ -63,6 +63,15 @@ var AIM_SPEED_MAX = 36
  */
 var AIM_STRICTNESS = 2.4
 
+/**
+ * The minimum and maximum time in milliseconds to delay the aimbot after
+ * targets have been swapped.
+ *
+ * Set these both to 0L for there to be no delay.
+ */
+var TARGET_SWAP_MIN_DELAY = 200L
+var TARGET_SWAP_MAX_DELAY = 350L
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// --- PERFECT AIM --- /////////////////////////////////////

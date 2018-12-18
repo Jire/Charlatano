@@ -110,13 +110,11 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 		return@every
 	}
 	
-	/*if (!CLASSIC_OFFENSIVE) {
-		val weapon = me.weapon()
-		if (!weapon.pistol && !weapon.automatic && !weapon.shotgun && !weapon.sniper) {
-			reset()
-			return@every
-		}
-	}*/ // good meme
+	val weapon = me.weapon()
+	if (!weapon.pistol && !weapon.automatic && !weapon.shotgun && !weapon.sniper) {
+		reset()
+		return@every
+	}
 	
 	val currentAngle = clientState.angle()
 	
@@ -124,7 +122,6 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 	if (currentTarget < 0) {
 		currentTarget = findTarget(position, currentAngle, aim, yawOnly = true)
 		if (currentTarget < 0) {
-			Thread.sleep(200 + randLong(350))
 			return@every
 		}
 		target.set(currentTarget)
@@ -132,7 +129,10 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 	
 	if (currentTarget == me || !currentTarget.canShoot()) {
 		reset()
-		Thread.sleep(200 + randLong(350))
+		
+		if (TARGET_SWAP_MAX_DELAY > 0) {
+			Thread.sleep(randLong(TARGET_SWAP_MIN_DELAY, TARGET_SWAP_MAX_DELAY))
+		}
 	} else if (currentTarget.onGround() && me.onGround()) {
 		val boneID = bone.get()
 		val bonePosition = currentTarget.bones(boneID)
