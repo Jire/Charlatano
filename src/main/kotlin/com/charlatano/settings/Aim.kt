@@ -45,15 +45,15 @@ var FORCE_AIM_KEY = 5
 /**
  * The field of view of the aimbot, in degrees (0 to 360).
  */
-var AIM_FOV = 190
+var AIM_FOV = 50
 
 /**
  * The aimbot's "playback" speed, the higher the value the slower the playback.
  *
  * The minimum value is 1, and max must always be greater than min.
  */
-var AIM_SPEED_MIN = 34
-var AIM_SPEED_MAX = 37
+var AIM_SPEED_MIN = 28
+var AIM_SPEED_MAX = 36
 
 /**
  * The strictness, or "stickiness" of the aimbot; the higher the number, the
@@ -77,7 +77,7 @@ var PERFECT_AIM = false
 /**
  * The FOV, in degrees (0 to 360) to snap for perfect aim.
  */
-var PERFECT_AIM_FOV = 27
+var PERFECT_AIM_FOV = 4
 
 /**
  * The chance, from 1% to 100% (0 to 100) for perfect aim to activate.

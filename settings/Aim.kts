@@ -45,7 +45,7 @@ FORCE_AIM_KEY = 5
 /**
  * The field of view of the aimbot, in degrees (0 to 360).
  */
-AIM_FOV = 190
+AIM_FOV = 50
 
 /**
  * The aimbot's "playback" speed, the higher the value the slower the playback.
@@ -78,7 +78,7 @@ PERFECT_AIM = false
 /**
  * The FOV, in degrees (0 to 360) to snap for perfect aim.
  */
-PERFECT_AIM_FOV = 27
+PERFECT_AIM_FOV = 4
 
 /**
  * The chance, from 1% to 100% (0 to 100) for perfect aim to activate.
