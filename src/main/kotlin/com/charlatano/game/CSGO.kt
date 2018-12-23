@@ -20,17 +20,13 @@ package com.charlatano.game
 
 import com.charlatano.game.hooks.constructEntities
 import com.charlatano.game.netvars.NetVars
-import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
-import com.charlatano.game.offsets.EngineOffsets.dwClientState
-import com.charlatano.game.offsets.EngineOffsets.dwInGame
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.overlay.CharlatanoOverlay.camera
 import com.charlatano.overlay.Overlay
 import com.charlatano.settings.*
 import com.charlatano.utils.every
-import com.charlatano.utils.extensions.uint
-import com.charlatano.utils.natives.CUser32
 import com.charlatano.utils.inBackground
+import com.charlatano.utils.natives.CUser32
 import com.charlatano.utils.retry
 import com.sun.jna.Pointer
 import com.sun.jna.platform.win32.User32
@@ -104,25 +100,15 @@ object CSGO {
 			lastX = gameX
 			lastY = gameY
 		}
+
 		every(1024, continuous = true) {
 			inBackground = Pointer.nativeValue(hwd.pointer) != CUser32.GetForegroundWindow()
-			if (inBackground) return@every
 		}
 		
 		NetVars.load()
-		
-		retry(16) {
-			var myAddress = clientDLL.uint(dwLocalPlayer)
-			if (myAddress <= 0) {
-				dwLocalPlayer = dwLocalPlayer + 0x1C // can't do dwLocalPlayer += 0x1C because of compiler bug...
-				myAddress = clientDLL.uint(dwLocalPlayer)
-			}
-			
-			val enginePointer = engineDLL.uint(dwClientState)
-			val inGame = csgoEXE.int(enginePointer + dwInGame) == 6
-			inBackground = !inGame || myAddress <= 0
-		}
-		
+
+		//this was moved to entityIteration. forgot to delete before
+
 		constructEntities()
 	}
 	

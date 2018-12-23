@@ -21,7 +21,7 @@ package com.charlatano.utils
 class Hook(val clauseDefault: Boolean, val durationDefault: Int,
            val predicate: () -> Boolean) {
 	
-	operator inline fun invoke(clause: Boolean = clauseDefault,
+	inline operator fun invoke(clause: Boolean = clauseDefault,
 	                           duration: Int = durationDefault,
 	                           crossinline body: () -> Unit) {
 		if (!clause) every(duration) {
