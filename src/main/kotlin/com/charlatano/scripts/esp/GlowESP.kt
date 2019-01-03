@@ -70,6 +70,8 @@ private fun Entity.glow(color: Color) {
 	csgoEXE[this + 0x8] = color.green / 255F
 	csgoEXE[this + 0xC] = color.blue / 255F
 	csgoEXE[this + 0x10] = color.alpha.toFloat()
+	//Fake chams glows players only when visible and only glows on body, aka the body is a glow mask.
+	//csgoEXE[this + 0x2C] = true
 	csgoEXE[this + 0x24] = true
 }
 
