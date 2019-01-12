@@ -40,6 +40,19 @@ BOX_ESP = false
  */
 GLOW_ESP = true
 
+/**
+ * Whether or not to use model ESP.
+ * This esp makes the model itself glow a certain color.
+ * This esp is currently tied to GLOW_ESP, and GLOW_ESP must be true
+ * This esp does not show enemies through walls, it only highlights and makes them extremely visible when on screen
+ */
+MODEL_ESP = true
+
+/**
+ * Whether or not to use model tint
+ */
+CHAMS = false
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -109,15 +122,3 @@ WEAPON_COLOR = Color(0, 255, 0, 0.5)
  * The color to highlight grenades.
  */
 GRENADE_COLOR = Color(0, 255, 0, 1.0)
-
-
-///////////////////////////////////////////////////////////////////////////////
-//                          --- MISCELLANEOUS ---                            //
-///////////////////////////////////////////////////////////////////////////////
-
-/**
- * Paints the models with their respective colors.
- *
- * WARNING: This may cause random game crashes if you enable it.
- */
-COLOR_MODELS = false
