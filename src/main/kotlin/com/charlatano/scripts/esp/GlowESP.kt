@@ -70,11 +70,12 @@ private fun Entity.glow(color: Color) {
 	csgoEXE[this + 0x8] = color.green / 255F
 	csgoEXE[this + 0xC] = color.blue / 255F
 	csgoEXE[this + 0x10] = color.alpha.toFloat()
+	csgoEXE[this + 0x2C] = MODEL_ESP
 	csgoEXE[this + 0x24] = true
 }
 
 private fun Entity.chams(color: Color) {
-	if (COLOR_MODELS) {
+	if (CHAMS) {
 		csgoEXE[this + 0x70] = color.red.toByte()
 		csgoEXE[this + 0x71] = color.green.toByte()
 		csgoEXE[this + 0x72] = color.blue.toByte()
