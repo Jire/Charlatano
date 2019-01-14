@@ -42,6 +42,12 @@ var BOX_ESP = false
 var GLOW_ESP = true
 
 /**
+ * This will patch glow method to get rid of flicker
+ * Writes to game memory, so be caution!
+ */
+var FLICKER_FREE_GLOW = true
+
+/**
  * Whether or not to use model ESP.
  * This esp makes the model itself glow a certain color.
  * This esp is currently tied to GLOW_ESP, and GLOW_ESP must be true

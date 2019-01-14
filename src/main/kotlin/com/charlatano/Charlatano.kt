@@ -39,16 +39,11 @@ const val SETTINGS_DIRECTORY = "settings"
 fun main(args: Array<String>) {
 	loadSettings()
 	
-	CSGO.initialize()
-	
-	bunnyHop()
-	rcs()
-	esp()
-	flatAim()
-	pathAim()
-	boneTrigger()
-	reducedFlash()
-	bombTimer()
+    if (FLICKER_FREE_GLOW) {
+        PROCESS_ACCESS_FLAGS = PROCESS_ACCESS_FLAGS or
+                //required by FLICKER_FREE_GLOW
+                WinNT.PROCESS_VM_OPERATION
+    }
 	
 	if (LEAGUE_MODE) {
 		GLOW_ESP = false
@@ -64,6 +59,17 @@ fun main(args: Array<String>) {
 		PROCESS_ACCESS_FLAGS = WinNT.PROCESS_QUERY_INFORMATION or WinNT.PROCESS_VM_READ // all we need
 		GARBAGE_COLLECT_ON_MAP_START = true // get rid of traces
 	}
+	
+	CSGO.initialize()
+	
+	bunnyHop()
+	rcs()
+	esp()
+	flatAim()
+	pathAim()
+	boneTrigger()
+	reducedFlash()
+	bombTimer()
 	
 	val scanner = Scanner(System.`in`)
 	while (!Thread.interrupted()) {

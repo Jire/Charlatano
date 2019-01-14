@@ -105,9 +105,7 @@ object CSGO {
 			inBackground = Pointer.nativeValue(hwd.pointer) != CUser32.GetForegroundWindow()
 		}
 		
-		NetVars.load()
-
-		//this was moved to entityIteration. forgot to delete before
+		NetVars.load() 
 
 		constructEntities()
 	}
