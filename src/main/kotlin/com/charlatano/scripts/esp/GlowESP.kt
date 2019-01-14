@@ -26,7 +26,7 @@ import com.charlatano.game.me
 import com.charlatano.settings.*
 import com.charlatano.utils.every
 
-internal fun glowEsp() = every(4) {
+internal fun glowEsp() = every(if (FLICKER_FREE_GLOW) 1024 else 4) {
 	if (!GLOW_ESP) return@every
 	
 	val myTeam = me.team()
