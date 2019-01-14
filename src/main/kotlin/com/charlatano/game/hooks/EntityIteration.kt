@@ -53,21 +53,21 @@ private fun reset() {
 private var state by Delegates.observable(SignOnState.MAIN_MENU) { _, old, new ->
     if (old != new) {
         notInGame = if (new == SignOnState.IN_GAME) {
+            if (PROCESS_ACCESS_FLAGS and WinNT.PROCESS_VM_OPERATION > 0) {
+                val write = (if (FLICKER_FREE_GLOW) 0xEB else 0x74).toByte()
+                try {
+                    clientDLL[ClientOffsets.dwGlowUpdate] = write
+                } catch (e: Exception) {
+                    //ignore
+                }
+                try {
+                    clientDLL[ClientOffsets.dwGlowUpdate2] = write
+                } catch (e: Exception) {
+                    //ignore
+                }
+            }
             if (GARBAGE_COLLECT_ON_MAP_START) {
                 System.gc()
-                if (PROCESS_ACCESS_FLAGS and WinNT.PROCESS_VM_OPERATION > 0) {
-                    val write = (if (FLICKER_FREE_GLOW) 0xEB else 0x74).toByte()
-                    try {
-                        clientDLL[ClientOffsets.dwGlowUpdate] = write
-                    } catch (e: Exception) {
-                        //ignore
-                    }
-                    try {
-                        clientDLL[ClientOffsets.dwGlowUpdate2] = write
-                    } catch (e: Exception) {
-                        //ignore
-                    }
-                }
             }
             false
         } else {
