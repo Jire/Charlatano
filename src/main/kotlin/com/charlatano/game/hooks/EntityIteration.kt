@@ -29,14 +29,12 @@ import com.charlatano.game.offsets.ClientOffsets.dwGlowObject
 import com.charlatano.game.offsets.ClientOffsets.dwLocalPlayer
 import com.charlatano.game.offsets.EngineOffsets
 import com.charlatano.game.offsets.EngineOffsets.dwClientState
-import com.charlatano.settings.CLEANUP_TIME
-import com.charlatano.settings.DANGER_ZONE
-import com.charlatano.settings.GARBAGE_COLLECT_ON_MAP_START
-import com.charlatano.settings.MAX_ENTITIES
+import com.charlatano.settings.*
 import com.charlatano.utils.every
 import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.notInGame
 import java.util.concurrent.atomic.AtomicLong
+import com.sun.jna.platform.win32.WinNT
 import kotlin.properties.Delegates
 
 private val lastCleanup = AtomicLong(0L)
@@ -57,6 +55,19 @@ private var state by Delegates.observable(SignOnState.MAIN_MENU) { _, old, new -
         notInGame = if (new == SignOnState.IN_GAME) {
             if (GARBAGE_COLLECT_ON_MAP_START) {
                 System.gc()
+                if (PROCESS_ACCESS_FLAGS and WinNT.PROCESS_VM_OPERATION > 0) {
+                    val write = (if (FLICKER_FREE_GLOW) 0xEB else 0x74).toByte()
+                    try {
+                        clientDLL[ClientOffsets.dwGlowUpdate] = write
+                    } catch (e: Exception) {
+                        //ignore
+                    }
+                    try {
+                        clientDLL[ClientOffsets.dwGlowUpdate2] = write
+                    } catch (e: Exception) {
+                        //ignore
+                    }
+                }
             }
             false
         } else {
