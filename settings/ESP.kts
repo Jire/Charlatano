@@ -43,7 +43,7 @@ GLOW_ESP = true
 /**
  * This gets rid of glow ESP "flicker", and more importantly reduces CPU usage.
  */
-FLICKER_FREE_GLOW = true
+FLICKER_FREE_GLOW = false
 
 /**
  * Whether or not to use model ESP.
@@ -51,13 +51,17 @@ FLICKER_FREE_GLOW = true
  * This esp is currently tied to GLOW_ESP, and GLOW_ESP must be true
  * This esp does not show enemies through walls, it only highlights and makes them extremely visible when on screen
  */
-MODEL_ESP = true
+MODEL_ESP = false
 
 /**
  * Whether or not to use model tint
  */
-CHAMS = false
+CHAMS = true
 
+/**
+ * Brightness of CHAMS
+ */
+CHAMS_BRIGHTNESS = 100
 
 
 ///////////////////////////////////////////////////////////////////////////////
