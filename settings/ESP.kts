@@ -58,6 +58,10 @@ MODEL_ESP = true
  */
 CHAMS = false
 
+/**
+ * Brightness of CHAMS
+ */
+CHAMS_BRIGHTNESS = 100
 
 
 ///////////////////////////////////////////////////////////////////////////////
