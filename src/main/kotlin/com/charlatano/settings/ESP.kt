@@ -41,6 +41,7 @@ var BOX_ESP = false
  */
 var GLOW_ESP = true
 
+var RADAR = true
 /**
  * This gets rid of glow ESP "flicker", and more importantly reduces CPU usage.
  */
