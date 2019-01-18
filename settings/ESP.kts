@@ -40,6 +40,7 @@ BOX_ESP = false
  */
 GLOW_ESP = true
 
+RADAR = true
 /**
  * This gets rid of glow ESP "flicker", and more importantly reduces CPU usage.
  */
