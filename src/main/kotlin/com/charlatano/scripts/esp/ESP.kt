@@ -22,7 +22,7 @@ import com.charlatano.settings.ENABLE_ESP
 
 fun esp() {
 	if (!ENABLE_ESP) return
-
+	radar()
 	glowEsp()
 	boxEsp()
 	skeletonEsp()
