@@ -80,16 +80,14 @@ fun main(args: Array<String>) {
 	}
 }
 
-private fun loadSettings() {
-	setIdeaIoUseFallback()
-	
+private fun loadSettings() {	
     File(SETTINGS_DIRECTORY).listFiles().forEach {
-        with(ScriptEngineManager().getEngineByExtension("kts")) {
-            FileReader(it).use {
-                val code = it.readLines().joinToString("\n")
-                eval(code)
-            }
-        }
+	with(ScriptEngineManager().getEngineByExtension("kts")) {
+	    FileReader(it).use {
+		val code = it.readLines().joinToString("\n")
+		eval(code)
+	    }
+	}
     }
 	
 	val needsOverlay = ENABLE_BOMB_TIMER or (ENABLE_ESP and (SKELETON_ESP or BOX_ESP))
