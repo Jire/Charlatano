@@ -41,9 +41,9 @@ var BOX_ESP = false
  */
 var GLOW_ESP = true
 
+var RADAR = true
 /**
- * This will patch glow method to get rid of flicker
- * Writes to game memory, so be caution!
+ * This gets rid of glow ESP "flicker", and more importantly reduces CPU usage.
  */
 var FLICKER_FREE_GLOW = true
 
@@ -59,6 +59,11 @@ var MODEL_ESP = true
  * Whether or not to change model colors
  */
 var CHAMS = false
+
+/**
+ * Brightness of CHAMS
+ */
+var CHAMS_BRIGHTNESS = 100
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

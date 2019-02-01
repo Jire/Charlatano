@@ -40,12 +40,11 @@ BOX_ESP = false
  */
 GLOW_ESP = true
 
+RADAR = true
 /**
- * This will patch glow method to get rid of flicker
- * Writes to game memory, so be caution!
+ * This gets rid of glow ESP "flicker", and more importantly reduces CPU usage.
  */
-FLICKER_FREE_GLOW = false
-
+FLICKER_FREE_GLOW = true
 
 /**
  * Whether or not to use model ESP.
@@ -60,6 +59,10 @@ MODEL_ESP = true
  */
 CHAMS = false
 
+/**
+ * Brightness of CHAMS
+ */
+CHAMS_BRIGHTNESS = 100
 
 
 ///////////////////////////////////////////////////////////////////////////////
