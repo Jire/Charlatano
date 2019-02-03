@@ -26,17 +26,17 @@ import com.charlatano.scripts.*
 import com.charlatano.scripts.aim.flatAim
 import com.charlatano.scripts.aim.pathAim
 import com.charlatano.scripts.esp.esp
-import com.charlatano.settings.*
-import com.charlatano.utils.Dojo
-import com.sun.jna.platform.win32.WinNT
-import org.jetbrains.kotlin.cli.common.environment.setIdeaIoUseFallback
+import com.charlatano.settings.* 
+import com.sun.jna.platform.win32.WinNT 
 import java.io.File
 import java.io.FileReader
 import java.util.*
+import javax.script.ScriptEngineManager
 
 const val SETTINGS_DIRECTORY = "settings"
 
 fun main(args: Array<String>) {
+	System.setProperty("idea.io.use.fallback", "true")
 	loadSettings()
 	
     if (FLICKER_FREE_GLOW) {
@@ -80,14 +80,13 @@ fun main(args: Array<String>) {
 	}
 }
 
-private fun loadSettings() {
-	setIdeaIoUseFallback()
-	
-	File(SETTINGS_DIRECTORY).listFiles().forEach {
-		FileReader(it).use {
-			Dojo.script(it
-					.readLines()
-					.joinToString("\n"))
+private fun loadSettings() {	
+	with(ScriptEngineManager().getEngineByExtension("kts")) {
+		File(SETTINGS_DIRECTORY).listFiles().forEach {
+			FileReader(it).use {
+				val code = it.readLines().joinToString("\n")
+				eval(code)
+			}
 		}
 	}
 	
