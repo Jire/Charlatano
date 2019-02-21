@@ -1,5 +1,5 @@
 ## Need help? Want to chat? Join our Discord
-**Join our Discord:** https://discord.gg/Kej7DEq
+**Join our Discord:** https://discord.gg/gAYSaEz
 
 # Charlatano
 _Cheating is but a lifestyle_
