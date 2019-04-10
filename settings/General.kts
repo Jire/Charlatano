@@ -22,7 +22,7 @@ import com.charlatano.settings.*
  * Set this to true if you're playing on a league like ESEA, FaceIT, etc.
  * This will disable writing to the game and disable all visuals.
  */
-LEAGUE_MODE = false
+LEAGUE_MODE = true
 
 /**
  * Set this to true if you're playing CS:CO (Counter-Strike: Classic Offensive).
