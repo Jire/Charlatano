@@ -40,11 +40,11 @@ fun rcs() = every(RCS_MIN_DURATION, RCS_MAX_DURATION) {
 	val shotsFired = me.shotsFired()
 	val forceSet = shotsFired == 0 && !lastPunch.isZero
 	if (forceSet || shotsFired > 0) {
+		val p = me.punch()
 		if (lastPunch.isZero)
 		{
 			lastPunch.set(p.x.toFloat(), p.y.toFloat())	
 		}
-		val p = me.punch()
 		playerPunch.set(p.x.toFloat(), p.y.toFloat(), p.z.toFloat())
 		newPunch.set(playerPunch.x - lastPunch.x, playerPunch.y - lastPunch.y)
 		newPunch.scl((if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN).toFloat(),
