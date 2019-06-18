@@ -32,6 +32,7 @@ import com.charlatano.game.offsets.EngineOffsets.dwModelAmbientMin
 import com.charlatano.settings.*
 import com.charlatano.utils.every
 import com.charlatano.utils.extensions.uint
+import org.jire.arrowhead.keyPressed
 
 internal fun glowEsp() = every(if (FLICKER_FREE_GLOW) 1024 else 4) {
 	if (!GLOW_ESP) return@every
@@ -77,8 +78,26 @@ private fun Entity.glow(color: Color) {
 	csgoEXE[this + 0x8] = color.green / 255F
 	csgoEXE[this + 0xC] = color.blue / 255F
 	csgoEXE[this + 0x10] = color.alpha.toFloat()
-	csgoEXE[this + 0x2C] = MODEL_ESP
-	csgoEXE[this + 0x24] = true
+	if (keyPressed(GLOW_ESP_ON)) {
+		csgoEXE[this + 0x24] = true
+		println("GlowESP on")
+	}
+	if (keyPressed(GLOW_ESP_OFF)) {
+		csgoEXE[this + 0x24] = false
+		println("GlowESP off")
+	}
+	if (keyPressed(MODEL_ESP_ON)) {
+		csgoEXE[this + 0x2C] = true
+		println("ModelESP on")
+	}
+	if (keyPressed(MODEL_ESP_OFF)) {
+		csgoEXE[this + 0x2C] = true
+		println("ModelESP off")
+	}
+	if (keyPressed(VISUAL_REFRESH)) {
+		glowEsp()
+		println("Glow visuals refreshed")
+	}
 }
 
 private fun Entity.chams(color: Color) {
