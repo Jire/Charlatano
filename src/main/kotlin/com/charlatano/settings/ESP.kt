@@ -41,7 +41,11 @@ var BOX_ESP = false
  */
 var GLOW_ESP = true
 
-var RADAR = true
+/**
+ * Whether or not to enable radar reveal.
+ */
+var RADAR = false
+
 /**
  * This gets rid of glow ESP "flicker", and more importantly reduces CPU usage.
  */

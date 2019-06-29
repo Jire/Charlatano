@@ -19,14 +19,15 @@
 package com.charlatano.scripts.esp
 
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.entity.*
+import com.charlatano.game.entity.Entity
+import com.charlatano.game.entity.EntityType.Companion.ccsPlayer
+import com.charlatano.game.entity.dead
+import com.charlatano.game.entity.dormant
 import com.charlatano.game.forEntities
-import com.charlatano.game.me
 import com.charlatano.game.netvars.NetVarOffsets.bSpotted
 import com.charlatano.game.offsets.ClientOffsets.bDormant
 import com.charlatano.settings.RADAR
 import com.charlatano.utils.every
-import com.charlatano.game.entity.EntityType.Companion.ccsPlayer
 
 internal fun radar() = every(1) {
 	if (!RADAR) return@every
@@ -34,7 +35,7 @@ internal fun radar() = every(1) {
 	forEntities(ccsPlayer) {
 		val entity = it.entity
 		if (entity.dead() || entity.dormant()) return@forEntities false
-			entity.show()
+		entity.show()
 		
 		false
 	}

@@ -40,7 +40,11 @@ BOX_ESP = false
  */
 GLOW_ESP = true
 
-RADAR = true
+/**
+ * Whether or not to enable radar reveal.
+ */
+RADAR = false
+
 /**
  * This gets rid of glow ESP "flicker", and more importantly reduces CPU usage.
  */
@@ -52,7 +56,7 @@ FLICKER_FREE_GLOW = true
  * This esp is currently tied to GLOW_ESP, and GLOW_ESP must be true
  * This esp does not show enemies through walls, it only highlights and makes them extremely visible when on screen
  */
-MODEL_ESP = true
+MODEL_ESP = false
 
 /**
  * Whether or not to use model tint
@@ -101,7 +105,6 @@ SHOW_WEAPONS = false
  * Whether or not to highlight grenades.
  */
 SHOW_GRENADES = false
-
 
 
 ///////////////////////////////////////////////////////////////////////////////
