@@ -6,7 +6,7 @@ _Cheating is but a lifestyle_
 
 ### Support the Project
 
-**Donate with Bitcoin:** 3GqvcPY4rKcMxKU3jE59A2UHfV3NAyUhA6
+**Donate with Bitcoin:** 3GqvcPY4rKcMxKU3jE59A2UHfV3NAyUhA6  
 **Or with PayPal:** thomasgnappo@gmail.com
 
 ---
