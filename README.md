@@ -1,11 +1,13 @@
-## Want to chat? Join our Discord
-**Join our Discord:** https://discord.gg/5q5h4ZE
-
 # Charlatano
 _Cheating is but a lifestyle_
 
 [![Build Status](https://travis-ci.org/Jire/Charlatano.svg?branch=master)](https://travis-ci.org/Jire/Charlatano)
 [![License](https://img.shields.io/github/license/Jire/Charlatano.svg)](https://github.com/Jire/Charlatano/blob/master/LICENSE.txt)
+
+### Support the Project
+
+**Donate with Bitcoin:** 3GqvcPY4rKcMxKU3jE59A2UHfV3NAyUhA6
+**Or with PayPal:** thomasgnappo@gmail.com
 
 ---
 
@@ -50,10 +52,10 @@ The first step is to compile the source code into a usable cheat program.
 * Double click on the "_build_" (_build.bat_) script and wait for it to complete
 
 Once those steps are complete, the usable cheat program can be found within the _build_
-directory, and will in a directory called **Charlatano 1.0.10**.
+directory, and will in a directory called **Charlatano 1.0.11**.
 
-From within the **Charlatano 1.0.10** directory, you can start the cheat by running
-the _"Start Charlatano 1.0.10"_ script.
+From within the **Charlatano 1.0.11** directory, you can start the cheat by running
+the _"Start Charlatano 1.0.11"_ script.
 
 Before starting the cheat, you should already be spawned in a game with a weapon in hand!
 
