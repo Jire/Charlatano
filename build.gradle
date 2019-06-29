@@ -66,6 +66,7 @@ dependencies {
 	compile group: 'org.jetbrains.kotlin', name: 'kotlin-script-runtime', version: kotlin_version
 	compile group: 'org.jetbrains.kotlin', name: 'kotlin-script-util', version: kotlin_version
 	compile group: 'org.jetbrains.kotlin', name: 'kotlin-compiler-embeddable', version: kotlin_version
+	compile group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-compiler-embeddable', version: kotlin_version
 	
 	compile group: 'it.unimi.dsi', name: 'fastutil', version: '8.2.3'
 }
@@ -79,7 +80,6 @@ jar {
 shadowJar {
 	baseName = 'Charlatano'
 	classifier = null
-	minimize()
 }
 
 task charlatano {

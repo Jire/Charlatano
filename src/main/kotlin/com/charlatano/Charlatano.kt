@@ -26,24 +26,27 @@ import com.charlatano.scripts.*
 import com.charlatano.scripts.aim.flatAim
 import com.charlatano.scripts.aim.pathAim
 import com.charlatano.scripts.esp.esp
-import com.charlatano.settings.* 
-import com.sun.jna.platform.win32.WinNT 
+import com.charlatano.settings.*
+import com.sun.jna.platform.win32.WinNT
 import java.io.File
 import java.io.FileReader
 import java.util.*
 import javax.script.ScriptEngineManager
+import kotlin.system.exitProcess
 
 const val SETTINGS_DIRECTORY = "settings"
 
 fun main(args: Array<String>) {
-	System.setProperty("idea.io.use.fallback", "true")
+	System.setProperty("jna.nosys", "true")
+	//System.setProperty("idea.io.use.fallback", "true")
+	System.setProperty("idea.use.native.fs.for.win", "false")
 	loadSettings()
 	
-    if (FLICKER_FREE_GLOW) {
-        PROCESS_ACCESS_FLAGS = PROCESS_ACCESS_FLAGS or
-                //required by FLICKER_FREE_GLOW
-                WinNT.PROCESS_VM_OPERATION
-    }
+	if (FLICKER_FREE_GLOW) {
+		PROCESS_ACCESS_FLAGS = PROCESS_ACCESS_FLAGS or
+				//required by FLICKER_FREE_GLOW
+				WinNT.PROCESS_VM_OPERATION
+	}
 	
 	if (LEAGUE_MODE) {
 		GLOW_ESP = false
@@ -74,17 +77,17 @@ fun main(args: Array<String>) {
 	val scanner = Scanner(System.`in`)
 	while (!Thread.interrupted()) {
 		when (scanner.nextLine()) {
-			"exit", "quit" -> System.exit(0)
+			"exit", "quit" -> exitProcess(0)
 			"reload" -> loadSettings()
 		}
 	}
 }
 
-private fun loadSettings() {	
+private fun loadSettings() {
 	with(ScriptEngineManager().getEngineByExtension("kts")) {
-		File(SETTINGS_DIRECTORY).listFiles().forEach {
-			FileReader(it).use {
-				val code = it.readLines().joinToString("\n")
+		File(SETTINGS_DIRECTORY).listFiles()?.forEach { file ->
+			FileReader(file).use { reader ->
+				val code = reader.readLines().joinToString("\n")
 				eval(code)
 			}
 		}
