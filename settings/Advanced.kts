@@ -62,7 +62,7 @@ PROCESS_ACCESS_FLAGS = WinNT.PROCESS_QUERY_INFORMATION or WinNT.PROCESS_VM_READ 
 /**
  * The module name of the client module.
  */
-CLIENT_MODULE_NAME = "client_panorama.dll"
+CLIENT_MODULE_NAME = "client.dll"
 
 /**
  * The module name of the engine module.
