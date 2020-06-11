@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Charlatano.iml" filepath="$PROJECT_DIR$/.idea/modules/Charlatano.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Charlatano_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Charlatano_main.iml" group="Charlatano" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Charlatano_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Charlatano_test.iml" group="Charlatano" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Charlatano.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Charlatano.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Charlatano.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Charlatano.test.iml" />
     </modules>
   </component>
 </project>
