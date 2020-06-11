@@ -71,7 +71,7 @@ var PROCESS_ACCESS_FLAGS = WinNT.PROCESS_QUERY_INFORMATION or WinNT.PROCESS_VM_R
 /**
  * The module name of the client module.
  */
-var CLIENT_MODULE_NAME = "client_panorama.dll"
+var CLIENT_MODULE_NAME = "client.dll"
 
 /**
  * The module name of the engine module.
