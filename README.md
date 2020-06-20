@@ -6,8 +6,8 @@ _Cheating is but a lifestyle_
 
 ### Support the Project
 
-**Donate with Bitcoin:** 3ErbuRTxtFqvMQ7F2Z8SfpgAXjonsQs8Vc
-**Or with PayPal:** enisitysoft@gmail.com
+**Donate with Bitcoin:** 3ErbuRTxtFqvMQ7F2Z8SfpgAXjonsQs8Vc  
+**Or with PayPal:** enisitysoft@gmail.com  
 **Or with CashApp:** $jires
 
 ---
