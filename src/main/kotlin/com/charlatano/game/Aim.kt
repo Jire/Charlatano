@@ -26,8 +26,10 @@ import com.charlatano.game.netvars.NetVarOffsets.vecViewOffset
 import com.charlatano.utils.Angle
 import com.charlatano.utils.Vector
 import com.charlatano.utils.normalize
-import java.lang.Math.atan
+import org.jire.kna.float
 import java.lang.Math.toDegrees
+import kotlin.math.atan
+import kotlin.math.sqrt
 
 private val angles: ThreadLocal<Angle> = ThreadLocal.withInitial { Vector() }
 
@@ -39,7 +41,7 @@ fun calculateAngle(player: Player, dst: Vector): Angle = angles.get().apply {
 	val dY = myPosition.y - dst.y
 	val dZ = myPosition.z + csgoEXE.float(player + vecViewOffset) - dst.z
 	
-	val hyp = Math.sqrt((dX * dX) + (dY * dY))
+	val hyp = sqrt((dX * dX) + (dY * dY))
 	
 	x = toDegrees(atan(dZ / hyp)) - myPunch.x * 2.0
 	y = toDegrees(atan(dY / dX)) - myPunch.y * 2.0

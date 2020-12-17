@@ -25,6 +25,7 @@ import com.charlatano.game.me
 import com.charlatano.game.netvars.NetVarOffsets.flFlashMaxAlpha
 import com.charlatano.settings.ENABLE_REDUCED_FLASH
 import com.charlatano.settings.FLASH_MAX_ALPHA
+import org.jire.kna.set
 
 fun reducedFlash() = onFlash {
 	if (!ENABLE_REDUCED_FLASH) return@onFlash

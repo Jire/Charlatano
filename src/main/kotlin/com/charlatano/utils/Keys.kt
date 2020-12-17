@@ -16,21 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.charlatano.utils.extensions
+@file:JvmName("Keys")
 
-import com.charlatano.utils.natives.CUser32
-import com.sun.jna.platform.win32.WinDef
-import kotlin.math.sqrt
+package com.charlatano.utils
 
-fun WinDef.POINT.set(x: Int, y: Int) = apply {
-	this.x = x
-	this.y = y
+import com.sun.jna.Platform
+import org.jire.kna.nativelib.windows.User32
+
+fun keyState(virtualKeyCode: Int): Int = when {
+	Platform.isWindows() || Platform.isWindowsCE() -> User32.GetKeyState(virtualKeyCode).toInt()
+	else -> throw UnsupportedOperationException("Unsupported platform (osType=${Platform.getOSType()}")
 }
 
-fun WinDef.POINT.refresh() = apply { CUser32.GetCursorPos(this) }
+fun keyPressed(virtualKeyCode: Int) = keyState(virtualKeyCode) < 0
 
-fun WinDef.POINT.distance(b: WinDef.POINT): Double {
-	val px = (b.x - this.x).toDouble()
-	val py = (b.y - this.y).toDouble()
-	return sqrt(px * px + py * py)
-}
+fun keyReleased(virtualKeyCode: Int) = !keyPressed(virtualKeyCode)

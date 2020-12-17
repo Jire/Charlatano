@@ -18,7 +18,7 @@
 
 package com.charlatano.utils.extensions
 
-import org.jire.arrowhead.Source
-import org.jire.arrowhead.unsign
+import org.jire.kna.ReadableSource
+import org.jire.kna.int
 
-fun Source.uint(address: Long, offset: Long = 0) = int(address, offset).unsign()
+fun ReadableSource.uint(address: Long, offset: Long = 0) = int(address, offset).unsign()

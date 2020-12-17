@@ -33,8 +33,10 @@ import com.charlatano.settings.*
 import com.charlatano.utils.every
 import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.notInGame
-import java.util.concurrent.atomic.AtomicLong
 import com.sun.jna.platform.win32.WinNT
+import org.jire.kna.int
+import org.jire.kna.set
+import java.util.concurrent.atomic.AtomicLong
 import kotlin.properties.Delegates
 
 private val lastCleanup = AtomicLong(0L)
@@ -80,8 +82,8 @@ private val cursorEnableAddress by lazy(LazyThreadSafetyMode.NONE) { clientDLL.a
 private val cursorEnablePtr by lazy(LazyThreadSafetyMode.NONE) { clientDLL.address + ClientOffsets.dwMouseEnablePtr }
 
 fun constructEntities() = every(512) {
-	state = SignOnState[CSGO.csgoEXE.int(clientState + EngineOffsets.dwSignOnState)]
-	cursorEnable = CSGO.csgoEXE.int(cursorEnableAddress) xor cursorEnablePtr.toInt() != 1
+	state = SignOnState[csgoEXE.int(clientState + EngineOffsets.dwSignOnState)]
+	cursorEnable = csgoEXE.int(cursorEnableAddress) xor cursorEnablePtr.toInt() != 1
 	
 	me = clientDLL.uint(dwLocalPlayer)
 	if (me <= 0) return@every
@@ -101,8 +103,8 @@ fun constructEntities() = every(512) {
 		val type = EntityType.byEntityAddress(entity)
 		
 		if (type == EntityType.CFists) {
-			//sometimes it takes a while for game to initialize gameRulesProxy
-			//so our dz mode detection wasn't working perfectly.
+			// sometimes it takes a while for game to initialize gameRulesProxy
+			// so our dz mode detection wasn't working perfectly.
 			dzMode = true
 		}
 		

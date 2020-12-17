@@ -23,7 +23,6 @@ import com.charlatano.game.entity.*
 import com.charlatano.game.entity.EntityType.Companion.ccsPlayer
 import com.charlatano.settings.*
 import com.charlatano.utils.*
-import org.jire.arrowhead.keyPressed
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong

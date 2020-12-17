@@ -25,6 +25,8 @@ import com.charlatano.game.netvars.NetVarOffsets
 import com.charlatano.game.netvars.NetVarOffsets.flNextPrimaryAttack
 import com.charlatano.game.netvars.NetVarOffsets.iClip1
 import com.charlatano.utils.extensions.uint
+import org.jire.kna.float
+import org.jire.kna.short
 
 typealias Weapon = Long
 
@@ -41,6 +43,6 @@ internal fun Weapon.type(): Weapons {
 	var id = 42
 	if (this > 0)
 		id = csgoEXE.short(this + NetVarOffsets.iItemDefinitionIndex).toInt()
-
+	
 	return Weapons[id]
 }

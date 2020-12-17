@@ -28,6 +28,7 @@ import com.charlatano.game.netvars.NetVarOffsets.bSpotted
 import com.charlatano.game.offsets.ClientOffsets.bDormant
 import com.charlatano.settings.RADAR
 import com.charlatano.utils.every
+import org.jire.kna.set
 
 internal fun radar() = every(1) {
 	if (!RADAR) return@every

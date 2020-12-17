@@ -36,7 +36,7 @@ import kotlin.system.exitProcess
 
 const val SETTINGS_DIRECTORY = "settings"
 
-fun main(args: Array<String>) {
+fun main() {
 	System.setProperty("jna.nosys", "true")
 	//System.setProperty("idea.io.use.fallback", "true")
 	System.setProperty("idea.use.native.fs.for.win", "false")

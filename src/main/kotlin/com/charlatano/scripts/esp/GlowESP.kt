@@ -32,13 +32,14 @@ import com.charlatano.game.offsets.EngineOffsets.dwModelAmbientMin
 import com.charlatano.settings.*
 import com.charlatano.utils.every
 import com.charlatano.utils.extensions.uint
+import org.jire.kna.set
 
 internal fun glowEsp() = every(if (FLICKER_FREE_GLOW) 1024 else 4) {
 	if (!GLOW_ESP) return@every
 	
 	val myTeam = me.team()
 	
-	forEntities body@ {
+	forEntities body@{
 		val entity = it.entity
 		if (entity <= 0 || me == entity) return@body false
 		
@@ -87,13 +88,20 @@ private fun Entity.chams(color: Color) {
 		csgoEXE[this + 0x71] = color.green.toByte()
 		csgoEXE[this + 0x72] = color.blue.toByte()
 		csgoEXE[this + 0x73] = color.alpha.toByte()
-
-		engineDLL[dwModelAmbientMin] = CHAMS_BRIGHTNESS.toFloat().hashCode() xor (engineDLL.address + dwModelAmbientMin - 0x2C).toInt()
-
-		//Counter weapon brightness
-		val ClientVModEnt = csgoEXE.uint(clientDLL.address + dwEntityList + (((csgoEXE.uint(csgoEXE.uint(clientDLL.address + dwLocalPlayer)+ m_hViewModel)) and 0xFFF) - 1) * 16) //Probably easier way to do this shit
-		csgoEXE[ClientVModEnt + 0x70] = Color((255F / (CHAMS_BRIGHTNESS/10F)).toInt(), 0, 0, 1.0).red.toByte() //Probably easier way to do this shit
-		csgoEXE[ClientVModEnt + 0x71] = Color(0, (255F / (CHAMS_BRIGHTNESS/10F)).toInt(), 0, 1.0).green.toByte()
-		csgoEXE[ClientVModEnt + 0x72] = Color(0, 0, (255F / (CHAMS_BRIGHTNESS/10F)).toInt(), 1.0).blue.toByte()
+		
+		engineDLL[dwModelAmbientMin] =
+			CHAMS_BRIGHTNESS.toFloat().hashCode() xor (engineDLL.address + dwModelAmbientMin - 0x2C).toInt()
+		
+		// Counter weapon brightness
+		val ClientVModEnt =
+			csgoEXE.uint(clientDLL.address + dwEntityList + (((csgoEXE.uint(csgoEXE.uint(clientDLL.address + dwLocalPlayer) + m_hViewModel)) and 0xFFF) - 1) * 16) //Probably easier way to do this shit
+		csgoEXE[ClientVModEnt + 0x70] = Color(
+			(255F / (CHAMS_BRIGHTNESS / 10F)).toInt(),
+			0,
+			0,
+			1.0
+		).red.toByte() //Probably easier way to do this shit
+		csgoEXE[ClientVModEnt + 0x71] = Color(0, (255F / (CHAMS_BRIGHTNESS / 10F)).toInt(), 0, 1.0).green.toByte()
+		csgoEXE[ClientVModEnt + 0x72] = Color(0, 0, (255F / (CHAMS_BRIGHTNESS / 10F)).toInt(), 1.0).blue.toByte()
 	}
 }

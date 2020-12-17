@@ -19,7 +19,7 @@
 package com.charlatano.game.entity
 
 import com.charlatano.game.CSGO.csgoEXE
-import org.jire.arrowhead.unsign
+import com.charlatano.utils.extensions.unsign
 
 enum class EntityType(val weapon: Boolean = false, val grenade: Boolean = false) {
 	

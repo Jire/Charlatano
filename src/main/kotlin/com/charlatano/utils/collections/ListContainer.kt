@@ -41,4 +41,6 @@ class ListContainer<E>(capacity: Int) {
 	
 }
 
-internal inline operator fun <E> ListContainer<E>.invoke(crossinline action: (E) -> Boolean) = forEach { action(it) }
+internal inline operator fun <E> ListContainer<E>.invoke(
+	crossinline action: (E) -> Boolean
+) = forEach { action(it) }

@@ -18,21 +18,18 @@
 
 package com.charlatano.game.entity
 
-import com.charlatano.game.CSGO
 import com.charlatano.game.CSGO.ENTITY_SIZE
 import com.charlatano.game.CSGO.clientDLL
 import com.charlatano.game.CSGO.csgoEXE
-import com.charlatano.game.CSGO.engineDLL
 import com.charlatano.game.netvars.NetVarOffsets
 import com.charlatano.game.netvars.NetVarOffsets.bBombDefused
 import com.charlatano.game.netvars.NetVarOffsets.flC4Blow
 import com.charlatano.game.netvars.NetVarOffsets.flDefuseCountDown
 import com.charlatano.game.netvars.NetVarOffsets.hOwnerEntity
-import com.charlatano.game.netvars.NetVarOffsets.szLastPlaceName
-import com.charlatano.game.offsets.ClientOffsets
 import com.charlatano.game.offsets.ClientOffsets.dwEntityList
-import com.charlatano.game.offsets.EngineOffsets.dwGlobalVars
 import com.charlatano.utils.extensions.uint
+import org.jire.kna.boolean
+import org.jire.kna.float
 
 typealias Bomb = Long
 
@@ -45,17 +42,17 @@ internal fun Bomb.defuseTime() = csgoEXE.float(this + flDefuseCountDown)
 internal fun Bomb.defuserPointer(): Long = csgoEXE.uint(this + NetVarOffsets.hBombDefuser)
 
 internal fun Bomb.defuser(): Player {
-    val defuserPointer = defuserPointer()
-    return if (defuserPointer > 0) clientDLL.uint(dwEntityList + ((defuserPointer and 0xFFF) - 1L) * ENTITY_SIZE) else 0
+	val defuserPointer = defuserPointer()
+	return if (defuserPointer > 0) clientDLL.uint(dwEntityList + ((defuserPointer and 0xFFF) - 1L) * ENTITY_SIZE) else 0
 }
 
-internal fun Bomb.owner() = csgoEXE.uint(this + NetVarOffsets.hOwnerEntity)
+internal fun Bomb.owner() = csgoEXE.uint(this + hOwnerEntity)
 
 internal fun Bomb.carrier(): Player {
-    val owner = owner()
-    return if (owner > 0)
-        CSGO.clientDLL.uint(ClientOffsets.dwEntityList + ((owner and 0xFFF) - 1L) * ENTITY_SIZE)
-    else 0
+	val owner = owner()
+	return if (owner > 0)
+		clientDLL.uint(dwEntityList + ((owner and 0xFFF) - 1L) * ENTITY_SIZE)
+	else 0
 }
 
 internal fun Bomb.plantLocation(): String = carrier().location()

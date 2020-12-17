@@ -27,11 +27,13 @@ import com.charlatano.game.offsets.ClientOffsets.dwForceAttack
 import com.charlatano.scripts.aim.findTarget
 import com.charlatano.settings.*
 import com.charlatano.utils.*
-import org.jire.arrowhead.keyReleased
+import org.jire.kna.set
 
 private val onBoneTriggerTarget = hook(1) {
-	if (ENABLE_BONE_TRIGGER) findTarget(me.position(), clientState.angle(), false,
-			BONE_TRIGGER_FOV, BONE_TRIGGER_BONE, false) >= 0
+	if (ENABLE_BONE_TRIGGER) findTarget(
+		me.position(), clientState.angle(), false,
+		BONE_TRIGGER_FOV, BONE_TRIGGER_BONE, false
+	) >= 0
 	else false
 }
 

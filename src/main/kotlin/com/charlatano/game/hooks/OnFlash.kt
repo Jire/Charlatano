@@ -23,6 +23,7 @@ import com.charlatano.game.entity.dead
 import com.charlatano.game.me
 import com.charlatano.game.netvars.NetVarOffsets.flFlashMaxAlpha
 import com.charlatano.utils.hook
+import org.jire.kna.float
 
 val onFlash = hook(256) {
 	if (me > 0 && !me.dead()) csgoEXE.float(me + flFlashMaxAlpha) > 0F

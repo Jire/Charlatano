@@ -33,6 +33,7 @@ import com.charlatano.utils.Vector
 import com.charlatano.utils.collections.CacheableList
 import com.charlatano.utils.extensions.uint
 import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap
+import org.jire.kna.int
 
 private val bones = Array(2048) { Line() }
 private val entityBones = Long2ObjectArrayMap<CacheableList<Pair<Int, Int>>>()
@@ -118,13 +119,15 @@ private val endDraw = Vector()
 private fun drawBone(target: Player, start: Int, end: Int) {
 	val boneMatrix = target.boneMatrix()
 	startBone.set(
-			target.bone(0xC, start, boneMatrix),
-			target.bone(0x1C, start, boneMatrix),
-			target.bone(0x2C, start, boneMatrix))
+		target.bone(0xC, start, boneMatrix),
+		target.bone(0x1C, start, boneMatrix),
+		target.bone(0x2C, start, boneMatrix)
+	)
 	endBone.set(
-			target.bone(0xC, end, boneMatrix),
-			target.bone(0x1C, end, boneMatrix),
-			target.bone(0x2C, end, boneMatrix))
+		target.bone(0xC, end, boneMatrix),
+		target.bone(0x1C, end, boneMatrix),
+		target.bone(0x2C, end, boneMatrix)
+	)
 	
 	if (worldToScreen(startBone, startDraw) && worldToScreen(endBone, endDraw)) {
 		bones[currentIdx].apply {
@@ -141,6 +144,8 @@ private fun drawBone(target: Player, start: Int, end: Int) {
 	}
 }
 
-private data class Line(var sX: Int = -1, var sY: Int = -1,
-                        var eX: Int = -1, var eY: Int = -1,
-                        var color: Color = Color.WHITE)
+private data class Line(
+	var sX: Int = -1, var sY: Int = -1,
+	var eX: Int = -1, var eY: Int = -1,
+	var color: Color = Color.WHITE
+)

@@ -21,7 +21,7 @@ package com.charlatano.game.netvars
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.utils.extensions.readable
 import com.charlatano.utils.extensions.uint
-import org.jire.arrowhead.Addressed
+import org.jire.kna.Addressed
 import kotlin.LazyThreadSafetyMode.NONE
 
 internal class Class(override val address: Long) : Addressed {

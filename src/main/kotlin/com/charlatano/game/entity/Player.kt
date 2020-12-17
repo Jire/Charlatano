@@ -43,6 +43,10 @@ import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.readCached
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
+import org.jire.kna.boolean
+import org.jire.kna.byte
+import org.jire.kna.float
+import org.jire.kna.int
 
 typealias Player = Long
 
@@ -82,17 +86,22 @@ internal fun Player.punch(): Angle = readCached(player2Punch) {
 
 internal fun Player.shotsFired(): Int = csgoEXE.int(this + NetVarOffsets.iShotsFired)
 
-internal fun Player.viewOffset(): Angle = Vector(csgoEXE.float(this + vecViewOffset).toDouble(),
-		csgoEXE.float(this + vecViewOffset + 4).toDouble(),
-		csgoEXE.float(this + vecViewOffset + 8).toDouble())
+internal fun Player.viewOffset(): Angle = Vector(
+	csgoEXE.float(this + vecViewOffset).toDouble(),
+	csgoEXE.float(this + vecViewOffset + 4).toDouble(),
+	csgoEXE.float(this + vecViewOffset + 8).toDouble()
+)
 
-internal fun Player.velocity(): Angle = Vector(csgoEXE.float(this + vecVelocity).toDouble(),
-		csgoEXE.float(this + vecVelocity + 4).toDouble(),
-		csgoEXE.float(this + vecVelocity + 8).toDouble())
+internal fun Player.velocity(): Angle = Vector(
+	csgoEXE.float(this + vecVelocity).toDouble(),
+	csgoEXE.float(this + vecVelocity + 4).toDouble(),
+	csgoEXE.float(this + vecVelocity + 8).toDouble()
+)
 
 internal fun Player.boneMatrix() = csgoEXE.uint(this + dwBoneMatrix)
 
-internal fun Player.bone(offset: Int, boneID: Int = HEAD_BONE, boneMatrix: Long = boneMatrix()) = csgoEXE.float(boneMatrix + ((0x30 * boneID) + offset)).toDouble()
+internal fun Player.bone(offset: Int, boneID: Int = HEAD_BONE, boneMatrix: Long = boneMatrix()) =
+	csgoEXE.float(boneMatrix + ((0x30 * boneID) + offset)).toDouble()
 
 internal fun Player.isScoped(): Boolean = csgoEXE.boolean(this + bIsScoped)
 
@@ -100,5 +109,6 @@ internal fun Player.hasDefuser(): Boolean = csgoEXE.boolean(this + bHasDefuser)
 
 internal fun Player.time(): Double = csgoEXE.int(this + nTickBase) * (1.0 / SERVER_TICK_RATE)
 
-internal fun Player.location(): String = csgoEXE.read(this + NetVarOffsets.szLastPlaceName, 32, true)?.getString(0)
-		?: ""
+internal fun Player.location(): String = csgoEXE.read(
+	this + NetVarOffsets.szLastPlaceName, 32
+)?.getString(0) ?: ""

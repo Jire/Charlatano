@@ -23,7 +23,10 @@ import com.charlatano.game.netvars.NetVars
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.overlay.CharlatanoOverlay.camera
 import com.charlatano.overlay.Overlay
-import com.charlatano.settings.*
+import com.charlatano.settings.CLASSIC_OFFENSIVE
+import com.charlatano.settings.CLIENT_MODULE_NAME
+import com.charlatano.settings.ENGINE_MODULE_NAME
+import com.charlatano.settings.PROCESS_NAME
 import com.charlatano.utils.every
 import com.charlatano.utils.inBackground
 import com.charlatano.utils.natives.CUser32
@@ -31,21 +34,21 @@ import com.charlatano.utils.retry
 import com.sun.jna.Pointer
 import com.sun.jna.platform.win32.User32
 import com.sun.jna.platform.win32.WinDef
-import org.jire.arrowhead.Module
-import org.jire.arrowhead.Process
-import org.jire.arrowhead.processByName
+import org.jire.kna.attach.Attach
+import org.jire.kna.attach.AttachedModule
+import org.jire.kna.attach.AttachedProcess
 
 object CSGO {
 	
 	const val ENTITY_SIZE = 16
 	const val GLOW_OBJECT_SIZE = 56
 	
-	lateinit var csgoEXE: Process
+	lateinit var csgoEXE: AttachedProcess
 		private set
 	
-	lateinit var clientDLL: Module
+	lateinit var clientDLL: AttachedModule
 		private set
-	lateinit var engineDLL: Module
+	lateinit var engineDLL: AttachedModule
 		private set
 	
 	var gameHeight: Int = 0
@@ -62,18 +65,20 @@ object CSGO {
 	
 	fun initialize() {
 		retry(128) {
-			csgoEXE = processByName(PROCESS_NAME, PROCESS_ACCESS_FLAGS)!!
+			csgoEXE = Attach.byName(PROCESS_NAME)!!
 		}
 		
 		retry(128) {
-			csgoEXE.loadModules()
-			clientDLL = csgoEXE.modules[CLIENT_MODULE_NAME]!!
-			engineDLL = csgoEXE.modules[ENGINE_MODULE_NAME]!!
+			val modules = csgoEXE.modules()
+			clientDLL = modules.byName(CLIENT_MODULE_NAME)!!
+			engineDLL = modules.byName(ENGINE_MODULE_NAME)!!
 		}
 		
 		val rect = WinDef.RECT()
-		val hwd = CUser32.FindWindowA(null, "Counter-Strike: "
-				+ (if (CLASSIC_OFFENSIVE) "Classic" else "Global") + " Offensive")
+		val hwd = CUser32.FindWindowA(
+			null, "Counter-Strike: "
+					+ (if (CLASSIC_OFFENSIVE) "Classic" else "Global") + " Offensive"
+		)
 		
 		var lastWidth = 0
 		var lastHeight = 0
@@ -100,13 +105,13 @@ object CSGO {
 			lastX = gameX
 			lastY = gameY
 		}
-
+		
 		every(1024, continuous = true) {
 			inBackground = Pointer.nativeValue(hwd.pointer) != CUser32.GetForegroundWindow()
 		}
 		
-		NetVars.load() 
-
+		NetVars.load()
+		
 		constructEntities()
 	}
 	

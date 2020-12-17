@@ -26,8 +26,9 @@ import com.charlatano.game.offsets.ClientOffsets
 import com.charlatano.settings.BUNNY_HOP_KEY
 import com.charlatano.settings.ENABLE_BUNNY_HOP
 import com.charlatano.settings.LEAGUE_MODE
+import com.charlatano.utils.keyPressed
 import com.charlatano.utils.mouseWheel
-import org.jire.arrowhead.keyPressed
+import org.jire.kna.set
 
 fun bunnyHop() = onGround {
     if (ENABLE_BUNNY_HOP && !cursorEnable && keyPressed(BUNNY_HOP_KEY)) {

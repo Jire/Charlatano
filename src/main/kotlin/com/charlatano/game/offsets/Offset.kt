@@ -22,28 +22,24 @@ import com.charlatano.utils.extensions.uint
 import com.sun.jna.Memory
 import com.sun.jna.Pointer
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap
-import org.jire.arrowhead.Addressed
-import org.jire.arrowhead.Module
+import org.jire.kna.Addressed
+import org.jire.kna.attach.AttachedModule
 import kotlin.LazyThreadSafetyMode.NONE
 import kotlin.reflect.KProperty
 
-class Offset(val module: Module, val patternOffset: Long, val addressOffset: Long,
-             val read: Boolean, val subtract: Boolean, val mask: ByteArray) : Addressed {
+class Offset(
+	val module: AttachedModule, val patternOffset: Long, val addressOffset: Long,
+	val read: Boolean, val subtract: Boolean, val mask: ByteArray
+) : Addressed {
 	
 	companion object {
-		val memoryByModule = Object2ObjectArrayMap<Module, Memory>()
-		
-		private fun Offset.cachedMemory(): Memory {
-			var memory = memoryByModule[module]
-			if (memory == null) {
-				memory = module.read(0, module.size.toInt(), fromCache = false)!!
-				memoryByModule.put(module, memory)
-			}
-			return memory
-		}
+		val memoryByModule = Object2ObjectArrayMap<AttachedModule, Memory>()
 	}
 	
-	val memory = cachedMemory()
+	val memory = memoryByModule[module]
+		?: module.read(0, module.size)!!.apply {
+			memoryByModule[module] = this
+		}
 	
 	override val address by lazy(NONE) {
 		val offset = module.size - mask.size

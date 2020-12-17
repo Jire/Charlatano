@@ -21,7 +21,7 @@ package com.charlatano.game.netvars
 import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.utils.extensions.toNetVarString
 import com.charlatano.utils.extensions.uint
-import org.jire.arrowhead.Addressed
+import org.jire.kna.Addressed
 import kotlin.LazyThreadSafetyMode.NONE
 
 internal class ClassVariable(override val address: Long, val addressOffset: Long) : Addressed {
@@ -31,7 +31,7 @@ internal class ClassVariable(override val address: Long, val addressOffset: Long
 	val name by lazy(NONE) {
 		val bytes = ByteArray(32)
 		
-		val memory = csgoEXE.read(resolvedAddress, bytes.size)!!
+		val memory = csgoEXE.read(resolvedAddress, bytes.size.toLong())!!
 		memory.read(0, bytes, 0, bytes.size)
 		
 		bytes.toNetVarString()

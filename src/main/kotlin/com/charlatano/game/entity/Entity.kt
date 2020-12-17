@@ -34,6 +34,9 @@ import com.charlatano.utils.extensions.uint
 import com.charlatano.utils.readCached
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap
+import org.jire.kna.boolean
+import org.jire.kna.float
+import org.jire.kna.int
 
 typealias Entity = Long
 

@@ -3,13 +3,9 @@
   <component name="Kotlin2JsCompilerArguments">
     <option name="moduleKind" value="plain" />
   </component>
-  <component name="Kotlin2JvmCompilerArguments">
-    <option name="jvmTarget" value="1.6" />
-  </component>
   <component name="KotlinCommonCompilerArguments">
-    <option name="languageVersion" value="1.1" />
-    <option name="apiVersion" value="1.1" />
-    <option name="coroutinesWarn" value="true" />
+    <option name="apiVersion" value="1.4" />
+    <option name="languageVersion" value="1.4" />
   </component>
   <component name="KotlinCompilerSettings">
     <option name="additionalArguments" value="-version -Xskip-runtime-version-check" />

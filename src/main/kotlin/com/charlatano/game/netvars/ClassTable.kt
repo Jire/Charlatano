@@ -22,7 +22,8 @@ import com.charlatano.game.CSGO.csgoEXE
 import com.charlatano.utils.extensions.readable
 import com.charlatano.utils.extensions.toNetVarString
 import com.charlatano.utils.extensions.uint
-import org.jire.arrowhead.Addressed
+import org.jire.kna.Addressed
+import org.jire.kna.int
 import kotlin.LazyThreadSafetyMode.NONE
 
 internal class ClassTable(override val address: Long, val offset: Long = 16) : Addressed {
@@ -31,7 +32,7 @@ internal class ClassTable(override val address: Long, val offset: Long = 16) : A
 		val bytes = ByteArray(64)
 		
 		val memoryAddress = csgoEXE.uint(address + 12)
-		val memory = csgoEXE.read(memoryAddress, bytes.size)!!
+		val memory = csgoEXE.read(memoryAddress, bytes.size.toLong())!!
 		memory.read(0, bytes, 0, bytes.size)
 		
 		bytes.toNetVarString()
@@ -41,6 +42,6 @@ internal class ClassTable(override val address: Long, val offset: Long = 16) : A
 	
 	fun propForID(id: Int) = csgoEXE.uint(address) + id * 60
 	
-	fun readable() = csgoEXE.read(address, offset.toInt()).readable()
+	fun readable() = csgoEXE.read(address, offset).readable()
 	
 }

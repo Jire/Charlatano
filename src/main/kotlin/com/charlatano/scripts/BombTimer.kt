@@ -26,6 +26,7 @@ import com.charlatano.game.offsets.EngineOffsets
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.settings.ENABLE_BOMB_TIMER
 import com.charlatano.utils.every
+import org.jire.kna.float
 
 private var bombState = BombState()
 
