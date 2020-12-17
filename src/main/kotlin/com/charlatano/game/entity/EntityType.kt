@@ -134,6 +134,7 @@ enum class EntityType(val weapon: Boolean = false, val grenade: Boolean = false)
 	CKnife,
 	CKnifeGG,
 	CLightGlow,
+	CMapVetoPickController,
 	CMaterialModifyControl,
 	CMelee,
 	CMolotovGrenade(grenade = true),
