@@ -32,10 +32,11 @@ import com.charlatano.game.offsets.EngineOffsets.dwClientState
 import com.charlatano.settings.*
 import com.charlatano.utils.every
 import com.charlatano.utils.extensions.uint
+import com.charlatano.utils.extensions.writeForced
 import com.charlatano.utils.notInGame
+import com.sun.jna.Memory
 import com.sun.jna.platform.win32.WinNT
 import org.jire.kna.int
-import org.jire.kna.set
 import java.util.concurrent.atomic.AtomicLong
 import kotlin.properties.Delegates
 
@@ -51,22 +52,14 @@ private fun reset() {
 	lastCleanup.set(System.currentTimeMillis())
 }
 
+private val writeGlowMemory = ThreadLocal.withInitial { Memory(1).apply { setByte(0, 0xEB.toByte()) } }
+
 // Credits to Mr.Noad
 private var state by Delegates.observable(SignOnState.MAIN_MENU) { _, old, new ->
 	if (old != new) {
 		notInGame = if (new == SignOnState.IN_GAME) {
 			if (GLOW_ESP && FLICKER_FREE_GLOW && PROCESS_ACCESS_FLAGS and WinNT.PROCESS_VM_OPERATION > 0) {
-				val write = 0xEB.toByte()
-				try {
-					clientDLL[ClientOffsets.dwGlowUpdate] = write
-				} catch (e: Exception) {
-					// ignore
-				}
-				try {
-					clientDLL[ClientOffsets.dwGlowUpdate2] = write
-				} catch (e: Exception) {
-					// ignore
-				}
+				clientDLL.writeForced(ClientOffsets.dwGlowUpdate, writeGlowMemory.get(), 1)
 			}
 			if (GARBAGE_COLLECT_ON_MAP_START) {
 				System.gc()

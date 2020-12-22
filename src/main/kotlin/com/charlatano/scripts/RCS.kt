@@ -20,8 +20,14 @@ package com.charlatano.scripts
 
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
-import com.charlatano.game.*
-import com.charlatano.game.entity.*
+import com.charlatano.game.angle
+import com.charlatano.game.clientState
+import com.charlatano.game.entity.punch
+import com.charlatano.game.entity.shotsFired
+import com.charlatano.game.entity.weapon
+import com.charlatano.game.entity.weaponEntity
+import com.charlatano.game.me
+import com.charlatano.game.setAngle
 import com.charlatano.scripts.aim.bone
 import com.charlatano.settings.*
 import com.charlatano.utils.every
@@ -32,23 +38,26 @@ private val lastPunch = Vector2()
 private val newPunch = Vector2()
 private val playerPunch = Vector3()
 
-fun rcs() = every(RCS_MIN_DURATION, RCS_MAX_DURATION) {
-	if (me <= 0 || !ENABLE_RCS) return@every
+fun rcs() = every(RCS_MIN_DURATION, RCS_MAX_DURATION) { doRCS() }
+
+fun doRCS() {
+	if (me <= 0 || !ENABLE_RCS) return
 	val weaponEntity = me.weaponEntity()
 	val weapon = me.weapon(weaponEntity)
-	if (!weapon.automatic) return@every
+	if (!weapon.automatic) return
 	val shotsFired = me.shotsFired()
 	val forceSet = shotsFired == 0 && !lastPunch.isZero
 	if (forceSet || shotsFired > 0) {
 		val p = me.punch()
-		if (lastPunch.isZero)
-		{
-			lastPunch.set(p.x.toFloat(), p.y.toFloat())	
+		if (lastPunch.isZero) {
+			lastPunch.set(p.x.toFloat(), p.y.toFloat())
 		}
 		playerPunch.set(p.x.toFloat(), p.y.toFloat(), p.z.toFloat())
 		newPunch.set(playerPunch.x - lastPunch.x, playerPunch.y - lastPunch.y)
-		newPunch.scl((if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN).toFloat(),
-				(if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN).toFloat())
+		newPunch.scl(
+			(if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN).toFloat(),
+			(if (RCS_MAX > RCS_MIN) randDouble(RCS_MIN, RCS_MAX) else RCS_MIN).toFloat()
+		)
 		
 		val angle = clientState.angle()
 		angle.apply {
@@ -65,9 +74,11 @@ fun rcs() = every(RCS_MIN_DURATION, RCS_MAX_DURATION) {
 		}
 	}
 	
-	bone.set(when {
-		shotsFired >= SHIFT_TO_BODY_SHOTS -> BODY_BONE
-		shotsFired >= SHIFT_TO_SHOULDER_SHOTS -> SHOULDER_BONE
-		else -> HEAD_BONE
-	})
+	bone.set(
+		when {
+			shotsFired >= SHIFT_TO_BODY_SHOTS -> BODY_BONE
+			shotsFired >= SHIFT_TO_SHOULDER_SHOTS -> SHOULDER_BONE
+			else -> HEAD_BONE
+		}
+	)
 }

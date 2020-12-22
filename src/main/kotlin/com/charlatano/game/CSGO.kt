@@ -32,21 +32,21 @@ import com.sun.jna.Pointer
 import com.sun.jna.platform.win32.User32
 import com.sun.jna.platform.win32.WinDef
 import org.jire.kna.attach.Attach
-import org.jire.kna.attach.AttachedModule
-import org.jire.kna.attach.AttachedProcess
 import org.jire.kna.attach.windows.WindowsAttachAccess
+import org.jire.kna.attach.windows.WindowsAttachedModule
+import org.jire.kna.attach.windows.WindowsAttachedProcess
 
 object CSGO {
 	
 	const val ENTITY_SIZE = 16
 	const val GLOW_OBJECT_SIZE = 56
 	
-	lateinit var csgoEXE: AttachedProcess
+	lateinit var csgoEXE: WindowsAttachedProcess
 		private set
 	
-	lateinit var clientDLL: AttachedModule
+	lateinit var clientDLL: WindowsAttachedModule
 		private set
-	lateinit var engineDLL: AttachedModule
+	lateinit var engineDLL: WindowsAttachedModule
 		private set
 	
 	var gameHeight: Int = 0
@@ -63,13 +63,14 @@ object CSGO {
 	
 	fun initialize() {
 		retry(128) {
-			csgoEXE = Attach.byName(PROCESS_NAME, WindowsAttachAccess(PROCESS_ACCESS_FLAGS))!!
+			csgoEXE = Attach.byName(PROCESS_NAME, WindowsAttachAccess(PROCESS_ACCESS_FLAGS)) as WindowsAttachedProcess
+			csgoEXE.kernel32Reads = true
 		}
 		
 		retry(128) {
 			val modules = csgoEXE.modules()
-			clientDLL = modules.byName(CLIENT_MODULE_NAME)!!
-			engineDLL = modules.byName(ENGINE_MODULE_NAME)!!
+			clientDLL = modules.byName(CLIENT_MODULE_NAME) as WindowsAttachedModule
+			engineDLL = modules.byName(ENGINE_MODULE_NAME) as WindowsAttachedModule
 		}
 		
 		val rect = WinDef.RECT()

@@ -18,44 +18,66 @@
 
 package com.charlatano.game.offsets
 
-import com.charlatano.utils.extensions.uint
+import com.charlatano.utils.extensions.readForced
+import com.charlatano.utils.extensions.unsign
 import com.sun.jna.Memory
 import com.sun.jna.Pointer
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap
 import org.jire.kna.Addressed
 import org.jire.kna.attach.AttachedModule
-import kotlin.LazyThreadSafetyMode.NONE
+import org.jire.kna.attach.windows.WindowsAttachedModule
+import org.jire.kna.attach.windows.WindowsAttachedProcess
 import kotlin.reflect.KProperty
 
 class Offset(
-	val module: AttachedModule, val patternOffset: Long, val addressOffset: Long,
-	val read: Boolean, val subtract: Boolean, val mask: ByteArray
+	val module: AttachedModule, private val patternOffset: Long, private val addressOffset: Long,
+	val read: Boolean, private val subtract: Boolean, private val mask: ByteArray
 ) : Addressed {
 	
 	companion object {
 		val memoryByModule = Object2ObjectArrayMap<AttachedModule, Memory>()
+		
+		private fun Offset.cachedMemory(): Memory {
+			var memory = memoryByModule[module]
+			if (memory == null) {
+				memory = Memory(module.size)
+				if (module is WindowsAttachedModule) {
+					module.readForced(0, memory, module.size.toInt())
+				}
+				memoryByModule[module] = memory
+			}
+			return memory
+		}
 	}
 	
-	val memory = memoryByModule[module]
-		?: module.read(0, module.size)!!.apply {
-			memoryByModule[module] = this
-		}
+	private val memory = cachedMemory()
 	
-	override val address by lazy(NONE) {
+	override val address: Long = run {
 		val offset = module.size - mask.size
+		val process = module.process as WindowsAttachedProcess
+		val readMemory = Memory(4)
 		
 		var currentAddress = 0L
 		while (currentAddress < offset) {
 			if (memory.mask(currentAddress, mask)) {
 				currentAddress += module.address + patternOffset
-				if (read) currentAddress = module.process.uint(currentAddress)
+				if (read) {
+					if (process.readForced(
+							currentAddress,
+							readMemory,
+							4
+						) == 0L
+					) throw IllegalStateException("Couldn't resolve currentAddress pointer")
+					currentAddress = readMemory.getInt(0).unsign()
+				}
 				if (subtract) currentAddress -= module.address
-				return@lazy currentAddress + addressOffset
+				return@run currentAddress + addressOffset
 			}
 			currentAddress++
 		}
 		
-		throw IllegalStateException("Failed to resolve offset")
+		//IllegalStateException("Failed to resolve offset, module=$module, memory=$memory, read=$read, subtract=$subtract, currentAddress=$currentAddress").printStackTrace()
+		return@run -1L
 	}
 	
 	private var value = -1L

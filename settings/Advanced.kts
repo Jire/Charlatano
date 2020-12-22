@@ -57,7 +57,10 @@ PROCESS_NAME = "csgo.exe"
 /**
  * The process flags to open the handle to CS:GO with.
  */
-PROCESS_ACCESS_FLAGS = WinNT.PROCESS_QUERY_INFORMATION or WinNT.PROCESS_VM_READ or WinNT.PROCESS_VM_WRITE
+PROCESS_ACCESS_FLAGS = WinNT.PROCESS_QUERY_INFORMATION or
+		WinNT.PROCESS_VM_READ or
+		WinNT.PROCESS_VM_WRITE or
+		WinNT.PROCESS_VM_OPERATION
 
 /**
  * The module name of the client module.
