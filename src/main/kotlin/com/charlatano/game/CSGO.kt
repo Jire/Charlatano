@@ -23,10 +23,7 @@ import com.charlatano.game.netvars.NetVars
 import com.charlatano.overlay.CharlatanoOverlay
 import com.charlatano.overlay.CharlatanoOverlay.camera
 import com.charlatano.overlay.Overlay
-import com.charlatano.settings.CLASSIC_OFFENSIVE
-import com.charlatano.settings.CLIENT_MODULE_NAME
-import com.charlatano.settings.ENGINE_MODULE_NAME
-import com.charlatano.settings.PROCESS_NAME
+import com.charlatano.settings.*
 import com.charlatano.utils.every
 import com.charlatano.utils.inBackground
 import com.charlatano.utils.natives.CUser32
@@ -37,6 +34,7 @@ import com.sun.jna.platform.win32.WinDef
 import org.jire.kna.attach.Attach
 import org.jire.kna.attach.AttachedModule
 import org.jire.kna.attach.AttachedProcess
+import org.jire.kna.attach.windows.WindowsAttachAccess
 
 object CSGO {
 	
@@ -65,7 +63,7 @@ object CSGO {
 	
 	fun initialize() {
 		retry(128) {
-			csgoEXE = Attach.byName(PROCESS_NAME)!!
+			csgoEXE = Attach.byName(PROCESS_NAME, WindowsAttachAccess(PROCESS_ACCESS_FLAGS))!!
 		}
 		
 		retry(128) {
