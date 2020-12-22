@@ -68,6 +68,7 @@ dependencies {
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-script-util', version: kotlin_version
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-compiler-embeddable', version: kotlin_version
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-compiler-embeddable', version: kotlin_version
+	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-main-kts', version: kotlin_version
 	
 	implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.4.4'
 }
@@ -122,4 +123,10 @@ sourceSets {
 	main.java.srcDirs += 'src/main/java'
 	main.java.srcDirs += 'src/main/kotlin'
 	main.java.srcDirs += 'settings'
+}
+
+compileKotlin {
+	kotlinOptions {
+		jvmTarget = "1.8"
+	}
 }

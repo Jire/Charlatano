@@ -29,9 +29,7 @@ import com.charlatano.scripts.esp.esp
 import com.charlatano.settings.*
 import com.sun.jna.platform.win32.WinNT
 import java.io.File
-import java.io.FileReader
 import java.util.*
-import javax.script.ScriptEngineManager
 import kotlin.system.exitProcess
 
 const val SETTINGS_DIRECTORY = "settings"
@@ -84,13 +82,8 @@ fun main() {
 }
 
 private fun loadSettings() {
-	with(ScriptEngineManager().getEngineByExtension("kts")) {
-		File(SETTINGS_DIRECTORY).listFiles()?.forEach { file ->
-			FileReader(file).use { reader ->
-				val code = reader.readLines().joinToString("\n")
-				eval(code)
-			}
-		}
+	File(SETTINGS_DIRECTORY).listFiles()?.forEach { file ->
+		evalFile(file)
 	}
 	
 	val needsOverlay = ENABLE_BOMB_TIMER or (ENABLE_ESP and (SKELETON_ESP or BOX_ESP))
