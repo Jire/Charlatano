@@ -21,3 +21,12 @@ package com.charlatano.utils.extensions
 import com.sun.jna.Memory
 
 fun Memory?.readable() = null != this
+
+fun Memory.byte(address: Long) = getByte(address)
+fun Memory.short(address: Long) = getShort(address)
+fun Memory.int(address: Long) = getInt(address)
+fun Memory.long(address: Long) = getLong(address)
+fun Memory.float(address: Long) = getFloat(address)
+fun Memory.double(address: Long) = getDouble(address)
+fun Memory.char(address: Long) = getChar(address)
+fun Memory.boolean(address: Long) = byte(address).toInt() != 0
