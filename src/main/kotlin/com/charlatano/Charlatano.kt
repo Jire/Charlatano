@@ -28,6 +28,7 @@ import com.charlatano.scripts.aim.pathAim
 import com.charlatano.scripts.esp.esp
 import com.charlatano.settings.*
 import com.sun.jna.platform.win32.WinNT
+import de.swirtz.ktsrunner.objectloader.KtsObjectLoader
 import java.io.File
 import java.util.*
 import kotlin.system.exitProcess
@@ -36,7 +37,7 @@ const val SETTINGS_DIRECTORY = "settings"
 
 fun main() {
 	System.setProperty("jna.nosys", "true")
-	//System.setProperty("idea.io.use.fallback", "true")
+	System.setProperty("idea.io.use.fallback", "true")
 	System.setProperty("idea.use.native.fs.for.win", "false")
 	loadSettings()
 	
@@ -72,6 +73,8 @@ fun main() {
 	reducedFlash()
 	bombTimer()
 	
+	//Pipeline.init()
+	
 	val scanner = Scanner(System.`in`)
 	while (!Thread.interrupted()) {
 		when (scanner.nextLine()) {
@@ -82,8 +85,9 @@ fun main() {
 }
 
 private fun loadSettings() {
+	val se = KtsObjectLoader().engine
 	File(SETTINGS_DIRECTORY).listFiles()?.forEach { file ->
-		evalFile(file)
+		se.eval(file.readText())
 	}
 	
 	val needsOverlay = ENABLE_BOMB_TIMER or (ENABLE_ESP and (SKELETON_ESP or BOX_ESP))
