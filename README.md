@@ -53,16 +53,16 @@ The first step is to compile the source code into a usable cheat program.
 * Double click on the "_build_" (_build.bat_) script and wait for it to complete
 
 Once those steps are complete, the usable cheat program can be found within the _build_
-directory, and will in a directory called **Charlatano 1.1.3**.
+directory, and will in a directory called **Charlatano 1.1.4**.
 
-From within the **Charlatano 1.1.3** directory, you can start the cheat by running
-the _"Start Charlatano 1.1.3"_ script.
+From within the **Charlatano 1.1.4** directory, you can start the cheat by running
+the _"Start Charlatano 1.1.4"_ script.
 
 Before starting the cheat, you should already be spawned in a game with a weapon in hand!
 
-Running _"Start Charlatano 1.1.3"_ script will open a command prompt window, leave it as it is.
+Running _"Start Charlatano 1.1.4"_ script will open a command prompt window, leave it as it is.
 
-Once cheat is started, you can toggle/change settings by making changes to file under **'Charlatano 1.1.3/settings/'**.
+Once cheat is started, you can toggle/change settings by making changes to file under **'Charlatano 1.1.4/settings/'**.
 
 After saving the changes go the command prompt which is already open and type **reload** and hit enter.
 
