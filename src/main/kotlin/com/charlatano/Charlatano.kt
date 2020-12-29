@@ -28,9 +28,12 @@ import com.charlatano.scripts.aim.pathAim
 import com.charlatano.scripts.esp.esp
 import com.charlatano.settings.*
 import com.sun.jna.platform.win32.WinNT
-import de.swirtz.ktsrunner.objectloader.KtsObjectLoader
 import java.io.File
 import java.util.*
+import kotlin.script.experimental.host.toScriptSource
+import kotlin.script.experimental.jvm.jvm
+import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
+import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromTemplate
 import kotlin.system.exitProcess
 
 const val SETTINGS_DIRECTORY = "settings"
@@ -85,9 +88,12 @@ fun main() {
 }
 
 private fun loadSettings() {
-	val se = KtsObjectLoader().engine
+	val compilationConfiguration = createJvmCompilationConfigurationFromTemplate<SettingScript> {
+		jvm {}
+	}
+	val se = BasicJvmScriptingHost()
 	File(SETTINGS_DIRECTORY).listFiles()?.forEach { file ->
-		se.eval(file.readText())
+		se.eval(file.toScriptSource(), compilationConfiguration, null)
 	}
 	
 	val needsOverlay = ENABLE_BOMB_TIMER or (ENABLE_ESP and (SKELETON_ESP or BOX_ESP))

@@ -46,9 +46,6 @@ mainClassName = "com.charlatano.Charlatano"
 
 repositories {
 	jcenter()
-	maven {
-		setUrl("https://dl.bintray.com/s1m0nw1/KtsRunner")
-	}
 }
 
 dependencies {
@@ -65,10 +62,11 @@ dependencies {
 	implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 	
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
+	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-common', version: kotlin_version
+	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-jvm', version: kotlin_version
+	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-jvm-host', version: kotlin_version
 	
 	implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.4.4'
-	implementation("de.swirtz:ktsRunner:0.0.9")
-	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-script-runtime', version: kotlin_version
 }
 
 jar {
