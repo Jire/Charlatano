@@ -26,6 +26,7 @@ import com.charlatano.utils.*
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
+import kotlin.math.max
 
 val target = AtomicLong(-1)
 val bone = AtomicInteger(HEAD_BONE)
