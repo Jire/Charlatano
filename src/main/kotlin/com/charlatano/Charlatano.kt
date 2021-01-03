@@ -25,18 +25,27 @@ import com.charlatano.scripts.aim.flatAim
 import com.charlatano.scripts.aim.pathAim
 import com.charlatano.scripts.esp.esp
 import com.charlatano.settings.*
+import com.charlatano.utils.NothingPrintStream
 import com.sun.jna.platform.win32.WinNT
 import java.io.File
 import java.util.*
-import javax.script.ScriptEngineManager
+import kotlin.script.experimental.jsr223.KotlinJsr223DefaultScriptEngineFactory
 import kotlin.system.exitProcess
 
 object Charlatano {
 	
 	const val SETTINGS_DIRECTORY = "settings"
 	
+	init {
+		System.setOut(NothingPrintStream)
+		System.setErr(NothingPrintStream)
+	}
+	
 	@JvmStatic
 	fun main(args: Array<String>) {
+		System.setOut(NothingPrintStream)
+		System.setErr(NothingPrintStream)
+		
 		System.setProperty("jna.nosys", "true")
 		System.setProperty("idea.io.use.fallback", "true")
 		System.setProperty("idea.use.native.fs.for.win", "false")
@@ -85,8 +94,8 @@ object Charlatano {
 	}
 	
 	private fun loadSettings() {
-		val sem = ScriptEngineManager()
-		val se = sem.getEngineByExtension("kts")!!
+		val ef = KotlinJsr223DefaultScriptEngineFactory()
+		val se = ef.scriptEngine
 		
 		val strings = File(SETTINGS_DIRECTORY).listFiles()!!.map { file -> file.readText() }
 		for (string in strings) se.eval(string)
