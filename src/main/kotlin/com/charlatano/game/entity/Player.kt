@@ -109,6 +109,6 @@ internal fun Player.hasDefuser(): Boolean = csgoEXE.boolean(this + bHasDefuser)
 
 internal fun Player.time(): Double = csgoEXE.int(this + nTickBase) * (1.0 / SERVER_TICK_RATE)
 
-internal fun Player.location(): String = csgoEXE.read(
+internal fun Player.location(): String = csgoEXE.readPointer(
 	this + NetVarOffsets.szLastPlaceName, 32
-)?.getString(0) ?: ""
+).readableNullable()?.getString(0) ?: ""

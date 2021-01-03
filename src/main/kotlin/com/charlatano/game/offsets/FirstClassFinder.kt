@@ -27,7 +27,7 @@ fun findDecal(): Long {
 	val mask = ByteArray(4)
 	for (i in 0..3) mask[i] = (((decalname shr 8 * i)) and 0xFF).toByte()
 	
-	val memory = Offset.memoryByModule[clientDLL]!!
+	val memory = Offset.bytesByModule[clientDLL]!!
 	
 	var skipped = 0
 	var currentAddress = 0L

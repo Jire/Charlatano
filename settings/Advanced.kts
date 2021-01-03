@@ -33,6 +33,11 @@ GAME_YAW = 0.022 // m_yaw
 SERVER_TICK_RATE = 64
 
 /**
+ * The amount of milliseconds that the memory cache will expire in.
+ */
+CACHE_EXPIRE_MILLIS = 512L / SERVER_TICK_RATE
+
+/**
  * The maximum amount of entities that can be managed by the cached list.
  */
 MAX_ENTITIES = 4096

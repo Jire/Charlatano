@@ -25,7 +25,6 @@ import com.charlatano.scripts.aim.flatAim
 import com.charlatano.scripts.aim.pathAim
 import com.charlatano.scripts.esp.esp
 import com.charlatano.settings.*
-import com.charlatano.utils.NothingPrintStream
 import com.sun.jna.platform.win32.WinNT
 import java.io.File
 import java.util.*
@@ -36,16 +35,8 @@ object Charlatano {
 	
 	const val SETTINGS_DIRECTORY = "settings"
 	
-	init {
-		System.setOut(NothingPrintStream)
-		System.setErr(NothingPrintStream)
-	}
-	
 	@JvmStatic
 	fun main(args: Array<String>) {
-		System.setOut(NothingPrintStream)
-		System.setErr(NothingPrintStream)
-		
 		System.setProperty("jna.nosys", "true")
 		System.setProperty("idea.io.use.fallback", "true")
 		System.setProperty("idea.use.native.fs.for.win", "false")
@@ -69,6 +60,8 @@ object Charlatano {
 			ENABLE_FLAT_AIM = false
 			
 			SERVER_TICK_RATE = 128 // most leagues are 128-tick
+			CACHE_EXPIRE_MILLIS = 4
+			
 			PROCESS_ACCESS_FLAGS = WinNT.PROCESS_QUERY_INFORMATION or WinNT.PROCESS_VM_READ // all we need
 			GARBAGE_COLLECT_ON_MAP_START = true // get rid of traces
 		}

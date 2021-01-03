@@ -27,7 +27,7 @@ import com.charlatano.utils.Vector
 private val viewMatrix = Array(4) { DoubleArray(4) }
 
 fun worldToScreen(from: Vector, vOut: Vector) = try {
-	val buffer = clientDLL.read(dwViewMatrix, 4 * 4 * 4)!!
+	val buffer = clientDLL.readPointer(dwViewMatrix, 4 * 4 * 4).ensureReadable()
 	var offset = 0
 	for (row in 0..3) for (col in 0..3) {
 		val value = buffer.getFloat(offset.toLong())

@@ -40,7 +40,7 @@ apply plugin: "application"
 apply plugin: "com.github.johnrengelman.shadow"
 
 group "com.charlatano"
-version "1.1.5"
+version "1.2.0"
 
 mainClassName = "com.charlatano.Charlatano"
 
@@ -52,7 +52,7 @@ repositories {
 }
 
 dependencies {
-	implementation group: 'org.jire', name: 'kna', version: '0.3.0'
+	implementation group: 'org.jire', name: 'kna', version: '0.4.0'
 	
 	implementation group: 'net.java.dev.jna', name: 'jna', version: jnaVersion
 	implementation group: 'net.java.dev.jna', name: 'jna-platform', version: jnaVersion
@@ -131,5 +131,6 @@ sourceSets {
 compileKotlin {
 	kotlinOptions {
 		jvmTarget = "1.8"
+		freeCompilerArgs = ["-Xinline-classes"]
 	}
 }

@@ -319,17 +319,28 @@ enum class EntityType(val weapon: Boolean = false, val grenade: Boolean = false)
 		fun byID(id: Long) = cachedValues.firstOrNull { it.id == id }
 		
 		fun byEntityAddress(address: Long): EntityType {
-			val vt = (csgoEXE.read(address + 0x8, 4) ?: return NULL).getInt(0).unsign()
+			val vta = csgoEXE.readPointer(address + 0x8, 4)
+			if (!vta.readable()) return NULL
+			val vt = vta.getInt(0).unsign()
 			if (vt == 0L) return NULL
-			val fn = (csgoEXE.read(vt + 2 * 0x4, 4) ?: return NULL).getInt(0).unsign()
+			
+			val fna = csgoEXE.readPointer(vt + 2 * 0x4, 4)
+			if (!fna.readable()) return NULL
+			val fn = fna.getInt(0).unsign()
 			if (fn == 0L) return NULL
-			val cls = (csgoEXE.read(fn + 0x1, 4) ?: return NULL).getInt(0).unsign()
+			
+			val clsa = csgoEXE.readPointer(fn + 0x1, 4)
+			if (!clsa.readable()) return NULL
+			val cls = clsa.getInt(0).unsign()
 			if (cls == 0L) return NULL
-			val clsid = (csgoEXE.read(cls + 20, 4) ?: return NULL).getInt(0).unsign()
+			
+			val clsida = csgoEXE.readPointer(cls + 20, 4)
+			if (!clsida.readable()) return NULL
+			val clsid = clsida.getInt(0).unsign()
 			return byID(clsid) ?: NULL
 		}
 		
-		val ccsPlayer = arrayOf(EntityType.CCSPlayer)
+		val ccsPlayer = arrayOf(CCSPlayer)
 		
 	}
 	
