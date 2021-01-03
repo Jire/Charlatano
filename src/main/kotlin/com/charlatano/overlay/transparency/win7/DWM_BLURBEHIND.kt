@@ -35,4 +35,6 @@ class DWM_BLURBEHIND : Structure() {
 	@JvmField
 	var fTransitionOnMaximized = false
 	
+	override fun getFieldOrder() = listOf("dwFlags", "fEnable", "hRgnBlur", "fTransitionOnMaximized")
+	
 }

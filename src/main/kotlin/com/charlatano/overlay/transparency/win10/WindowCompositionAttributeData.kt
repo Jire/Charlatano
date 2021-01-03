@@ -30,4 +30,6 @@ class WindowCompositionAttributeData : Structure(), Structure.ByReference {
 	@JvmField
 	var SizeOfData: Int = 0
 	
+	override fun getFieldOrder() = listOf("Attribute", "Data", "SizeOfData")
+	
 }
