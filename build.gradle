@@ -40,7 +40,7 @@ apply plugin: "application"
 apply plugin: "com.github.johnrengelman.shadow"
 
 group "com.charlatano"
-version "1.2.2"
+version "1.2.3"
 
 mainClassName = "com.charlatano.Charlatano"
 
@@ -52,7 +52,7 @@ repositories {
 }
 
 dependencies {
-	implementation group: 'org.jire', name: 'kna', version: '0.4.0'
+	implementation group: 'org.jire', name: 'kna', version: '0.4.1'
 	
 	implementation group: 'net.java.dev.jna', name: 'jna', version: jnaVersion
 	implementation group: 'net.java.dev.jna', name: 'jna-platform', version: jnaVersion
