@@ -98,11 +98,11 @@ class Offset(
 }
 
 fun ByteArray.mask(offset: Long, mask: ByteArray, skipZero: Boolean = true): Boolean {
-	val offset = offset.toInt()
+	val offsetI = offset.toInt()
 	for (i in 0..mask.lastIndex) {
 		val value = mask[i]
 		if (skipZero && 0 == value.toInt()) continue
-		if (value != this[offset + i]/*getByte(offset + i)*/)
+		if (value != this[offsetI + i])
 			return false
 	}
 	return true
