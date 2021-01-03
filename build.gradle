@@ -44,6 +44,9 @@ version "1.1.5"
 
 mainClassName = "com.charlatano.Charlatano"
 
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
 repositories {
 	jcenter()
 }
