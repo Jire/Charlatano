@@ -34,4 +34,6 @@ class AccentPolicy : Structure(), Structure.ByReference {
 	@JvmField
 	var AnimationId: Int = 0
 	
+	override fun getFieldOrder() = listOf("AccentState", "AccentFlags", "GradientColor", "AnimationId")
+	
 }
