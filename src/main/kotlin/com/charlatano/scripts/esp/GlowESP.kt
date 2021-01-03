@@ -38,6 +38,7 @@ internal fun glowEsp() = every(if (FLICKER_FREE_GLOW) 1024 else 4) {
 	if (!GLOW_ESP) return@every
 	
 	val myTeam = me.team()
+	if (myTeam == 0L) return@every
 	
 	forEntities body@{
 		val entity = it.entity
@@ -51,6 +52,7 @@ internal fun glowEsp() = every(if (FLICKER_FREE_GLOW) 1024 else 4) {
 				if (entity.dead() || (!SHOW_DORMANT && entity.dormant())) return@body false
 				
 				val entityTeam = entity.team()
+				if (entityTeam == 0L) return@body false
 				val team = !DANGER_ZONE && myTeam == entityTeam
 				if (SHOW_ENEMIES && !team) {
 					glowAddress.glow(ENEMY_COLOR)

@@ -320,8 +320,11 @@ enum class EntityType(val weapon: Boolean = false, val grenade: Boolean = false)
 		
 		fun byEntityAddress(address: Long): EntityType {
 			val vt = (csgoEXE.read(address + 0x8, 4) ?: return NULL).getInt(0).unsign()
+			if (vt == 0L) return NULL
 			val fn = (csgoEXE.read(vt + 2 * 0x4, 4) ?: return NULL).getInt(0).unsign()
+			if (fn == 0L) return NULL
 			val cls = (csgoEXE.read(fn + 0x1, 4) ?: return NULL).getInt(0).unsign()
+			if (cls == 0L) return NULL
 			val clsid = (csgoEXE.read(cls + 20, 4) ?: return NULL).getInt(0).unsign()
 			return byID(clsid) ?: NULL
 		}

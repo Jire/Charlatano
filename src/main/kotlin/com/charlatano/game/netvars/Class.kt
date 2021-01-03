@@ -32,6 +32,6 @@ internal class Class(override val address: Long) : Addressed {
 	
 	val table by lazy(NONE) { csgoEXE.uint(address + 12) }
 	
-	fun readable() = csgoEXE.read(address, 40).readable()
+	fun readable() = address != 0L && csgoEXE.read(address, 40).readable()
 	
 }

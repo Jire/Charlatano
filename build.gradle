@@ -40,7 +40,7 @@ apply plugin: "application"
 apply plugin: "com.github.johnrengelman.shadow"
 
 group "com.charlatano"
-version "1.1.4"
+version "1.1.5"
 
 mainClassName = "com.charlatano.Charlatano"
 
@@ -49,7 +49,7 @@ repositories {
 }
 
 dependencies {
-	implementation group: 'org.jire', name: 'kna', version: '0.2.2'
+	implementation group: 'org.jire', name: 'kna', version: '0.3.0'
 	
 	implementation group: 'net.java.dev.jna', name: 'jna', version: jnaVersion
 	implementation group: 'net.java.dev.jna', name: 'jna-platform', version: jnaVersion
@@ -62,11 +62,15 @@ dependencies {
 	implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
 	
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
-	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-common', version: kotlin_version
-	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-jvm', version: kotlin_version
-	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-jvm-host', version: kotlin_version
+	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-script-runtime', version: '1.4.21'
+	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-compiler-embeddable', version: '1.4.21'
+	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-script-util', version: '1.4.21'
+	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-compiler-embeddable', version: '1.4.21'
+	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-jsr223', version: '1.4.21'
 	
 	implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.4.4'
+	
+	implementation group: 'net.openhft', name: 'chronicle-core', version: '2.20.126'
 }
 
 jar {

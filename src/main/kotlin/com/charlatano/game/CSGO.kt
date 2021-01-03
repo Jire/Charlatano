@@ -35,6 +35,8 @@ import org.jire.kna.attach.Attach
 import org.jire.kna.attach.windows.WindowsAttachAccess
 import org.jire.kna.attach.windows.WindowsAttachedModule
 import org.jire.kna.attach.windows.WindowsAttachedProcess
+import org.jire.kna.cached.CachedReadableSource
+import kotlin.system.exitProcess
 
 object CSGO {
 	
@@ -63,16 +65,16 @@ object CSGO {
 	
 	fun initialize() {
 		retry(128) {
-			csgoEXE = Attach.byName(PROCESS_NAME, WindowsAttachAccess(PROCESS_ACCESS_FLAGS)) as WindowsAttachedProcess
-			csgoEXE.kernel32Reads = true
+			csgoEXE = Attach.byName(PROCESS_NAME, WindowsAttachAccess(PROCESS_ACCESS_FLAGS)) {
+				set(CachedReadableSource.CACHE_EXPIRATION_MILLIS, 512L / SERVER_TICK_RATE)
+			} as WindowsAttachedProcess
 		}
-		
 		retry(128) {
-			val modules = csgoEXE.modules()
+			val modules = csgoEXE.modules
+			modules.attach(csgoEXE)
 			clientDLL = modules.byName(CLIENT_MODULE_NAME) as WindowsAttachedModule
 			engineDLL = modules.byName(ENGINE_MODULE_NAME) as WindowsAttachedModule
 		}
-		
 		val rect = WinDef.RECT()
 		val hwd = CUser32.FindWindowA(
 			null, "Counter-Strike: "
@@ -85,11 +87,11 @@ object CSGO {
 		var lastY = 0
 		
 		every(1000) {
-			if (!CUser32.GetClientRect(hwd, rect)) System.exit(2)
+			if (!CUser32.GetClientRect(hwd, rect)) exitProcess(2)
 			gameWidth = rect.right - rect.left
 			gameHeight = rect.bottom - rect.top
 			
-			if (!CUser32.GetWindowRect(hwd, rect)) System.exit(3)
+			if (!CUser32.GetWindowRect(hwd, rect)) exitProcess(3)
 			gameX = rect.left + (((rect.right - rect.left) - gameWidth) / 2)
 			gameY = rect.top + ((rect.bottom - rect.top) - gameHeight)
 			
@@ -110,7 +112,6 @@ object CSGO {
 		}
 		
 		NetVars.load()
-		
 		constructEntities()
 	}
 	

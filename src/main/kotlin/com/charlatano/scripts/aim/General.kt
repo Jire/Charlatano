@@ -120,7 +120,7 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 	val position = me.position()
 	if (currentTarget < 0) {
 		currentTarget = findTarget(position, currentAngle, aim, yawOnly = true)
-		if (currentTarget < 0) {
+		if (currentTarget <= 0) {
 			return@every
 		}
 		target.set(currentTarget)

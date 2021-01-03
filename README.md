@@ -1,27 +1,23 @@
 # Charlatano
+
 _Cheating is but a lifestyle_
 
 [![Build Status](https://travis-ci.org/Jire/Charlatano.svg?branch=master)](https://travis-ci.org/Jire/Charlatano)
 [![License](https://img.shields.io/github/license/Jire/Charlatano.svg)](https://github.com/Jire/Charlatano/blob/master/LICENSE.txt)
-
-### Support the Project
-
-**Donate with Bitcoin:** 3ErbuRTxtFqvMQ7F2Z8SfpgAXjonsQs8Vc  
-**Or with PayPal:** enisitysoft@gmail.com  
-**Or with CashApp:** $jires
 
 ---
 
 **From the creators of Abendigo** comes a brand new approach to cheating-- _Charlatano_ can be completely
 __stream-proof__, hiding the fact that you're cheating while streaming, and completely bypasses SMAC server-sided
 anticheat as well as FaceIT's modified SMAC. Turning off visuals or using a screenshot blocker
-(like hypervisor-powered protection against screenshots in Kaspersky) can potentially allow you to play on leagues
-like ESEA for weeks or months. _Charlatano_ uses strong humanizing settings that bring the public the next step in
-free and open-source cheating software!
+(like hypervisor-powered protection against screenshots in Kaspersky) can potentially allow you to play on leagues like
+ESEA for weeks or months. _Charlatano_ uses strong humanizing settings that bring the public the next step in free and
+open-source cheating software!
 
 ---
 
 **Available Features**
+
 * Works on Danger Zone (battle royale)
 * Always-on all-weapon smooth dynamic recoil control system
 * Aim bot with humanized aim paths
@@ -40,8 +36,8 @@ free and open-source cheating software!
 
 Before doing anything, make sure you have
 [Java Development Kit (JDK) 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-or later installed. This is NOT the same thing as the regular Java Runtime (JRE), and you MUST install the JDK
-in order to build Charlatano, as well as any other Java software.
+or later installed. This is NOT the same thing as the regular Java Runtime (JRE), and you MUST install the JDK in order
+to build Charlatano, as well as any other Java software.
 
 The first step is to compile the source code into a usable cheat program.
 
@@ -53,16 +49,16 @@ The first step is to compile the source code into a usable cheat program.
 * Double click on the "_build_" (_build.bat_) script and wait for it to complete
 
 Once those steps are complete, the usable cheat program can be found within the _build_
-directory, and will in a directory called **Charlatano 1.1.4**.
+directory, and will in a directory called **Charlatano 1.1.5**.
 
-From within the **Charlatano 1.1.4** directory, you can start the cheat by running
-the _"Start Charlatano 1.1.4"_ script.
+From within the **Charlatano 1.1.5** directory, you can start the cheat by running the _"Start Charlatano 1.1.5"_
+script.
 
 Before starting the cheat, you should already be spawned in a game with a weapon in hand!
 
-Running _"Start Charlatano 1.1.4"_ script will open a command prompt window, leave it as it is.
+Running _"Start Charlatano 1.1.5"_ script will open a command prompt window, leave it as it is.
 
-Once cheat is started, you can toggle/change settings by making changes to file under **'Charlatano 1.1.4/settings/'**.
+Once cheat is started, you can toggle/change settings by making changes to file under **'Charlatano 1.1.5/settings/'**.
 
 After saving the changes go the command prompt which is already open and type **reload** and hit enter.
 

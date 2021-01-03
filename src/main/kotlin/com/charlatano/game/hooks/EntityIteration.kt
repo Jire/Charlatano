@@ -93,6 +93,7 @@ fun constructEntities() = every(512) {
 	for (glowIndex in 0..glowObjectCount) {
 		val glowAddress = glowObject + (glowIndex * GLOW_OBJECT_SIZE)
 		val entity = csgoEXE.uint(glowAddress)
+		if (entity == 0L) continue
 		val type = EntityType.byEntityAddress(entity)
 		
 		if (type == EntityType.CFists) {

@@ -21,7 +21,6 @@ package com.charlatano.game.offsets
 import com.charlatano.utils.extensions.readForced
 import com.charlatano.utils.extensions.unsign
 import com.sun.jna.Memory
-import com.sun.jna.Pointer
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap
 import org.jire.kna.Addressed
 import org.jire.kna.attach.AttachedModule
@@ -34,19 +33,24 @@ class Offset(
 	val read: Boolean, private val subtract: Boolean, private val mask: ByteArray
 ) : Addressed {
 	
+	inner class CachedMemory(memory: Memory) {
+		val array: ByteArray = memory.getByteArray(0, module.size.toInt())
+	}
+	
 	companion object {
-		val memoryByModule = Object2ObjectArrayMap<AttachedModule, Memory>()
+		val memoryByModule = Object2ObjectArrayMap<AttachedModule, ByteArray>()
 		
-		private fun Offset.cachedMemory(): Memory {
-			var memory = memoryByModule[module]
-			if (memory == null) {
-				memory = Memory(module.size)
-				if (module is WindowsAttachedModule) {
-					module.readForced(0, memory, module.size.toInt())
-				}
-				memoryByModule[module] = memory
-			}
-			return memory
+		private fun Offset.cachedMemory(): ByteArray {
+			val cached = memoryByModule[module]
+			if (cached != null) return cached
+			
+			val jnaMemory = Memory(module.size)
+			if (module !is WindowsAttachedModule || module.readForced(0, jnaMemory, module.size.toInt()) == 0L)
+				throw IllegalStateException()
+			
+			val array = jnaMemory.getByteArray(0, module.size.toInt())
+			memoryByModule[module] = array
+			return array
 		}
 	}
 	
@@ -56,7 +60,6 @@ class Offset(
 		val offset = module.size - mask.size
 		val process = module.process as WindowsAttachedProcess
 		val readMemory = Memory(4)
-		
 		var currentAddress = 0L
 		while (currentAddress < offset) {
 			if (memory.mask(currentAddress, mask)) {
@@ -94,11 +97,12 @@ class Offset(
 	
 }
 
-fun Pointer.mask(offset: Long, mask: ByteArray, skipZero: Boolean = true): Boolean {
+fun ByteArray.mask(offset: Long, mask: ByteArray, skipZero: Boolean = true): Boolean {
+	val offset = offset.toInt()
 	for (i in 0..mask.lastIndex) {
 		val value = mask[i]
 		if (skipZero && 0 == value.toInt()) continue
-		if (value != getByte(offset + i))
+		if (value != this[offset + i]/*getByte(offset + i)*/)
 			return false
 	}
 	return true
