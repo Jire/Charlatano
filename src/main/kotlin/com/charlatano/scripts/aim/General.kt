@@ -140,6 +140,6 @@ internal inline fun <R> aimScript(duration: Int, crossinline precheck: () -> Boo
 		if (AIM_ASSIST_MODE) destinationAngle.finalize(currentAngle, AIM_ASSIST_STRICTNESS / 100.0)
 		
 		val aimSpeed = AIM_SPEED_MIN + randInt(AIM_SPEED_MAX - AIM_SPEED_MIN)
-		doAim(destinationAngle, currentAngle, aimSpeed / (CACHE_EXPIRE_MILLIS.toInt() / 4))
+		doAim(destinationAngle, currentAngle, aimSpeed / max(1, CACHE_EXPIRE_MILLIS.toInt() / 4))
 	}
 }
