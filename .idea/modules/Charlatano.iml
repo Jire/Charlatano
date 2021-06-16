@@ -8,6 +8,7 @@
           <option name="noStdlib" value="true" />
           <option name="noReflect" value="true" />
           <option name="moduleName" value="Charlatano_main" />
+          <option name="jvmTarget" value="1.6" />
           <option name="languageVersion" value="1.1" />
           <option name="apiVersion" value="1.1" />
           <option name="pluginOptions">
@@ -16,7 +17,6 @@
           <option name="pluginClasspaths">
             <array />
           </option>
-          <option name="coroutinesWarn" value="true" />
         </compilerArguments>
       </configuration>
     </facet>
