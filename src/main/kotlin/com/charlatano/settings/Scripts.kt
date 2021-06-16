@@ -61,11 +61,6 @@ var ENABLE_PATH_AIM = false
 var ENABLE_BONE_TRIGGER = false
 
 /**
- * Enables the reduced flash script.
- */
-var ENABLE_REDUCED_FLASH = false
-
-/**
  * Enables the bomb timer script.
  */
 var ENABLE_BOMB_TIMER = false
