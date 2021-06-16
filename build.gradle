@@ -43,7 +43,7 @@ plugins {
 apply plugin: 'kotlin'
 
 group "com.charlatano"
-version "1.2.3"
+version "1.2.4"
 
 mainClassName = "com.charlatano.Charlatano"
 
