@@ -20,10 +20,13 @@ package com.charlatano
 
 import com.charlatano.game.CSGO
 import com.charlatano.overlay.Overlay
-import com.charlatano.scripts.*
 import com.charlatano.scripts.aim.flatAim
 import com.charlatano.scripts.aim.pathAim
+import com.charlatano.scripts.bombTimer
+import com.charlatano.scripts.boneTrigger
+import com.charlatano.scripts.bunnyHop
 import com.charlatano.scripts.esp.esp
+import com.charlatano.scripts.rcs
 import com.charlatano.settings.*
 import com.sun.jna.platform.win32.WinNT
 import java.io.File
@@ -74,7 +77,6 @@ object Charlatano {
 		flatAim()
 		pathAim()
 		boneTrigger()
-		reducedFlash()
 		bombTimer()
 		
 		val scanner = Scanner(System.`in`)
