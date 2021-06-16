@@ -59,7 +59,6 @@ object Charlatano {
 			ENABLE_ESP = false
 			
 			ENABLE_BOMB_TIMER = false
-			ENABLE_REDUCED_FLASH = false
 			ENABLE_FLAT_AIM = false
 			
 			SERVER_TICK_RATE = 128 // most leagues are 128-tick
