@@ -298,6 +298,7 @@ enum class EntityType(val weapon: Boolean = false, val grenade: Boolean = false)
 	CWeaponUMP45(weapon = true),
 	CWeaponUSP(weapon = true),
 	CWeaponXM1014(weapon = true),
+	CWeaponZoneRepulsor,
 	CWorld,
 	CWorldVguiText,
 	DustTrail,
