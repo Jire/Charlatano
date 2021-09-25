@@ -78,6 +78,7 @@ dependencies {
 	implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.4'
 	
 	implementation group: 'net.openhft', name: 'chronicle-core', version: '2.20.127.1'
+	implementation "org.slf4j:slf4j-nop:1.7.31"
 }
 
 jar {
