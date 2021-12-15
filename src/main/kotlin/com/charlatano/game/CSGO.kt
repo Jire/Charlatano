@@ -78,7 +78,7 @@ object CSGO {
 		val rect = WinDef.RECT()
 		val hwd = CUser32.FindWindowA(
 			null, "Counter-Strike: "
-					+ (if (CLASSIC_OFFENSIVE) "Classic" else "Global") + " Offensive"
+					+ (if (CLASSIC_OFFENSIVE) "Classic" else "Global") + " Offensive - Direct3D 9"
 		)
 		
 		var lastWidth = 0
