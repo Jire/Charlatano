@@ -4,10 +4,13 @@
     <option name="moduleKind" value="plain" />
   </component>
   <component name="KotlinCommonCompilerArguments">
-    <option name="apiVersion" value="1.4" />
-    <option name="languageVersion" value="1.4" />
+    <option name="apiVersion" value="1.5" />
+    <option name="languageVersion" value="1.5" />
   </component>
   <component name="KotlinCompilerSettings">
     <option name="additionalArguments" value="-version -Xskip-runtime-version-check" />
+  </component>
+  <component name="KotlinJpsPluginSettings">
+    <option name="version" value="1.6.21" />
   </component>
 </project>
