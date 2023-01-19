@@ -31,6 +31,10 @@ dependencies {
     implementation("net.openhft:chronicle-core:2.24ea4")
 
     implementation("org.jire:kna:0.4.2")
+
+    implementation(kotlin("script-runtime"))
+    implementation(kotlin("main-kts"))
+    implementation(kotlin("scripting-jsr223"))
 }
 
 application {
@@ -55,6 +59,7 @@ tasks {
         compilerOptions {
             freeCompilerArgs.add("-Xinline-classes")
             freeCompilerArgs.add("-Xjvm-default=all")
+            freeCompilerArgs.add("-Xextended-compiler-checks")
         }
     }
     compileJava {
