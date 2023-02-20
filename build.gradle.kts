@@ -28,7 +28,7 @@ dependencies {
     implementation("com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion")
 
     implementation("it.unimi.dsi:fastutil:8.5.11")
-    implementation("net.openhft:chronicle-core:2.24ea4")
+    implementation("net.openhft:chronicle-core:2.24ea6")
 
     implementation("org.jire:kna:0.4.2")
 
